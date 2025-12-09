@@ -9,7 +9,7 @@ const Header = () => (
         <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-indigo-200 shadow-lg">N</div>
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight leading-none">Sozialer Navigator</h1>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600">GovTech 4.1</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600">GovTech 4.2</span>
         </div>
       </div>
       <div className="hidden md:flex gap-4 text-sm font-medium text-slate-500">
@@ -53,6 +53,26 @@ const Select = ({ children, ...props }) => (
   </select>
 );
 
+// --- OPPORTUNITY CARD (Das Geld-Modul) ---
+const OpportunityCard = ({ opp }) => (
+  <a 
+    href={opp.link} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="block p-5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all transform hover:-translate-y-1 group"
+  >
+    <div className="flex justify-between items-start mb-2">
+      <span className="text-3xl bg-slate-50 p-2 rounded-lg">{opp.icon}</span>
+      <span className="text-xs font-bold bg-emerald-100 text-emerald-700 px-2 py-1 rounded uppercase tracking-wide group-hover:bg-emerald-200 transition">Empfehlung</span>
+    </div>
+    <h3 className="text-lg font-bold text-slate-900 mb-1">{opp.title}</h3>
+    <p className="text-sm text-slate-500 mb-4 leading-relaxed">{opp.text}</p>
+    <div className="text-indigo-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
+      {opp.action} <span>→</span>
+    </div>
+  </a>
+);
+
 // --- MAIN APP LOGIC ---
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -76,7 +96,7 @@ export default function Home() {
     setMembers(newMembers);
   };
 
-  // API Logic (V4.1 Engine)
+  // API Logic (Mit LIVE URL)
   const handleAnalyze = async () => {
     setLoading(true);
     setResult(null);
@@ -101,7 +121,8 @@ export default function Home() {
     };
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/v4/analyze', {
+      // HIER IST DEINE LIVE URL EINGEBAUT:
+      const res = await fetch('https://sozialer-navigator-api.onrender.com/api/v4/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
@@ -110,7 +131,7 @@ export default function Home() {
       setResult(data);
       // Smooth scroll to results
       setTimeout(() => document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' }), 100);
-    } catch (e) { alert("Backend nicht erreichbar. Läuft das schwarze Fenster?"); }
+    } catch (e) { alert("Verbindung zum Server fehlgeschlagen."); }
     setLoading(false);
   };
 
@@ -140,7 +161,8 @@ export default function Home() {
       };
 
     try {
-        const res = await fetch('http://127.0.0.1:8000/api/v4/pdf', {
+        // HIER IST DEINE LIVE URL EINGEBAUT:
+        const res = await fetch('https://sozialer-navigator-api.onrender.com/api/v4/pdf', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
@@ -273,24 +295,8 @@ export default function Home() {
         {/* RESULTS */}
         {result && (
           <div id="results-section" className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 pt-8">
-            <div className="flex items-center gap-4 text-slate-300">
-               <div className="h-px bg-slate-200 flex-1"></div>
-               <span className="text-sm font-bold uppercase tracking-widest">Dein Ergebnis</span>
-               <div className="h-px bg-slate-200 flex-1"></div>
-            </div>
-
-            {/* Strategy Card */}
-            {result.strategy && (
-              <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
-                <div className="relative z-10">
-                  <p className="text-indigo-300 font-bold uppercase tracking-wider text-xs mb-2">Empfohlene Strategie</p>
-                  <h3 className="text-3xl font-bold mb-3">{result.strategy.best_option}</h3>
-                  <p className="text-slate-300 leading-relaxed text-lg max-w-2xl">{result.strategy.reasoning}</p>
-                </div>
-              </div>
-            )}
-
+            
+            {/* Ergebnis Liste */}
             <div className="grid grid-cols-1 gap-6">
               {result.results.map((res, idx) => (
                 <div key={idx} className={`p-8 rounded-2xl border bg-white shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${
@@ -310,6 +316,21 @@ export default function Home() {
                 </div>
               ))}
             </div>
+
+            {/* MONETIZATION: SMART OPPORTUNITIES */}
+            {result.opportunities && result.opportunities.length > 0 && (
+              <div className="bg-slate-900 p-6 md:p-8 rounded-2xl shadow-xl text-white">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-white">💰 Deine Spar-Chancen</h3>
+                  <p className="text-slate-400 text-sm">Wir haben basierend auf deinen Daten {result.opportunities.length} Möglichkeiten gefunden, dein Budget sofort zu verbessern.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-900">
+                  {result.opportunities.map((opp) => (
+                    <OpportunityCard key={opp.id} opp={opp} />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* DOWNLOAD BUTTON */}
             <div className="pt-8">
