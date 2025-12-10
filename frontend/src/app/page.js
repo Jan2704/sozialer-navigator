@@ -1,6 +1,58 @@
 'use client';
 import { useState } from 'react';
 
+// --- HELP SECTION (NEU: Deine FAQ & Tipps) ---
+const HelpSection = () => (
+  <section className="border-t border-slate-200 bg-white mt-12 py-12">
+    <div className="max-w-4xl mx-auto px-6">
+      <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Häufige Fragen & Nutzungshinweise</h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Spalte 1: Eingabe-Hilfe */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="bg-indigo-100 text-indigo-600 p-2 rounded-lg text-xl">📝</span>
+            <h4 className="font-bold text-slate-800">Richtig Ausfüllen</h4>
+          </div>
+          <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
+            <li><strong>Reale Werte:</strong> Gib Miete & Nebenkosten so genau wie möglich an, nicht geschätzt.</li>
+            <li><strong>Haushalt:</strong> Zähle alle Personen korrekt auf (Partner, Kinder). Das ändert den Bedarf massiv.</li>
+            <li><strong>Einkommen:</strong> Unterscheide genau zwischen Minijob, Brutto-Gehalt oder Rente.</li>
+            <li><strong>Alleinerziehend:</strong> Hake die Box an, wenn zutreffend – das bringt extra Geld (Mehrbedarf).</li>
+          </ul>
+        </div>
+
+        {/* Spalte 2: Tipps */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="bg-amber-100 text-amber-600 p-2 rounded-lg text-xl">💡</span>
+            <h4 className="font-bold text-slate-800">Profi-Tipps</h4>
+          </div>
+          <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
+            <li><strong>Szenarien testen:</strong> Spiel verschiedene Situationen durch (z.B. "Was wäre ohne Job?").</li>
+            <li><strong>Alles zählt:</strong> Gib auch kleine Minijobs an. Nichts "vorweg weglassen".</li>
+            <li><strong>Vergleich:</strong> Nutze das Ergebnis, um echte Bescheide vom Amt zu überprüfen.</li>
+            <li><strong>Datenschutz:</strong> Wir speichern nichts. Deine Daten bleiben in deinem Browser.</li>
+          </ul>
+        </div>
+
+        {/* Spalte 3: Grenzen */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="bg-red-100 text-red-600 p-2 rounded-lg text-xl">⚠️</span>
+            <h4 className="font-bold text-slate-800">Wichtig zu wissen</h4>
+          </div>
+          <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
+            <li><strong>Nur eine Schätzung:</strong> Der Rechner ist präzise, aber das letzte Wort hat immer das Amt per Bescheid.</li>
+            <li><strong>Sonderfälle:</strong> Komplexe Situationen (WG, Untermiete, Vermögen) können hier nur vereinfacht abgebildet werden.</li>
+            <li><strong>Rechtsstand 2025:</strong> Wir rechnen mit den voraussichtlichen Werten für das kommende Jahr.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 // --- DESIGN COMPONENTS ---
 const Header = () => (
   <header className="bg-white border-b border-slate-100 sticky top-0 z-50 backdrop-blur-md bg-opacity-90">
@@ -9,11 +61,10 @@ const Header = () => (
         <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-indigo-200 shadow-lg">N</div>
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight leading-none">Sozialer Navigator</h1>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600">GovTech 4.2</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Beta Version</span>
         </div>
       </div>
       <div className="hidden md:flex gap-4 text-sm font-medium text-slate-500">
-        <span>Sicherheit</span>
         <span>Datenschutz</span>
         <span className="text-indigo-600">Hilfe</span>
       </div>
@@ -53,32 +104,32 @@ const Select = ({ children, ...props }) => (
   </select>
 );
 
-// --- OPPORTUNITY CARD (Das Geld-Modul) ---
+// --- OPPORTUNITY CARD ---
 const OpportunityCard = ({ opp }) => (
   <a 
     href={opp.link} 
     target="_blank" 
     rel="noopener noreferrer"
-    className="block p-5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all transform hover:-translate-y-1 group"
+    className="block p-5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all transform hover:-translate-y-1 group relative overflow-hidden"
   >
-    <div className="flex justify-between items-start mb-2">
-      <span className="text-3xl bg-slate-50 p-2 rounded-lg">{opp.icon}</span>
-      <span className="text-xs font-bold bg-emerald-100 text-emerald-700 px-2 py-1 rounded uppercase tracking-wide group-hover:bg-emerald-200 transition">Empfehlung</span>
+    <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-full -mr-8 -mt-8 transition group-hover:bg-emerald-100"></div>
+    <div className="flex justify-between items-start mb-3 relative z-10">
+      <span className="text-3xl bg-slate-50 p-2 rounded-lg border border-slate-100">{opp.icon}</span>
+      <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-1 rounded uppercase tracking-wide">Empfehlung</span>
     </div>
-    <h3 className="text-lg font-bold text-slate-900 mb-1">{opp.title}</h3>
-    <p className="text-sm text-slate-500 mb-4 leading-relaxed">{opp.text}</p>
-    <div className="text-indigo-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
+    <h3 className="text-lg font-bold text-slate-900 mb-1 relative z-10">{opp.title}</h3>
+    <p className="text-sm text-slate-500 mb-4 leading-relaxed relative z-10">{opp.text}</p>
+    <div className="text-indigo-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all relative z-10">
       {opp.action} <span>→</span>
     </div>
   </a>
 );
 
-// --- MAIN APP LOGIC ---
+// --- MAIN APP ---
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
-  // States
   const [general, setGeneral] = useState({
     zip_code: "", rent_cold: "", rent_utility: "", rent_heating: "", termination_reason: "none", months_unemployed: 0
   });
@@ -87,7 +138,6 @@ export default function Home() {
     { role: "main", age: 30, income_brutto: 0, income_net: 0, income_type: "employment", is_single_parent: false }
   ]);
 
-  // Helper Functions
   const addMember = () => setMembers([...members, { role: "child", age: 0, income_brutto: 0, income_net: 0, income_type: "none" }]);
   const removeMember = (index) => setMembers(members.filter((_, i) => i !== index));
   const updateMember = (index, field, value) => {
@@ -96,7 +146,6 @@ export default function Home() {
     setMembers(newMembers);
   };
 
-  // API Logic (Mit LIVE URL)
   const handleAnalyze = async () => {
     setLoading(true);
     setResult(null);
@@ -121,7 +170,6 @@ export default function Home() {
     };
 
     try {
-      // HIER IST DEINE LIVE URL EINGEBAUT:
       const res = await fetch('https://sozialer-navigator-api.onrender.com/api/v4/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -129,53 +177,9 @@ export default function Home() {
       if (!res.ok) throw new Error("Fehler");
       const data = await res.json();
       setResult(data);
-      // Smooth scroll to results
       setTimeout(() => document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' }), 100);
-    } catch (e) { alert("Verbindung zum Server fehlgeschlagen."); }
+    } catch (e) { alert("Verbindung fehlgeschlagen. Backend offline?"); }
     setLoading(false);
-  };
-
-  const handleDownload = async () => {
-    // 1. Alert (Sales Hook)
-    const confirm = window.confirm("Offiziellen Antrag jetzt generieren? (Preis: 29,99€ - Simulation)");
-    if (!confirm) return;
-
-    // Payload nachbauen
-    const payload = {
-        zip_code: general.zip_code,
-        rent_cold: parseFloat(general.rent_cold) || 0,
-        rent_utility: parseFloat(general.rent_utility) || 0,
-        rent_heating: parseFloat(general.rent_heating) || 0,
-        termination_reason: general.termination_reason,
-        months_unemployed: parseInt(general.months_unemployed) || 0,
-        members: members.map(m => ({
-          role: m.role,
-          age: parseInt(m.age) || 0,
-          is_single_parent: m.is_single_parent || false,
-          incomes: m.income_type !== "none" ? [{
-              amount_brutto: parseFloat(m.income_brutto) || 0,
-              amount_net: parseFloat(m.income_net) || 0,
-              source_type: m.income_type
-          }] : []
-        }))
-      };
-
-    try {
-        // HIER IST DEINE LIVE URL EINGEBAUT:
-        const res = await fetch('https://sozialer-navigator-api.onrender.com/api/v4/pdf', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        if(!res.ok) throw new Error("Fehler");
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "Antrag_V4.pdf";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    } catch (e) { alert("Download fehlgeschlagen"); }
   };
 
   return (
@@ -186,14 +190,19 @@ export default function Home() {
         
         {/* HERO */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">Dein Recht auf <span className="text-indigo-600">Geld vom Staat.</span></h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-            Prüfe in Sekunden deinen Anspruch auf Bürgergeld, Wohngeld & Kinderzuschlag. 
-            Anonym, sicher & staatlich präzise (SGB II/WoGG).
+          <div className="inline-block bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
+             🚀 Jetzt Live: V4.5
+          </div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">
+            Dein Anspruch auf <span className="text-indigo-600">Geld vom Staat.</span>
+          </h2>
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            Prüfe in Sekunden, ob dir Bürgergeld oder Wohngeld zusteht. 
+            Anonym & nach aktueller Rechtslage (2025).
           </p>
         </div>
 
-        {/* SECTION 1 */}
+        {/* EINGABE SEKTIONEN */}
         <Card title="Wohnen & Status" icon="🏠">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -217,7 +226,6 @@ export default function Home() {
           </div>
         </Card>
 
-        {/* SECTION 2 */}
         <Card title="Personen im Haushalt" icon="👨‍👩‍👧">
           <div className="space-y-6">
             {members.map((m, idx) => (
@@ -242,7 +250,6 @@ export default function Home() {
                     <Label>Alter</Label>
                     <Input type="number" value={m.age} onChange={e => updateMember(idx, 'age', e.target.value)} />
                   </div>
-                  {/* Checkboxen */}
                   {m.role === 'main' && (
                     <div className="col-span-2 flex items-center h-full pt-6">
                        <label className="flex items-center gap-3 cursor-pointer p-2 hover:bg-white rounded-lg transition w-full">
@@ -253,7 +260,6 @@ export default function Home() {
                   )}
                 </div>
 
-                {/* Einkommen */}
                 <div className="mt-6 pt-6 border-t border-slate-200 border-dashed">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -278,25 +284,23 @@ export default function Home() {
               </div>
             ))}
           </div>
-
           <button onClick={addMember} className="mt-6 w-full py-3 border-2 border-dashed border-indigo-100 rounded-xl text-indigo-600 font-bold hover:bg-indigo-50 hover:border-indigo-200 transition">
             + Weitere Person hinzufügen
           </button>
         </Card>
 
-        {/* CTA */}
+        {/* BUTTON */}
         <button 
           onClick={handleAnalyze} disabled={loading}
-          className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-5 rounded-2xl font-bold text-xl shadow-xl shadow-indigo-200 hover:shadow-2xl hover:scale-[1.01] transition transform disabled:opacity-70 disabled:scale-100"
+          className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl shadow-slate-300 hover:bg-slate-800 hover:scale-[1.01] transition transform disabled:opacity-70 disabled:scale-100"
         >
-          {loading ? "Analysiere Rechtslage..." : "Anspruch jetzt prüfen ✨"}
+          {loading ? "Rechne..." : "Kostenlos Anspruch prüfen ➔"}
         </button>
 
-        {/* RESULTS */}
+        {/* ERGEBNISSE & OPPORTUNITIES */}
         {result && (
           <div id="results-section" className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 pt-8">
             
-            {/* Ergebnis Liste */}
             <div className="grid grid-cols-1 gap-6">
               {result.results.map((res, idx) => (
                 <div key={idx} className={`p-8 rounded-2xl border bg-white shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${
@@ -317,12 +321,12 @@ export default function Home() {
               ))}
             </div>
 
-            {/* MONETIZATION: SMART OPPORTUNITIES */}
+            {/* MONETIZATION */}
             {result.opportunities && result.opportunities.length > 0 && (
               <div className="bg-slate-900 p-6 md:p-8 rounded-2xl shadow-xl text-white">
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-white">💰 Deine Spar-Chancen</h3>
-                  <p className="text-slate-400 text-sm">Wir haben basierend auf deinen Daten {result.opportunities.length} Möglichkeiten gefunden, dein Budget sofort zu verbessern.</p>
+                  <h3 className="text-xl font-bold text-white">💰 Deine nächsten Schritte</h3>
+                  <p className="text-slate-400 text-sm">Basierend auf deiner Situation haben wir folgende Möglichkeiten gefunden, dein Budget zu sichern.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-900">
                   {result.opportunities.map((opp) => (
@@ -332,19 +336,15 @@ export default function Home() {
               </div>
             )}
 
-            {/* DOWNLOAD BUTTON */}
-            <div className="pt-8">
-                <button 
-                  onClick={handleDownload}
-                  className="w-full bg-emerald-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl shadow-emerald-100 hover:bg-emerald-700 hover:shadow-2xl transition flex items-center justify-center gap-3"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                  Offiziellen Antrag als PDF laden (29,99€)
-                </button>
-                <p className="text-center text-xs text-slate-400 mt-4">Sichere SSL-Verschlüsselung • Sofortiger Download</p>
-            </div>
+            <p className="text-center text-xs text-slate-400 mt-8">
+              Hinweis: Dies ist eine Modellrechnung. Keine Rechtsberatung.
+            </p>
           </div>
         )}
+
+        {/* HIER IST DEINE NEUE HILFE-SEKTION */}
+        <HelpSection />
+        
       </main>
     </div>
   );
