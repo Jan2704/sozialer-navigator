@@ -1,51 +1,42 @@
 'use client';
 import { useState } from 'react';
 
-// --- HELP SECTION (NEU: Deine FAQ & Tipps) ---
+// --- HELP SECTION ---
 const HelpSection = () => (
   <section className="border-t border-slate-200 bg-white mt-12 py-12">
     <div className="max-w-4xl mx-auto px-6">
       <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Häufige Fragen & Nutzungshinweise</h3>
-      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Spalte 1: Eingabe-Hilfe */}
         <div>
           <div className="flex items-center gap-2 mb-4">
             <span className="bg-indigo-100 text-indigo-600 p-2 rounded-lg text-xl">📝</span>
             <h4 className="font-bold text-slate-800">Richtig Ausfüllen</h4>
           </div>
           <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
-            <li><strong>Reale Werte:</strong> Gib Miete & Nebenkosten so genau wie möglich an, nicht geschätzt.</li>
-            <li><strong>Haushalt:</strong> Zähle alle Personen korrekt auf (Partner, Kinder). Das ändert den Bedarf massiv.</li>
-            <li><strong>Einkommen:</strong> Unterscheide genau zwischen Minijob, Brutto-Gehalt oder Rente.</li>
-            <li><strong>Alleinerziehend:</strong> Hake die Box an, wenn zutreffend – das bringt extra Geld (Mehrbedarf).</li>
+            <li><strong>Reale Werte:</strong> Gib Miete & Nebenkosten genau an.</li>
+            <li><strong>Haushalt:</strong> Alle Personen (Partner, Kinder) zählen.</li>
+            <li><strong>Alleinerziehend:</strong> Wichtiges Häkchen für mehr Geld.</li>
           </ul>
         </div>
-
-        {/* Spalte 2: Tipps */}
         <div>
           <div className="flex items-center gap-2 mb-4">
             <span className="bg-amber-100 text-amber-600 p-2 rounded-lg text-xl">💡</span>
             <h4 className="font-bold text-slate-800">Profi-Tipps</h4>
           </div>
           <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
-            <li><strong>Szenarien testen:</strong> Spiel verschiedene Situationen durch (z.B. "Was wäre ohne Job?").</li>
-            <li><strong>Alles zählt:</strong> Gib auch kleine Minijobs an. Nichts "vorweg weglassen".</li>
-            <li><strong>Vergleich:</strong> Nutze das Ergebnis, um echte Bescheide vom Amt zu überprüfen.</li>
-            <li><strong>Datenschutz:</strong> Wir speichern nichts. Deine Daten bleiben in deinem Browser.</li>
+            <li><strong>Szenarien testen:</strong> Spiel "Was wäre wenn" durch.</li>
+            <li><strong>Alles zählt:</strong> Auch Minijobs angeben.</li>
+            <li><strong>Datenschutz:</strong> Daten bleiben im Browser.</li>
           </ul>
         </div>
-
-        {/* Spalte 3: Grenzen */}
         <div>
           <div className="flex items-center gap-2 mb-4">
             <span className="bg-red-100 text-red-600 p-2 rounded-lg text-xl">⚠️</span>
-            <h4 className="font-bold text-slate-800">Wichtig zu wissen</h4>
+            <h4 className="font-bold text-slate-800">Wichtig</h4>
           </div>
           <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
-            <li><strong>Nur eine Schätzung:</strong> Der Rechner ist präzise, aber das letzte Wort hat immer das Amt per Bescheid.</li>
-            <li><strong>Sonderfälle:</strong> Komplexe Situationen (WG, Untermiete, Vermögen) können hier nur vereinfacht abgebildet werden.</li>
-            <li><strong>Rechtsstand 2025:</strong> Wir rechnen mit den voraussichtlichen Werten für das kommende Jahr.</li>
+            <li><strong>Nur Schätzung:</strong> Das Amt entscheidet final.</li>
+            <li><strong>Rechtsstand:</strong> Prognose für 2025.</li>
           </ul>
         </div>
       </div>
@@ -53,7 +44,7 @@ const HelpSection = () => (
   </section>
 );
 
-// --- DESIGN COMPONENTS ---
+// --- COMPONENTS ---
 const Header = () => (
   <header className="bg-white border-b border-slate-100 sticky top-0 z-50 backdrop-blur-md bg-opacity-90">
     <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -63,10 +54,6 @@ const Header = () => (
           <h1 className="text-xl font-bold text-slate-900 tracking-tight leading-none">Sozialer Navigator</h1>
           <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Beta Version</span>
         </div>
-      </div>
-      <div className="hidden md:flex gap-4 text-sm font-medium text-slate-500">
-        <span>Datenschutz</span>
-        <span className="text-indigo-600">Hilfe</span>
       </div>
     </div>
   </header>
@@ -89,27 +76,17 @@ const Label = ({ children }) => (
 );
 
 const Input = (props) => (
-  <input 
-    className="w-full bg-slate-50 text-slate-900 p-3 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none font-medium"
-    {...props}
-  />
+  <input className="w-full bg-slate-50 text-slate-900 p-3 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none font-medium" {...props} />
 );
 
 const Select = ({ children, ...props }) => (
-  <select 
-    className="w-full bg-slate-50 text-slate-900 p-3 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none font-medium appearance-none"
-    {...props}
-  >
+  <select className="w-full bg-slate-50 text-slate-900 p-3 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none font-medium appearance-none" {...props}>
     {children}
   </select>
 );
 
-// --- OPPORTUNITY CARD ---
 const OpportunityCard = ({ opp }) => (
-  <a 
-    href={opp.link} 
-    target="_blank" 
-    rel="noopener noreferrer"
+  <a href={opp.link} target="_blank" rel="noopener noreferrer"
     className="block p-5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all transform hover:-translate-y-1 group relative overflow-hidden"
   >
     <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-full -mr-8 -mt-8 transition group-hover:bg-emerald-100"></div>
@@ -149,7 +126,6 @@ export default function Home() {
   const handleAnalyze = async () => {
     setLoading(true);
     setResult(null);
-
     const payload = {
       zip_code: general.zip_code,
       rent_cold: parseFloat(general.rent_cold) || 0,
@@ -158,21 +134,13 @@ export default function Home() {
       termination_reason: general.termination_reason,
       months_unemployed: parseInt(general.months_unemployed) || 0,
       members: members.map(m => ({
-        role: m.role,
-        age: parseInt(m.age) || 0,
-        is_single_parent: m.is_single_parent || false,
-        incomes: m.income_type !== "none" ? [{
-            amount_brutto: parseFloat(m.income_brutto) || 0,
-            amount_net: parseFloat(m.income_net) || 0,
-            source_type: m.income_type
-        }] : []
+        role: m.role, age: parseInt(m.age) || 0, is_single_parent: m.is_single_parent || false,
+        incomes: m.income_type !== "none" ? [{ amount_brutto: parseFloat(m.income_brutto) || 0, amount_net: parseFloat(m.income_net) || 0, source_type: m.income_type }] : []
       }))
     };
-
     try {
       const res = await fetch('https://sozialer-navigator-api.onrender.com/api/v4/analyze', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error("Fehler");
       const data = await res.json();
@@ -185,39 +153,18 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100">
       <Header />
-
       <main className="max-w-4xl mx-auto px-4 py-12 space-y-8">
         
-        {/* HERO */}
         <div className="text-center mb-12">
-          <div className="inline-block bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-bold mb-4">
-             🚀 Jetzt Live: V4.5
-          </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">
-            Dein Anspruch auf <span className="text-indigo-600">Geld vom Staat.</span>
-          </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            Prüfe in Sekunden, ob dir Bürgergeld oder Wohngeld zusteht. 
-            Anonym & nach aktueller Rechtslage (2025).
-          </p>
+          <div className="inline-block bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-bold mb-4">🚀 Jetzt Live: V5.0</div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">Dein Anspruch auf <span className="text-indigo-600">Geld vom Staat.</span></h2>
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">Prüfe in Sekunden, ob dir Bürgergeld oder Wohngeld zusteht.</p>
         </div>
 
-        {/* EINGABE SEKTIONEN */}
         <Card title="Wohnen & Status" icon="🏠">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <Label>PLZ (Wohnort)</Label>
-              <Input placeholder="10115" maxLength={5} value={general.zip_code} onChange={e => setGeneral({...general, zip_code: e.target.value})} />
-            </div>
-            <div>
-              <Label>Aktueller Job-Status</Label>
-              <Select value={general.termination_reason} onChange={e => setGeneral({...general, termination_reason: e.target.value})}>
-                <option value="none">In Arbeit / Nicht gekündigt</option>
-                <option value="fired">Gekündigt (Arbeitgeber)</option>
-                <option value="mutual_agreement">Aufhebungsvertrag</option>
-                <option value="self_termination">Selbst gekündigt</option>
-              </Select>
-            </div>
+            <div><Label>PLZ (Wohnort)</Label><Input placeholder="10115" maxLength={5} value={general.zip_code} onChange={e => setGeneral({...general, zip_code: e.target.value})} /></div>
+            <div><Label>Aktueller Job-Status</Label><Select value={general.termination_reason} onChange={e => setGeneral({...general, termination_reason: e.target.value})}><option value="none">In Arbeit / Nicht gekündigt</option><option value="fired">Gekündigt (Arbeitgeber)</option><option value="mutual_agreement">Aufhebungsvertrag</option><option value="self_termination">Selbst gekündigt</option></Select></div>
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div><Label>Kaltmiete (€)</Label><Input type="number" placeholder="500" value={general.rent_cold} onChange={e => setGeneral({...general, rent_cold: e.target.value})} /></div>
@@ -231,120 +178,61 @@ export default function Home() {
             {members.map((m, idx) => (
               <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative group hover:border-indigo-100 transition">
                 <div className="flex justify-between mb-4">
-                  <span className="text-xs font-bold bg-slate-200 text-slate-600 px-2 py-1 rounded uppercase tracking-wider">
-                    {m.role === 'main' ? 'Du (Antragsteller)' : m.role === 'partner' ? 'Partner' : 'Kind / Weitere'}
-                  </span>
+                  <span className="text-xs font-bold bg-slate-200 text-slate-600 px-2 py-1 rounded uppercase tracking-wider">{m.role === 'main' ? 'Du (Antragsteller)' : m.role === 'partner' ? 'Partner' : 'Kind / Weitere'}</span>
                   {idx > 0 && <button onClick={() => removeMember(idx)} className="text-red-400 hover:text-red-600 text-sm font-medium">Entfernen</button>}
                 </div>
-
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="col-span-1">
-                    <Label>Rolle</Label>
-                    <Select value={m.role} onChange={e => updateMember(idx, 'role', e.target.value)}>
-                      <option value="main">Antragsteller</option>
-                      <option value="partner">Partner</option>
-                      <option value="child">Kind</option>
-                    </Select>
-                  </div>
-                  <div className="col-span-1">
-                    <Label>Alter</Label>
-                    <Input type="number" value={m.age} onChange={e => updateMember(idx, 'age', e.target.value)} />
-                  </div>
-                  {m.role === 'main' && (
-                    <div className="col-span-2 flex items-center h-full pt-6">
-                       <label className="flex items-center gap-3 cursor-pointer p-2 hover:bg-white rounded-lg transition w-full">
-                         <input type="checkbox" checked={m.is_single_parent} onChange={e => updateMember(idx, 'is_single_parent', e.target.checked)} className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" />
-                         <span className="text-sm font-medium text-slate-700">Ich bin alleinerziehend</span>
-                       </label>
-                    </div>
-                  )}
+                  <div className="col-span-1"><Label>Rolle</Label><Select value={m.role} onChange={e => updateMember(idx, 'role', e.target.value)}><option value="main">Antragsteller</option><option value="partner">Partner</option><option value="child">Kind</option></Select></div>
+                  <div className="col-span-1"><Label>Alter</Label><Input type="number" value={m.age} onChange={e => updateMember(idx, 'age', e.target.value)} /></div>
+                  {m.role === 'main' && (<div className="col-span-2 flex items-center h-full pt-6"><label className="flex items-center gap-3 cursor-pointer p-2 hover:bg-white rounded-lg transition w-full"><input type="checkbox" checked={m.is_single_parent} onChange={e => updateMember(idx, 'is_single_parent', e.target.checked)} className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" /><span className="text-sm font-medium text-slate-700">Ich bin alleinerziehend</span></label></div>)}
                 </div>
-
                 <div className="mt-6 pt-6 border-t border-slate-200 border-dashed">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <Label>Einkommensart</Label>
-                      <Select value={m.income_type} onChange={e => updateMember(idx, 'income_type', e.target.value)}>
-                        <option value="none">Kein Einkommen</option>
-                        <option value="employment">Angestellt</option>
-                        <option value="minijob">Minijob (max 538€)</option>
-                        <option value="self_employed">Selbstständig</option>
-                        <option value="pension">Rente</option>
-                        <option value="child_benefit">Kindergeld</option>
-                      </Select>
-                    </div>
-                    {m.income_type !== 'none' && (
-                      <>
-                        <div><Label>Brutto (€)</Label><Input type="number" value={m.income_brutto} onChange={e => updateMember(idx, 'income_brutto', e.target.value)} /></div>
-                        <div><Label>Netto (€)</Label><Input type="number" value={m.income_net} onChange={e => updateMember(idx, 'income_net', e.target.value)} /></div>
-                      </>
-                    )}
+                    <div><Label>Einkommensart</Label><Select value={m.income_type} onChange={e => updateMember(idx, 'income_type', e.target.value)}><option value="none">Kein Einkommen</option><option value="employment">Angestellt</option><option value="minijob">Minijob</option><option value="self_employed">Selbstständig</option><option value="pension">Rente</option><option value="child_benefit">Kindergeld</option></Select></div>
+                    {m.income_type !== 'none' && (<><div><Label>Brutto (€)</Label><Input type="number" value={m.income_brutto} onChange={e => updateMember(idx, 'income_brutto', e.target.value)} /></div><div><Label>Netto (€)</Label><Input type="number" value={m.income_net} onChange={e => updateMember(idx, 'income_net', e.target.value)} /></div></>)}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <button onClick={addMember} className="mt-6 w-full py-3 border-2 border-dashed border-indigo-100 rounded-xl text-indigo-600 font-bold hover:bg-indigo-50 hover:border-indigo-200 transition">
-            + Weitere Person hinzufügen
-          </button>
+          <button onClick={addMember} className="mt-6 w-full py-3 border-2 border-dashed border-indigo-100 rounded-xl text-indigo-600 font-bold hover:bg-indigo-50 hover:border-indigo-200 transition">+ Weitere Person hinzufügen</button>
         </Card>
 
-        {/* BUTTON */}
-        <button 
-          onClick={handleAnalyze} disabled={loading}
-          className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl shadow-slate-300 hover:bg-slate-800 hover:scale-[1.01] transition transform disabled:opacity-70 disabled:scale-100"
-        >
-          {loading ? "Rechne..." : "Kostenlos Anspruch prüfen ➔"}
-        </button>
+        <button onClick={handleAnalyze} disabled={loading} className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl shadow-slate-300 hover:bg-slate-800 hover:scale-[1.01] transition transform disabled:opacity-70 disabled:scale-100">{loading ? "Rechne..." : "Kostenlos Anspruch prüfen ➔"}</button>
 
-        {/* ERGEBNISSE & OPPORTUNITIES */}
         {result && (
           <div id="results-section" className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 pt-8">
-            
             <div className="grid grid-cols-1 gap-6">
-              {result.results.map((res, idx) => (
-                <div key={idx} className={`p-8 rounded-2xl border bg-white shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${
-                  res.type === 'ALERT' ? 'border-red-100 bg-red-50/50' : 
-                  res.type === 'SGB2' ? 'border-emerald-100' : 'border-blue-100'
-                }`}>
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                       {res.type === 'ALERT' && <span className="text-xl">⚠️</span>}
-                       <h4 className={`text-xl font-bold ${res.type === 'ALERT' ? 'text-red-700' : 'text-slate-800'}`}>{res.title}</h4>
+              {result.results.map((res, idx) => {
+                let borderClass = 'border-blue-100', bgClass = 'bg-white', textClass = 'text-slate-800', amountClass = 'text-indigo-600';
+                if (res.type === 'ALERT') { borderClass = 'border-red-100'; bgClass = 'bg-red-50/50'; textClass = 'text-red-700'; amountClass = 'text-red-600'; }
+                else if (res.type === 'SGB2') { borderClass = 'border-emerald-100'; amountClass = 'text-emerald-600'; }
+                else if (res.type === 'REJECTED_INCOME') { borderClass = 'border-amber-100'; bgClass = 'bg-amber-50'; amountClass = 'text-slate-400'; }
+                return (
+                  <div key={idx} className={`p-8 rounded-2xl border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${borderClass} ${bgClass}`}>
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                         {res.type === 'ALERT' && <span className="text-xl">⚠️</span>}
+                         {res.type === 'REJECTED_INCOME' && <span className="text-xl">ℹ️</span>}
+                         <h4 className={`text-xl font-bold ${textClass}`}>{res.title}</h4>
+                      </div>
+                      <p className="text-slate-600">{res.text}</p>
                     </div>
-                    <p className="text-slate-600">{res.text}</p>
+                    {(res.amount > 0 || res.type === 'SGB2') && (<div className={`text-3xl font-black ${amountClass}`}>{res.amount.toFixed(2)} €</div>)}
                   </div>
-                  <div className={`text-3xl font-black ${res.type === 'ALERT' ? 'text-red-600' : 'text-emerald-600'}`}>
-                    {res.amount}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
-
-            {/* MONETIZATION */}
             {result.opportunities && result.opportunities.length > 0 && (
               <div className="bg-slate-900 p-6 md:p-8 rounded-2xl shadow-xl text-white">
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold text-white">💰 Deine nächsten Schritte</h3>
-                  <p className="text-slate-400 text-sm">Basierend auf deiner Situation haben wir folgende Möglichkeiten gefunden, dein Budget zu sichern.</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-900">
-                  {result.opportunities.map((opp) => (
-                    <OpportunityCard key={opp.id} opp={opp} />
-                  ))}
-                </div>
+                <div className="mb-6"><h3 className="text-xl font-bold text-white">💰 Deine nächsten Schritte</h3><p className="text-slate-400 text-sm">Basierend auf deiner Situation haben wir folgende Möglichkeiten gefunden.</p></div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-900">{result.opportunities.map((opp) => (<OpportunityCard key={opp.id} opp={opp} />))}</div>
               </div>
             )}
-
-            <p className="text-center text-xs text-slate-400 mt-8">
-              Hinweis: Dies ist eine Modellrechnung. Keine Rechtsberatung.
-            </p>
+            <p className="text-center text-xs text-slate-400 mt-8">Hinweis: Dies ist eine Modellrechnung. Keine Rechtsberatung.</p>
           </div>
         )}
-
-        {/* HIER IST DEINE NEUE HILFE-SEKTION */}
         <HelpSection />
-        
       </main>
     </div>
   );

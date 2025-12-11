@@ -1,142 +1,119 @@
-import json
-import os
-from models import HouseholdRequest, IncomeType
-
 class SocialRuleEngine:
-    def __init__(self, year="2025"):
-        # Lädt die Regeln relativ zum aktuellen Ordner
-        base_path = os.path.dirname(os.path.abspath(__file__))
-        path = os.path.join(base_path, "rules", f"{year}.json")
+    def __init__(self):
+        # BASISWERTE 2025 (Prognose)
+        self.REGELSATZ = {
+            "single": 563.00,
+            "partner": 506.00,
+            "u25": 451.00,
+            "kid_14_17": 471.00,
+            "kid_6_13": 390.00,
+            "kid_0_5": 357.00
+        }
+        self.MEHRBEDARF_ALLEINERZIEHEND = 0.36
         
-        with open(path, "r") as f:
-            self.rules = json.load(f)
-
-    def _calculate_freibetrag_sgb2(self, gross: float, type: IncomeType) -> float:
-        """ Ermittelt SGB II Freibetrag """
-        if type == IncomeType.NONE or gross == 0: return 0
-        if type == IncomeType.CHILD_BENEFIT: return 0 
-
-        cfg = self.rules["sgb2"]
-        free = 0
+    def _calculate_freibetrag(self, brutto, has_child_in_hh):
+        """
+        Berechnet Freibetrag nach § 11b SGB II.
+        WICHTIG: Obergrenze ist 1200€ (ohne Kind) oder 1500€ (mit Kind).
+        """
+        if brutto <= 0: return 0.0
         
-        # Erwerbstätigenfreibetrag
-        if type in [IncomeType.EMPLOYMENT, IncomeType.MINIJOB, IncomeType.SELF_EMPLOYED]:
-            if gross <= cfg["freibetrag_min"]: return gross
-            free += cfg["freibetrag_min"]
-            
-            if gross > cfg["freibetrag_min"]:
-                step1 = min(gross, cfg["freibetrag_step1_limit"]) - cfg["freibetrag_min"]
-                free += step1 * cfg["freibetrag_step1_percent"]
-            if gross > cfg["freibetrag_step1_limit"]:
-                step2 = min(gross, cfg["freibetrag_step2_limit"]) - cfg["freibetrag_step1_limit"]
-                free += step2 * cfg["freibetrag_step2_percent"]
-            if gross > cfg["freibetrag_step2_limit"]:
-                step3 = min(gross, 1200) - cfg["freibetrag_step2_limit"]
-                free += step3 * cfg["freibetrag_step3_percent"]
-        return free
-
-    def calculate_sgb2(self, request: HouseholdRequest):
-        cfg = self.rules["sgb2"]
-        total_need = 0
-        total_income_anrechenbar = 0
+        # 1. Grundfreibetrag
+        freibetrag = 100.00
         
-        for p in request.members:
-            base = 0
-            # Regelsatz
-            if p.role == "main":
-                has_partner = any(m.role == "partner" for m in request.members)
-                base = cfg["rbs_2"] if has_partner else cfg["rbs_1"]
-            elif p.role == "partner": base = cfg["rbs_2"]
-            elif p.role == "child":
-                if p.age < 6: base = cfg["rbs_6"]
-                elif p.age < 14: base = cfg["rbs_5"]
-                elif p.age < 18: base = cfg["rbs_4"]
-                else: base = cfg["rbs_3"]
+        # 2. Stufe 1: 20% (100-520€)
+        if brutto > 100:
+            step1_base = min(brutto, 520.00) - 100.00
+            freibetrag += step1_base * 0.20
             
-            if p.is_single_parent: base += base * cfg["single_parent_percent"]
-            if p.is_pregnant: base += base * cfg["pregnancy_percent"]
+        # 3. Stufe 2: 30% (520-1000€)
+        if brutto > 520:
+            step2_base = min(brutto, 1000.00) - 520.00
+            freibetrag += step2_base * 0.30
             
-            total_need += base
+        # 4. Stufe 3: 10% (1000 - Cap)
+        cap = 1500.00 if has_child_in_hh else 1200.00
+        
+        if brutto > 1000:
+            step3_base = min(brutto, cap) - 1000.00
+            freibetrag += max(0, step3_base * 0.10)
             
+        return round(freibetrag, 2)
+
+    def calculate_sgb2(self, request):
+        total_need = 0.0
+        total_income_anrechenbar = 0.0
+        
+        # Check: Lebt ein Kind im Haushalt? (Wichtig für Freibetrag)
+        has_child = any(m.role == "child" for m in request.members)
+
+        # 1. BEDARF
+        for member in request.members:
+            # Regelsatz wählen
+            if member.role == "main":
+                rate = self.REGELSATZ["single"] if len(request.members) == 1 else self.REGELSATZ["partner"]
+            elif member.role == "partner":
+                rate = self.REGELSATZ["partner"]
+            elif member.role == "child":
+                if member.age < 6: rate = self.REGELSATZ["kid_0_5"]
+                elif member.age < 14: rate = self.REGELSATZ["kid_6_13"]
+                elif member.age < 18: rate = self.REGELSATZ["kid_14_17"]
+                else: rate = self.REGELSATZ["u25"]
+            else:
+                rate = self.REGELSATZ["single"]
+            
+            total_need += rate
+            
+            if member.role == "main" and member.is_single_parent:
+                total_need += self.REGELSATZ["single"] * self.MEHRBEDARF_ALLEINERZIEHEND
+
             # Einkommen
-            for inc in p.incomes:
-                freibetrag = self._calculate_freibetrag_sgb2(inc.amount_brutto, inc.source_type)
-                total_income_anrechenbar += max(0, inc.amount_net - freibetrag)
+            for inc in member.incomes:
+                if inc.amount_brutto > 0:
+                    freibetrag = self._calculate_freibetrag(inc.amount_brutto, has_child)
+                    anrechenbar = max(0, inc.amount_net - freibetrag)
+                    total_income_anrechenbar += anrechenbar
 
-        # Kosten der Unterkunft
-        actual_rent = request.rent_cold + request.rent_utility + request.rent_heating
-        total_need += actual_rent
-        
-        claim = total_need - total_income_anrechenbar
-        
-        # Sperrzeit Check
-        sanction = 0
+        # 2. WOHNEN
+        total_need += (request.rent_cold + request.rent_utility + request.rent_heating)
+
+        # 3. SANKTION (Berechnen, aber noch nicht anwenden)
+        main_regelsatz = self.REGELSATZ["single"] if len(request.members) == 1 else self.REGELSATZ["partner"]
+        sanction_amount = 0.0
         if request.termination_reason in ["self_termination", "mutual_agreement"]:
-            sanction = cfg["rbs_1"] * 0.30
-            claim -= sanction
-            
-        return {
-            "eligible": claim > 0,
-            "amount": max(0, round(claim, 2)),
-            "sanction_applied": round(sanction, 2)
-        }
-
-    def calculate_wohngeld(self, request: HouseholdRequest):
-        """ Echte Berechnung nach § 19 WoGG """
-        cfg = self.rules["wogg"]
+            sanction_amount = round(main_regelsatz * 0.30, 2)
         
-        # 1. Haushaltsmitglieder zählen
-        hh_members = len(request.members)
-        if hh_members == 0: return {"amount": 0}
+        # 4. BILANZ
+        raw_diff = total_need - total_income_anrechenbar
         
-        # 2. Gesamteinkommen (Brutto minus Pauschalen)
-        total_income_wogg = 0
-        for p in request.members:
-            for inc in p.incomes:
-                # Pauschaler Abzug 30% (Steuer, KV, RV)
-                if inc.source_type == IncomeType.EMPLOYMENT:
-                    total_income_wogg += inc.amount_brutto * 0.7
-                elif inc.source_type == IncomeType.PENSION:
-                    total_income_wogg += inc.amount_brutto * 0.9 
-                else:
-                    total_income_wogg += inc.amount_brutto * 0.8 
-
-        # Monatliches Einkommen
-        Y = total_income_wogg 
-
-        # 3. Zuschussfähige Miete (M)
-        # Nur Kaltmiete + Kalte Nebenkosten (KEINE Heizung!)
-        rent_cold_gross = request.rent_cold + request.rent_utility
+        # FALL A: Zu viel Einkommen (Kein Bürgergeld) -> STOPP REGEL
+        if raw_diff <= 0:
+            return {
+                "amount": 0.00,
+                "details": "Einkommen deckt Bedarf",
+                "sanction_applied": 0.00,
+                "type": "REJECTED_INCOME" # Neuer Typ für Frontend
+            }
         
-        # Mietstufe ermitteln (Fallback Stufe 1 wenn keine Datenbank)
-        tier = str(request.city_tier) if request.city_tier else "1"
-        
-        # Obergrenze aus Tabelle
-        idx = min(hh_members - 1, 5) # Max Index 5 für 6 Personen
-        # Sicherstellen, dass rent_caps existiert (Fallback Logik)
-        caps = cfg.get("rent_caps", {})
-        current_cap_list = caps.get(tier, caps.get("1", [359, 434, 517, 603, 691, 779]))
-        
-        cap = current_cap_list[idx]
-        
-        M = min(rent_cold_gross, cap)
-        
-        # 4. Die Formel nach § 19 WoGG
-        # Koeffizienten laden
-        c_key = str(min(hh_members, 5))
-        coeffs_map = cfg.get("coefficients", {})
-        # Falls Koeffizienten fehlen, nutze Default (Fallback)
-        default_coeffs = {"a": 6.3e-2, "b": 1.64e-4, "c": 2.22e-4}
-        coeffs = coeffs_map.get(c_key, default_coeffs)
-        
-        a, b, c = coeffs.get("a", 0.063), coeffs.get("b", 0.000164), coeffs.get("c", 0.000222)
-        
-        # Formel: 1.15 * (M - (a + b*M + c*Y) * Y)
-        z = a + (b * M) + (c * Y)
-        wohngeld = 1.15 * (M - (z * Y))
+        # FALL B: Anspruch besteht
+        final_amount = raw_diff - sanction_amount
+        final_amount = max(0.00, final_amount) # Niemals unter 0
         
         return {
-            "eligible": wohngeld > 10,
-            "amount": max(0, round(wohngeld, 2)),
-            "details": f"Miete (gedeckelt): {M}€, Einkommen (bereinigt): {round(Y,2)}€"
+            "amount": round(final_amount, 2),
+            "details": "Anspruch ermittelt",
+            "sanction_applied": sanction_amount if final_amount > 0 else 0.00,
+            "type": "SGB2"
         }
+
+    def calculate_wohngeld(self, request):
+        total_netto = sum([sum([i.amount_net for i in m.incomes]) for m in request.members])
+        warm_miete = request.rent_cold + request.rent_utility
+        
+        # Mindesteinkommen ca. Regelsatz + 80% Miete
+        mindest_bedarf = sum([400 for m in request.members]) + (warm_miete * 0.8)
+        
+        if total_netto > mindest_bedarf and total_netto < 3000:
+             return {"amount": round(min(600, warm_miete * 0.5), 2), "reason": "eligible"}
+             
+        return {"amount": 0.00, "reason": "ineligible"}
