@@ -46,7 +46,6 @@ def analyze():
     results_list = []
     
     # 1. ERGEBNIS-ANZEIGE
-    # Fall A: Sperrzeit
     if sgb2_result.get("sanction_applied", 0) > 0:
         loss = sgb2_result["sanction_applied"]
         results_list.append({
@@ -56,7 +55,6 @@ def analyze():
             "amount": 0.0
         })
 
-    # Fall B: Bürgergeld
     if sgb2_result.get("type") == "SGB2":
         results_list.append({
             "type": "SGB2",
@@ -64,7 +62,6 @@ def analyze():
             "text": "Dieser Betrag sichert dein Existenzminimum + Miete.",
             "amount": sgb2_result["amount"]
         })
-    # Fall C: Zu viel Einkommen
     elif sgb2_result.get("type") == "REJECTED_INCOME":
         results_list.append({
             "type": "REJECTED_INCOME",
@@ -73,7 +70,6 @@ def analyze():
             "amount": 0.00
         })
 
-    # Fall D: Wohngeld
     if wohngeld_result.get("reason") == "eligible":
         results_list.append({
             "type": "WOHNGELD",
@@ -104,7 +100,7 @@ def analyze():
             "action": "Kosten berechnen"
         })
 
-    # 2. REICHE / ABGELEHNTE (Das ist dein Fall!)
+    # 2. REICHE / ABGELEHNTE
     elif sgb2_result.get("type") == "REJECTED_INCOME":
         opportunities.append({
             "id": "energy_saver_rich",
