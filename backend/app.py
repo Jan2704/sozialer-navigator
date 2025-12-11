@@ -9,7 +9,6 @@ CORS(app)
 engine = SocialRuleEngine()
 
 # --- DEINE AFFILIATE LINKS ---
-# Sobald du die finalen Links hast, tausche sie hier aus!
 LINK_CHECK24_STROM = "https://www.check24.de/strom/vergleich/"
 LINK_CHECK24_DSL = "https://www.check24.de/dsl/vergleich/"
 LINK_ANWALT_SPERRZEIT = "https://hartz4widerspruch.de/"
@@ -18,7 +17,6 @@ LINK_ANWALT_SPERRZEIT = "https://hartz4widerspruch.de/"
 def analyze():
     data = request.json
     
-    # --- Hilfsklassen ---
     class Member:
         def __init__(self, m):
             self.role = m.get('role')
@@ -41,15 +39,14 @@ def analyze():
 
     req = RequestObj(data)
 
-    # --- Berechnung ---
+    # Berechnen
     sgb2_result = engine.calculate_sgb2(req)
     wohngeld_result = engine.calculate_wohngeld(req)
 
     results_list = []
     
-    # 1. ERGEBNIS-ANZEIGE (Die Fakten)
-    
-    # Fall A: Sperrzeit (Sanktionierer)
+    # 1. ERGEBNIS-ANZEIGE
+    # Fall A: Sperrzeit
     if sgb2_result.get("sanction_applied", 0) > 0:
         loss = sgb2_result["sanction_applied"]
         results_list.append({
@@ -59,7 +56,7 @@ def analyze():
             "amount": 0.0
         })
 
-    # Fall B: Bürgergeld (Normal)
+    # Fall B: Bürgergeld
     if sgb2_result.get("type") == "SGB2":
         results_list.append({
             "type": "SGB2",
@@ -67,7 +64,7 @@ def analyze():
             "text": "Dieser Betrag sichert dein Existenzminimum + Miete.",
             "amount": sgb2_result["amount"]
         })
-    # Fall C: Abgelehnt (Zu viel Einkommen)
+    # Fall C: Zu viel Einkommen
     elif sgb2_result.get("type") == "REJECTED_INCOME":
         results_list.append({
             "type": "REJECTED_INCOME",
@@ -85,35 +82,34 @@ def analyze():
             "amount": wohngeld_result["amount"]
         })
 
-    # --- MONEY MATRIX 2.0 (Die psychologischen Affiliate-Boxen) ---
+    # --- MONEY MATRIX (Affiliate) ---
     opportunities = []
 
-    # 🔴 1. ZIELGRUPPE: SANKTIONIERER (Angst & Gerechtigkeit)
+    # 1. SANKTIONIERER
     if sgb2_result.get("sanction_applied", 0) > 0:
         opportunities.append({
             "id": "legal_aid",
             "title": "168 € Verlust verhindern ⚖️",
-            "text": "Dein Anspruch wurde gekürzt. Das ist eine Woche Essen. Lass kostenlos prüfen, ob du das Geld zurückbekommst.",
+            "text": "Dein Anspruch wurde gekürzt. Lass kostenlos prüfen, ob du das Geld zurückbekommst.",
             "icon": "§",
             "link": LINK_ANWALT_SPERRZEIT,
             "action": "Kostenlos prüfen"
         })
-        # Add-on: Strom
         opportunities.append({
             "id": "energy_saver_panic",
             "title": "Fixkosten sofort senken 📉",
-            "text": "Wenn das Amt kürzt, musst du Ausgaben senken. Prüfe hier in 60 Sekunden dein Sparpotenzial.",
+            "text": "Wenn das Amt kürzt, musst du Ausgaben senken. Prüfe hier dein Sparpotenzial.",
             "icon": "⚡",
             "link": LINK_CHECK24_STROM,
             "action": "Kosten berechnen"
         })
 
-    # 🔵 2. ZIELGRUPPE: REICHE / ABGELEHNTE (Trotz & Kompensation)
+    # 2. REICHE / ABGELEHNTE (Das ist dein Fall!)
     elif sgb2_result.get("type") == "REJECTED_INCOME":
         opportunities.append({
             "id": "energy_saver_rich",
             "title": "Kein Geld vom Staat? ⚡",
-            "text": "Dann hol dir das Geld wenigstens vom Anbieter zurück. Viele zahlen 300€ zu viel. Sicher dir den Neukundenbonus.",
+            "text": "Hol dir das Geld vom Anbieter zurück. Viele zahlen 300€ zu viel. Sicher dir den Neukundenbonus.",
             "icon": "💶",
             "link": LINK_CHECK24_STROM,
             "action": "Bonus sichern"
@@ -127,27 +123,18 @@ def analyze():
             "action": "Tarife prüfen"
         })
 
-    # 🟢 3. ZIELGRUPPE: BÜRGERGELD EMPFÄNGER (Knappheit)
+    # 3. BÜRGERGELD EMPFÄNGER
     elif sgb2_result.get("type") == "SGB2":
         opportunities.append({
             "id": "energy_saver_sgb2",
             "title": "Bis zu 200 € bar sparen 💰",
-            "text": "Viele zahlen 30–40 € zu viel Strom – obwohl das Amt nur den Durchschnitt übernimmt. Wechseln & Geld behalten.",
+            "text": "Viele zahlen zu viel Strom. Wechseln & Geld behalten.",
             "icon": "⚡",
             "link": LINK_CHECK24_STROM,
             "action": "Spar-Potenzial zeigen"
         })
-        opportunities.append({
-            "id": "dsl_saver_sgb2",
-            "title": "Internet zu teuer? 📉",
-            "text": "Das Budget ist knapp. Prüfe, ob du für gleiches Internet weniger zahlen kannst.",
-            "icon": "💻",
-            "link": LINK_CHECK24_DSL,
-            "action": "Kosten berechnen"
-        })
-    
-    # 🟡 4. ZIELGRUPPE: WOHNGELD (Fallback)
-    # Wer Wohngeld kriegt, ist oft knapp bei Kasse -> Strom sparen
+
+    # 4. NUR WOHNGELD (Fallback)
     elif wohngeld_result.get("reason") == "eligible":
         opportunities.append({
             "id": "energy_saver_wogg",
