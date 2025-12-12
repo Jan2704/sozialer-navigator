@@ -1,6 +1,55 @@
 'use client';
 import { useState } from 'react';
 
+// --- RECHTSTEXTE (Impressum & Datenschutz Modal) ---
+const LegalModal = ({ type, onClose }) => (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4" onClick={onClose}>
+    <div className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl animate-in fade-in zoom-in duration-200" onClick={e => e.stopPropagation()}>
+      <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+        <h2 className="text-2xl font-bold text-slate-900 capitalize">{type === 'impressum' ? 'Impressum' : 'Datenschutz'}</h2>
+        <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 transition font-bold">✕</button>
+      </div>
+      
+      <div className="prose prose-slate text-sm text-slate-600 leading-relaxed space-y-4">
+        {type === 'impressum' ? (
+          <>
+            <p className="font-bold text-lg">Angaben gemäß § 5 TMG</p>
+            <p>
+              Jan Rall<br />
+              Parkstraße 4<br />
+              88326 Aulendorf
+            </p>
+            <p><strong>Kontakt:</strong><br />E-Mail: info@sozialer-navigator.de</p>
+            <p><strong>Haftungsausschluss:</strong><br />Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
+          </>
+        ) : (
+          <>
+            <p className="font-bold text-lg">Datenschutzerklärung</p>
+            <p><strong>1. Datenschutz auf einen Blick</strong><br />Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer Privatsphäre ist für uns sehr wichtig. Nachstehend informieren wir Sie ausführlich über den Umgang mit Ihren Daten.</p>
+            <p><strong>2. Keine Speicherung von Eingabedaten</strong><br />Sämtliche Eingaben, die Sie in den Rechner tätigen (z.B. Miete, Einkommen), werden <strong>ausschließlich lokal in Ihrem Browser</strong> verarbeitet. Es erfolgt keine Speicherung dieser sensiblen Daten auf unseren Servern und keine Weitergabe an Dritte.</p>
+            <p><strong>3. Affiliate-Links & externe Dienste</strong><br />Diese Website nutzt Affiliate-Links (z.B. zu Check24 oder Rightmart). Wenn Sie auf einen solchen Link klicken, werden Sie zum Anbieter weitergeleitet. Ab diesem Zeitpunkt gelten die Datenschutzbestimmungen des jeweiligen Anbieters.</p>
+            <p><strong>4. Hosting</strong><br />Diese Seite wird bei Vercel Inc. gehostet. Die Server-Kommunikation erfolgt verschlüsselt (SSL/TLS).</p>
+          </>
+        )}
+      </div>
+      <button onClick={onClose} className="mt-8 w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition">Schließen</button>
+    </div>
+  </div>
+);
+
+// --- FOOTER ---
+const Footer = ({ onOpenLegal }) => (
+  <footer className="bg-white border-t border-slate-200 mt-auto py-8">
+    <div className="max-w-4xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+      <div>© 2025 Sozialer Navigator. Alle Rechte vorbehalten.</div>
+      <div className="flex gap-6 font-medium">
+        <button onClick={() => onOpenLegal('impressum')} className="hover:text-indigo-600 transition">Impressum</button>
+        <button onClick={() => onOpenLegal('datenschutz')} className="hover:text-indigo-600 transition">Datenschutz</button>
+      </div>
+    </div>
+  </footer>
+);
+
 // --- HELP SECTION ---
 const HelpSection = () => (
   <section className="border-t border-slate-200 bg-white mt-12 py-12">
@@ -106,6 +155,7 @@ const OpportunityCard = ({ opp }) => (
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [showLegal, setShowLegal] = useState(null); // 'impressum' oder 'datenschutz'
 
   const [general, setGeneral] = useState({
     zip_code: "", rent_cold: "", rent_utility: "", rent_heating: "", termination_reason: "none", months_unemployed: 0
@@ -139,6 +189,7 @@ export default function Home() {
       }))
     };
     try {
+      // Nutzt jetzt die korrekte Render-API
       const res = await fetch('https://sozialer-navigator-api.onrender.com/api/v4/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
@@ -151,9 +202,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 flex flex-col">
       <Header />
-      <main className="max-w-4xl mx-auto px-4 py-12 space-y-8">
+      <main className="max-w-4xl mx-auto px-4 py-12 space-y-8 flex-grow w-full">
         
         <div className="text-center mb-12">
           <div className="inline-block bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-bold mb-4">🚀 Jetzt Live: V5.0</div>
@@ -223,6 +274,7 @@ export default function Home() {
                 );
               })}
             </div>
+            {/* HIER RENDERN DIE AFFILIATE BOXEN */}
             {result.opportunities && result.opportunities.length > 0 && (
               <div className="bg-slate-900 p-6 md:p-8 rounded-2xl shadow-xl text-white">
                 <div className="mb-6"><h3 className="text-xl font-bold text-white">💰 Deine nächsten Schritte</h3><p className="text-slate-400 text-sm">Basierend auf deiner Situation haben wir folgende Möglichkeiten gefunden.</p></div>
@@ -234,6 +286,12 @@ export default function Home() {
         )}
         <HelpSection />
       </main>
+      
+      {/* DER NEUE FOOTER */}
+      <Footer onOpenLegal={setShowLegal} />
+      
+      {/* DAS RECHTSTEXTE MODAL */}
+      {showLegal && <LegalModal type={showLegal} onClose={() => setShowLegal(null)} />}
     </div>
   );
 }
