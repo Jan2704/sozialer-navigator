@@ -15,9 +15,9 @@ const LegalModal = ({ type, onClose }) => (
           <>
             <p className="font-bold text-lg">Angaben gemäß § 5 TMG</p>
             <p>
-              Max Mustermann<br />
-              Musterstraße 1<br />
-              12345 Musterstadt
+              Jan Rall<br />
+              Parkstraße 4<br />
+              88326 Aulendorf
             </p>
             <p><strong>Kontakt:</strong><br />E-Mail: kontakt@sozialer-navigator.de</p>
             <p><strong>Haftungsausschluss:</strong><br />Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
