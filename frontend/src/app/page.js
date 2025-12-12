@@ -15,11 +15,11 @@ const LegalModal = ({ type, onClose }) => (
           <>
             <p className="font-bold text-lg">Angaben gemäß § 5 TMG</p>
             <p>
-              Jan Rall<br />
-              Parkstraße 4<br />
-              88326 Aulendorf
+              Max Mustermann<br />
+              Musterstraße 1<br />
+              12345 Musterstadt
             </p>
-            <p><strong>Kontakt:</strong><br />E-Mail: info@sozialer-navigator.de</p>
+            <p><strong>Kontakt:</strong><br />E-Mail: kontakt@sozialer-navigator.de</p>
             <p><strong>Haftungsausschluss:</strong><br />Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
           </>
         ) : (
@@ -27,7 +27,7 @@ const LegalModal = ({ type, onClose }) => (
             <p className="font-bold text-lg">Datenschutzerklärung</p>
             <p><strong>1. Datenschutz auf einen Blick</strong><br />Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer Privatsphäre ist für uns sehr wichtig. Nachstehend informieren wir Sie ausführlich über den Umgang mit Ihren Daten.</p>
             <p><strong>2. Keine Speicherung von Eingabedaten</strong><br />Sämtliche Eingaben, die Sie in den Rechner tätigen (z.B. Miete, Einkommen), werden <strong>ausschließlich lokal in Ihrem Browser</strong> verarbeitet. Es erfolgt keine Speicherung dieser sensiblen Daten auf unseren Servern und keine Weitergabe an Dritte.</p>
-            <p><strong>3. Affiliate-Links & externe Dienste</strong><br />Diese Website nutzt Affiliate-Links (z.B. zu Check24 oder Rightmart). Wenn Sie auf einen solchen Link klicken, werden Sie zum Anbieter weitergeleitet. Ab diesem Zeitpunkt gelten die Datenschutzbestimmungen des jeweiligen Anbieters.</p>
+            <p><strong>3. Affiliate-Links</strong><br />Diese Website nutzt Affiliate-Links (z.B. zu Check24). Wenn Sie auf einen solchen Link klicken, werden Sie zum Anbieter weitergeleitet. Ab diesem Zeitpunkt gelten die Datenschutzbestimmungen des jeweiligen Anbieters.</p>
             <p><strong>4. Hosting</strong><br />Diese Seite wird bei Vercel Inc. gehostet. Die Server-Kommunikation erfolgt verschlüsselt (SSL/TLS).</p>
           </>
         )}
@@ -101,7 +101,6 @@ const Header = () => (
         <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-indigo-200 shadow-lg">N</div>
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight leading-none">Sozialer Navigator</h1>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Beta Version</span>
         </div>
       </div>
     </div>
@@ -120,12 +119,13 @@ const Card = ({ children, title, icon }) => (
   </div>
 );
 
+// Clean Labels (Normal Case, Serioeser)
 const Label = ({ children }) => (
-  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1.5 ml-1">{children}</label>
+  <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">{children}</label>
 );
 
 const Input = (props) => (
-  <input className="w-full bg-slate-50 text-slate-900 p-3 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none font-medium" {...props} />
+  <input className="w-full bg-slate-50 text-slate-900 p-3 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none font-medium placeholder-slate-400" {...props} />
 );
 
 const Select = ({ children, ...props }) => (
@@ -155,7 +155,7 @@ const OpportunityCard = ({ opp }) => (
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
-  const [showLegal, setShowLegal] = useState(null); // 'impressum' oder 'datenschutz'
+  const [showLegal, setShowLegal] = useState(null);
 
   const [general, setGeneral] = useState({
     zip_code: "", rent_cold: "", rent_utility: "", rent_heating: "", termination_reason: "none", months_unemployed: 0
@@ -189,7 +189,6 @@ export default function Home() {
       }))
     };
     try {
-      // Nutzt jetzt die korrekte Render-API
       const res = await fetch('https://sozialer-navigator-api.onrender.com/api/v4/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
@@ -207,17 +206,16 @@ export default function Home() {
       <main className="max-w-4xl mx-auto px-4 py-12 space-y-8 flex-grow w-full">
         
         <div className="text-center mb-12">
-          <div className="inline-block bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-bold mb-4">🚀 Jetzt Live: V5.0</div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">Dein Anspruch auf <span className="text-indigo-600">Geld vom Staat.</span></h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">Prüfe in Sekunden, ob dir Bürgergeld oder Wohngeld zusteht.</p>
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">Prüfe in Sekunden, ob dir Bürgergeld oder Wohngeld zusteht – anonym und kostenlos.</p>
         </div>
 
         <Card title="Wohnen & Status" icon="🏠">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div><Label>PLZ (Wohnort)</Label><Input placeholder="10115" maxLength={5} value={general.zip_code} onChange={e => setGeneral({...general, zip_code: e.target.value})} /></div>
-            <div><Label>Aktueller Job-Status</Label><Select value={general.termination_reason} onChange={e => setGeneral({...general, termination_reason: e.target.value})}><option value="none">In Arbeit / Nicht gekündigt</option><option value="fired">Gekündigt (Arbeitgeber)</option><option value="mutual_agreement">Aufhebungsvertrag</option><option value="self_termination">Selbst gekündigt</option></Select></div>
+            <div><Label>PLZ deines Wohnorts</Label><Input placeholder="z.B. 10115" maxLength={5} value={general.zip_code} onChange={e => setGeneral({...general, zip_code: e.target.value})} /></div>
+            <div><Label>Aktuelle Situation</Label><Select value={general.termination_reason} onChange={e => setGeneral({...general, termination_reason: e.target.value})}><option value="none">Angestellt / Nicht gekündigt</option><option value="fired">Gekündigt (vom Arbeitgeber)</option><option value="mutual_agreement">Aufhebungsvertrag unterschrieben</option><option value="self_termination">Selbst gekündigt</option></Select></div>
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div><Label>Kaltmiete (€)</Label><Input type="number" placeholder="500" value={general.rent_cold} onChange={e => setGeneral({...general, rent_cold: e.target.value})} /></div>
             <div><Label>Nebenkosten (€)</Label><Input type="number" placeholder="80" value={general.rent_utility} onChange={e => setGeneral({...general, rent_utility: e.target.value})} /></div>
             <div><Label>Heizkosten (€)</Label><Input type="number" placeholder="70" value={general.rent_heating} onChange={e => setGeneral({...general, rent_heating: e.target.value})} /></div>
@@ -227,17 +225,17 @@ export default function Home() {
         <Card title="Personen im Haushalt" icon="👨‍👩‍👧">
           <div className="space-y-6">
             {members.map((m, idx) => (
-              <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative group hover:border-indigo-100 transition">
-                <div className="flex justify-between mb-4">
-                  <span className="text-xs font-bold bg-slate-200 text-slate-600 px-2 py-1 rounded uppercase tracking-wider">{m.role === 'main' ? 'Du (Antragsteller)' : m.role === 'partner' ? 'Partner' : 'Kind / Weitere'}</span>
-                  {idx > 0 && <button onClick={() => removeMember(idx)} className="text-red-400 hover:text-red-600 text-sm font-medium">Entfernen</button>}
+              <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative group hover:border-indigo-100 transition shadow-sm">
+                <div className="flex justify-between items-center mb-4 border-b border-slate-200 pb-3">
+                  <span className="font-bold text-slate-700">{m.role === 'main' ? 'Du (Antragsteller)' : m.role === 'partner' ? 'Dein Partner' : `Kind / Weitere Person #${idx}`}</span>
+                  {idx > 0 && <button onClick={() => removeMember(idx)} className="text-red-500 hover:text-red-700 text-sm font-medium bg-red-50 hover:bg-red-100 px-3 py-1 rounded-lg transition">Entfernen</button>}
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="col-span-1"><Label>Rolle</Label><Select value={m.role} onChange={e => updateMember(idx, 'role', e.target.value)}><option value="main">Antragsteller</option><option value="partner">Partner</option><option value="child">Kind</option></Select></div>
-                  <div className="col-span-1"><Label>Alter</Label><Input type="number" value={m.age} onChange={e => updateMember(idx, 'age', e.target.value)} /></div>
-                  {m.role === 'main' && (<div className="col-span-2 flex items-center h-full pt-6"><label className="flex items-center gap-3 cursor-pointer p-2 hover:bg-white rounded-lg transition w-full"><input type="checkbox" checked={m.is_single_parent} onChange={e => updateMember(idx, 'is_single_parent', e.target.checked)} className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" /><span className="text-sm font-medium text-slate-700">Ich bin alleinerziehend</span></label></div>)}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                  <div className="md:col-span-4"><Label>Rolle</Label><Select value={m.role} onChange={e => updateMember(idx, 'role', e.target.value)}><option value="main">Antragsteller</option><option value="partner">Partner</option><option value="child">Kind</option></Select></div>
+                  <div className="md:col-span-3"><Label>Alter</Label><Input type="number" value={m.age} onChange={e => updateMember(idx, 'age', e.target.value)} /></div>
+                  {m.role === 'main' && (<div className="md:col-span-5 flex items-center h-full pt-6"><label className="flex items-center gap-3 cursor-pointer p-2 hover:bg-white rounded-lg transition w-full"><input type="checkbox" checked={m.is_single_parent} onChange={e => updateMember(idx, 'is_single_parent', e.target.checked)} className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" /><span className="text-sm font-medium text-slate-700">Ich bin alleinerziehend</span></label></div>)}
                 </div>
-                <div className="mt-6 pt-6 border-t border-slate-200 border-dashed">
+                <div className="mt-4 pt-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div><Label>Einkommensart</Label><Select value={m.income_type} onChange={e => updateMember(idx, 'income_type', e.target.value)}><option value="none">Kein Einkommen</option><option value="employment">Angestellt</option><option value="minijob">Minijob</option><option value="self_employed">Selbstständig</option><option value="pension">Rente</option><option value="child_benefit">Kindergeld</option></Select></div>
                     {m.income_type !== 'none' && (<><div><Label>Brutto (€)</Label><Input type="number" value={m.income_brutto} onChange={e => updateMember(idx, 'income_brutto', e.target.value)} /></div><div><Label>Netto (€)</Label><Input type="number" value={m.income_net} onChange={e => updateMember(idx, 'income_net', e.target.value)} /></div></>)}
@@ -246,10 +244,10 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <button onClick={addMember} className="mt-6 w-full py-3 border-2 border-dashed border-indigo-100 rounded-xl text-indigo-600 font-bold hover:bg-indigo-50 hover:border-indigo-200 transition">+ Weitere Person hinzufügen</button>
+          <button onClick={addMember} className="mt-6 w-full py-4 border-2 border-dashed border-indigo-200 rounded-xl text-indigo-600 font-bold hover:bg-indigo-50 hover:border-indigo-300 transition flex items-center justify-center gap-2"><span>➕</span> Weitere Person hinzufügen</button>
         </Card>
 
-        <button onClick={handleAnalyze} disabled={loading} className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl shadow-slate-300 hover:bg-slate-800 hover:scale-[1.01] transition transform disabled:opacity-70 disabled:scale-100">{loading ? "Rechne..." : "Kostenlos Anspruch prüfen ➔"}</button>
+        <button onClick={handleAnalyze} disabled={loading} className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl shadow-slate-300 hover:bg-slate-800 hover:scale-[1.01] transition transform disabled:opacity-70 disabled:scale-100">{loading ? "Berechne Anspruch..." : "Kostenlos Anspruch prüfen ➔"}</button>
 
         {result && (
           <div id="results-section" className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 pt-8">
@@ -274,7 +272,6 @@ export default function Home() {
                 );
               })}
             </div>
-            {/* HIER RENDERN DIE AFFILIATE BOXEN */}
             {result.opportunities && result.opportunities.length > 0 && (
               <div className="bg-slate-900 p-6 md:p-8 rounded-2xl shadow-xl text-white">
                 <div className="mb-6"><h3 className="text-xl font-bold text-white">💰 Deine nächsten Schritte</h3><p className="text-slate-400 text-sm">Basierend auf deiner Situation haben wir folgende Möglichkeiten gefunden.</p></div>
@@ -286,11 +283,7 @@ export default function Home() {
         )}
         <HelpSection />
       </main>
-      
-      {/* DER NEUE FOOTER */}
       <Footer onOpenLegal={setShowLegal} />
-      
-      {/* DAS RECHTSTEXTE MODAL */}
       {showLegal && <LegalModal type={showLegal} onClose={() => setShowLegal(null)} />}
     </div>
   );
