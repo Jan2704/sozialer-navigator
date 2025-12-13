@@ -1,109 +1,169 @@
-import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { trackEvent } from '../utils/tracking';
+import { useState } from 'react';
 
-// Verbindung zu Supabase herstellen
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+// --- SICHERHEITS-CHECK START ---
+// Wir holen die Schlüssel. Wenn sie beim Bauen fehlen, bleibt supabase 'null',
+// statt die App zum Absturz zu bringen.
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export default function LeadModal({ isOpen, onClose, type, contextData }) {
-  const [step, setStep] = useState(1); 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', consent: false });
+const supabase = (supabaseUrl && supabaseKey)
+  ? createClient(supabaseUrl, supabaseKey)
+  : null;
+// --- SICHERHEITS-CHECK ENDE ---
+
+export default function LeadModal({ isOpen, onClose, selectedResult }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    consent: false
+  });
+  const [status, setStatus] = useState('idle'); // idle, loading, success, error
 
   if (!isOpen) return null;
 
-  // Texte für die verschiedenen Fälle
-  const content = {
-    legal: {
-      icon: '⚖️',
-      title: 'Kostenlose Anwaltsprüfung',
-      benefit: 'Das Jobcenter macht Fehler. Lass deinen Bescheid prüfen. Die Kosten übernimmt meist der Staat (Beratungshilfe).',
-      cta: 'Anspruch jetzt prüfen',
-      partnerText: 'einem Partneranwalt'
-    },
-    education: {
-      icon: '🎓',
-      title: 'Bildungsgutschein Anspruch',
-      benefit: 'Das Amt fördert Weiterbildungen oft zu 100% (Wert bis 20.000 €). Prüfe jetzt deinen Anspruch!',
-      cta: 'Förderung prüfen',
-      partnerText: 'einem Bildungsträger'
-    }
-  };
-
-  const currentContent = content[type] || content.legal;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.consent) return alert("Bitte stimme der Kontaktaufnahme zu.");
     
-    setIsSubmitting(true);
-    trackEvent('lead_submit_start', { type });
+    // Falls Supabase nicht verbunden ist (z.B. Schlüssel fehlen)
+    if (!supabase) {
+      alert("Datenbank-Verbindung fehlt! Bitte Schlüssel prüfen.");
+      return;
+    }
 
-    // HIER SENDEN WIR DIE DATEN AN SUPABASE
-    const { error } = await supabase.from('leads').insert([{
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      type: type,
-      status_sgb2: contextData?.isSGB2 || false,
-      consent_given: true,
-      status: 'new'
-    }]);
+    setStatus('loading');
 
-    setIsSubmitting(false);
+    const { error } = await supabase
+      .from('leads')
+      .insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          consent_given: formData.consent,
+          type: selectedResult?.type || 'unknown', // Speichert ob 'legal' oder 'education' geklickt wurde
+          status_sgb2: true // Wir nehmen an, sie haben SGB II bejaht
+        }
+      ]);
 
     if (error) {
-      console.error("Supabase Error:", error);
-      alert("Fehler beim Senden. Bitte prüfe deine Internetverbindung.");
+      console.error('Fehler:', error);
+      setStatus('error');
     } else {
-      trackEvent('lead_submit_success', { type });
-      setStep(3); // Weiter zu Schritt 3 (Danke)
+      setStatus('success');
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-black z-10 p-2">✕</button>
+        
+        {/* Schließen Button X oben rechts */}
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+        >
+          ✕
+        </button>
 
         <div className="p-8">
-          {/* SCHRITT 1: INFO */}
-          {step === 1 && (
-            <div className="text-center">
-              <div className="text-6xl mb-6">{currentContent.icon}</div>
-              <h2 className="text-2xl font-bold mb-3">{currentContent.title}</h2>
-              <p className="text-gray-600 mb-6">{currentContent.benefit}</p>
-              <div className="bg-green-50 text-green-800 p-4 rounded-xl text-sm font-semibold mb-8 border border-green-100">✅ 100% Kostenübernahme möglich</div>
-              <button onClick={() => setStep(2)} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg text-lg">{currentContent.cta}</button>
-            </div>
-          )}
-
-          {/* SCHRITT 2: FORMULAR */}
-          {step === 2 && (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <h3 className="text-xl font-bold text-center mb-4">Wohin sollen wir die Infos senden?</h3>
-              <input required type="text" placeholder="Name" className="w-full border p-3 rounded-lg" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-              <input required type="email" placeholder="E-Mail" className="w-full border p-3 rounded-lg" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-              <input required type="tel" placeholder="Telefon (für Rückfragen)" className="w-full border p-3 rounded-lg" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-              <div className="flex items-start gap-2 text-xs text-gray-600 bg-gray-50 p-2 rounded">
-                <input required type="checkbox" className="mt-1" checked={formData.consent} onChange={e => setFormData({...formData, consent: e.target.checked})}/>
-                <span>Ich stimme zu, dass mich der Soziale Navigator kontaktieren darf. (Widerruf jederzeit möglich).</span>
-              </div>
-              <button disabled={isSubmitting} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg mt-2">{isSubmitting ? 'Sende...' : 'Kostenlos anfordern'}</button>
-            </form>
-          )}
-
-          {/* SCHRITT 3: DANKE */}
-          {step === 3 && (
+          
+          {/* ERFOLGS-MELDUNG */}
+          {status === 'success' ? (
             <div className="text-center py-8">
-              <div className="text-6xl mb-6">🎉</div>
-              <h3 className="text-2xl font-bold mb-3">Erfolgreich!</h3>
-              <p className="text-gray-600 mb-8">Ein Experte prüft deine Situation und meldet sich in Kürze.</p>
-              <button onClick={onClose} className="text-blue-600 font-bold underline">Zurück</button>
+              <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                ✓
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Anfrage erhalten!</h3>
+              <p className="text-gray-600 mb-6">
+                Vielen Dank, {formData.name}. Wir prüfen deinen Fall und melden uns schnellstmöglich.
+              </p>
+              <button 
+                onClick={onClose}
+                className="w-full bg-green-500 text-white py-3 rounded-xl font-bold hover:bg-green-600 transition shadow-lg"
+              >
+                Alles klar
+              </button>
             </div>
+          ) : (
+            
+            /* DAS FORMULAR */
+            <>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Kostenlose Prüfung anfordern</h2>
+              <p className="text-gray-500 text-sm mb-6">
+                Fülle das Formular aus, damit wir deinen Anspruch prüfen können.
+              </p>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                
+                {/* Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Dein Name</label>
+                  <input 
+                    type="text" 
+                    required
+                    className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                    placeholder="Max Mustermann"
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">E-Mail Adresse</label>
+                  <input 
+                    type="email" 
+                    required
+                    className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                    placeholder="max@beispiel.de"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  />
+                </div>
+
+                {/* Telefon (Optional) */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Telefonnummer (für Rückfragen)</label>
+                  <input 
+                    type="tel" 
+                    className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                    placeholder="0171 12345678"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  />
+                </div>
+
+                {/* Datenschutz Checkbox */}
+                <div className="flex items-start gap-3 mt-4">
+                  <input 
+                    type="checkbox" 
+                    required
+                    id="consent"
+                    className="mt-1 w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    checked={formData.consent}
+                    onChange={(e) => setFormData({...formData, consent: e.target.checked})}
+                  />
+                  <label htmlFor="consent" className="text-xs text-gray-500 leading-snug">
+                    Ich stimme zu, dass meine Angaben zur Kontaktaufnahme und Zuordnung für eventuelle Rückfragen dauerhaft gespeichert werden.
+                  </label>
+                </div>
+
+                {/* Absenden Button */}
+                <button 
+                  type="submit" 
+                  disabled={status === 'loading'}
+                  className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === 'loading' ? 'Wird gesendet...' : 'Kostenlos prüfen lassen'}
+                </button>
+                
+                {status === 'error' && (
+                  <p className="text-red-500 text-center text-sm mt-2">Es gab einen Fehler. Bitte versuche es noch einmal.</p>
+                )}
+              </form>
+            </>
           )}
         </div>
       </div>
