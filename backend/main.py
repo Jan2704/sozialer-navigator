@@ -9,12 +9,12 @@ CORS(app)
 engine = SocialRuleEngine()
 
 # --- 💰 HIER DEINE ECHTEN LINKS EINFÜGEN 💰 ---
-# Kopiere deine langen Check24-Links exakt zwischen die Anführungszeichen ""
+# Achtung: Kopiere den Link exakt zwischen die Gänsefüßchen ""
 LINK_STROM = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1"
 LINK_DSL   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4"
 LINK_GAS   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=gasanbieter-wechseln&cat=3"
 
-# Fallback für Anwalt (lassen wir erst mal so)
+# Fallback für Anwalt
 LINK_ANWALT_SPERRZEIT = "https://hartz4widerspruch.de/"
 
 
@@ -93,7 +93,7 @@ def analyze():
             "title": "168 € Verlust verhindern ⚖️",
             "text": "Dein Anspruch wurde gekürzt. Lass kostenlos prüfen, ob du das Geld zurückbekommst.",
             "icon": "§",
-            "link": "https://hartz4widerspruch.de/",
+            "link": LINK_ANWALT_SPERRZEIT,
             "action": "Kostenlos prüfen"
         })
         opportunities.append({
@@ -101,7 +101,7 @@ def analyze():
             "title": "Fixkosten sofort senken 📉",
             "text": "Wenn das Amt kürzt, musst du Ausgaben senken. Prüfe hier dein Sparpotenzial.",
             "icon": "⚡",
-            "link": "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1",
+            "link": LINK_STROM,   # <--- HIER nutzen wir jetzt die Variable von oben!
             "action": "Kosten berechnen"
         })
 
@@ -112,7 +112,7 @@ def analyze():
             "title": "Kein Geld vom Staat? ⚡",
             "text": "Hol dir das Geld vom Anbieter zurück. Viele zahlen 300€ zu viel. Sicher dir den Neukundenbonus.",
             "icon": "💶",
-            "link": "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1",
+            "link": LINK_STROM,   # <--- Variable
             "action": "Bonus sichern"
         })
         opportunities.append({
@@ -120,7 +120,7 @@ def analyze():
             "title": "Internet-Bonus abholen 📶",
             "text": "Zahlst du den treuen Bestandskunden-Preis? Neukunden bekommen oft 180 € Bonus.",
             "icon": "💻",
-            "link": "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4",
+            "link": LINK_DSL,     # <--- Variable
             "action": "Tarife prüfen"
         })
 
@@ -131,7 +131,7 @@ def analyze():
             "title": "Bis zu 200 € bar sparen 💰",
             "text": "Viele zahlen zu viel Strom. Wechseln & Geld behalten.",
             "icon": "⚡",
-            "link": "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1",
+            "link": LINK_STROM,   # <--- Variable
             "action": "Spar-Potenzial zeigen"
         })
         
@@ -142,7 +142,7 @@ def analyze():
                 "title": "Gasanbieter wechseln",
                 "text": "Die Gaspreise schwanken stark. Ein Vergleich lohnt sich jetzt.",
                 "icon": "🔥",
-                "link": "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=gasanbieter-wechseln&cat=3",
+                "link": LINK_GAS,     # <--- Variable
                 "action": "Gaspreise vergleichen"
             })
             
@@ -151,7 +151,7 @@ def analyze():
             "title": "WLAN zu teuer?",
             "text": "Vergleiche DSL-Tarife und halbiere deine monatlichen Kosten.",
             "icon": "📶",
-            "link": "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4",
+            "link": LINK_DSL,     # <--- Variable
             "action": "Tarife prüfen"
         })
 
