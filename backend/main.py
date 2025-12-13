@@ -8,10 +8,15 @@ CORS(app)
 
 engine = SocialRuleEngine()
 
-# --- DEINE AFFILIATE LINKS ---
-LINK_CHECK24_STROM = "https://www.check24.de/strom/vergleich/"
-LINK_CHECK24_DSL = "https://www.check24.de/dsl/vergleich/"
+# --- 💰 HIER DEINE ECHTEN LINKS EINFÜGEN 💰 ---
+# Kopiere deine langen Check24-Links exakt zwischen die Anführungszeichen ""
+LINK_STROM = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1"
+LINK_DSL   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4"
+LINK_GAS   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=gasanbieter-wechseln&cat=3"
+
+# Fallback für Anwalt (lassen wir erst mal so)
 LINK_ANWALT_SPERRZEIT = "https://hartz4widerspruch.de/"
+
 
 @app.route('/api/v4/analyze', methods=['POST'])
 def analyze():
@@ -78,10 +83,10 @@ def analyze():
             "amount": wohngeld_result["amount"]
         })
 
-    # --- MONEY MATRIX (Affiliate) ---
+    # --- MONEY MATRIX (Affiliate Logik) ---
     opportunities = []
 
-    # 1. SANKTIONIERER
+    # 1. SANKTIONIERER (Panik-Modus)
     if sgb2_result.get("sanction_applied", 0) > 0:
         opportunities.append({
             "id": "legal_aid",
@@ -96,18 +101,18 @@ def analyze():
             "title": "Fixkosten sofort senken 📉",
             "text": "Wenn das Amt kürzt, musst du Ausgaben senken. Prüfe hier dein Sparpotenzial.",
             "icon": "⚡",
-            "link": LINK_CHECK24_STROM,
+            "link": LINK_STROM,
             "action": "Kosten berechnen"
         })
 
-    # 2. REICHE / ABGELEHNTE
+    # 2. REICHE / ABGELEHNTE (Bonus-Jäger Modus)
     elif sgb2_result.get("type") == "REJECTED_INCOME":
         opportunities.append({
             "id": "energy_saver_rich",
             "title": "Kein Geld vom Staat? ⚡",
             "text": "Hol dir das Geld vom Anbieter zurück. Viele zahlen 300€ zu viel. Sicher dir den Neukundenbonus.",
             "icon": "💶",
-            "link": LINK_CHECK24_STROM,
+            "link": LINK_STROM,
             "action": "Bonus sichern"
         })
         opportunities.append({
@@ -115,30 +120,39 @@ def analyze():
             "title": "Internet-Bonus abholen 📶",
             "text": "Zahlst du den treuen Bestandskunden-Preis? Neukunden bekommen oft 180 € Bonus.",
             "icon": "💻",
-            "link": LINK_CHECK24_DSL,
+            "link": LINK_DSL,
             "action": "Tarife prüfen"
         })
 
-    # 3. BÜRGERGELD EMPFÄNGER
-    elif sgb2_result.get("type") == "SGB2":
+    # 3. BÜRGERGELD / STANDARD (Spar-Modus)
+    else:
         opportunities.append({
-            "id": "energy_saver_sgb2",
+            "id": "energy_saver_standard",
             "title": "Bis zu 200 € bar sparen 💰",
             "text": "Viele zahlen zu viel Strom. Wechseln & Geld behalten.",
             "icon": "⚡",
-            "link": LINK_CHECK24_STROM,
+            "link": LINK_STROM,
             "action": "Spar-Potenzial zeigen"
         })
-
-    # 4. NUR WOHNGELD (Fallback)
-    elif wohngeld_result.get("reason") == "eligible":
+        
+        # Gas nur anzeigen, wenn Heizkosten > 0
+        if req.rent_heating > 0:
+             opportunities.append({
+                "id": "gas_saver",
+                "title": "Gasanbieter wechseln",
+                "text": "Die Gaspreise schwanken stark. Ein Vergleich lohnt sich jetzt.",
+                "icon": "🔥",
+                "link": LINK_GAS,
+                "action": "Gaspreise vergleichen"
+            })
+            
         opportunities.append({
-            "id": "energy_saver_wogg",
-            "title": "Haushaltskasse aufbessern ⚡",
-            "text": "Nutze die Zeit bis zum Antrag: Senke deine Stromkosten und hol dir den Sofort-Bonus.",
-            "icon": "⚡",
-            "link": LINK_CHECK24_STROM,
-            "action": "Bonus anzeigen"
+            "id": "internet_standard",
+            "title": "WLAN zu teuer?",
+            "text": "Vergleiche DSL-Tarife und halbiere deine monatlichen Kosten.",
+            "icon": "📶",
+            "link": LINK_DSL,
+            "action": "Tarife prüfen"
         })
 
     return jsonify({
