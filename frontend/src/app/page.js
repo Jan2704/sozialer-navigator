@@ -1,5 +1,8 @@
 'use client';
 import { useState } from 'react';
+// Wir versuchen, die Komponente zu laden. 
+// Falls hier gleich ein Fehler kommt, müssen wir den Pfad anpassen.
+import ResultComponent from '../components/ResultComponent';
 
 // --- RECHTSTEXTE (Impressum & Datenschutz Modal) ---
 const LegalModal = ({ type, onClose }) => (
@@ -119,7 +122,6 @@ const Card = ({ children, title, icon }) => (
   </div>
 );
 
-// Clean Labels (Normal Case, Serioeser)
 const Label = ({ children }) => (
   <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">{children}</label>
 );
@@ -132,23 +134,6 @@ const Select = ({ children, ...props }) => (
   <select className="w-full bg-slate-50 text-slate-900 p-3 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none font-medium appearance-none" {...props}>
     {children}
   </select>
-);
-
-const OpportunityCard = ({ opp }) => (
-  <a href={opp.link} target="_blank" rel="noopener noreferrer"
-    className="block p-5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all transform hover:-translate-y-1 group relative overflow-hidden"
-  >
-    <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-full -mr-8 -mt-8 transition group-hover:bg-emerald-100"></div>
-    <div className="flex justify-between items-start mb-3 relative z-10">
-      <span className="text-3xl bg-slate-50 p-2 rounded-lg border border-slate-100">{opp.icon}</span>
-      <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-1 rounded uppercase tracking-wide">Empfehlung</span>
-    </div>
-    <h3 className="text-lg font-bold text-slate-900 mb-1 relative z-10">{opp.title}</h3>
-    <p className="text-sm text-slate-500 mb-4 leading-relaxed relative z-10">{opp.text}</p>
-    <div className="text-indigo-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all relative z-10">
-      {opp.action} <span>→</span>
-    </div>
-  </a>
 );
 
 // --- MAIN APP ---
@@ -200,6 +185,14 @@ export default function Home() {
     setLoading(false);
   };
 
+  // Hilfsfunktion: Wir suchen das "Haupt"-Ergebnis
+  const getPrimaryResult = () => {
+    if (!result || !result.results) return null;
+    return result.results.find(r => r.type === 'SGB2' || r.amount > 0) || result.results[0];
+  };
+
+  const primaryResultData = getPrimaryResult();
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 flex flex-col">
       <Header />
@@ -249,38 +242,14 @@ export default function Home() {
 
         <button onClick={handleAnalyze} disabled={loading} className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl shadow-slate-300 hover:bg-slate-800 hover:scale-[1.01] transition transform disabled:opacity-70 disabled:scale-100">{loading ? "Berechne Anspruch..." : "Kostenlos Anspruch prüfen ➔"}</button>
 
-        {result && (
-          <div id="results-section" className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 pt-8">
-            <div className="grid grid-cols-1 gap-6">
-              {result.results.map((res, idx) => {
-                let borderClass = 'border-blue-100', bgClass = 'bg-white', textClass = 'text-slate-800', amountClass = 'text-indigo-600';
-                if (res.type === 'ALERT') { borderClass = 'border-red-100'; bgClass = 'bg-red-50/50'; textClass = 'text-red-700'; amountClass = 'text-red-600'; }
-                else if (res.type === 'SGB2') { borderClass = 'border-emerald-100'; amountClass = 'text-emerald-600'; }
-                else if (res.type === 'REJECTED_INCOME') { borderClass = 'border-amber-100'; bgClass = 'bg-amber-50'; amountClass = 'text-slate-400'; }
-                return (
-                  <div key={idx} className={`p-8 rounded-2xl border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${borderClass} ${bgClass}`}>
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                         {res.type === 'ALERT' && <span className="text-xl">⚠️</span>}
-                         {res.type === 'REJECTED_INCOME' && <span className="text-xl">ℹ️</span>}
-                         <h4 className={`text-xl font-bold ${textClass}`}>{res.title}</h4>
-                      </div>
-                      <p className="text-slate-600">{res.text}</p>
-                    </div>
-                    {(res.amount > 0 || res.type === 'SGB2') && (<div className={`text-3xl font-black ${amountClass}`}>{res.amount.toFixed(2)} €</div>)}
-                  </div>
-                );
-              })}
-            </div>
-            {result.opportunities && result.opportunities.length > 0 && (
-              <div className="bg-slate-900 p-6 md:p-8 rounded-2xl shadow-xl text-white">
-                <div className="mb-6"><h3 className="text-xl font-bold text-white">💰 Deine nächsten Schritte</h3><p className="text-slate-400 text-sm">Basierend auf deiner Situation haben wir folgende Möglichkeiten gefunden.</p></div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-900">{result.opportunities.map((opp) => (<OpportunityCard key={opp.id} opp={opp} />))}</div>
-              </div>
-            )}
+        {/* HIER IST DIE NEUE MAGIE: Wir zeigen nur noch die ResultComponent an */}
+        {result && primaryResultData && (
+          <div id="results-section" className="pt-8">
+            <ResultComponent resultData={primaryResultData} />
             <p className="text-center text-xs text-slate-400 mt-8">Hinweis: Dies ist eine Modellrechnung. Keine Rechtsberatung.</p>
           </div>
         )}
+
         <HelpSection />
       </main>
       <Footer onOpenLegal={setShowLegal} />
