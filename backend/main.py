@@ -10,9 +10,9 @@ engine = SocialRuleEngine()
 
 # --- 💰 HIER DEINE ECHTEN LINKS EINFÜGEN 💰 ---
 # Achtung: Kopiere den Link exakt zwischen die Gänsefüßchen ""
-LINK_STROM = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1"
-LINK_DSL   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4"
-LINK_GAS   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=gasanbieter-wechseln&cat=3"
+LINK_STROM = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1&tid=sozialer-navigator"
+LINK_DSL   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4&tid=sozialer-navigator"
+LINK_GAS   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=gasanbieter-wechseln&cat=3&tid=sozialer-navigator"
 
 # Fallback für Anwalt
 LINK_ANWALT_SPERRZEIT = "https://hartz4widerspruch.de/"
