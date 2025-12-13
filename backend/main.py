@@ -8,14 +8,12 @@ CORS(app)
 
 engine = SocialRuleEngine()
 
-# --- 💰 HIER DEINE ECHTEN LINKS 💰 ---
-# Wir nutzen deine Partner-ID 1163556 und die Tracking-ID "sozialer-navigator"
-LINK_STROM = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1&tid=sozialer-navigator"
+# --- 💰 DEINE LINKS 💰 ---
+# DSL funktioniert (leitet weiter), Strom ist vorerst deaktiviert
 LINK_DSL   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4&tid=sozialer-navigator"
-
-# Fallback für Anwalt
 LINK_ANWALT_SPERRZEIT = "https://hartz4widerspruch.de/"
 
+# LINK_STROM = "..." # Deaktiviert wegen 404-Fehler bei aktueller ID
 
 @app.route('/api/v4/analyze', methods=['POST'])
 def analyze():
@@ -82,7 +80,7 @@ def analyze():
             "amount": wohngeld_result["amount"]
         })
 
-    # --- MONEY MATRIX (Affiliate Logik) ---
+    # --- MONEY MATRIX (Nur funktionierende Links) ---
     opportunities = []
 
     # 1. SANKTIONIERER (Panik-Modus)
@@ -95,27 +93,11 @@ def analyze():
             "link": LINK_ANWALT_SPERRZEIT,
             "action": "Kostenlos prüfen"
         })
-        opportunities.append({
-            "id": "energy_saver_panic",
-            "title": "Fixkosten sofort senken 📉",
-            "text": "Wenn das Amt kürzt, musst du Ausgaben senken. Prüfe hier dein Sparpotenzial.",
-            "icon": "⚡",
-            "link": LINK_STROM,
-            "action": "Kosten berechnen"
-        })
+        # Strom entfernt
 
     # 2. REICHE / ABGELEHNTE (Bonus-Jäger Modus)
     elif sgb2_result.get("type") == "REJECTED_INCOME":
-        opportunities.append({
-            "id": "energy_saver_rich",
-            "title": "Kein Geld vom Staat? ⚡",
-            "text": "Hol dir das Geld vom Anbieter zurück. Viele zahlen 300€ zu viel. Sicher dir den Neukundenbonus.",
-            "icon": "💶",
-            "link": LINK_STROM,
-            "action": "Bonus sichern"
-        })
-        # Hier stand vorher Gas - ist jetzt weg
-        
+        # Strom entfernt
         opportunities.append({
             "id": "dsl_saver_rich",
             "title": "Internet-Bonus abholen 📶",
@@ -127,17 +109,7 @@ def analyze():
 
     # 3. BÜRGERGELD / STANDARD (Spar-Modus)
     else:
-        opportunities.append({
-            "id": "energy_saver_standard",
-            "title": "Bis zu 200 € bar sparen 💰",
-            "text": "Viele zahlen zu viel Strom. Wechseln & Geld behalten.",
-            "icon": "⚡",
-            "link": LINK_STROM,
-            "action": "Spar-Potenzial zeigen"
-        })
-        
-        # Gas komplett entfernt
-            
+        # Strom entfernt
         opportunities.append({
             "id": "internet_standard",
             "title": "WLAN zu teuer?",
