@@ -9,7 +9,7 @@ CORS(app)
 engine = SocialRuleEngine()
 
 # --- 💰 HIER DEINE ECHTEN LINKS EINFÜGEN 💰 ---
-# Achtung: Kopiere den Link exakt zwischen die Gänsefüßchen ""
+# Wir nutzen deine Partner-ID 1163556 und die Tracking-ID "sozialer-navigator"
 LINK_STROM = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1&tid=sozialer-navigator"
 LINK_DSL   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4&tid=sozialer-navigator"
 LINK_GAS   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=gasanbieter-wechseln&cat=3&tid=sozialer-navigator"
@@ -101,7 +101,7 @@ def analyze():
             "title": "Fixkosten sofort senken 📉",
             "text": "Wenn das Amt kürzt, musst du Ausgaben senken. Prüfe hier dein Sparpotenzial.",
             "icon": "⚡",
-            "link": LINK_STROM,   # <--- HIER nutzen wir jetzt die Variable von oben!
+            "link": LINK_STROM,
             "action": "Kosten berechnen"
         })
 
@@ -112,15 +112,27 @@ def analyze():
             "title": "Kein Geld vom Staat? ⚡",
             "text": "Hol dir das Geld vom Anbieter zurück. Viele zahlen 300€ zu viel. Sicher dir den Neukundenbonus.",
             "icon": "💶",
-            "link": LINK_STROM,   # <--- Variable
+            "link": LINK_STROM,
             "action": "Bonus sichern"
         })
+        
+        # Gas-Box separat (nur wenn Heizkosten da sind)
+        if req.rent_heating > 0:
+            opportunities.append({
+                "id": "gas_saver_rich",
+                "title": "Gasanbieter wechseln 🔥",
+                "text": "Die Gaspreise sind gefallen. Hol dir den Neukunden-Bonus!",
+                "icon": "🔥",
+                "link": LINK_GAS,
+                "action": "Bonus sichern"
+            })
+            
         opportunities.append({
             "id": "dsl_saver_rich",
             "title": "Internet-Bonus abholen 📶",
             "text": "Zahlst du den treuen Bestandskunden-Preis? Neukunden bekommen oft 180 € Bonus.",
             "icon": "💻",
-            "link": LINK_DSL,     # <--- Variable
+            "link": LINK_DSL,
             "action": "Tarife prüfen"
         })
 
@@ -131,18 +143,18 @@ def analyze():
             "title": "Bis zu 200 € bar sparen 💰",
             "text": "Viele zahlen zu viel Strom. Wechseln & Geld behalten.",
             "icon": "⚡",
-            "link": LINK_STROM,   # <--- Variable
+            "link": LINK_STROM,
             "action": "Spar-Potenzial zeigen"
         })
         
-        # Gas nur anzeigen, wenn Heizkosten > 0
+        # Gas-Box separat (nur wenn Heizkosten da sind)
         if req.rent_heating > 0:
              opportunities.append({
                 "id": "gas_saver",
                 "title": "Gasanbieter wechseln",
                 "text": "Die Gaspreise schwanken stark. Ein Vergleich lohnt sich jetzt.",
                 "icon": "🔥",
-                "link": LINK_GAS,     # <--- Variable
+                "link": LINK_GAS,
                 "action": "Gaspreise vergleichen"
             })
             
@@ -151,7 +163,7 @@ def analyze():
             "title": "WLAN zu teuer?",
             "text": "Vergleiche DSL-Tarife und halbiere deine monatlichen Kosten.",
             "icon": "📶",
-            "link": LINK_DSL,     # <--- Variable
+            "link": LINK_DSL,
             "action": "Tarife prüfen"
         })
 
