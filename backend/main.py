@@ -8,11 +8,10 @@ CORS(app)
 
 engine = SocialRuleEngine()
 
-# --- 💰 HIER DEINE ECHTEN LINKS EINFÜGEN 💰 ---
+# --- 💰 HIER DEINE ECHTEN LINKS 💰 ---
 # Wir nutzen deine Partner-ID 1163556 und die Tracking-ID "sozialer-navigator"
 LINK_STROM = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=stromanbieter-wechseln&cat=1&tid=sozialer-navigator"
 LINK_DSL   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=dsl-anbieterwechsel&cat=4&tid=sozialer-navigator"
-LINK_GAS   = "https://a.check24.net/misc/click.php?pid=1163556&aid=18&deep=gasanbieter-wechseln&cat=3&tid=sozialer-navigator"
 
 # Fallback für Anwalt
 LINK_ANWALT_SPERRZEIT = "https://hartz4widerspruch.de/"
@@ -115,18 +114,8 @@ def analyze():
             "link": LINK_STROM,
             "action": "Bonus sichern"
         })
+        # Hier stand vorher Gas - ist jetzt weg
         
-        # Gas-Box separat (nur wenn Heizkosten da sind)
-        if req.rent_heating > 0:
-            opportunities.append({
-                "id": "gas_saver_rich",
-                "title": "Gasanbieter wechseln 🔥",
-                "text": "Die Gaspreise sind gefallen. Hol dir den Neukunden-Bonus!",
-                "icon": "🔥",
-                "link": LINK_GAS,
-                "action": "Bonus sichern"
-            })
-            
         opportunities.append({
             "id": "dsl_saver_rich",
             "title": "Internet-Bonus abholen 📶",
@@ -147,16 +136,7 @@ def analyze():
             "action": "Spar-Potenzial zeigen"
         })
         
-        # Gas-Box separat (nur wenn Heizkosten da sind)
-        if req.rent_heating > 0:
-             opportunities.append({
-                "id": "gas_saver",
-                "title": "Gasanbieter wechseln",
-                "text": "Die Gaspreise schwanken stark. Ein Vergleich lohnt sich jetzt.",
-                "icon": "🔥",
-                "link": LINK_GAS,
-                "action": "Gaspreise vergleichen"
-            })
+        # Gas komplett entfernt
             
         opportunities.append({
             "id": "internet_standard",
