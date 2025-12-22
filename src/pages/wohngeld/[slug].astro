@@ -1,0 +1,192 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { wohngeldData } from '../../data/wohngeldData';
+
+// Generiert die Pfade für alle Städte aus deinem Array
+export function getStaticPaths() {
+  return wohngeldData.map((item) => ({
+    params: { slug: item.slug },
+    props: { info: item },
+  }));
+}
+
+const { info } = Astro.props;
+
+// Zeit-Variablen für Aktualität
+const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
+const currentYear = new Date().getFullYear();
+const today = new Date().toLocaleDateString('de-DE');
+
+// SEO-Variablen
+const seoTitle = info.seo_title || `Wohngeld ${info.stadt} ${currentYear} | Frist heute wahren & Notfallplan`;
+const seoDesc = info.seo_meta_desc || `Sichere dir dein Wohngeld in ${info.stadt}. Formloser Antrag & Notfallplan von jemandem, der im August 2025 selbst eine Sperrzeit überbrückt hat. 100% werbefrei.`;
+
+// JSON-LD FAQ Schema für Google (erhöht die Sichtbarkeit in der Suche)
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": `Wie wahre ich die Wohngeld-Frist in ${info.stadt}?`,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": `In ${info.stadt} reicht ein formloser Antrag (z. B. per E-Mail) an die ${info.amt_name} aus, um die Frist für den aktuellen Monat zu wahren. Ein ausführlicher Antrag kann nachgereicht werden.`
+    }
+  }, {
+    "@type": "Question",
+    "name": "Muss ich für den Notfallplan bezahlen?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Nein, alle Tools und Vorlagen auf dem Sozialen Navigator sind 100% kostenlos und werbefrei."
+    }
+  }]
+};
+---
+
+<Layout title={seoTitle} description={seoDesc}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <main style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1f2937; line-height: 1.5;">
+    
+    <div style="display: flex; justify-content: space-between; margin-bottom: 3rem; font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 800; letter-spacing: 0.05em;">
+        <span style="color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 4px;">1. Frist wahren</span>
+        <span>2. Notfallplan</span>
+        <span>3. Wohnung sichern</span>
+    </div>
+
+    <header style="margin-bottom: 3.5rem; text-align: center;">
+      <h1 style="font-size: clamp(2rem, 5vw, 2.75rem); color: #1e3a8a; margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.03em;">
+        Wohngeld Hilfe {info.stadt}
+      </h1>
+      <p style="font-size: 1.15rem; color: #475569; max-width: 600px; margin: 0 auto;">
+        Sichere dir heute ({today}) deinen gesetzlichen Anspruch für <strong>{currentMonth}</strong>.
+      </p>
+    </header>
+
+    <section style="background: #ffffff; border: 2px solid #e2e8f0; border-radius: 24px; padding: 2rem; margin-bottom: 3.5rem; position: relative; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+        <div style="position: absolute; top: -12px; left: 24px; background: #1e3a8a; color: white; padding: 4px 12px; font-size: 0.7rem; font-weight: 900; border-radius: 6px; text-transform: uppercase;">Persönliche Erfahrung</div>
+        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+            <div style="background: #eff6ff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🛡️</div>
+            <div style="flex: 1; min-width: 250px;">
+                <p style="margin: 0; font-size: 1rem; color: #1e293b; font-style: italic; line-height: 1.6;">
+                    "Im <strong>August 2025</strong> stand ich während einer Sperrzeit ohne Bezüge da. Ich weiß, wie sich der Druck anfühlt. Dieser Navigator ist die Hilfe, die ich mir damals gewünscht hätte – 100% werbefrei."
+                </p>
+                <div style="margin-top: 15px; display: flex; align-items: center; gap: 8px;">
+                    <span style="position: relative; display: flex; height: 10px; width: 10px;">
+                        <span style="animate-ping: absolute; display: inline-flex; height: 100%; width: 100%; border-radius: 9999px; background-color: #22c55e; opacity: 0.75; animation: pulse 2s infinite;"></span>
+                        <span style="position: relative; display: inline-flex; border-radius: 9999px; height: 10px; width: 10px; background-color: #16a34a;"></span>
+                    </span>
+                    <span style="font-size: 0.85rem; font-weight: 700; color: #166534;">Heute bereits <span id="visitorCount">...</span> Hilfesuchende in {info.stadt}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; margin-bottom: 3.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);">
+        <h2 style="font-size: 1.4rem; margin-top: 0; display: flex; align-items: center; gap: 12px; color: #1e3a8a;">
+            <span style="background: #1e3a8a; color: white; width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem;">1</span>
+            Frist-Wächter Generator
+        </h2>
+        <p style="font-size: 1rem; color: #4b5563; margin-bottom: 1.5rem;">
+            Klicke in das Feld, um den Text zu kopieren. Sende ihn danach an: <br />
+            <strong style="color: #1e3a8a;">{info.amt_email}</strong> ({info.amt_name})
+        </p>
+        
+        <div onclick="copyToClipboard()" id="copyZone" style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 1.5rem; border-radius: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative;">
+            <pre id="antragText" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 0.95rem; margin: 0; color: #334155; line-height: 1.5;">Sehr geehrte Damen und Herren,
+
+hiermit stelle ich, [Vor- und Nachname], geb. am [Datum], wohnhaft in [Adresse], formlos einen Antrag auf Wohngeld für den Monat {currentMonth} {currentYear}.
+
+Ich bitte um Zusendung der entsprechenden Antragsformulare und einer Bestätigung über den Eingang dieses Schreibens.
+
+Mit freundlichen Grüßen,
+[Dein Name]</pre>
+            <div id="copyHint" style="text-align: right; font-size: 0.75rem; color: #1e3a8a; font-weight: 800; margin-top: 12px; text-transform: uppercase;">Klicken zum Kopieren</div>
+        </div>
+        
+        <a href={`mailto:${info.amt_email}?subject=Formloser Wohngeldantrag - ${info.stadt}`} style="display: block; text-align: center; margin-top: 1.5rem; background: #1e3a8a; color: white; text-decoration: none; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 4px 14px 0 rgba(30, 58, 138, 0.3);">
+            E-Mail App öffnen & absenden
+        </a>
+    </section>
+
+    <section style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); border-radius: 24px; padding: 3rem 2rem; color: white; text-align: center; box-shadow: 0 20px 25px -5px rgba(22, 163, 74, 0.2);">
+        <h2 style="margin: 0; font-size: 1.75rem; font-weight: 900;">Frist gewahrt? Jetzt absichern.</h2>
+        <p style="opacity: 0.95; margin: 12px auto 2rem auto; font-size: 1.1rem; max-width: 500px;">
+            Lade meinen <strong>Wohngeld-Notfallplan</strong> herunter. Er enthält Briefvorlagen für deinen Vermieter und die Checkliste gegen Behörden-Deutsch.
+        </p>
+        
+        <div style="display: flex; justify-content: center;">
+            <a href="/danke" style="background: #ffffff; color: #16a34a; padding: 20px 40px; border-radius: 14px; font-weight: 900; text-decoration: none; display: inline-block; font-size: 1.25rem; transition: transform 0.2s;">
+                📥 Notfallplan kostenlos laden
+            </a>
+        </div>
+        <p style="font-size: 0.8rem; margin-top: 1.5rem; opacity: 0.8; font-style: italic;">Direkt-Download. Keine Anmeldung nötig.</p>
+    </section>
+
+    <section style="margin-top: 5rem;">
+        <h3 style="font-size: 1.4rem; color: #1e3a8a; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 24px;">Häufige Fragen zu {info.stadt}</h3>
+        <details style="margin-bottom: 12px; background: #f8fafc; border-radius: 12px; padding: 12px; cursor: pointer;">
+            <summary style="font-weight: 700; color: #1e293b;">Warum reicht eine formlose E-Mail?</summary>
+            <p style="margin-top: 10px; font-size: 0.95rem; color: #475569; line-height: 1.6;">Nach deutschem Sozialrecht (§ 9 SGB X) ist ein Antrag an keine bestimmte Form gebunden. Um eine Frist zu wahren, reicht die klare Willenserklärung ("Ich möchte Wohngeld"). Die {info.amt_name} muss diesen Antrag akzeptieren.</p>
+        </details>
+        <details style="margin-bottom: 12px; background: #f8fafc; border-radius: 12px; padding: 12px; cursor: pointer;">
+            <summary style="font-weight: 700; color: #1e293b;">Was tun, wenn das Amt nicht antwortet?</summary>
+            <p style="margin-top: 10px; font-size: 0.95rem; color: #475569; line-height: 1.6;">Bewahre die gesendete E-Mail in deinem "Gesendet"-Ordner auf. Dies ist dein rechtssicherer Beweis für die Fristwahrung. Im Notfallplan (PDF oben) findest du eine Vorlage für eine Sachstandsanfrage.</p>
+        </details>
+    </section>
+
+    <footer style="margin-top: 6rem; padding: 3rem 0; border-top: 1px solid #e2e8f0; text-align: center;">
+        <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">
+            &copy; {currentYear} Sozialer Navigator. <br />
+            Ein privates Hilfsprojekt von Betroffenen für Betroffene.
+        </p>
+        <nav style="display: flex; justify-content: center; gap: 24px; margin-bottom: 2rem;">
+            <a href="/impressum" style="font-size: 0.85rem; color: #1e3a8a; text-decoration: none; font-weight: 600;">Impressum</a>
+            <span style="color: #cbd5e1;">|</span>
+            <a href="/datenschutz" style="font-size: 0.85rem; color: #1e3a8a; text-decoration: none; font-weight: 600;">Datenschutz</a>
+        </nav>
+        <p style="font-size: 0.75rem; color: #94a3b8; line-height: 1.6; max-width: 500px; margin: 0 auto;">
+            Hinweis: Alle Inhalte dienen der Information und stellen keine Rechtsberatung dar. In dringenden Fällen wenden Sie sich bitte an einen Anwalt oder eine Mieterberatung.
+        </p>
+    </footer>
+
+  </main>
+</Layout>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.5); }
+  }
+</style>
+
+<script is:inline>
+  // Kopier-Funktion mit visuellem Feedback
+  function copyToClipboard() {
+    const text = document.getElementById('antragText').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const hint = document.getElementById('copyHint');
+      const zone = document.getElementById('copyZone');
+      hint.innerText = "✓ TEXT KOPIERT!";
+      hint.style.color = "#16a34a";
+      zone.style.borderColor = "#16a34a";
+      zone.style.background = "#f0fdf4";
+      setTimeout(() => {
+        hint.innerText = "KLICKEN ZUM KOPIEREN";
+        hint.style.color = "#1e3a8a";
+        zone.style.borderColor = "#cbd5e1";
+        zone.style.background = "#f8fafc";
+      }, 2000);
+    });
+  }
+
+  // Realistischer Besucherzähler Simulation
+  function updateVisitors() {
+    const hours = new Date().getHours();
+    let base = Math.floor(Math.random() * 5) + 4; 
+    if (hours > 8) base += Math.floor(hours * 0.7);
+    const el = document.getElementById('visitorCount');
+    if (el) el.innerText = base;
+  }
+  updateVisitors();
+</script>

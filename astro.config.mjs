@@ -1,5 +1,9 @@
-// @ts-check
+// astro.config.mjs
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  // EXAKT SO EINTRAGEN:
+  site: 'https://sozialer-navigator.de', 
+  integrations: [sitemap()],
+});

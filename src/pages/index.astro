@@ -1,11 +1,86 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { wohngeldData } from '../data/wohngeldData.js';
+import Layout from '../layouts/Layout.astro'; // Falls du ein Layout hast
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Wir sortieren die Städte alphabetisch für die Liste
+const sortedData = [...wohngeldData].sort((a, b) => a.stadt.localeCompare(b.stadt));
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Sozialer Navigator | Wohngeld Rechner & Hilfe bei Sperrzeit">
+	<main>
+		<section class="hero">
+			<h1>Sozialer Navigator</h1>
+			<p class="subtitle">Hilfe bei Wohngeld, Notlagen und Sperrzeiten.</p>
+			
+			<div class="search-container">
+				<input type="text" id="citySearch" placeholder="PLZ oder Stadt eingeben..." />
+				<div id="results" class="search-results"></div>
+			</div>
+		</section>
+
+		<section class="trust-bar">
+			<p>
+				<strong>Warum Sozialer Navigator?</strong> Ich war im August 2025 selbst in einer Sperrzeit ohne Mittel. Dieses Tool ist von Betroffenen für Betroffene.
+			</p>
+		</section>
+
+		<section class="directory">
+			<h2>Städte-Verzeichnis</h2>
+			<div class="city-grid">
+				{sortedData.map((item) => (
+					<a href={`/wohngeld/${item.slug}`} class="city-link">
+						{item.stadt} <span class="plz">{item.plz}</span>
+					</a>
+				))}
+			</div>
+		</section>
+	</main>
 </Layout>
+
+<style>
+	:root { --primary: #1e3a8a; --bg: #f3f4f6; }
+	body { background: var(--bg); font-family: sans-serif; margin: 0; }
+	
+	.hero { background: var(--primary); color: white; padding: 4rem 2rem; text-align: center; }
+	.hero h1 { font-size: 2.5rem; margin: 0; }
+	.subtitle { font-size: 1.2rem; opacity: 0.9; margin-top: 10px; }
+
+	.search-container { max-width: 600px; margin: 2rem auto; position: relative; }
+	#citySearch { width: 100%; padding: 15px 20px; border-radius: 30px; border: none; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+	.search-results { position: absolute; width: 100%; background: white; border-radius: 10px; margin-top: 5px; color: #333; text-align: left; overflow: hidden; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 10; }
+	.search-item { padding: 10px 20px; text-decoration: none; display: block; color: #333; border-bottom: 1px solid #eee; }
+	.search-item:hover { background: #f0f4f8; }
+
+	.trust-bar { background: #fff; padding: 1.5rem; text-align: center; border-bottom: 1px solid #ddd; font-style: italic; color: #4b5563; }
+
+	.directory { max-width: 1000px; margin: 3rem auto; padding: 0 20px; }
+	.city-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 2rem; }
+	.city-link { background: white; padding: 12px; border-radius: 8px; text-decoration: none; color: var(--primary); font-weight: 500; border: 1px solid #e5e7eb; transition: transform 0.2s; }
+	.city-link:hover { transform: translateY(-2px); border-color: var(--primary); }
+	.plz { font-size: 0.8rem; color: #9ca3af; margin-left: 5px; }
+</style>
+
+<script define:vars={{ sortedData }}>
+	const searchInput = document.getElementById('citySearch');
+	const resultsContainer = document.getElementById('results');
+
+	searchInput.addEventListener('input', (e) => {
+		const val = e.target.value.toLowerCase();
+		resultsContainer.innerHTML = '';
+		
+		if (val.length < 2) return;
+
+		const filtered = sortedData.filter(item => 
+			item.stadt.toLowerCase().includes(val) || item.plz.includes(val)
+		).slice(0, 8); // Max 8 Ergebnisse anzeigen
+
+		filtered.forEach(item => {
+			const a = document.createElement('a');
+			a.href = `/wohngeld/${item.slug}`;
+			a.className = 'search-item';
+			a.innerHTML = `<strong>${item.stadt}</strong> <small>(${item.plz})</small>`;
+			resultsContainer.appendChild(a);
+		});
+	});
+</script>
