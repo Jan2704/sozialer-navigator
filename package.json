@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
+    "@supabase/supabase-js": "^2.89.0",
     "astro": "^5.16.6",
     "csv-parse": "^6.1.0"
   }

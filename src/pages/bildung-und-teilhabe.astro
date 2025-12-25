@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen">
+  <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', sans-serif; color: #1e293b; line-height: 1.6;">
+    
+    <nav style="background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 1.25rem 0;">
+      <div style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; padding: 0 20px;">
+        <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <div style="background: #2563eb; color: white; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900;">N</div>
+          <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Sozialer Navigator</span>
+        </a>
+      </div>
+    </nav>
+
+    <main style="max-width: 800px; margin: 0 auto; padding: 60px 20px;">
+      <div style="display: inline-block; background: #f0fdf4; color: #16a34a; padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 800; margin-bottom: 1.5rem;">FAMILIEN-HILFE</div>
+      <h1 style="font-weight: 900; font-size: 2.5rem; color: #0f172a; margin-bottom: 1.5rem; letter-spacing: -0.04em;">Geld für Schulessen & Ausflüge</h1>
+      <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 3rem;">Wer Wohngeld bekommt, hat einen gesetzlichen Anspruch auf das <strong>Bildungspaket (BuT)</strong>. Wir helfen dir bei der Beantragung für deine Kinder.</p>
+
+      <div id="but-form-wrapper" style="background: #ffffff; border: 2px solid #16a34a; padding: 3rem; border-radius: 32px; box-shadow: 0 20px 40px rgba(22,163,74,0.1);">
+        <h3 style="font-weight: 800; margin-bottom: 1.5rem; color: #166534;">BuT-Hilfe anfordern</h3>
+        <form id="but-lead-form" style="display: grid; gap: 15px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <input type="text" id="b-v-name" placeholder="Vorname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;" />
+            <input type="text" id="b-n-name" placeholder="Nachname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;" />
+          </div>
+          <input type="email" id="b-e-mail" placeholder="E-Mail Adresse" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;" />
+          <button type="submit" id="b-submit-btn" style="background: #16a34a; color: white; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer;">Hilfe anfordern</button>
+        </form>
+
+        <div id="b-success-message" style="display: none; text-align: center; padding: 2rem;">
+          <h3 style="color: #16a34a; font-weight: 800;">Anfrage erfolgreich!</h3>
+          <p>Wir melden uns bei dir, um die BuT-Gelder für deine Kinder zu sichern.</p>
+          <a href="/" style="display: inline-block; margin-top: 2rem; color: #16a34a; font-weight: 700; text-decoration: none;">← Zurück</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  import { createClient } from '@supabase/supabase-js'
+  const supabase = createClient('https://iiimjuplyjqapvwhbozf.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaW1qdXBseWpxYXB2d2hib3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTI4MTgsImV4cCI6MjA4MTIyODgxOH0.Ru-09I4PuFQsJC-AMcdntn9bCS2f9lOdGQoMo7fAHYs')
+
+  const form = document.getElementById('but-lead-form');
+  const btn = document.getElementById('b-submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.innerText = 'Wird gesendet...';
+    btn.disabled = true;
+
+    const { error } = await supabase.from('leads').insert([{ 
+      vorname: document.getElementById('b-v-name').value, 
+      nachname: document.getElementById('b-n-name').value,
+      email: document.getElementById('b-e-mail').value,
+      typ: 'but',
+      status: 'neu'
+    }]);
+
+    if (!error) {
+      form.style.display = 'none';
+      document.getElementById('b-success-message').style.display = 'block';
+    } else {
+      alert('Fehler beim Senden.');
+      btn.innerText = 'Hilfe anfordern';
+      btn.disabled = false;
+    }
+  });
+</script>

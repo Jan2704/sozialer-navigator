@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Wartezeit-Hilfe | AVGS Coaching Check" description="Prüfe deinen Anspruch auf ein kostenloses 1:1 Coaching während der Wohngeld-Wartezeit.">
+  
+  <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1e293b; line-height: 1.6;">
+    
+    <nav style="background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 1.25rem 0;">
+      <div style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; padding: 0 20px;">
+        <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <div style="background: #2563eb; color: white; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900;">N</div>
+          <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Sozialer Navigator</span>
+        </a>
+      </div>
+    </nav>
+
+    <main style="max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: center;">
+      <div style="display: inline-block; background: #eff6ff; color: #2563eb; padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 800; margin-bottom: 1.5rem;">WARTEZEIT-HILFE</div>
+      <h1 style="font-weight: 900; font-size: 2.5rem; color: #0f172a; margin-bottom: 1rem; letter-spacing: -0.04em;">Wartezeit sinnvoll nutzen.</h1>
+      <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 4rem;">Die Bearbeitung deines Antrags dauert Monate. Nutze diese Zeit für ein 100% gefördertes 1:1 Coaching (AVGS) im Wert von 2.500 €.</p>
+
+      <div id="form-wrapper" style="background: #ffffff; border: 2px solid #2563eb; padding: 3rem; border-radius: 32px; box-shadow: 0 20px 40px rgba(37,99,235,0.1); text-align: left;">
+        <h3 style="font-weight: 800; margin-bottom: 1.5rem;">Unverbindliche Prüfung anfordern</h3>
+        <form id="avgs-lead-form" style="display: grid; gap: 15px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <input type="text" id="v-name" placeholder="Vorname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
+            <input type="text" id="n-name" placeholder="Nachname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
+          </div>
+          <input type="email" id="e-mail" placeholder="E-Mail Adresse" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
+          <input type="tel" id="tel" placeholder="Telefonnummer (optional)" style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
+          <button type="submit" id="submit-btn" style="background: #2563eb; color: white; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin-top: 10px;">Jetzt Anspruch prüfen</button>
+        </form>
+
+        <div id="success-message" style="display: none; text-align: center; padding: 2rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+          <h3 style="color: #16a34a; font-weight: 800;">Anfrage gesendet!</h3>
+          <p>Wir prüfen deine Daten und melden uns in Kürze bei dir.</p>
+          <a href="/" style="display: inline-block; margin-top: 2rem; color: #2563eb; font-weight: 700; text-decoration: none;">← Zurück zum Navigator</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  import { createClient } from '@supabase/supabase-js'
+  const supabase = createClient('https://iiimjuplyjqapvwhbozf.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaW1qdXBseWpxYXB2d2hib3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTI4MTgsImV4cCI6MjA4MTIyODgxOH0.Ru-09I4PuFQsJC-AMcdntn9bCS2f9lOdGQoMo7fAHYs')
+
+  const form = document.getElementById('avgs-lead-form');
+  const btn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.innerText = 'Wird gesendet...';
+    btn.disabled = true;
+
+    const { error } = await supabase.from('leads').insert([{ 
+      vorname: document.getElementById('v-name').value, 
+      nachname: document.getElementById('n-name').value,
+      email: document.getElementById('e-mail').value,
+      phone: document.getElementById('tel').value,
+      typ: 'avgs',
+      status: 'neu'
+    }]);
+
+    if (!error) {
+      form.style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+    } else {
+      alert('Fehler beim Senden. Bitte versuche es später erneut.');
+      btn.innerText = 'Jetzt Anspruch prüfen';
+      btn.disabled = false;
+    }
+  });
+</script>
