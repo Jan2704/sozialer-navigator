@@ -18,165 +18,193 @@ const nachbarn = info?.nachbarn || [];
 const currentMonth = "Dezember"; 
 const currentYear = 2025;
 
-// SEO & OPEN GRAPH KONFIGURATION
 const seoTitle = `Wohngeld ${stadtName} ${currentYear} | Frist heute wahren (§ 24 WoGG)`;
-const seoDescription = `Sichere dir heute dein Wohngeld in ${stadtName}. Der 60-Sekunden-Weg zur gesetzlichen Fristwahrung & Prüfung von Zusatzansprüchen wie BuT und AVGS.`;
+const seoDescription = `Sichern Sie sich heute Ihr Wohngeld in ${stadtName}. Rechtssichere Fristwahrung, Strategie-Check und Bonus-Zuschüsse in 3 Schritten.`;
 ---
 
 <Layout title={seoTitle} description={seoDescription}>
   
-  <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1e293b; line-height: 1.6;">
+  <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', system-ui, sans-serif; color: #1e293b; line-height: 1.6;">
     
     <nav style="background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 1.25rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
       <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
         <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
           <div style="background: #2563eb; color: white; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900;">N</div>
-          <span style="font-weight: 800; color: #0f172a; letter-spacing: -0.5px; font-size: 1.1rem;">Sozialer Navigator</span>
+          <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Sozialer Navigator</span>
         </a>
-        <div style="font-size: 0.85rem; font-weight: 700; display: flex; gap: 20px;">
-          <a href="#wissen" style="color: #64748b; text-decoration: none;">Wissen</a>
-          <a href="#faq" style="color: #64748b; text-decoration: none;">FAQ</a>
-          <a href="#rechtliches" style="color: #64748b; text-decoration: none;">Rechtliches</a>
-        </div>
       </div>
     </nav>
 
     <main style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
       
-      <header style="margin-bottom: 5rem;">
+      <header style="margin-bottom: 4rem;">
         <div style="display: inline-flex; align-items: center; gap: 8px; background: #0f172a; color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 1.5rem;">
-          <span style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%;"></span> Gesetzlicher Weg: § 24 WoGG nutzen
+          <span style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%;"></span> Rechtssicher nach § 24 WoGG
         </div>
         <h1 style="font-size: clamp(2.2rem, 6vw, 3.5rem); color: #0f172a; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.04em; line-height: 1.1;">
-          Was das Amt in {stadtName} <br/><span style="color: #2563eb;">oft nicht sagt.</span>
+          Wohngeld in {stadtName}: <br/><span style="color: #2563eb;">Kein Geld verschenken.</span>
         </h1>
-        <p style="font-size: 1.25rem; color: #64748b; max-width: 750px; line-height: 1.6;">
-          Behörden verlangen oft dutzende Dokumente vorab. Doch das Gesetz erlaubt eine <strong>60-Sekunden-Abkürzung</strong>, um dein Geld für {currentMonth} heute sofort rechtssicher zu reservieren.
-        </p>
+        
+        <div style="background: #fff7ed; border: 1px solid #ffedd5; padding: 1.5rem; border-radius: 20px; display: flex; gap: 15px;">
+          <span style="font-size: 1.4rem;">💡</span>
+          <p style="font-size: 0.9rem; color: #9a3412; margin: 0;">
+            <strong>Wichtig für Rechner-Suchende:</strong> Bevor Sie rechnen, müssen Sie handeln. Die Frist für {currentMonth} läuft am 31. ab. Sichern Sie sich erst den Anspruch – die exakte Summe klären wir danach.
+          </p>
+        </div>
       </header>
 
-      <section id="wissen" style="margin-bottom: 6rem; padding: 3rem; background: #f8fafc; border-radius: 32px; border: 1px solid #e2e8f0;">
-        <h2 style="font-size: 1.75rem; font-weight: 800; color: #1e3a8a; margin-bottom: 1.5rem;">Was ist Wohngeld eigentlich?</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+      <section style="margin-bottom: 6rem;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 1.5rem;">Was ist Wohngeld eigentlich?</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; color: #475569;">
           <div>
-            <p>Es ist ein Rechtsanspruch für Haushalte, deren Einkommen knapp über der Grenze für Bürgergeld liegt. Es hilft dabei, die hohen Mieten in {stadtName} tragbar zu machen.</p>
+            <p style="margin-bottom: 1rem;">
+              Wohngeld ist ein staatlicher Zuschuss zur Miete für Haushalte, die zwar Einkommen haben, dieses aber nicht für die hohen Wohnkosten in <strong>{stadtName}</strong> ausreicht. Es liegt knapp über der Grenze zum Bürgergeld.
+            </p>
+            <p>
+              Es ist **kein Almosen**, sondern ein Rechtsanspruch. Durch die Reform 2025 wurden die Grenzen so weit angehoben, dass heute fast dreimal so viele Menschen Anspruch haben wie früher.
+            </p>
           </div>
-          <div style="background: #eff6ff; padding: 2rem; border-radius: 20px; border: 2px solid #2563eb; font-size: 1rem; color: #1e40af;">
-            <strong style="display: block; margin-bottom: 10px; font-size: 1.1rem;">Wichtig seit 2025:</strong>
-            <p style="margin: 0; font-weight: 600; line-height: 1.5;">
-              Durch die letzten Reformen haben deutlich mehr Menschen Anspruch als früher. Selbst wenn du vor Jahren abgelehnt wurdest, kann es sich heute lohnen, die Frist zu wahren.
+          <div style="background: #eff6ff; padding: 2rem; border-radius: 24px; border: 1px solid #2563eb;">
+            <h4 style="font-weight: 900; color: #1e40af; margin-bottom: 0.5rem;">Der Navigator-Vorteil:</h4>
+            <p style="font-size: 0.95rem; color: #1e3a8a;">
+              Wir sind eine private Initiative, die auf jahrelanger Berufserfahrung im sozialen Sektor basiert. Wir zeigen Ihnen den "Abkürzungs-Weg", den Behörden oft nicht proaktiv kommunizieren.
             </p>
           </div>
         </div>
       </section>
 
-      <section id="generator" style="background: #0f172a; color: white; border-radius: 40px; padding: clamp(2rem, 8vw, 4rem); margin-bottom: 5rem; position: relative; overflow: hidden;">
-        <h2 style="font-size: 2.25rem; font-weight: 900; margin-bottom: 1rem;">Frist-Wächter aktivieren</h2>
-        <div style="display: flex; gap: 15px; margin-bottom: 20px; font-size: 0.75rem; font-weight: 700; opacity: 0.8;">
-          <span>🛡️ Kein Login</span> <span>🚫 Keine Speicherung</span> <span>💻 Lokal im Browser</span>
-        </div>
-        <div onclick="copyToClipboard()" id="copyZone" style="background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.15); padding: 2rem; border-radius: 24px; cursor: pointer;">
-          <pre id="antragText" style="white-space: pre-wrap; font-family: monospace; font-size: 1rem; color: #e2e8f0; line-height: 1.6; margin: 0;">Sehr geehrte Damen und Herren, hiermit beantrage ich, [Dein Name], formlos Wohngeld für den Monat {currentMonth} {currentYear} zur Fristwahrung (§ 24 Abs. 2 WoGG). Anschrift: [Deine Adresse in {stadtName}] Bitte bestätigen Sie mir den Eingang dieser E-Mail.</pre>
-          <div id="copyHint" style="text-align: right; font-size: 0.75rem; color: #2563eb; font-weight: 900; margin-top: 15px; text-transform: uppercase;">Klicken zum Kopieren</div>
-        </div>
-        <div style="margin-top: 3rem; text-align: center;">
-          <a href={`mailto:${amtEmail}?subject=Fristwahrung Wohngeld`} style="background: #2563eb; color: white; text-decoration: none; padding: 20px 50px; border-radius: 20px; font-weight: 800; font-size: 1.2rem; display: block;">E-Mail App öffnen & senden</a>
-          <span style="display: block; margin-top: 15px; color: #94a3b8; font-size: 0.8rem;">Empfänger: {amtEmail}</span>
+      <section id="optionen" style="margin-bottom: 6rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
+          <span style="background: #2563eb; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">1</span>
+          Die Strategie: Warum Fristwahrung?
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+          <div style="background: #0f172a; color: white; padding: 2.5rem; border-radius: 28px; border: 4px solid #2563eb;">
+            <h3 style="font-weight: 900; margin-bottom: 10px;">A: Navigator-Methode</h3>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1.5rem;">Frist sichern in unter 60 Sekunden.</p>
+            <div style="background: rgba(37, 99, 235, 0.1); padding: 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.5rem;">
+              <strong>Warum das?</strong> Wer heute formlos per Mail schreibt, sichert sich den vollen Betrag für {currentMonth}. Die 20-seitigen Formulare können Sie dann in Ruhe im nächsten Monat nachreichen.
+            </div>
+            <a href="#generator" style="display: block; text-align: center; background: #2563eb; color: white; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: 800;">Schritt 2 starten</a>
+          </div>
+          <div style="background: #ffffff; padding: 2.5rem; border-radius: 28px; border: 1px solid #e2e8f0;">
+            <h3 style="font-weight: 900; margin-bottom: 10px; color: #0f172a;">B: Hauptantrag</h3>
+            <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">Den kompletten Weg sofort gehen.</p>
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; font-size: 0.85rem; color: #64748b;">
+              <strong>Gefahr:</strong> Wenn Sie den Hauptantrag erst am 1. des nächsten Monats fertigstellen, verlieren Sie die komplette Zahlung für {currentMonth}. Die Fristwahrung (Option A) ist Ihr Sicherheitsnetz.
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="status-dashboard" style="display:none; margin-top: 6rem; padding-top: 6rem; border-top: 2px solid #f1f5f9; animation: slideUp 0.6s ease-out;">
-        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 40px; padding: 3.5rem; box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.1);">
+      <section id="generator" style="margin-bottom: 6rem; scroll-margin-top: 100px;">
+        <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
+          <span style="background: #2563eb; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">2</span>
+          Den "Frist-Wächter" aktivieren
+        </h2>
+        <div style="background: #0f172a; color: white; padding: 3rem; border-radius: 32px;">
+          <div style="background: rgba(37, 99, 235, 0.1); border-left: 4px solid #2563eb; padding: 1.5rem; margin-bottom: 2rem; border-radius: 0 16px 16px 0;">
+            <p style="font-size: 0.95rem; margin: 0;"><strong>Wie das funktioniert:</strong> Gemäß § 24 WoGG reicht Ihr schriftlicher Wille aus. Kopieren Sie den Text, klicken Sie auf den Button und senden Sie die E-Mail ab. Damit ist der "Timer" gestoppt.</p>
+          </div>
+          <div onclick="copyToClipboard()" style="background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.15); padding: 2rem; border-radius: 24px; cursor: pointer; margin-bottom: 2rem;">
+            <pre id="antragText" style="white-space: pre-wrap; font-family: monospace; font-size: 1rem; color: #e2e8f0; line-height: 1.6; margin: 0;">Sehr geehrte Damen und Herren, hiermit beantrage ich, [Dein Name], formlos Wohngeld für den Monat {currentMonth} {currentYear} zur Fristwahrung (§ 24 Abs. 2 WoGG). Anschrift: [Deine Adresse in {stadtName}] Bitte bestätigen Sie mir den Eingang dieser E-Mail.</pre>
+            <div id="copyHint" style="text-align: right; font-size: 0.75rem; color: #2563eb; font-weight: 900; margin-top: 15px; text-transform: uppercase;">Klicken zum Kopieren</div>
+          </div>
+          <a href={`mailto:${amtEmail}?subject=Fristwahrung Wohngeld`} style="background: #2563eb; color: white; text-decoration: none; padding: 20px; border-radius: 16px; display: block; text-align: center; font-weight: 800; font-size: 1.2rem;">E-Mail App öffnen & senden</a>
+        </div>
+      </section>
+
+      <section id="status-dashboard" style="margin-bottom: 6rem; padding-top: 2rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
+          <span style="background: #2563eb; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">3</span>
+          Finanzielle Boni sichern
+        </h2>
+        <div style="background: #ffffff; border: 2px solid #2563eb; border-radius: 40px; padding: 3rem; box-shadow: 0 40px 80px -15px rgba(37, 99, 235, 0.1);">
+          <div style="margin-bottom: 2.5rem; text-align: center;">
+            <h3 style="font-weight: 900; margin-bottom: 0.5rem;">Wohngeld ist erst der Anfang</h3>
+            <p style="color: #64748b; font-size: 0.95rem;">Wussten Sie, dass Wohngeld-Empfänger automatisch berechtigt für viele weitere Gelder sind?</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+            <div style="background: #f8fafc; padding: 2.5rem; border-radius: 28px; border: 1px solid #e2e8f0;">
+              <h3 style="color: #1e3a8a; font-weight: 800; margin-bottom: 1rem;">Kinder-Zuschuss (BuT)</h3>
+              <p style="font-size: 0.85rem; color: #475569; margin-bottom: 1.5rem;">Sichern Sie sich 195€ mtl. für Schulmaterial, kostenloses Mittagessen und Vereinsbeiträge. Wer Wohngeld hat, bekommt das fast garantiert.</p>
+              <button onclick="toggleClearing('but')" style="width:100%; background: #0f172a; color: white; border:none; padding:14px; border-radius:12px; font-weight:800; cursor:pointer;">Ansprüche prüfen</button>
+            </div>
+            <div style="background: #f8fafc; padding: 2.5rem; border-radius: 28px; border: 1px solid #e2e8f0;">
+              <h3 style="color: #1e3a8a; font-weight: 800; margin-bottom: 1rem;">Karriere-Push (AVGS)</h3>
+              <p style="font-size: 0.85rem; color: #475569; margin-bottom: 1.5rem;">Nutzen Sie die Wartezeit auf das Amt für ein 1:1 Coaching. Zu 100% vom Staat gefördert, um Ihr Einkommen nachhaltig zu steigern.</p>
+              <button onclick="toggleClearing('avgs')" style="width:100%; background: #2563eb; color: white; border:none; padding:14px; border-radius:12px; font-weight:800; cursor:pointer;">Hilfe anfordern</button>
+            </div>
+          </div>
           
-          <div style="text-align: center; margin-bottom: 3.5rem;">
-            <div style="background: #f0fdf4; color: #16a34a; padding: 8px 20px; border-radius: 99px; font-size: 0.9rem; font-weight: 800; display: inline-block; border: 1px solid #dcfce7;">
-              ✓ Frist in {stadtName} gesichert
-            </div>
-            <h2 style="font-size: 2.25rem; font-weight: 900; color: #0f172a; margin-top: 1.5rem;">Wie können wir dich noch unterstützen?</h2>
-          </div>
-
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 2rem; border-radius: 28px;">
-              <h3 style="color: #1e3a8a; font-weight: 800; margin-bottom: 1rem;">Kinder im Haushalt?</h3>
-              <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">Sichere dir Gelder für Mittagessen & Schule (BuT). Wer Wohngeld bekommt, hat meist auch Anspruch auf BuT.</p>
-              <button onclick="toggleClearing('but')" style="width: 100%; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer;">Infos & Hilfe anfordern</button>
-            </div>
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 2rem; border-radius: 28px;">
-              <h3 style="color: #1e3a8a; font-weight: 800; margin-bottom: 1rem;">Berufliche Hilfe?</h3>
-              <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">Nutze die Wartezeit (ca. {bearbeitungszeit}) für ein gratis 1:1 Coaching (AVGS) zur Neuorientierung.</p>
-              <button onclick="toggleClearing('avgs')" style="width: 100%; background: #2563eb; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer;">Anspruch prüfen lassen</button>
-            </div>
-          </div>
-
-          <div id="clearing-form" style="display: none; margin-top: 4rem; background: #fff; border: 3px solid #2563eb; padding: 3rem; border-radius: 32px; animation: slideUp 0.4s ease-out;">
-            <h3 id="form-title" style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem;">Anfrage senden</h3>
+          <div id="clearing-form" style="display: none; margin-top: 3rem; background: #fff; border: 2px solid #e2e8f0; padding: 2.5rem; border-radius: 24px;">
+            <h3 id="form-title" style="font-weight: 900; margin-bottom: 1.5rem;">Beratung anfordern</h3>
             <form id="supabase-lead-form" style="display: grid; gap: 15px;">
               <input type="hidden" id="c-type" value="">
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <input type="text" id="c-vorname" placeholder="Vorname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                <input type="text" id="c-nachname" placeholder="Nachname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                <input type="text" id="c-vorname" placeholder="Vorname" required style="padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <input type="text" id="c-nachname" placeholder="Nachname" required style="padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
               </div>
-              <input type="email" id="c-email" placeholder="E-Mail Adresse" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
-              <button type="submit" id="c-submit-btn" style="background: #2563eb; color: white; padding: 20px; border: none; border-radius: 16px; font-weight: 800; cursor: pointer;">Jetzt unverbindlich anfragen</button>
+              <input type="email" id="c-email" placeholder="E-Mail" required style="padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+              <button type="submit" id="c-submit-btn" style="background: #2563eb; color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer;">Absenden</button>
             </form>
-            <div id="c-success" style="display: none; text-align: center; padding: 2rem;">
-              <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-              <h3 style="color: #16a34a; font-weight: 800;">Anfrage erfolgreich!</h3>
-              <p>Wir prüfen deine Angaben und melden uns in Kürze bei dir.</p>
-            </div>
+            <div id="c-success" style="display: none; text-align: center; color: #16a34a; font-weight: 800;">✅ Deine Anfrage wurde gespeichert!</div>
           </div>
         </div>
       </section>
 
-      <section id="faq" style="margin-top: 8rem; border-top: 1px solid #f1f5f9; padding-top: 5rem;">
-        <h2 style="font-size: 2rem; font-weight: 900; color: #0f172a; margin-bottom: 3rem;">Häufige Fragen</h2>
-        <div style="display: grid; gap: 30px;">
-          <details style="border-bottom: 1px solid #f1f5f9; padding-bottom: 20px; cursor: pointer;">
-            <summary style="font-weight: 800; color: #1e3a8a; font-size: 1.1rem; list-style: none;">Ist das wirklich rechtssicher?</summary>
-            <p style="margin-top: 15px; color: #64748b;">Ja. Gemäß § 24 Abs. 2 WoGG reicht ein formloser Antrag zur Fristwahrung aus. Das Amt muss diesen als fristwahrend anerkennen.</p>
+      <section style="margin-bottom: 8rem; background: #f8fafc; padding: 3rem; border-radius: 32px; border: 1px solid #e2e8f0;">
+        <h2 style="font-size: 1.6rem; font-weight: 900; color: #0f172a; margin-bottom: 1.5rem;">Wie es jetzt weitergeht</h2>
+        <div style="display: grid; gap: 20px;">
+          <div style="display: flex; gap: 15px; align-items: flex-start;">
+            <div style="background: #2563eb; color: white; min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">1</div>
+            <p style="font-size: 0.95rem; color: #475569;"><strong>Eingangsbestätigung:</strong> Das Amt in {stadtName} wird Ihnen den Erhalt bestätigen. Prüfen Sie in 2-3 Tagen Ihren Posteingang (auch Spam).</p>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: flex-start;">
+            <div style="background: #2563eb; color: white; min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">2</div>
+            <p style="font-size: 0.95rem; color: #475569;"><strong>Hauptantrag nachreichen:</strong> Das Amt wird Ihnen Formulare schicken oder Sie auf ein Online-Portal verweisen. Sie haben nun ca. 4 Wochen Zeit, die Dokumente zu sammeln.</p>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: flex-start;">
+            <div style="background: #2563eb; color: white; min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">3</div>
+            <p style="font-size: 0.95rem; color: #475569;"><strong>Geduld haben:</strong> Die Bearbeitung in {stadtName} dauert aktuell ca. {bearbeitungszeit}. Dank der Fristwahrung heute wird Ihnen das Geld aber für die gesamte Zeit nachgezahlt.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" style="margin-bottom: 8rem; border-top: 1px solid #f1f5f9; padding-top: 4rem;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 3rem; text-align: center;">Häufige Fragen (FAQ)</h2>
+        <div style="max-width: 750px; margin: 0 auto; display: grid; gap: 15px;">
+          <details style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; cursor: pointer;">
+            <summary style="font-weight: 800; color: #1e3a8a;">Welche Unterlagen brauche ich später?</summary>
+            <p style="margin-top: 1rem; color: #475569;">Für den Hauptantrag benötigen Sie: Mietvertrag, Mietbescheinigung (vom Vermieter), Einkommensnachweise (Lohn, Rente, etc.) und Kontoauszüge der letzten 3 Monate.</p>
           </details>
-          <details style="border-bottom: 1px solid #f1f5f9; padding-bottom: 20px; cursor: pointer;">
-            <summary style="font-weight: 800; color: #1e3a8a; font-size: 1.1rem; list-style: none;">Muss ich Dokumente sofort nachreichen?</summary>
-            <p style="margin-top: 15px; color: #64748b;">Nein. Mit der E-Mail hast du die Frist gesichert. Das Amt wird dich später schriftlich auffordern, alles einzureichen.</p>
+          <details style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; cursor: pointer;">
+            <summary style="font-weight: 800; color: #1e3a8a;">Darf ich Wohngeld beziehen, wenn ich Vermögen habe?</summary>
+            <p style="margin-top: 1rem; color: #475569;">Ja, es gibt hohe Freibeträge. Für die erste Person im Haushalt liegen diese bei ca. 60.000 €, für jede weitere bei 30.000 €.</p>
+          </details>
+          <details style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; cursor: pointer;">
+            <summary style="font-weight: 800; color: #1e3a8a;">Was passiert, wenn mein Einkommen schwankt?</summary>
+            <p style="margin-top: 1rem; color: #475569;">Das Amt rechnet meist mit einem Durchschnitt der letzten 12 Monate oder einer Prognose für das kommende Jahr. Änderungen müssen Sie später mitteilen.</p>
+          </details>
+          <details style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; cursor: pointer;">
+            <summary style="font-weight: 800; color: #1e3a8a;">Kann ich Wohngeld auch für ein Eigenheim bekommen?</summary>
+            <p style="margin-top: 1rem; color: #475569;">Ja, das nennt sich dann "Lastenzuschuss". Die Regeln für die Fristwahrung sind absolut identisch.</p>
           </details>
         </div>
       </section>
 
-      <section id="rechtliches" style="margin-top: 8rem; padding: 3rem; background: #fafafa; border-radius: 32px; border: 1px solid #f1f5f9;">
-        <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; color: #0f172a;">Rechtliches & Datenschutz</h2>
-        
-        <details style="margin-bottom: 1.5rem; cursor: pointer; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
-          <summary style="font-weight: 700; color: #1e3a8a; list-style: none;">Impressum anzeigen</summary>
-          <div style="padding: 1.5rem; background: white; border-radius: 16px; margin-top: 10px; font-size: 0.9rem; line-height: 1.8;">
-            <p><strong>Angaben gemäß § 5 TMG:</strong><br/>
-            Jan Rall<br/>
-            Parkstraße 4<br/>
-            88326 Aulendorf<br/>
-            E-Mail: info@sozialer-navigator.de</p>
-            <p style="margin-top: 1rem; color: #64748b; font-style: italic;">Haftungsausschluss: Dieses Projekt ist eine private Initiative und bietet keine Rechtsberatung. Die Nutzung erfolgt auf eigenes Risiko.</p>
+      <footer style="margin-bottom: 5rem; padding: 2rem; background: #fafafa; border-radius: 24px; border: 1px solid #f1f5f9;">
+        <div style="text-align: center; margin-bottom: 2rem; font-size: 0.85rem; color: #64748b;">
+          Dieses Portal ist eine private Initiative, basierend auf jahrelanger Berufserfahrung im sozialen Bereich. Wir bieten keine Rechtsberatung.
+        </div>
+        <details style="cursor: pointer; text-align: center;">
+          <summary style="font-weight: 700; color: #1e3a8a; font-size: 0.9rem;">Impressum & Datenschutz anzeigen</summary>
+          <div style="padding: 1.5rem; background: white; border-radius: 16px; margin-top: 10px; font-size: 0.85rem; border: 1px solid #eee; text-align: left;">
+            <strong>Herausgeber:</strong> Privat betriebenes Hilfsportal, Parkstraße 4, 88326 Aulendorf. E-Mail: info@sozialer-navigator.de<br/><br/>
+            <strong>Datenschutz:</strong> Lead-Speicherung erfolgt nur bei expliziter Beratungsanfrage (BuT/AVGS) via Supabase (EU-Server).
           </div>
         </details>
-
-        <details style="cursor: pointer; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
-          <summary style="font-weight: 700; color: #1e3a8a; list-style: none;">Datenschutzerklärung anzeigen</summary>
-          <div style="padding: 1.5rem; background: white; border-radius: 16px; margin-top: 10px; font-size: 0.9rem; line-height: 1.8;">
-            <p><strong>Datenerfassung:</strong> Wir speichern keine persönlichen Daten bei der Nutzung des Navigator-Generators. Die Generierung erfolgt lokal im Browser.</p>
-            <p><strong>Leads:</strong> Bei Nutzung der Formulare (AVGS/BuT) werden Name und E-Mail in einer Supabase-Datenbank zur Kontaktaufnahme gespeichert.</p>
-            <p><strong>Hosting:</strong> Diese Seite wird bei Vercel gehostet. Es werden technisch notwendige Server-Logs erstellt.</p>
-          </div>
-        </details>
-      </section>
-
-      <footer style="margin-top: 10rem; border-top: 2px solid #0f172a; padding-top: 6rem; text-align: center;">
-        <p style="font-size: 1.3rem; font-weight: 600; font-style: italic; color: #64748b; max-width: 700px; margin: 0 auto 3.5rem;">
-          "Ich habe den Sozialen Navigator gebaut, weil ich im <strong>August 2025</strong> selbst in einer Sperrzeit ohne Mittel feststeckte. Dieses Tool ist von Betroffenen für Betroffene."
-        </p>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 4rem;">
-          {nachbarn.map(n => <a href={`/wohngeld/${n.slug}`} style="font-size: 0.75rem; color: #64748b; text-decoration: none; background: #fff; border: 1px solid #eee; padding: 6px 16px; border-radius: 99px; font-weight: 700;">Wohngeld {n.name}</a>)}
-        </div>
-        <p style="margin-top: 4rem; font-size: 0.7rem; color: #cbd5e1;">© 2025 Sozialer Navigator.</p>
       </footer>
-      
     </main>
   </div>
 </Layout>
@@ -185,44 +213,29 @@ const seoDescription = `Sichere dir heute dein Wohngeld in ${stadtName}. Der 60-
   function copyToClipboard() {
     const text = document.getElementById('antragText').innerText;
     navigator.clipboard.writeText(text).then(() => {
-      document.getElementById('copyHint').innerText = "✓ TEXT KOPIERT – JETZT ABSENDEN";
+      document.getElementById('copyHint').innerText = "✓ TEXT KOPIERT – JETZT E-MAIL SENDEN";
       document.getElementById('copyHint').style.color = "#10b981";
-      document.getElementById('status-dashboard').style.display = "block";
-      setTimeout(() => { document.getElementById('status-dashboard').scrollIntoView({ behavior: 'smooth' }); }, 450);
     });
   }
-
   function toggleClearing(type) {
-    const form = document.getElementById('clearing-form');
-    const title = document.getElementById('form-title');
-    const typeInput = document.getElementById('c-type');
-    form.style.display = 'block';
-    typeInput.value = type;
-    title.innerText = type === 'but' ? "Hilfe für BuT anfordern" : "AVGS Coaching-Check anfordern";
-    form.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('clearing-form').style.display = 'block';
+    document.getElementById('c-type').value = type;
+    document.getElementById('form-title').innerText = type === 'but' ? "Hilfe für BuT anfordern" : "AVGS Coaching-Check";
+    document.getElementById('clearing-form').scrollIntoView({ behavior: 'smooth' });
   }
 </script>
 
 <script>
   import { createClient } from '@supabase/supabase-js'
-  
-  const supabase = createClient(
-    'https://iiimjuplyjqapvwhbozf.supabase.co', 
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaW1qdXBseWpxYXB2d2hib3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTI4MTgsImV4cCI6MjA4MTIyODgxOH0.Ru-09I4PuFQsJC-AMcdntn9bCS2f9lOdGQoMo7fAHYs'
-  )
+  const supabase = createClient('https://iiimjuplyjqapvwhbozf.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaW1qdXBseWpxYXB2d2hib3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTI4MTgsImV4cCI6MjA4MTIyODgxOH0.Ru-09I4PuFQsJC-AMcdntn9bCS2f9lOdGQoMo7fAHYs')
 
   const cForm = document.getElementById('supabase-lead-form');
-  const cityTag = document.querySelector('h1')?.innerText.split('in ')[1]?.split('\n')[0] || 'Unbekannt';
+  const cityTag = document.querySelector('h1')?.innerText.split('in ')[1]?.split(':')[0] || 'Unbekannt';
 
   cForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('c-submit-btn') as HTMLButtonElement;
-    if (btn) {
-      btn.innerText = 'Wird gesendet...';
-      btn.disabled = true;
-    }
-    
-    // Senden der Daten an deine Supabase-Tabelle 'leads'
+    btn.innerText = 'Wird gesendet...';
     const { error } = await supabase.from('leads').insert([{ 
       first_name: (document.getElementById('c-vorname') as HTMLInputElement).value, 
       last_name: (document.getElementById('c-nachname') as HTMLInputElement).value,
@@ -231,24 +244,17 @@ const seoDescription = `Sichere dir heute dein Wohngeld in ${stadtName}. Der 60-
       city: cityTag,
       status: 'neu'
     }]);
-
     if (!error) {
       if (cForm) cForm.style.display = 'none';
-      const success = document.getElementById('c-success');
-      if (success) success.style.display = 'block';
+      document.getElementById('c-success').style.display = 'block';
     } else {
-      console.error('Supabase Error:', error.message);
-      alert('Fehler beim Senden. Bitte versuche es später erneut.');
-      if (btn) {
-        btn.innerText = 'Jetzt unverbindlich anfragen';
-        btn.disabled = false;
-      }
+      alert('Fehler beim Senden.');
+      btn.innerText = 'Absenden';
     }
   });
 </script>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap');
-  @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
   details > summary::-webkit-details-marker { display: none; }
 </style>

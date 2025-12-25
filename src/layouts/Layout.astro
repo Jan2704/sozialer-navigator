@@ -6,6 +6,9 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+// Wir erstellen eine absolute URL für das Vorschaubild
+const ogImageURL = new URL('/og-image.jpg', Astro.url);
 ---
 
 <!doctype html>
@@ -14,15 +17,26 @@ const { title, description } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
 		
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/favicon.svg" />
+		
+		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content="de_DE" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageURL} />
 
 		<link rel="canonical" href={Astro.url} />
 	</head>
@@ -30,14 +44,3 @@ const { title, description } = Astro.props;
 		<slot />
 	</body>
 </html>
-
-<style is:global>
-	:root {
-		--navy: #1e3a8a;
-		--emerald: #059669;
-	}
-	html {
-		font-family: 'Inter', system-ui, sans-serif;
-		scroll-behavior: smooth;
-	}
-</style>
