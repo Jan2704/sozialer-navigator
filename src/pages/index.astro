@@ -1,86 +1,131 @@
 ---
-import { wohngeldData } from '../data/wohngeldData.js';
-import Layout from '../layouts/Layout.astro'; // Falls du ein Layout hast
+import Layout from '../layouts/Layout.astro';
+import { wohngeldData } from '../data/wohngeldData';
 
 // Wir sortieren die Städte alphabetisch für die Liste
-const sortedData = [...wohngeldData].sort((a, b) => a.stadt.localeCompare(b.stadt));
+const sortedCities = wohngeldData.sort((a, b) => a.stadt.localeCompare(b.stadt));
+
+const seoTitle = "Sozialer Navigator | Ihr digitaler Wegweiser für soziale Leistungen";
+const seoDescription = "Sichern Sie sich Ihr Recht auf Wohngeld, BuT und staatliche Förderungen. Einfach, rechtssicher und schnell in 3 Schritten.";
 ---
 
-<Layout title="Sozialer Navigator | Wohngeld Rechner & Hilfe bei Sperrzeit">
-	<main>
-		<section class="hero">
-			<h1>Sozialer Navigator</h1>
-			<p class="subtitle">Hilfe bei Wohngeld, Notlagen und Sperrzeiten.</p>
-			
-			<div class="search-container">
-				<input type="text" id="citySearch" placeholder="PLZ oder Stadt eingeben..." />
-				<div id="results" class="search-results"></div>
-			</div>
-		</section>
+<Layout title={seoTitle} description={seoDescription}>
+  
+  <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', system-ui, sans-serif; color: #1e293b; line-height: 1.6;">
+    
+    <nav style="background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 1.25rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+      <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+        <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+          <div style="background: #2563eb; color: white; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900;">N</div>
+          <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Sozialer Navigator</span>
+        </a>
+        <div style="font-size: 0.85rem; font-weight: 700; display: flex; gap: 20px;">
+          <a href="#prozess" style="color: #64748b; text-decoration: none;">Der Prozess</a>
+          <a href="#staedte" style="color: #64748b; text-decoration: none;">Städte-Suche</a>
+        </div>
+      </div>
+    </nav>
 
-		<section class="trust-bar">
-			<p>
-				<strong>Warum Sozialer Navigator?</strong> Ich war im August 2025 selbst in einer Sperrzeit ohne Mittel. Dieses Tool ist von Betroffenen für Betroffene.
-			</p>
-		</section>
+    <main style="max-width: 1000px; margin: 0 auto; padding: 60px 20px;">
+      
+      <section style="text-align: center; margin-bottom: 6rem; padding: 40px 0;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: #eff6ff; color: #2563eb; padding: 8px 20px; border-radius: 99px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; margin-bottom: 2rem;">
+          🚀 Jetzt Frist für Dezember 2025 sichern
+        </div>
+        <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); color: #0f172a; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.04em; line-height: 1.1;">
+          Soziale Leistungen. <br/><span style="color: #2563eb;">Einfach. Sicher. Schnell.</span>
+        </h1>
+        <p style="font-size: 1.25rem; color: #64748b; max-width: 700px; margin: 0 auto 3rem;">
+          Tausende Haushalte verschenken jeden Monat Geld, weil Anträge zu kompliziert sind oder Fristen verstreichen. Der Soziale Navigator kürzt den Weg für Sie ab.
+        </p>
+        <a href="#staedte" style="background: #0f172a; color: white; text-decoration: none; padding: 20px 40px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);">Jetzt Stadt wählen & starten</a>
+      </section>
 
-		<section class="directory">
-			<h2>Städte-Verzeichnis</h2>
-			<div class="city-grid">
-				{sortedData.map((item) => (
-					<a href={`/wohngeld/${item.slug}`} class="city-link">
-						{item.stadt} <span class="plz">{item.plz}</span>
-					</a>
-				))}
-			</div>
-		</section>
-	</main>
+      <section id="prozess" style="margin-bottom: 8rem;">
+        <h2 style="text-align: center; font-size: 2rem; font-weight: 900; margin-bottom: 4rem;">In 3 Schritten zu Ihrem Recht</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;">
+          <div style="text-align: center;">
+            <div style="background: #eff6ff; color: #2563eb; width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; margin: 0 auto 20px;">1</div>
+            <h3 style="font-weight: 800; margin-bottom: 10px;">Frist heute wahren</h3>
+            <p style="color: #64748b; font-size: 0.95rem;">Wählen Sie Ihre Stadt und nutzen Sie unseren E-Mail-Generator. Damit ist Ihr Anspruch für diesen Monat sofort rechtssicher reserviert.</p>
+          </div>
+          <div style="text-align: center;">
+            <div style="background: #eff6ff; color: #2563eb; width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; margin: 0 auto 20px;">2</div>
+            <h3 style="font-weight: 800; margin-bottom: 10px;">Dokumente nachreichen</h3>
+            <p style="color: #64748b; font-size: 0.95rem;">Durch die gewonnene Zeit können Sie die komplizierten Hauptanträge und Nachweise in aller Ruhe sammeln und dem Amt später zuschicken.</p>
+          </div>
+          <div style="text-align: center;">
+            <div style="background: #eff6ff; color: #2563eb; width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; margin: 0 auto 20px;">3</div>
+            <h3 style="font-weight: 800; margin-bottom: 10px;">Zusatzgelder prüfen</h3>
+            <p style="color: #64748b; font-size: 0.95rem;">Wir prüfen für Sie, ob Sie Anspruch auf hunderte Euro für Schulmaterial (BuT) oder staatlich geförderte Coachings (AVGS) haben.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom: 8rem; background: #0f172a; color: white; padding: 4rem; border-radius: 40px; text-align: center;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 1.5rem;">Ein Portal aus der Praxis</h2>
+        <p style="font-size: 1.1rem; opacity: 0.8; max-width: 800px; margin: 0 auto 2rem;">
+          Der Soziale Navigator ist eine private Initiative, die auf jahrelanger Berufserfahrung im sozialen Bereich basiert. Unser Ziel ist es, den Zugang zu staatlichen Leistungen so barrierefrei wie möglich zu machen – von Menschen für Menschen.
+        </p>
+        <div style="display: inline-flex; gap: 20px; flex-wrap: wrap; justify-content: center; font-size: 0.9rem; font-weight: 700;">
+          <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 99px;">🛡️ Keine Rechtsberatung</span>
+          <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 99px;">🤝 100% Kostenfrei</span>
+          <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 99px;">🔒 DSGVO-Konform</span>
+        </div>
+      </section>
+
+      <section id="staedte" style="margin-bottom: 8rem;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 3rem; text-align: center;">Wohngeld-Hilfe in Ihrer Stadt</h2>
+        <div style="margin-bottom: 3rem;">
+          <input type="text" id="citySearch" placeholder="Stadt suchen..." style="width: 100%; padding: 20px; border-radius: 16px; border: 2px solid #f1f5f9; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" />
+        </div>
+        <div id="cityList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px;">
+          {sortedCities.map((city) => (
+            <a href={`/wohngeld/${city.slug}`} class="city-card" style="display: block; padding: 15px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 12px; text-decoration: none; color: #0f172a; font-weight: 700; transition: all 0.2s ease;">
+              {city.stadt}
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <footer style="padding: 4rem 20px; background: #fafafa; border-radius: 40px 40px 0 0; border: 1px solid #f1f5f9; text-align: center;">
+        <div style="margin-bottom: 2rem; font-size: 0.85rem; color: #64748b; max-width: 600px; margin-left: auto; margin-right: auto;">
+          Der Soziale Navigator ist ein privat betriebenes Portal. Wir nutzen jahrelange Erfahrung im sozialen Sektor, um Ihnen bei der Fristwahrung zu helfen. Wir bieten keine Rechtsberatung.
+        </div>
+        <details style="cursor: pointer; margin-bottom: 1rem;">
+          <summary style="font-weight: 700; color: #1e3a8a; font-size: 0.9rem;">Impressum & Datenschutz</summary>
+          <div style="padding: 2rem; background: white; border-radius: 16px; margin-top: 15px; font-size: 0.85rem; border: 1px solid #eee; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <strong>Kontakt:</strong> info@sozialer-navigator.de<br/>
+            <strong>Herausgeber:</strong> Privat betriebenes Hilfsportal, Parkstraße 4, 88326 Aulendorf<br/><br/>
+            <strong>Datenschutz:</strong> Wir speichern keine Daten im Generator. Anfragen für BuT/AVGS werden sicher in Supabase auf EU-Servern gespeichert.
+          </div>
+        </details>
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 3rem;">© 2025 Sozialer Navigator. Alle Rechte vorbehalten.</p>
+      </footer>
+    </main>
+  </div>
 </Layout>
 
-<style>
-	:root { --primary: #1e3a8a; --bg: #f3f4f6; }
-	body { background: var(--bg); font-family: sans-serif; margin: 0; }
-	
-	.hero { background: var(--primary); color: white; padding: 4rem 2rem; text-align: center; }
-	.hero h1 { font-size: 2.5rem; margin: 0; }
-	.subtitle { font-size: 1.2rem; opacity: 0.9; margin-top: 10px; }
+<script is:inline>
+  const searchInput = document.getElementById('citySearch');
+  const cityCards = document.querySelectorAll('.city-card');
 
-	.search-container { max-width: 600px; margin: 2rem auto; position: relative; }
-	#citySearch { width: 100%; padding: 15px 20px; border-radius: 30px; border: none; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
-	.search-results { position: absolute; width: 100%; background: white; border-radius: 10px; margin-top: 5px; color: #333; text-align: left; overflow: hidden; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 10; }
-	.search-item { padding: 10px 20px; text-decoration: none; display: block; color: #333; border-bottom: 1px solid #eee; }
-	.search-item:hover { background: #f0f4f8; }
-
-	.trust-bar { background: #fff; padding: 1.5rem; text-align: center; border-bottom: 1px solid #ddd; font-style: italic; color: #4b5563; }
-
-	.directory { max-width: 1000px; margin: 3rem auto; padding: 0 20px; }
-	.city-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 2rem; }
-	.city-link { background: white; padding: 12px; border-radius: 8px; text-decoration: none; color: var(--primary); font-weight: 500; border: 1px solid #e5e7eb; transition: transform 0.2s; }
-	.city-link:hover { transform: translateY(-2px); border-color: var(--primary); }
-	.plz { font-size: 0.8rem; color: #9ca3af; margin-left: 5px; }
-</style>
-
-<script define:vars={{ sortedData }}>
-	const searchInput = document.getElementById('citySearch');
-	const resultsContainer = document.getElementById('results');
-
-	searchInput.addEventListener('input', (e) => {
-		const val = e.target.value.toLowerCase();
-		resultsContainer.innerHTML = '';
-		
-		if (val.length < 2) return;
-
-		const filtered = sortedData.filter(item => 
-			item.stadt.toLowerCase().includes(val) || item.plz.includes(val)
-		).slice(0, 8); // Max 8 Ergebnisse anzeigen
-
-		filtered.forEach(item => {
-			const a = document.createElement('a');
-			a.href = `/wohngeld/${item.slug}`;
-			a.className = 'search-item';
-			a.innerHTML = `<strong>${item.stadt}</strong> <small>(${item.plz})</small>`;
-			resultsContainer.appendChild(a);
-		});
-	});
+  searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    cityCards.forEach(card => {
+      const cityName = card.textContent.toLowerCase();
+      card.style.display = cityName.includes(term) ? 'block' : 'none';
+    });
+  });
 </script>
+
+<style>
+  .city-card:hover {
+    border-color: #2563eb !important;
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
+  }
+</style>
