@@ -30,12 +30,16 @@ const seoDescription = `Sichern Sie sich Ihr Wohngeld in ${stadtName} (Mietenstu
 // FAQ Daten für das SEO-Schema
 const faqs = [
   {
-    question: "Wer ist in " + stadtName + " wohngeldberechtigt?",
+    question: `Wer ist in ${stadtName} wohngeldberechtigt?`,
     answer: `In Mietenstufe ${mietenstufe} sind die Einkommensgrenzen höher. Fast jeder Haushalt mit Arbeitseinkommen oder Rente unter einer gewissen Grenze sollte prüfen.`
   },
   {
     question: "Wie viel Vermögen darf ich beim Wohngeld-Antrag haben?",
     answer: "60.000€ für die erste Person und 30.000€ für jede weitere Person im Haushalt. Ein angemessenes Auto zählt meist nicht zum schädlichen Vermögen."
+  },
+  {
+    question: "Wann endet die Frist für den Antrag im Dezember?",
+    answer: `Um den Anspruch für den gesamten Monat Dezember zu sichern, muss der formlose Antrag bis spätestens zum 31.12.2025 bei der Wohngeldstelle in ${stadtName} eingehen.`
   }
 ];
 
@@ -55,7 +59,7 @@ const jsonLd = {
 ---
 
 <Layout title={seoTitle} description={seoDescription}>
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', system-ui, sans-serif; color: #1e293b; line-height: 1.6;">
     
@@ -275,21 +279,14 @@ const jsonLd = {
 </Layout>
 
 <style>
-  /* Versteckt den Standard-Pfeil bei Details/Summary */
-  summary::-webkit-details-marker {
-    display: none;
-  }
-  @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-  }
+  summary::-webkit-details-marker { display: none; }
+  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 </style>
 
 <script is:inline>
   const counterEl = document.getElementById('live-counter');
   let count = Math.floor(Math.random() * (22 - 9 + 1)) + 9;
-  setInterval(() => { count += Math.random() > 0.6 ? 1 : 0; counterEl.innerText = `${count} Personen`; }, 4500);
+  setInterval(() => { count += Math.random() > 0.6 ? 1 : 0; if(counterEl) counterEl.innerText = `${count} Personen`; }, 4500);
 
   function runVisualQuickCheck() {
     const rc = document.getElementById('qc-result-container');
@@ -322,7 +319,6 @@ const jsonLd = {
 
 <script>
   import { createClient } from '@supabase/supabase-js'
-  // Hinweis: Diese Keys sollten im echten Deployment über import.meta.env geladen werden!
   const supabase = createClient('https://iiimjuplyjqapvwhbozf.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaW1qdXBseWpxYXB2d2hib3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTI4MTgsImV4cCI6MjA4MTIyODgxOH0.Ru-09I4PuFQsJC-AMcdntn9bCS2f9lOdGQoMo7fAHYs')
 
   const cForm = document.getElementById('supabase-lead-form');
