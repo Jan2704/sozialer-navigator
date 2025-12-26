@@ -2,11 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import { wohngeldData } from '../data/wohngeldData';
 
-// Wir sortieren die Städte alphabetisch für die Liste
+// Städte sortieren
 const sortedCities = wohngeldData.sort((a, b) => a.stadt.localeCompare(b.stadt));
 
-const seoTitle = "Sozialer Navigator | Ihr digitaler Wegweiser für soziale Leistungen";
-const seoDescription = "Sichern Sie sich Ihr Recht auf Wohngeld, BuT und staatliche Förderungen. Einfach, rechtssicher und schnell in 3 Schritten.";
+const seoTitle = "Sozialer Navigator | Ihre Miete retten & Wohngeld-Frist wahren";
+const seoDescription = "Sichern Sie sich Ihr Recht. Der Soziale Navigator hilft Ihnen, in 60 Sekunden die Wohngeld-Frist zu wahren. Kostenlos, rechtssicher und von Experten entwickelt.";
 ---
 
 <Layout title={seoTitle} description={seoDescription}>
@@ -19,113 +19,204 @@ const seoDescription = "Sichern Sie sich Ihr Recht auf Wohngeld, BuT und staatli
           <div style="background: #2563eb; color: white; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900;">N</div>
           <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Sozialer Navigator</span>
         </a>
-        <div style="font-size: 0.85rem; font-weight: 700; display: flex; gap: 20px;">
-          <a href="#prozess" style="color: #64748b; text-decoration: none;">Der Prozess</a>
-          <a href="#staedte" style="color: #64748b; text-decoration: none;">Städte-Suche</a>
+        <div style="font-size: 0.8rem; color: #16a34a; font-weight: 800; display: flex; align-items: center; gap: 5px;">
+          <span style="width: 8px; height: 8px; background: #16a34a; border-radius: 50%; display: inline-block; animation: pulse 2s infinite;"></span> LIVE: Frist-Wächter aktiv
         </div>
       </div>
     </nav>
 
     <main style="max-width: 1000px; margin: 0 auto; padding: 60px 20px;">
       
-      <section style="text-align: center; margin-bottom: 6rem; padding: 40px 0;">
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: #eff6ff; color: #2563eb; padding: 8px 20px; border-radius: 99px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; margin-bottom: 2rem;">
-          🚀 Jetzt Frist für Dezember 2025 sichern
+      <section style="text-align: center; margin-bottom: 5rem;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: #0f172a; color: #fff; padding: 8px 20px; border-radius: 99px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 2rem;">
+          ⚖️ Rechtssicher nach § 24 WoGG
         </div>
-        <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); color: #0f172a; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.04em; line-height: 1.1;">
-          Soziale Leistungen. <br/><span style="color: #2563eb;">Einfach. Sicher. Schnell.</span>
+        <h1 style="font-size: clamp(2.5rem, 6vw, 4.2rem); color: #0f172a; font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -0.04em; line-height: 1.1;">
+          Rette deine Miete. <br/><span style="color: #2563eb;">Bevor das Amt sie streicht.</span>
         </h1>
-        <p style="font-size: 1.25rem; color: #64748b; max-width: 700px; margin: 0 auto 3rem;">
-          Tausende Haushalte verschenken jeden Monat Geld, weil Anträge zu kompliziert sind oder Fristen verstreichen. Der Soziale Navigator kürzt den Weg für Sie ab.
+        <p style="font-size: 1.3rem; color: #64748b; max-width: 750px; margin: 0 auto 3rem;">
+          Wir sind keine Behörde. Wir sind Ihr **Schutzschild**. In unter 60 Sekunden sichern wir Ihren Anspruch für diesen Monat – ohne Papierkrieg.
         </p>
-        <a href="#staedte" style="background: #0f172a; color: white; text-decoration: none; padding: 20px 40px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);">Jetzt Stadt wählen & starten</a>
+        <a href="#home-qc" style="background: #2563eb; color: white; text-decoration: none; padding: 20px 40px; border-radius: 20px; font-weight: 900; font-size: 1.2rem; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);">Jetzt Anspruch sichern</a>
       </section>
 
-      <section id="prozess" style="margin-bottom: 8rem;">
-        <h2 style="text-align: center; font-size: 2rem; font-weight: 900; margin-bottom: 4rem;">In 3 Schritten zu Ihrem Recht</h2>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;">
-          <div style="text-align: center;">
-            <div style="background: #eff6ff; color: #2563eb; width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; margin: 0 auto 20px;">1</div>
-            <h3 style="font-weight: 800; margin-bottom: 10px;">Frist heute wahren</h3>
-            <p style="color: #64748b; font-size: 0.95rem;">Wählen Sie Ihre Stadt und nutzen Sie unseren E-Mail-Generator. Damit ist Ihr Anspruch für diesen Monat sofort rechtssicher reserviert.</p>
+      <section style="margin-bottom: 8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
+        <div style="background: #f8fafc; padding: 3rem; border-radius: 40px; border: 1px solid #e2e8f0;">
+          <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 1.5rem;">Der Navigator-Effekt</h2>
+          <p style="color: #475569; font-size: 1.1rem; margin-bottom: 2rem;">
+            Meist scheitert Hilfe an der Überforderung. Wir nehmen Ihnen die Last ab.
+          </p>
+          <div style="display: grid; gap: 20px;">
+            <div style="display: flex; gap: 15px;">
+              <div style="background: #dcfce7; color: #166534; min-width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900;">✓</div>
+              <div><strong>Geld-Garantie:</strong> Wir stoppen die Frist-Uhr heute.</div>
+            </div>
+            <div style="display: flex; gap: 15px;">
+              <div style="background: #dcfce7; color: #166534; min-width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900;">✓</div>
+              <div><strong>Fokus:</strong> Eine kurze Mail statt 20 Seiten Formular.</div>
+            </div>
+            <div style="display: flex; gap: 15px;">
+              <div style="background: #dcfce7; color: #166534; min-width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900;">✓</div>
+              <div><strong>Expertise:</strong> Von Menschen mit echter Berufserfahrung.</div>
+            </div>
           </div>
-          <div style="text-align: center;">
-            <div style="background: #eff6ff; color: #2563eb; width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; margin: 0 auto 20px;">2</div>
-            <h3 style="font-weight: 800; margin-bottom: 10px;">Dokumente nachreichen</h3>
-            <p style="color: #64748b; font-size: 0.95rem;">Durch die gewonnene Zeit können Sie die komplizierten Hauptanträge und Nachweise in aller Ruhe sammeln und dem Amt später zuschicken.</p>
-          </div>
-          <div style="text-align: center;">
-            <div style="background: #eff6ff; color: #2563eb; width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; margin: 0 auto 20px;">3</div>
-            <h3 style="font-weight: 800; margin-bottom: 10px;">Zusatzgelder prüfen</h3>
-            <p style="color: #64748b; font-size: 0.95rem;">Wir prüfen für Sie, ob Sie Anspruch auf hunderte Euro für Schulmaterial (BuT) oder staatlich geförderte Coachings (AVGS) haben.</p>
+        </div>
+
+        <div style="background: #0f172a; color: white; padding: 3rem; border-radius: 40px; position: relative;">
+          <h3 style="color: #ef4444; font-weight: 900; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 10px;">Vorsicht: Kostenfalle</h3>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 1.5rem;">Warten kostet 370 €</h2>
+          <p style="opacity: 0.8; margin-bottom: 2rem;">
+            Wer seinen Antrag erst am 1. des nächsten Monats abgibt, verliert die Zahlung für den gesamten laufenden Monat. 
+          </p>
+          <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border-left: 4px solid #ef4444;">
+             <p style="margin: 0; font-size: 0.95rem;"><strong>Beispiel:</strong> Frist heute gewahrt = Geld für Dezember. Frist morgen gewahrt = Geld erst ab Januar. <strong>Lassen Sie Ihr Geld nicht beim Amt liegen.</strong></p>
           </div>
         </div>
       </section>
 
-      <section style="margin-bottom: 8rem; background: #0f172a; color: white; padding: 4rem; border-radius: 40px; text-align: center;">
-        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 1.5rem;">Ein Portal aus der Praxis</h2>
-        <p style="font-size: 1.1rem; opacity: 0.8; max-width: 800px; margin: 0 auto 2rem;">
-          Der Soziale Navigator ist eine private Initiative, die auf jahrelanger Berufserfahrung im sozialen Bereich basiert. Unser Ziel ist es, den Zugang zu staatlichen Leistungen so barrierefrei wie möglich zu machen – von Menschen für Menschen.
-        </p>
-        <div style="display: inline-flex; gap: 20px; flex-wrap: wrap; justify-content: center; font-size: 0.9rem; font-weight: 700;">
-          <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 99px;">🛡️ Keine Rechtsberatung</span>
-          <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 99px;">🤝 100% Kostenfrei</span>
-          <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 99px;">🔒 DSGVO-Konform</span>
+      <section id="home-qc" style="margin-bottom: 8rem; scroll-margin-top: 100px;">
+        <div style="background: linear-gradient(145deg, #ffffff, #f0f7ff); border: 2px solid #dbeafe; padding: clamp(1.5rem, 5vw, 4rem); border-radius: 48px; box-shadow: 0 40px 80px -20px rgba(37, 99, 235, 0.2);">
+          
+          <div style="text-align: center; margin-bottom: 3.5rem;">
+            <h2 style="font-size: 2.2rem; font-weight: 900; color: #0f172a; margin-bottom: 15px;">Chancen-Check 2025</h2>
+            <p style="color: #64748b; font-size: 1.1rem;">Prüfen Sie anonym Ihre Erfolgsaussichten.</p>
+          </div>
+
+          <div class="qc-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; margin-bottom: 3.5rem;">
+            <div class="qc-input-group" style="position: relative;">
+              <label style="display: block; font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-bottom: 12px;">👥 Haushalt</label>
+              <select id="qc-persons" style="width: 100%; padding: 20px 20px 20px 60px; border-radius: 20px; border: 2px solid #e2e8f0; font-size: 1.1rem; font-weight: 600; appearance: none; background: white; box-sizing: border-box;">
+                <option value="1">1 Person</option><option value="2">2 Personen</option><option value="3">3 Personen</option><option value="4">4+ Personen</option>
+              </select>
+              <span style="position: absolute; left: 22px; top: 52px; font-size: 1.5rem;">👤</span>
+            </div>
+            <div class="qc-input-group" style="position: relative;">
+              <label style="display: block; font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-bottom: 12px;">💰 Einkommen (Netto)</label>
+              <input type="number" id="qc-income" placeholder="z.B. 1600" style="width: 100%; padding: 20px 20px 20px 60px; border-radius: 20px; border: 2px solid #e2e8f0; font-size: 1.1rem; font-weight: 600; box-sizing: border-box;" />
+              <span style="position: absolute; left: 22px; top: 52px; font-size: 1.5rem;">€</span>
+            </div>
+            <div class="qc-input-group" style="position: relative;">
+              <label style="display: block; font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-bottom: 12px;">🏠 Warmmiete</label>
+              <input type="number" id="qc-rent" placeholder="z.B. 750" style="width: 100%; padding: 20px 20px 20px 60px; border-radius: 20px; border: 2px solid #e2e8f0; font-size: 1.1rem; font-weight: 600; box-sizing: border-box;" />
+              <span style="position: absolute; left: 22px; top: 52px; font-size: 1.5rem;">€</span>
+            </div>
+          </div>
+          
+          <button id="qc-btn" onclick="window.runHomeQuickCheck()" style="width: 100%; background: #0f172a; color: white; padding: 25px; border-radius: 24px; border: none; font-weight: 900; cursor: pointer; font-size: 1.3rem; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3); transition: all 0.2s;">
+            Jetzt Chancen berechnen
+          </button>
+
+          <div id="qc-result-container" style="display: none; margin-top: 4rem; padding-top: 3rem; border-top: 2px dashed #e2e8f0;">
+            <div style="height: 38px; background: #e2e8f0; border-radius: 19px; overflow: hidden; position: relative; margin-bottom: 3rem;">
+              <div id="qc-progress-bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #eab308, #22c55e); border-radius: 19px; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);"></div>
+              <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: space-between; padding: 0 25px; align-items: center; font-size: 0.8rem; font-weight: 900; color: rgba(0,0,0,0.5); text-transform: uppercase; box-sizing: border-box;">
+                <span>Gering</span><span>Mittel</span><span>Hoch</span>
+              </div>
+            </div>
+
+            <div id="qc-result-text" style="text-align: center; background: white; border: 2px solid #2563eb; padding: 3rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(37, 99, 235, 0.1);">
+              <h3 id="qc-title" style="font-weight: 900; font-size: 1.8rem; margin-bottom: 15px; color: #0f172a;">...</h3>
+              <p id="qc-msg" style="color: #475569; margin-bottom: 35px; font-size: 1.2rem;"></p>
+              
+              <div style="max-width: 500px; margin: 0 auto; background: #eff6ff; padding: 30px; border-radius: 32px; border: 2px solid #dbeafe;">
+                <label style="display: block; font-weight: 900; font-size: 0.9rem; margin-bottom: 20px; color: #2563eb; text-transform: uppercase; letter-spacing: 0.05em;">Finaler Schritt: Stadt wählen</label>
+                <input type="text" id="homeCitySearch" placeholder="PLZ oder Name eingeben..." style="width: 100%; padding: 18px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 1.1rem; font-weight: 600;" />
+                <div id="homeCityResults" style="text-align: left; margin-top: 15px; max-height: 250px; overflow-y: auto;"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section id="staedte" style="margin-bottom: 8rem;">
-        <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 3rem; text-align: center;">Wohngeld-Hilfe in Ihrer Stadt</h2>
+        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 3rem; text-align: center;">Wohngeld-Hilfe in Ihrer Region</h2>
         <div style="margin-bottom: 3rem;">
-          <input type="text" id="citySearch" placeholder="Stadt suchen..." style="width: 100%; padding: 20px; border-radius: 16px; border: 2px solid #f1f5f9; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" />
+          <input type="text" id="citySearch" placeholder="Liste filtern..." style="width: 100%; padding: 25px; border-radius: 25px; border: 2px solid #f1f5f9; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.02);" />
         </div>
         <div id="cityList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px;">
           {sortedCities.map((city) => (
-            <a href={`/wohngeld/${city.slug}`} class="city-card" style="display: block; padding: 15px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 12px; text-decoration: none; color: #0f172a; font-weight: 700; transition: all 0.2s ease;">
+            <a href={`/wohngeld/${city.slug}`} class="city-card" style="display: block; padding: 18px; background: white; border: 1px solid #f1f5f9; border-radius: 16px; text-decoration: none; color: #0f172a; font-weight: 700; transition: all 0.2s ease;">
               {city.stadt}
             </a>
           ))}
         </div>
       </section>
 
-      <footer style="padding: 4rem 20px; background: #fafafa; border-radius: 40px 40px 0 0; border: 1px solid #f1f5f9; text-align: center;">
-        <div style="margin-bottom: 2rem; font-size: 0.85rem; color: #64748b; max-width: 600px; margin-left: auto; margin-right: auto;">
-          Der Soziale Navigator ist ein privat betriebenes Portal. Wir nutzen jahrelange Erfahrung im sozialen Sektor, um Ihnen bei der Fristwahrung zu helfen. Wir bieten keine Rechtsberatung.
-        </div>
-        <details style="cursor: pointer; margin-bottom: 1rem;">
-          <summary style="font-weight: 700; color: #1e3a8a; font-size: 0.9rem;">Impressum & Datenschutz</summary>
-          <div style="padding: 2rem; background: white; border-radius: 16px; margin-top: 15px; font-size: 0.85rem; border: 1px solid #eee; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
-            <strong>Kontakt:</strong> info@sozialer-navigator.de<br/>
-            <strong>Herausgeber:</strong> Privat betriebenes Hilfsportal, Parkstraße 4, 88326 Aulendorf<br/><br/>
-            <strong>Datenschutz:</strong> Wir speichern keine Daten im Generator. Anfragen für BuT/AVGS werden sicher in Supabase auf EU-Servern gespeichert.
+      <footer style="padding: 5rem 20px; background: #0f172a; color: white; border-radius: 50px 50px 0 0; text-align: center;">
+        <div style="max-width: 600px; margin: 0 auto;">
+          <p style="font-size: 1rem; opacity: 0.7; margin-bottom: 2rem;">
+            Der Soziale Navigator ist ein privat betriebenes Portal. Wir glauben an faire Bürokratie für alle.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 20px; font-size: 0.8rem; font-weight: 700; opacity: 0.5;">
+            <span>100% KOSTENLOS</span>
+            <span>KEINE DATENSPEICHERUNG</span>
+            <span>§ 24 WOGG KONFORM</span>
           </div>
-        </details>
-        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 3rem;">© 2025 Sozialer Navigator. Alle Rechte vorbehalten.</p>
+          <p style="font-size: 0.75rem; opacity: 0.4; margin-top: 3rem;">© 2025 Sozialer Navigator. Alle Rechte vorbehalten.</p>
+        </div>
       </footer>
+
     </main>
   </div>
 </Layout>
 
-<script is:inline>
-  const searchInput = document.getElementById('citySearch');
-  const cityCards = document.querySelectorAll('.city-card');
+<script is:inline define:vars={{ sortedCities }}>
+  window.runHomeQuickCheck = function() {
+    const p = parseInt(document.getElementById('qc-persons').value);
+    const i = parseFloat(document.getElementById('qc-income').value) || 0;
+    const r = parseFloat(document.getElementById('qc-rent').value) || 0;
+    const rc = document.getElementById('qc-result-container');
+    const pb = document.getElementById('qc-progress-bar');
+    const tit = document.getElementById('qc-title');
+    const msg = document.getElementById('qc-msg');
 
-  searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    cityCards.forEach(card => {
-      const cityName = card.textContent.toLowerCase();
-      card.style.display = cityName.includes(term) ? 'block' : 'none';
+    if (i === 0 || r === 0) return alert("Bitte geben Sie Daten ein.");
+
+    const rem = i - r;
+    const ph = rem / p;
+    let s = 0;
+    if (rem < 0) s = 98; else if (p === 1) { if (ph < 500) s = 95; else if (ph < 850) s = 75; else s = 35; }
+    else { if (ph < 450) s = 95; else if (ph < 700) s = 80; else s = 40; }
+
+    rc.style.display = 'block';
+    setTimeout(() => { pb.style.width = s + "%"; }, 50);
+
+    if (s >= 75) {
+      tit.innerText = "🎉 Sehr hohe Erfolgsaussichten!";
+      msg.innerHTML = "Das Ergebnis deutet klar auf einen Anspruch hin. **Sichern Sie sich heute die Frist**, bevor das Geld verfällt.";
+    } else {
+      tit.innerText = "🧐 Prüfung dringend empfohlen!";
+      msg.innerHTML = "Es ist ein Grenzfall – und genau hier lohnt sich der Navigator. Wahren Sie die Frist rechtssicher in 60 Sekunden.";
+    }
+    
+    rc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const hcs = document.getElementById('homeCitySearch');
+  const hcr = document.getElementById('homeCityResults');
+  hcs.addEventListener('input', (e) => {
+    const t = e.target.value.toLowerCase(); hcr.innerHTML = '';
+    if (t.length < 2) return;
+    sortedCities.filter(c => c.stadt.toLowerCase().includes(t) || c.plz.includes(t)).slice(0, 5).forEach(c => {
+      const d = document.createElement('div');
+      d.style.padding = '15px'; d.style.background = 'white'; d.style.borderBottom = '1px solid #f1f5f9';
+      d.style.cursor = 'pointer'; d.style.fontWeight = '800'; d.style.borderRadius = '12px'; d.style.marginBottom = '5px';
+      d.innerHTML = `${c.stadt} <small style="color:#94a3b8">(${c.plz})</small>`;
+      d.onclick = () => window.location.href = `/wohngeld/${c.slug}`;
+      hcr.appendChild(d);
     });
+  });
+
+  const mainS = document.getElementById('citySearch');
+  const cards = document.querySelectorAll('.city-card');
+  mainS.addEventListener('input', (e) => {
+    const t = e.target.value.toLowerCase();
+    cards.forEach(c => c.style.display = c.textContent.toLowerCase().includes(t) ? 'block' : 'none');
   });
 </script>
 
 <style>
-  .city-card:hover {
-    border-color: #2563eb !important;
-    color: #2563eb !important;
-    background: #eff6ff !important;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
-  }
+  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+  .city-card:hover { border-color: #2563eb !important; background: #eff6ff !important; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.1); }
+  @media (max-width: 640px) { .qc-grid { grid-template-columns: 1fr !important; } }
 </style>
