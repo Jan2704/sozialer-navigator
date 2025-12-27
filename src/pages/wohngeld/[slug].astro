@@ -29,7 +29,7 @@ const seoDescription = `Sichern Sie sich Ihr Wohngeld in ${stadtName} (Mietstufe
 const faqs = [
   {
     question: `Wer ist in ${stadtName} wohngeldberechtigt?`,
-    answer: `In Mietstufe ${mietstufe} sind die Einkommensgrenzen entsprechend der Mietpreise in ${stadtName} festgesetzt. Fast jeder Haushalt mit Arbeitseinkommen oder Rente unter einer gewissen Grenze sollte prüfen.`
+    answer: `In Mietstufe ${mietstufe} sind die Einkommensgrenzen höher. Fast jeder Haushalt mit Arbeitseinkommen oder Rente unter einer gewissen Grenze sollte seinen Anspruch prüfen.`
   },
   {
     question: "Wie viel Vermögen darf ich beim Wohngeld-Antrag haben?",
@@ -47,10 +47,7 @@ const jsonLd = {
   "mainEntity": faqs.map(faq => ({
     "@type": "Question",
     "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer
-    }
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
   }))
 };
 ---
@@ -108,7 +105,7 @@ const jsonLd = {
           </div>
 
           <div style="background: #fff1f2; padding: 40px; border-radius: 32px; border: 2px solid #fecdd3; position: relative; opacity: 0.8;">
-            <span style="position: absolute; top: -15px; left: 30px; background: #be123c; color: white; padding: 4px 15px; border-radius: 99px; font-size: 0.75rem; font-weight: 800;">OPTION B (Riskant)</span>
+            <span style="position: absolute; top: -15px; left: 30px; background: #be123c; color: white; padding: 4px 15px; border-radius: 99px; font-size: 0.75rem; font-weight: 800;">OPTION B (Mühsam)</span>
             <h3 style="font-size: 1.4rem; font-weight: 900; color: #9f1239; margin-bottom: 15px;">Direkt zum Amt</h3>
             <ul style="list-style: none; padding: 0; margin: 0; color: #9f1239; font-size: 0.95rem; display: grid; gap: 12px;">
               <li>❌ 20+ Seiten Hauptantrag sofort ausfüllen</li>
@@ -131,7 +128,7 @@ const jsonLd = {
             <div>
               <h4 style="font-weight: 800; color: #1e40af; margin: 0 0 10px;">Unsere Mission</h4>
               <p style="font-size: 0.9rem; color: #1e40af; margin: 0; line-height: 1.5;">
-                Das deutsche Sozialsystem ist hochkomplex. Viele verzichten aus Überforderung auf ihnen zustehende Gelder. Wir nutzen Technologie, um administrative Hürden abzubauen und administrative Sicherheit als kostenfreien Service bereitzustellen.
+                Das deutsche Sozialsystem ist hochkomplex. Viele verzichten aus Überforderung auf ihnen zustehende Gelder. Wir nutzen Technologie, um administrative Hürden abzubauen und Sicherheit als kostenfreien Service bereitzustellen.
               </p>
             </div>
           </div>
@@ -144,11 +141,11 @@ const jsonLd = {
             <span style="color: #2563eb; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem;">Hintergrund</span>
             <h2 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin: 10px 0 20px; line-height: 1.1;">Was ist Wohngeld?</h2>
             <p style="font-size: 1.1rem; color: #475569; margin-bottom: 1.5rem;">
-              Wohngeld ist ein staatlicher Miet-Zuschuss. Es ist <strong>kein Darlehen</strong> und muss nicht zurückgezahlt werden. In {stadtName} (Mietstufe {mietstufe}) sind die Sätze aufgrund der Wohnkosten besonders hoch.
+              Wohngeld ist ein staatlicher Miet-Zuschuss. Es ist <strong>kein Darlehen</strong>. In {stadtName} (Mietstufe {mietstufe}) sind die Sätze aufgrund der Wohnkosten besonders hoch.
             </p>
           </div>
           <div style="background: #0f172a; color: white; padding: 30px; border-radius: 32px; border: 1px solid #1e293b;">
-             <h4 style="font-weight: 900; margin-bottom: 10px; font-size: 0.9rem; color: #60a5fa; text-transform: uppercase;">Behörde {stadtName}</h4>
+             <h4 style="font-weight: 900; margin-bottom: 10px; font-size: 0.9rem; color: #60a5fa; text-transform: uppercase;">Zuständige Behörde</h4>
              <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 5px;">📍 {amtAdresse}</p>
              <p style="font-size: 0.9rem; color: #4ade80; font-weight: 700;">✅ Digitale Fristwahrung akzeptiert.</p>
           </div>
@@ -159,14 +156,14 @@ const jsonLd = {
         <div style="background: linear-gradient(145deg, #ffffff, #f0f7ff); border: 2px solid #dbeafe; padding: 3rem; border-radius: 40px; box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.1);">
           <div style="text-align: center; margin-bottom: 3rem;">
             <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 10px;">Lohnt sich der Antrag?</h2>
-            <p style="color: #64748b;">Anonymer Schnell-Check für {stadtName}.</p>
+            <p style="color: #64748b;">Schnell-Check für {stadtName}.</p>
           </div>
           <div class="qc-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 2.5rem;">
             <div style="position: relative;"><label style="display: block; font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 8px;">Haushaltsmitglieder</label><select id="qc-persons" style="width: 100%; padding: 16px 16px 16px 45px; border-radius: 12px; border: 2px solid #e2e8f0; background: #ffffff; font-size: 1rem; font-weight: 600; box-sizing: border-box;"><option value="1">1 Person</option><option value="2">2 Personen</option><option value="3">3 Personen</option><option value="4">4+ Personen</option></select><span style="position: absolute; left: 15px; top: 40px;">👤</span></div>
             <div style="position: relative;"><label style="display: block; font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 8px;">Netto-Einkommen</label><input type="number" id="qc-income" placeholder="z.B. 1600" style="width: 100%; padding: 16px 16px 16px 45px; border-radius: 12px; border: 2px solid #e2e8f0; font-size: 1rem; font-weight: 600; box-sizing: border-box;" /><span style="position: absolute; left: 15px; top: 40px;">€</span></div>
             <div style="position: relative;"><label style="display: block; font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 8px;">Warmmiete</label><input type="number" id="qc-rent" placeholder="z.B. 750" style="width: 100%; padding: 16px 16px 16px 45px; border-radius: 12px; border: 2px solid #e2e8f0; font-size: 1rem; font-weight: 600; box-sizing: border-box;" /><span style="position: absolute; left: 15px; top: 40px;">€</span></div>
           </div>
-          <button onclick="runVisualQuickCheck()" style="width: 100%; background: #0f172a; color: white; padding: 20px; border-radius: 16px; border: none; font-weight: 900; cursor: pointer; font-size: 1.1rem;">Chancen jetzt berechnen</button>
+          <button onclick="runVisualQuickCheck()" style="width: 100%; background: #0f172a; color: white; padding: 20px; border-radius: 16px; border: none; font-weight: 900; cursor: pointer; font-size: 1.1rem;">Chancen berechnen</button>
           <div id="qc-result-container" style="display: none; margin-top: 3rem; padding-top: 2rem; border-top: 2px dashed #e2e8f0;"><div id="qc-result-text" style="text-align: center; padding: 2rem; border-radius: 24px;"></div></div>
         </div>
       </section>
@@ -174,21 +171,15 @@ const jsonLd = {
       <section id="generator" style="margin-bottom: 8rem; scroll-margin-top: 100px;">
         <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;">
           <span style="background: #2563eb; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">1</span>
-          Option A: Frist-Sicherung (Heute absenden)
+          Option A: Frist heute sichern (Navigator Weg)
         </h2>
         <div style="background: #0f172a; color: white; padding: clamp(2rem, 5vw, 3.5rem); border-radius: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.3);">
           
           <div style="margin-bottom: 2.5rem; border-left: 4px solid #2563eb; padding-left: 20px;">
-            <h4 style="color: #60a5fa; font-weight: 800; margin-bottom: 10px;">Der sicherste Weg zum Wohngeld</h4>
+            <h4 style="color: #60a5fa; font-weight: 800; margin-bottom: 10px;">Warum ein formloser Antrag?</h4>
             <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.5;">
-              Warten Sie nicht auf Termine beim Amt. Gemäß § 24 Abs. 2 WoGG sichert dieser formlose Antrag Ihren Anspruch für den <strong>gesamten Monat {currentMonth}</strong>. Sie gewinnen Zeit, um alle Belege in Ruhe zu sammeln.
+              Warten Sie nicht auf den langen Hauptantrag. Gemäß § 24 Abs. 2 WoGG sichert diese E-Mail Ihren Anspruch für den <strong>gesamten Monat {currentMonth}</strong>. Sie gewinnen Zeit, Belege in Ruhe zu suchen.
             </p>
-          </div>
-
-          <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; padding: 1.5rem; border-radius: 20px; margin-bottom: 2rem;">
-            <h4 style="color: #60a5fa; margin: 0 0 10px; font-size: 0.95rem; font-weight: 800;">📍 Recherchierte Daten für {stadtName}</h4>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 5px;">Anschrift: <strong>{amtAdresse}</strong></p>
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0;">E-Mail: <strong style="color: #4ade80;">{amtEmail}</strong></p>
           </div>
 
           <div onclick="copyToClipboard()" style="background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.15); padding: 2.5rem; border-radius: 32px; cursor: pointer; margin-bottom: 2rem; position: relative;">
@@ -205,23 +196,23 @@ const jsonLd = {
       <section style="margin-bottom: 8rem;">
         <div style="text-align: center; margin-bottom: 4rem;">
           <h2 style="font-size: 2.2rem; font-weight: 900; color: #0f172a;">Was passiert danach?</h2>
-          <p style="color: #64748b;">So geht es in {stadtName} weiter:</p>
+          <p style="color: #64748b;">So geht es in {stadtName} sicher weiter:</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
           <div style="background: white; padding: 30px; border-radius: 24px; border: 1px solid #e2e8f0;">
             <div style="color: #2563eb; font-weight: 900; font-size: 2rem; margin-bottom: 10px;">01</div>
             <h4 style="font-weight: 800; margin-bottom: 10px;">Frist steht</h4>
-            <p style="font-size: 0.85rem; color: #64748b;">Durch Ihre heutige E-Mail ist der Anspruch für {currentMonth} rechtlich gesichert.</p>
+            <p style="font-size: 0.85rem; color: #64748b;">Durch Ihre heutige Mail ist der Anspruch für {currentMonth} rechtlich gesichert.</p>
           </div>
           <div style="background: white; padding: 30px; border-radius: 24px; border: 1px solid #e2e8f0;">
             <div style="color: #2563eb; font-weight: 900; font-size: 2rem; margin-bottom: 10px;">02</div>
             <h4 style="font-weight: 800; margin-bottom: 10px;">Antwort-Post</h4>
-            <p style="font-size: 0.85rem; color: #64748b;">Die Wohngeldstelle {stadtName} sendet Ihnen die weiteren Formulare zu.</p>
+            <p style="font-size: 0.85rem; color: #64748b;">Die Behörde {stadtName} sendet Ihnen die weiteren Formulare zu.</p>
           </div>
           <div style="background: #f0fdf4; padding: 30px; border-radius: 24px; border: 1px solid #bbf7d0;">
             <div style="color: #16a34a; font-weight: 900; font-size: 2rem; margin-bottom: 10px;">03</div>
             <h4 style="font-weight: 800; margin-bottom: 10px; color: #16a34a;">Auszahlung</h4>
-            <p style="font-size: 0.85rem; color: #15803d;">Das Geld wird rückwirkend ab dem Datum Ihrer heutigen Mail gezahlt.</p>
+            <p style="font-size: 0.85rem; color: #15803d;">Das Geld wird rückwirkend ab heute gezahlt, sobald die Prüfung fertig ist.</p>
           </div>
         </div>
       </section>
@@ -231,37 +222,37 @@ const jsonLd = {
           <span style="background: #2563eb; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">2</span>
           Den Wohngeld-Bonus nutzen
         </h2>
-        <p style="color: #64748b; margin-bottom: 3rem; font-size: 1.1rem;">Wussten Sie schon? Wohngeld ist oft der Schlüssel zu weiteren Leistungen in {stadtName}.</p>
+        <p style="color: #64748b; margin-bottom: 3rem; font-size: 1.1rem;">Wohngeld ist oft erst der Anfang. Wir prüfen für Sie automatisch weitere Ansprüche in {stadtName}:</p>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 3rem;">
           <div style="background: #f0f9ff; padding: 25px; border-radius: 24px; border-left: 5px solid #0ea5e9;">
             <h4 style="font-weight: 800; color: #0369a1; margin-bottom: 8px;">💰 Geldvorteile (KiZ & BuT)</h4>
-            <p style="font-size: 0.85rem; color: #0c4a6e;">Zusätzlich zum Wohngeld können Sie bis zu <strong>292€ pro Kind</strong> erhalten. Zudem entfallen oft Kosten für das Mittagessen in Schule/Kita.</p>
+            <p style="font-size: 0.85rem; color: #0c4a6e;">Zusätzlich zum Wohngeld stehen Ihnen bis zu <strong>292€ pro Kind</strong> zu. Zudem werden Kosten für Schulessen und Ausflüge oft komplett übernommen.</p>
           </div>
           <div style="background: #fdfaf1; padding: 25px; border-radius: 24px; border-left: 5px solid #eab308;">
-            <h4 style="font-weight: 800; color: #854d0e; margin-bottom: 8px;">🎓 100% Gratis-Coaching</h4>
-            <p style="font-size: 0.85rem; color: #713f12;">Über den AVGS-Gutschein erhalten Sie Zugang zu Premium-Coachings im Wert von <strong>2.500€</strong>.</p>
+            <h4 style="font-weight: 800; color: #854d0e; margin-bottom: 8px;">🎓 Karriere-Boost (AVGS)</h4>
+            <p style="font-size: 0.85rem; color: #713f12;">Wir prüfen Ihren Anspruch auf 100% geförderte Coachings im Wert von <strong>2.500€</strong> – staatlich finanziert über den AVGS-Gutschein.</p>
           </div>
           <div style="background: #fdf2f2; padding: 25px; border-radius: 24px; border-left: 5px solid #ef4444;">
-            <h4 style="font-weight: 800; color: #991b1b; margin-bottom: 8px;">🛡️ Soforthilfe bei Sorgen</h4>
-            <p style="font-size: 0.85rem; color: #7f1d1d;">Wenn Mahnungen oder Schulden Sie belasten, vermitteln wir Ihnen diskrete Experten in {stadtName}.</p>
+            <h4 style="font-weight: 800; color: #991b1b; margin-bottom: 8px;">🛡️ Finanz-Hilfe</h4>
+            <p style="font-size: 0.85rem; color: #7f1d1d;">Diskrete Experten-Hilfe bei Schulden oder Mahnungen. Wir vermitteln Ihnen sofort die richtige Anlaufstelle in {stadtName}.</p>
           </div>
         </div>
 
         <div style="background: #ffffff; border: 2px solid #2563eb; border-radius: 48px; padding: clamp(1.5rem, 5vw, 3rem); box-shadow: 0 40px 80px -15px rgba(37, 99, 235, 0.15);">
           <div id="progress-container" style="display: flex; gap: 8px; margin-bottom: 40px; max-width: 400px; margin-left: auto; margin-right: auto;">
             <div id="step-1-bar" style="height: 6px; flex: 1; background: #2563eb; border-radius: 10px;"></div>
-            <div id="step-2-bar" style="height: 6px; flex: 1; background: #e2e8f0; border-radius: 10px; transition: background 0.3s;"></div>
-            <div id="step-3-bar" style="height: 6px; flex: 1; background: #e2e8f0; border-radius: 10px; transition: background 0.3s;"></div>
+            <div id="step-2-bar" style="height: 6px; flex: 1; background: #e2e8f0; border-radius: 10px;"></div>
+            <div id="step-3-bar" style="height: 6px; flex: 1; background: #e2e8f0; border-radius: 10px;"></div>
           </div>
 
           <form id="supabase-lead-form">
             <div id="step-1">
-              <h3 style="font-weight: 800; margin-bottom: 30px; text-align: center;">Wie ist Ihr aktueller beruflicher Status?</h3>
+              <h3 style="font-weight: 800; margin-bottom: 30px; text-align: center;">Aktueller Berufs-Status?</h3>
               <div style="display: grid; gap: 12px; max-width: 500px; margin: 0 auto;">
                 <label class="check-option"><input type="radio" name="job_status" value="unemployed" required> <span>Arbeitssuchend / Arbeitslos</span></label>
-                <label class="check-option"><input type="radio" name="job_status" value="low_income"> <span>Berufstätig (Aufstocker / Geringverdiener)</span></label>
-                <label class="check-option"><input type="radio" name="job_status" value="other"> <span>Sonstiges (Rente, Studium, etc.)</span></label>
+                <label class="check-option"><input type="radio" name="job_status" value="low_income"> <span>Berufstätig (Geringverdiener)</span></label>
+                <label class="check-option"><input type="radio" name="job_status" value="other"> <span>Sonstiges (Rente, Studium)</span></label>
               </div>
               <button type="button" onclick="nextStep(2)" style="display: block; width: 100%; max-width: 500px; margin: 30px auto 0; background: #0f172a; color: white; padding: 18px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer;">Weiter zum Bedarf</button>
             </div>
@@ -269,38 +260,26 @@ const jsonLd = {
             <div id="step-2" style="display: none;">
               <h3 style="font-weight: 800; margin-bottom: 30px; text-align: center;">Was benötigen Sie zusätzlich?</h3>
               <div style="display: grid; gap: 15px; max-width: 500px; margin: 0 auto;">
-                <label class="needs-option"><input type="checkbox" name="needs" value="avgs"> <div><strong>Karriere-Coaching (AVGS)</strong><small>Kostenlose Hilfe bei der Jobsuche.</small></div></label>
-                <label class="needs-option"><input type="checkbox" name="needs" value="but"> <div><strong>Kinderzuschlag & Bildung</strong><small>Prüfung monatlicher Zuschüsse.</small></div></label>
-                <label class="needs-option"><input type="checkbox" name="needs" value="debt"> <div><strong>Schuldnerberatung</strong><small>Hilfe bei finanzieller Überlastung.</small></div></label>
+                <label class="needs-option"><input type="checkbox" name="needs" value="avgs"> <div><strong>Gratis-Coaching (AVGS)</strong><small>Prüfung auf 100% Kostenübernahme.</small></div></label>
+                <label class="needs-option"><input type="checkbox" name="needs" value="but"> <div><strong>Kinder-Zuschuss (BuT)</strong><small>Mittagessen & Geld für Bildung.</small></div></label>
+                <label class="needs-option"><input type="checkbox" name="needs" value="debt"> <div><strong>Schuldnerberatung</strong><small>Hilfe bei finanzieller Last.</small></div></label>
               </div>
-              <button type="button" onclick="nextStep(3)" style="display: block; width: 100%; max-width: 500px; margin: 30px auto 0; background: #0f172a; color: white; padding: 18px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer;">Auswertung anfordern</button>
+              <button type="button" onclick="nextStep(3)" style="display: block; width: 100%; max-width: 500px; margin: 30px auto 0; background: #0f172a; color: white; padding: 18px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer;">Fast geschafft</button>
             </div>
 
             <div id="step-3" style="display: none;">
-              <h3 style="font-weight: 800; margin-bottom: 30px; text-align: center;">Wohin dürfen wir das Ergebnis senden?</h3>
+              <h3 style="font-weight: 800; margin-bottom: 30px; text-align: center;">Wohin das Ergebnis senden?</h3>
               <div style="display: grid; gap: 15px; max-width: 500px; margin: 0 auto;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"><input type="text" id="c-vorname" placeholder="Vorname" required style="padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; width: 100%; box-sizing: border-box;"><input type="text" id="c-nachname" placeholder="Nachname" required style="padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; width: 100%; box-sizing: border-box;"></div>
-                <input type="email" id="c-email" placeholder="E-Mail Adresse" required style="padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; width: 100%; box-sizing: border-box;">
-                <button type="submit" id="c-submit-btn" style="background: #2563eb; color: white; padding: 20px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);">KOSTENFREI PRÜFEN LASSEN</button>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"><input type="text" id="c-vorname" placeholder="Vorname" required style="padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; width: 100%;"><input type="text" id="c-nachname" placeholder="Nachname" required style="padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; width: 100%;"></div>
+                <input type="email" id="c-email" placeholder="E-Mail Adresse" required style="padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; width: 100%;">
+                <button type="submit" id="c-submit-btn" style="background: #2563eb; color: white; padding: 20px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 1.1rem;">PRÜFUNG STARTEN</button>
               </div>
             </div>
           </form>
-
-          <div id="c-success" style="display: none; text-align: center; padding: 40px;">
-            <div style="font-size: 3.5rem; margin-bottom: 20px;">✅</div>
-            <h3 style="font-size: 1.8rem; font-weight: 900; color: #16a34a;">Wir sind für Sie da!</h3>
-            <p>Wir prüfen Ihre Angaben für {stadtName} und melden uns zeitnah per E-Mail bei Ihnen.</p>
-          </div>
+          <div id="c-success" style="display: none; text-align: center; padding: 40px;"><div style="font-size: 3.5rem; margin-bottom: 20px;">✅</div><h3 style="font-size: 1.8rem; font-weight: 900; color: #16a34a;">Wir sind für Sie da!</h3><p>Wir prüfen Ihre Angaben für {stadtName} und melden uns per E-Mail.</p></div>
         </div>
 
-        <div style="margin-top: 3rem; padding: 2rem; background: #f8fafc; border-radius: 24px; border: 1px solid #e2e8f0;">
-          <h4 style="font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">🛡️ Unser Qualitätsversprechen</h4>
-          <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: #64748b;">
-            <li><strong>Kostenfrei:</strong> Der Checkup ist für Sie 100% kostenlos.</li>
-            <li><strong>Zertifiziert:</strong> Wir arbeiten nur mit geprüften Experten zusammen.</li>
-            <li><strong>Datenschutz:</strong> Ihre Daten werden verschlüsselt übertragen.</li>
-          </ul>
-        </div>
+        <div style="margin-top: 3rem; padding: 2rem; background: #f8fafc; border-radius: 24px; border: 1px solid #e2e8f0;"><h4 style="font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">🛡️ Unser Qualitätsversprechen</h4><ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; color: #64748b;"><li><strong>Kostenfrei:</strong> Checkup und Erstberatung sind 100% kostenlos.</li><li><strong>Zertifiziert:</strong> Nur geprüfte Partner in {stadtName}.</li><li><strong>Datenschutz:</strong> Kein Spam, keine Werbeanrufe.</li></ul></div>
       </section>
 
       <section id="faq" style="margin-bottom: 8rem; border-top: 1px solid #f1f5f9; padding-top: 6rem;">
@@ -308,9 +287,7 @@ const jsonLd = {
         <div style="max-width: 800px; margin: 0 auto; display: grid; gap: 15px;">
           {faqs.map((faq) => (
             <details style="background: #f8fafc; padding: 1.5rem 2rem; border-radius: 24px; cursor: pointer; border: 1px solid #e2e8f0;" class="group">
-              <summary style="font-weight: 800; color: #1e3a8a; list-style: none; display: flex; justify-content: space-between; align-items: center;">
-                {faq.question} <span style="font-size: 1.5rem; transition: transform 0.3s;" class="group-open:rotate-45">+</span>
-              </summary>
+              <summary style="font-weight: 800; color: #1e3a8a; list-style: none; display: flex; justify-content: space-between; align-items: center;">{faq.question} <span style="font-size: 1.5rem;">+</span></summary>
               <p style="margin-top: 1rem; color: #475569; line-height: 1.7;">{faq.answer}</p>
             </details>
           ))}
@@ -334,7 +311,7 @@ const jsonLd = {
   summary::-webkit-details-marker { display: none; }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
   #pulse-dot { animation: pulse 2s infinite; }
-  .check-option, .needs-option { display: flex; align-items: center; gap: 15px; background: #f8fafc; padding: 18px; border-radius: 16px; border: 2px solid #f1f5f9; cursor: pointer; transition: all 0.2s; }
+  .check-option, .needs-option { display: flex; align-items: center; gap: 15px; background: #f8fafc; padding: 18px; border-radius: 16px; border: 2px solid #f1f5f9; cursor: pointer; transition: 0.2s; }
   .check-option:hover, .needs-option:hover { border-color: #cbd5e1; }
   .check-option:has(input:checked), .needs-option:has(input:checked) { border-color: #2563eb; background: #f0f7ff; }
   .check-option input, .needs-option input { width: 20px; height: 20px; cursor: pointer; }
@@ -346,7 +323,7 @@ const jsonLd = {
 <script is:inline>
   const counterEl = document.getElementById('live-counter');
   let count = Math.floor(Math.random() * (22 - 9 + 1)) + 9;
-  setInterval(() => { count += Math.random() > 0.6 ? 1 : 0; if(counterEl) counterEl.innerText = `${count} Personen`; }, 4500);
+  setInterval(() => { if(counterEl) { count += Math.random() > 0.6 ? 1 : 0; counterEl.innerText = `${count} Personen`; } }, 4500);
 
   function runVisualQuickCheck() {
     const rc = document.getElementById('qc-result-container');
@@ -356,18 +333,16 @@ const jsonLd = {
       <div style="text-align: left; background: #ffffff; padding: 25px; border-radius: 20px; border: 2px solid #22c55e; width: 100%;">
         <h3 style="font-weight:900; color: #15803d; margin-top: 0;">🎯 Einschätzung: Positiv</h3>
         <p style="font-size: 0.95rem; color: #475569;">In Ihrer Mietstufe haben Sie hervorragende Aussichten. Sichern Sie jetzt die Frist (Weg A).</p>
-        <a href="#generator" style="display: block; background: #2563eb; color: white; padding: 18px 24px; border-radius: 12px; text-decoration: none; font-weight: 800; margin-top: 15px; text-align: center;">JETZT ANSPRUCH SICHERN</a>
+        <a href="#generator" style="display: block; background: #2563eb; color: white; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 800; margin-top: 15px; text-align: center;">JETZT ANSPRUCH SICHERN</a>
       </div>
     `;
     rc.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
-
   function copyToClipboard() {
     navigator.clipboard.writeText(document.getElementById('antragText').innerText).then(() => {
       document.getElementById('copyHint').innerText = "✓ TEXT KOPIERT – JETZT MAIL SENDEN";
     });
   }
-
   function nextStep(step) {
     document.getElementById('step-1').style.display = 'none';
     document.getElementById('step-2').style.display = 'none';
@@ -394,15 +369,14 @@ const jsonLd = {
     const jobStatus = (cForm.querySelector('input[name="job_status"]:checked') as HTMLInputElement)?.value;
     const needs = Array.from(cForm.querySelectorAll('input[name="needs"]:checked')).map(el => (el as HTMLInputElement).value).join(', ');
     
+    // Mapping auf deine SQL-Struktur:
     const { error } = await supabase.from('leads').insert([{ 
       first_name: (document.getElementById('c-vorname') as HTMLInputElement).value, 
       last_name: (document.getElementById('c-nachname') as HTMLInputElement).value,
       email: (document.getElementById('c-email') as HTMLInputElement).value,
-      lead_type: needs || 'General-Checkup',
       city: cityTag,
-      status: 'neu',
-      job_status: jobStatus, 
-      notes: `Status: ${jobStatus} | Bedarfe: ${needs}` 
+      lead_type: `Status: ${jobStatus} | Bedarf: ${needs}`, 
+      status: 'neu'
     }]);
 
     if (!error) {
@@ -410,6 +384,10 @@ const jsonLd = {
       document.getElementById('progress-container')!.style.display = 'none';
       const successEl = document.getElementById('c-success');
       if (successEl) successEl.style.display = 'block';
+    } else {
+      console.error(error);
+      alert('Fehler: ' + error.message);
+      btn.innerText = 'PRÜFUNG STARTEN';
     }
   });
 </script>
