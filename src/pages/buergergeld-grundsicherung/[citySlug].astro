@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import cities from '../../data/cities_2026.json';
+
+export async function getStaticPaths() {
+  return cities.map((city) => ({
+    params: { citySlug: city.slug },
+    props: { city },
+  }));
+}
+const { city } = Astro.props;
+---
+
+<Layout title={`Bürgergeld in ${city.name} | Mietobergrenzen 2026`}>
+  <main class="sn-container" style="padding: 5rem 0; display: grid; grid-template-columns: 1fr 350px; gap: 4rem;">
+    <div>
+      <span style="color: var(--sn-blue); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Standort-Info</span>
+      <h1 style="font-size: 2.8rem; font-weight: 900; margin-top: 0.5rem;">Bürgergeld in {city.name}</h1>
+      <p>Hier finden Sie die KdU-Richtwerte und Jobcenter-Daten für 2026.</p>
+      
+      <div style="padding: 2.5rem; background: #f0f7ff; border-radius: 20px; margin: 3rem 0; border: 1px solid #dbeafe;">
+        <h3 style="margin-top: 0;">Mietobergrenze (KdU) in {city.name}</h3>
+        <p style="font-size: 2rem; font-weight: 900; color: var(--sn-blue); margin: 1rem 0;">{city.miete_max || 'Info auf Anfrage'}</p>
+        <p style="margin-bottom: 0;">Zuständig: {city.jobcenter_name || `Jobcenter ${city.name}`}</p>
+      </div>
+    </div>
+
+    <aside>
+      <div style="padding: 2.5rem 2rem; border: 2px solid var(--sn-blue); border-radius: 24px; background: #fff; text-align: center;">
+        <span style="font-size: 0.7rem; font-weight: 900; color: var(--sn-blue); text-transform: uppercase;">Partner-Empfehlung</span>
+        <h3 style="margin: 1rem 0;">Probleme mit dem Bescheid?</h3>
+        <p>Wurde dein Antrag in <strong>{city.name}</strong> abgelehnt? Lass deinen Bescheid jetzt kostenlos prüfen.</p>
+        <a href="https://partner-link.de" style="display: block; background: var(--sn-blue); color: #fff; padding: 1rem; border-radius: 12px; text-decoration: none; font-weight: 700; margin-top: 2rem;">Bescheid prüfen →</a>
+      </div>
+    </aside>
+  </main>
+</Layout>

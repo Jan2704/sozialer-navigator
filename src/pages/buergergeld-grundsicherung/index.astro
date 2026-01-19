@@ -1,0 +1,80 @@
+---
+// src/pages/buergergeld-grundsicherung/index.astro
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Bürgergeld & Grundsicherung 2026: Anspruch, Sätze & Hilfe">
+  <main class="sn-page">
+    <header class="sn-hero-alt">
+      <div class="sn-container">
+        <nav class="sn-breadcrumbs">
+          <a href="/">Startseite</a> <span>/</span> <strong>Bürgergeld</strong>
+        </nav>
+        <h1>Bürgergeld & Grundsicherung 2026</h1>
+        <p class="sn-lead">Informationen zu den aktuellen Regelsätzen, dem Schonvermögen und Tipps für deinen Antrag beim Jobcenter.</p>
+      </div>
+    </header>
+
+    <div class="sn-container sn-content-grid">
+      <article class="sn-article">
+        <section class="sn-highlight-box">
+          <div class="sn-highlight-text">
+            <h3>Anspruch prüfen?</h3>
+            <p>Berechne jetzt unverbindlich, wie viel Bürgergeld dir zustehen könnte.</p>
+          </div>
+          <a href="/rechner" class="sn-cta-btn">Zum Rechner</a>
+        </section>
+
+        <h2>Regelsätze ab Januar 2026</h2>
+        <div class="sn-table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Status</th><th>Betrag 2026</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Alleinstehende</td><td>582,00 €</td></tr>
+              <tr><td>Partner (pro Person)</td><td>523,00 €</td></tr>
+              <tr><td>Kinder (14-17 Jahre)</td><td>481,00 €</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Wer hat Anspruch?</h2>
+        <p>Bürgergeld erhält, wer erwerbsfähig und hilfebedürftig ist. Das bedeutet, dein Einkommen reicht nicht aus, um deinen Lebensunterhalt und die Miete zu decken.</p>
+      </article>
+
+      <aside class="sn-sidebar">
+        <div class="sn-card sn-partner">
+          <span class="sn-label">Anzeige / Partner</span>
+          <h4>Bescheid prüfen lassen</h4>
+          <p>Fehler im Jobcenter-Bescheid? Lass ihn von Experten kostenlos prüfen.</p>
+          <a href="#" class="sn-sidebar-btn">Jetzt einreichen</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .sn-page { padding-bottom: 5rem; }
+  .sn-hero-alt { background: var(--sn-bg-soft); padding: 4rem 0; border-bottom: 1px solid var(--sn-border); margin-bottom: 3rem; }
+  .sn-breadcrumbs { font-size: 0.85rem; color: var(--sn-zinc-600); margin-bottom: 1rem; }
+  .sn-breadcrumbs a { text-decoration: none; color: var(--sn-zinc-600); }
+  h1 { font-size: 2.5rem; font-weight: 900; color: var(--sn-zinc-950); margin-bottom: 1rem; }
+  .sn-lead { font-size: 1.2rem; color: var(--sn-zinc-600); max-width: 800px; line-height: 1.6; }
+  .sn-content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; }
+  .sn-article h2 { font-size: 1.75rem; font-weight: 800; margin: 2rem 0 1rem; }
+  .sn-article p { font-size: 1.1rem; line-height: 1.7; color: var(--sn-zinc-600); }
+  .sn-highlight-box { background: var(--sn-blue); color: #fff; padding: 2rem; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+  .sn-cta-btn { background: #fff; color: var(--sn-blue); padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 800; }
+  .sn-table-wrapper { border: 1px solid var(--sn-border); border-radius: 12px; overflow: hidden; margin: 1.5rem 0; }
+  table { width: 100%; border-collapse: collapse; background: #fff; }
+  th { background: var(--sn-bg-soft); padding: 1rem; text-align: left; font-size: 0.9rem; }
+  td { padding: 1rem; border-top: 1px solid var(--sn-border); }
+  .sn-sidebar { display: flex; flex-direction: column; gap: 2rem; }
+  .sn-card { border: 1px solid var(--sn-border); padding: 1.5rem; border-radius: 16px; background: #fff; }
+  .sn-partner { background: #fdf2f8; border-color: #fbcfe8; }
+  .sn-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #db2777; margin-bottom: 0.5rem; display: block; }
+  .sn-sidebar-btn { display: block; text-align: center; background: #db2777; color: #fff; padding: 0.75rem; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 1rem; }
+  @media (max-width: 1000px) { .sn-content-grid { grid-template-columns: 1fr; } .sn-highlight-box { flex-direction: column; text-align: center; gap: 1.5rem; } }
+</style>

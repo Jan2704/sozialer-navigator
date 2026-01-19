@@ -1,0 +1,15 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+}
+const { number, title, description } = Astro.props;
+---
+<article class="p-8 bg-white rounded-3xl shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_30px_-5px_rgba(37,99,235,0.2)] transition-all duration-300 ease-in-out border border-slate-50 relative top-0 hover:-top-1">
+  <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl flex items-center justify-center font-black mb-6 text-lg shadow-lg shadow-blue-500/20">
+    {number}
+  </div>
+  <h4 class="text-xl font-bold text-slate-900 mb-3 tracking-tight">{title}</h4>
+  <p class="text-slate-600 text-base leading-relaxed font-medium">{description}</p>
+</article>

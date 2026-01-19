@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
+---
+
+<Layout title="Anspruch gesichert | Sozialer Navigator">
+  <main style="max-width: 800px; margin: 0 auto; padding: 60px 20px; font-family: 'Inter', sans-serif; text-align: center;">
+    
+    <div style="font-size: 5rem; margin-bottom: 20px;">🎉</div>
+    <h1 style="font-size: 3rem; font-weight: 900; color: #0f172a; margin-bottom: 1rem;">Geschafft!</h1>
+    <p style="font-size: 1.25rem; color: #475569; margin-bottom: 3rem;">
+      Vielen Dank, <span id="display-name" style="font-weight: 800; color: #2563eb;">...</span>. Deine Daten sind sicher hinterlegt.
+    </p>
+
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 30px; border-radius: 32px; margin-bottom: 3rem; display: inline-block; min-width: 300px;">
+      <span style="font-size: 0.85rem; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 5px;">Dein monatlicher Vorteil</span>
+      <div id="display-summe" style="font-size: 3rem; font-weight: 900; color: #16a34a;">0,00 €</div>
+    </div>
+
+    <div style="background: #ffffff; border: 2px solid #2563eb; padding: 40px; border-radius: 32px; text-align: left; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1);">
+      <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem;">Wichtig: Sofortige Fristwahrung (§ 24 WoGG)</h2>
+      <p style="color: #475569; margin-bottom: 1.5rem;">Kopiere diesen Text und sende ihn heute per E-Mail an dein Wohngeldamt, um das Geld für {currentMonth} 2026 zu sichern.</p>
+      
+      <div id="copy-box" style="background: #f1f5f9; padding: 25px; border-radius: 16px; border: 1px solid #cbd5e1; font-family: monospace; font-size: 0.95rem; line-height: 1.6;">
+        Betreff: Formloser Antrag auf Wohngeld zur Fristwahrung<br/><br/>
+        Sehr geehrte Damen und Herren,<br/><br/>
+        hiermit beantrage ich für meinen Haushalt Wohngeld zur Fristwahrung nach § 24 WoGG für den Monat {currentMonth} 2026.<br/><br/>
+        Mit freundlichen Grüßen,<br/>
+        <span id="display-name-copy"></span>
+      </div>
+      
+      <button onclick="copyToClipboard()" style="width: 100%; margin-top: 20px; background: #0f172a; color: white; padding: 18px; border-radius: 12px; font-weight: 800; cursor: pointer; border: none;">TEXT KOPIEREN</button>
+    </div>
+
+  </main>
+</Layout>
+
+<script is:inline>
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('name') || 'Nutzer';
+  const summe = parseFloat(params.get('summe') || 0).toFixed(2);
+
+  document.getElementById('display-name').innerText = name;
+  document.getElementById('display-name-copy').innerText = name;
+  document.getElementById('display-summe').innerText = summe + ' €';
+
+  function copyToClipboard() {
+    const text = document.getElementById('copy-box').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Der Antragstext wurde kopiert! Sende ihn jetzt an dein Amt.");
+    });
+  }
+</script>

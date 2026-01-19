@@ -1,0 +1,38 @@
+---
+// src/components/SmartCalculator.astro
+const { benefitSlug, cityInfo, benefitInfo } = Astro.props;
+const regelsatz = benefitInfo.calc_constants.regelsatz_single || 563;
+---
+
+<div class="calculator-box" data-benefit={benefitSlug} data-regelsatz={regelsatz}>
+  <div class="input-group">
+    <label>Netto-Einkommen (Haushalt)</label>
+    <input type="number" id="calc-income" placeholder="€" />
+  </div>
+
+  <div class="input-group">
+    <label>Warmmiete</label>
+    <input type="number" id="calc-rent" placeholder="€" />
+  </div>
+
+  {benefitSlug === 'wohngeld' && (
+    <div class="info-badge">
+      Lokal: In <strong>{cityInfo.stadt}</strong> gilt Mietstufe <strong>{cityInfo.mietstufe}</strong>.
+    </div>
+  )}
+
+  <button id="run-calc" class="btn-primary">Anspruch unverbindlich prüfen</button>
+
+  <div id="result-area" style="display: none; margin-top: 2rem; padding: 20px; border-radius: 12px;">
+    <h4 id="result-title"></h4>
+    <p id="result-text"></p>
+  </div>
+</div>
+
+<style>
+  .calculator-box { background: #f8fafc; padding: 40px; border-radius: 24px; border: 1px solid #e2e8f0; }
+  .input-group { margin-bottom: 20px; }
+  label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
+  input { width: 100%; padding: 16px; border-radius: 12px; border: 1.5px solid #cbd5e1; font-size: 1.1rem; }
+  .info-badge { background: #eff6ff; color: #1e40af; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; }
+</style>

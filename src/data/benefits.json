@@ -1,0 +1,46 @@
+{
+  "wohngeld": {
+    "id": "wg_2026",
+    "slug": "wohngeld",
+    "name": "Wohngeld Plus",
+    "type": "Mietzuschuss",
+    "legal_basis": "§ 24 WoGG",
+    "description": "Der staatliche Zuschuss für Haushalte mit Einkommen.",
+    "long_description": "Wohngeld ist ein Rechtsanspruch für Arbeitnehmer, Rentner und Selbstständige.",
+    "calc_constants": {
+      "regelsatz_referenz": 563.00,
+      "vermoegen_freibetrag_p1": 60000.00,
+      "vermoegen_freibetrag_pro_weitere": 30000.00
+    },
+    "requirements": [
+      "Einkommen vorhanden",
+      "Wohnsitz in der Stadt",
+      "Kein Bezug von Grundsicherung"
+    ],
+    "agency_type": "Wohngeldbehörde",
+    "agency_key": "amt_email",
+    "action_text": "Fristwahrung Wohngeld"
+  },
+  "grundsicherung": {
+    "id": "gs_2026",
+    "slug": "grundsicherung",
+    "name": "Grundsicherung",
+    "type": "Existenzsicherung",
+    "legal_basis": "SGB II / Reform 2026",
+    "description": "Die staatliche Absicherung bei Notlagen.",
+    "long_description": "Sichert den Lebensunterhalt und die Warmmiete vollständig ab.",
+    "calc_constants": {
+      "regelsatz_single": 563.00,
+      "vermoegen_schonfrist": 40000.00,
+      "vermoegen_nach_frist": 15000.00
+    },
+    "requirements": [
+      "Erwerbsfähigkeit",
+      "Hilfebedürftigkeit",
+      "Sperrzeit oder Kündigung"
+    ],
+    "agency_type": "Jobcenter",
+    "agency_key": "jobcenter_email",
+    "action_text": "Fristwahrung Grundsicherung"
+  }
+}

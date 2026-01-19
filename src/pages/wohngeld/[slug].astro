@@ -1,0 +1,739 @@
+---
+// src/pages/wohngeld/[slug].astro
+import { wohngeldData } from '../../data/wohngeldData.js';
+
+export function getStaticPaths() {
+  return wohngeldData.filter(item => item.slug).map((item) => ({ 
+    params: { slug: item.slug },
+    props: { info: item },
+  }));
+}
+
+const { info } = Astro.props;
+const stadtName = info?.stadt || "Deine Stadt";
+const mietstufe = info?.mietstufe || 1;
+const amtName = info?.amt_name || "Wohngeldbehörde";
+
+const currentYear = 2026;
+const seoTitle = info?.seo_title || `Wohngeldrechner ${stadtName} ${currentYear} | Anspruch prüfen`;
+const seoDesc = info?.seo_meta_desc || `Wohngeld Rechner für ${stadtName} (Mietstufe ${mietstufe}). Prüfen Sie Ihren Anspruch auf Mietzuschuss bei der ${amtName}. Aktuell für ${currentYear}.`;
+---
+
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDesc} />
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={seoDesc} />
+    <meta property="og:url" content={`https://sozialer-navigator.de/wohngeld/${info.slug}`} />
+    
+    <!-- Libraries -->
+    <script is:inline src="https://cdn.tailwindcss.com"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script is:inline src="https://unpkg.com/lucide@latest"></script>
+
+    <script is:inline>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            base: '#f8fafc',
+                            indigo: '#4f46e5',
+                            slate: '#0f172a',
+                            blue: '#2563eb',
+                            border: '#e2e8f0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style is:global>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        body { 
+            background-color: #f8fafc; 
+            color: #0f172a; 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .view-section { display: none; opacity: 0; }
+        .view-section.active { display: block; opacity: 1; }
+
+        .pro-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-container { position: relative; width: 100%; max-width: 320px; height: 240px; margin: 0 auto; }
+
+        #lead-modal {
+            display: none;
+            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.6);
+        }
+        #lead-modal.active { display: flex; }
+        
+        #notification-toast {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 300;
+        }
+
+        .result-glow { text-shadow: 0 0 30px rgba(37, 99, 235, 0.2); }
+
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        ::-webkit-scrollbar { width: 14px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #0f172a; border: 4px solid #f8fafc; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+        html { scrollbar-width: thin; scrollbar-color: #0f172a #f8fafc; }
+    </style>
+</head>
+
+<body class="antialiased">
+    
+    <!-- HEADER -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-5 border-b border-white/10 bg-brand-slate/95 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="flex items-center gap-3 cursor-pointer" aria-label="Startseite">
+                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-brand-slate font-black">N</div>
+                <span class="font-extrabold text-white tracking-tight text-xl">Navigator</span>
+            </a>
+            <div class="hidden md:flex items-center gap-10 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                <a href="/" class="hover:text-white transition-colors">Startseite</a>
+                <a href="/#hub-wohngeld" class="hover:text-white transition-colors">Wohngeld</a>
+                <a href="/#hub-buergergeld" class="hover:text-white transition-colors">Bürgergeld</a>
+                <a href="/#about" class="hover:text-white transition-colors">Über uns</a>
+            </div>
+            <a href="/#calculator" class="bg-brand-blue text-white px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-brand-slate transition-all shadow-md">
+                Anspruch prüfen
+            </a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-24 px-6">
+
+        <!-- VIEW 1: HOME (Angepasst für Bürgergeld) -->
+        <section id="view-home" class="view-section active max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <!-- LEFT: City Specific Text -->
+                <div class="space-y-10 text-left pt-4 lg:sticky lg:top-32">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-brand-blue tracking-widest">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> {stadtName}
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-black text-brand-slate tracking-tighter leading-none italic">
+                        Wohngeldrechner <br/> <span class="text-brand-blue not-italic">{stadtName}.</span>
+                    </h1>
+                    
+                    <div class="space-y-6 text-slate-600 font-medium leading-relaxed text-lg">
+                        <p>
+                            Wohnen in {stadtName} ist teuer. Prüfen Sie jetzt Ihren Anspruch auf Wohngeld. Unser Rechner berücksichtigt die lokale <strong>Mietstufe {mietstufe}</strong> und die aktuellen Freibeträge für 2026.
+                        </p>
+                        <p>
+                            Zuständig ist die {amtName}. Wir helfen Ihnen bei der Vorprüfung.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 pt-4">
+                        <h3 class="text-xs font-black uppercase tracking-widest text-brand-slate mb-4">Ihre Vorteile</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 text-slate-600 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-brand-blue shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                                <span><strong>Mietstufe {mietstufe}:</strong> Korrekte Höchstbeträge für {stadtName}.</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-600 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-brand-blue shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                                <span><strong>Aktuell:</strong> Datenstand 2026 berücksichtigt.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT: CALCULATOR (Vorausgefüllt) -->
+                <div id="calculator" class="pro-card p-8 md:p-10 shadow-2xl border-none space-y-8 bg-white relative z-10">
+                    <div class="border-b border-slate-100 pb-6">
+                        <h2 class="text-2xl font-black text-brand-slate italic mb-2">Anspruch prüfen</h2>
+                        <p class="text-sm leading-relaxed text-slate-600 font-medium">
+                            <strong class="text-brand-blue">Mietstufe {mietstufe}:</strong> Wir prüfen Ihren Anspruch basierend auf den lokalen Mietobergrenzen für <span class="city-name-display text-brand-blue">{stadtName}</span>.
+                        </p>
+                    </div>
+                    <form id="main-calc" class="space-y-6">
+                        <!-- VORAUSGEFÜLLTE STADT INFO -->
+                        <div id="city-info-container" class="relative overflow-hidden rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50/50 to-white p-6 shadow-sm transition-all">
+                            <div class="relative z-10 flex items-start justify-between">
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-brand-blue">
+                                            <i data-lucide="check" class="h-3.5 w-3.5"></i>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-brand-slate">
+                                            <span class="city-name-display">{stadtName}</span>
+                                        </h3>
+                                    </div>
+                                    <p class="text-xs font-medium text-slate-500 pl-8">
+                                        Mietstufe <span class="city-level-display font-bold text-brand-blue">{mietstufe}</span> aktiv
+                                    </p>
+                                </div>
+                                <a href="/" class="rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 transition-colors hover:bg-slate-100 hover:text-brand-slate">
+                                    Ändern
+                                </a>
+                            </div>
+
+                            <div id="city-authority-info" class="mt-4 pt-4 border-t border-blue-100/50 relative z-10">
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">Zuständige Stelle</p>
+                                <p class="font-bold text-brand-slate text-sm" id="authority-name">{amtName}</p>
+                                <p class="text-xs text-slate-500" id="authority-address">{info.amt_adresse}</p>
+                            </div>
+                        </div>
+
+                        <!-- Hidden Inputs for Logic -->
+                        <input type="hidden" id="city-input" value={stadtName}>
+                        <input type="hidden" id="selected-mietstufe" value={mietstufe}>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-3 text-left">
+                                <label for="persons" class="text-[10px] font-bold uppercase text-slate-400 ml-1 italic">Haushalt</label>
+                                <select id="persons" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 font-semibold outline-none focus:border-brand-blue">
+                                    <option value="1">1 Person</option>
+                                    <option value="2">2 Personen</option>
+                                    <option value="3">3 Personen</option>
+                                    <option value="4">4+ Personen</option>
+                                </select>
+                            </div>
+                            <div class="space-y-3 text-left">
+                                <label for="kids" class="text-[10px] font-bold uppercase text-slate-400 ml-1 italic">Kinder</label>
+                                <select id="kids" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 font-semibold outline-none focus:border-brand-blue">
+                                    <option value="0">Keine</option>
+                                    <option value="1">1 Kind</option>
+                                    <option value="2">2 Kinder</option>
+                                    <option value="3">3+ Kinder</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <label for="income" class="text-[10px] font-bold uppercase text-slate-400 ml-1 italic">Netto-Einkommen</label>
+                            <div class="relative">
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" id="income" placeholder="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 font-bold outline-none focus:ring-2 focus:ring-brand-blue/10 transition-all">
+                                <span class="absolute right-5 top-1/2 -translate-y-1/2 font-bold text-slate-300">€</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400 italic ml-1">Lassen Sie das Feld leer (0€), wenn Sie kein Einkommen haben.</p>
+                        </div>
+                        <div class="space-y-3">
+                            <label for="rent" class="text-[10px] font-bold uppercase text-slate-400 ml-1 italic">Warmmiete</label>
+                            <div class="relative">
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" id="rent" placeholder="z.B. 890" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 font-bold outline-none focus:ring-2 focus:ring-brand-blue/10 transition-all">
+                                <span class="absolute right-5 top-1/2 -translate-y-1/2 font-bold text-slate-300">€</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-5 bg-brand-blue text-white rounded-xl font-bold uppercase tracking-widest hover:bg-brand-slate transition-all shadow-lg active:scale-[0.98]">
+                            Analyse abschließen
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- FAQ SECTION (Bürgergeld Spezifisch) -->
+            <div class="max-w-3xl mx-auto space-y-8 text-left pt-24">
+                <h3 class="text-3xl font-black text-brand-slate tracking-tight italic text-center">Häufige Fragen in {stadtName}</h3>
+                <div class="space-y-4">
+                    <details class="group bg-white border border-slate-200 rounded-2xl open:ring-2 open:ring-brand-blue/10 transition-all">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-brand-slate">
+                            <span>Wo beantrage ich Wohngeld in {stadtName}?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed text-sm">
+                            Zuständig ist die {amtName}. Sie können den Antrag dort schriftlich einreichen oder oft auch online stellen. Wichtig: Der Antrag gilt ab dem Monat der Einreichung.
+                        </div>
+                    </details>
+                    <details class="group bg-white border border-slate-200 rounded-2xl open:ring-2 open:ring-brand-blue/10 transition-all">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-brand-slate">
+                            <span>Welche Mietstufe hat {stadtName}?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed text-sm">
+                            {stadtName} ist aktuell in die <strong>Mietstufe {mietstufe}</strong> eingestuft. Das bedeutet, dass die Mietobergrenzen entsprechend angepasst sind. Unser Rechner berücksichtigt diesen Wert automatisch.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: RESULTS (Versteckt bis Berechnung) -->
+        <section id="view-results" class="view-section max-w-6xl mx-auto space-y-16">
+            <header class="text-center space-y-4 relative">
+                <h3 class="text-5xl font-black text-brand-slate tracking-tight italic uppercase text-center">Ihr Ergebnisbericht</h3>
+                <button onclick="location.reload()" class="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-brand-blue transition-colors uppercase tracking-widest">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Neu berechnen
+                </button>
+                <p class="text-slate-500 font-semibold uppercase text-[10px] tracking-[0.2em] text-center">Berechnet am <span id="res-date">--</span></p>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-left">
+                <div class="md:col-span-3 pro-card p-12 flex flex-col justify-between bg-brand-slate text-white border-none relative overflow-hidden text-left shadow-2xl min-h-[500px]">
+                    <div class="absolute top-0 right-0 p-12 opacity-5 rotate-12" aria-hidden="true"><i data-lucide="sparkles" class="w-96 h-96"></i></div>
+                    <div class="relative z-10 space-y-10">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-blue-400 italic">Geschätzter monatlicher Anspruch</span>
+                            <div class="text-[7rem] md:text-[10rem] font-black tracking-tighter leading-none text-blue-400 result-glow mt-4" id="res-amount">0€</div>
+                        </div>
+                        <div class="max-w-2xl bg-white/95 rounded-3xl border border-slate-100 shadow-xl p-8 space-y-6">
+                            <p class="text-slate-900 font-bold text-xl leading-relaxed italic">
+                                Basierend auf der <span id="res-mietstufe" class="text-brand-blue">Mietstufe</span> in <span id="res-city-name" class="text-brand-blue font-black underline">Ihrer Stadt</span> besteht ein positiver Anspruch.
+                            </p>
+                            <div id="rent-check-result" class="mt-6 pt-6 border-t border-slate-100"></div>
+                            <div id="next-steps-result" class="mt-6 pt-6 border-t border-slate-100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-card p-10 flex flex-col items-center justify-center text-center space-y-8 bg-white border-brand-border shadow-md">
+                    <h4 class="font-bold text-brand-slate uppercase text-xs tracking-widest italic text-center">Mietbelastung</h4>
+                    <div class="chart-container text-center"><canvas id="ratioChart"></canvas></div>
+                    <div id="ratio-text" class="text-6xl font-black text-brand-blue tracking-tight text-center">0%</div>
+                </div>
+                <div class="col-span-full pt-12 border-t border-slate-100 space-y-8">
+                    <h4 class="text-2xl font-black text-brand-slate italic uppercase">Handlungsempfehlungen & Sparpotenziale</h4>
+                    <div id="result-leads" class="grid md:grid-cols-3 gap-6"></div>
+                    
+                    <!-- INTERAKTIVE ABFRAGE (LEAD GEN) -->
+                    <div id="lead-generation-form" class="hidden mt-12 p-8 md:p-12 bg-white border border-slate-200 rounded-3xl shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-blue/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+                        <div class="relative z-10">
+                            <h4 class="text-2xl font-black text-brand-slate italic mb-2">Persönliche Bedarfsanalyse</h4>
+                            <p class="text-slate-500 font-medium mb-8">Beantworten Sie 2 kurze Fragen für maßgeschneiderte Unterstützung.</p>
+                            
+                            <form id="lead-form-internal" class="space-y-8">
+                                <!-- Frage 1 -->
+                                <div class="space-y-4">
+                                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Aktueller Berufs-Status?</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <label class="cursor-pointer group">
+                                            <input type="radio" name="status" value="arbeitssuchend" class="peer sr-only">
+                                            <div class="p-4 border-2 border-slate-100 rounded-xl text-center font-bold text-slate-600 peer-checked:border-brand-blue peer-checked:bg-blue-50 peer-checked:text-brand-blue transition-all group-hover:border-slate-200">
+                                                Arbeitssuchend
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer group">
+                                            <input type="radio" name="status" value="berufstaetig" class="peer sr-only">
+                                            <div class="p-4 border-2 border-slate-100 rounded-xl text-center font-bold text-slate-600 peer-checked:border-brand-blue peer-checked:bg-blue-50 peer-checked:text-brand-blue transition-all group-hover:border-slate-200">
+                                                Berufstätig
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer group">
+                                            <input type="radio" name="status" value="sonstiges" class="peer sr-only">
+                                            <div class="p-4 border-2 border-slate-100 rounded-xl text-center font-bold text-slate-600 peer-checked:border-brand-blue peer-checked:bg-blue-50 peer-checked:text-brand-blue transition-all group-hover:border-slate-200">
+                                                Sonstiges
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Frage 2 -->
+                                <div class="space-y-4">
+                                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Was benötigen Sie zusätzlich?</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <label class="cursor-pointer group">
+                                            <input type="checkbox" name="needs" value="avgs" class="peer sr-only">
+                                            <div class="p-4 border-2 border-slate-100 rounded-xl text-center font-bold text-slate-600 peer-checked:border-brand-blue peer-checked:bg-blue-50 peer-checked:text-brand-blue transition-all group-hover:border-slate-200">
+                                                AVGS (Coaching)
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer group">
+                                            <input type="checkbox" name="needs" value="kiz" class="peer sr-only">
+                                            <div class="p-4 border-2 border-slate-100 rounded-xl text-center font-bold text-slate-600 peer-checked:border-brand-blue peer-checked:bg-blue-50 peer-checked:text-brand-blue transition-all group-hover:border-slate-200">
+                                                Kinder-Zuschuss
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer group">
+                                            <input type="checkbox" name="needs" value="ablehnung" class="peer sr-only">
+                                            <div class="p-4 border-2 border-slate-100 rounded-xl text-center font-bold text-slate-600 peer-checked:border-brand-blue peer-checked:bg-blue-50 peer-checked:text-brand-blue transition-all group-hover:border-slate-200">
+                                                Hilfe bei Ablehnung
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Kontaktdaten -->
+                                <div class="space-y-4 pt-4 border-t border-slate-100">
+                                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Ihre Kontaktdaten</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <input type="text" id="lead-firstname" placeholder="Vorname" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-semibold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/10" required>
+                                        <input type="text" id="lead-lastname" placeholder="Nachname" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-semibold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/10" required>
+                                    </div>
+                                    <input type="email" id="lead-email" placeholder="E-Mail Adresse" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-semibold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/10" required>
+                                    <input type="tel" id="lead-phone" placeholder="Telefonnummer (optional)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-semibold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/10">
+                                </div>
+
+                                <!-- Datenschutz Checkbox -->
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="lead-privacy" class="mt-1 w-4 h-4 text-brand-blue border-slate-300 rounded focus:ring-brand-blue cursor-pointer">
+                                    <label for="lead-privacy" class="text-xs text-slate-500 font-medium leading-relaxed cursor-pointer">
+                                        Ich habe die <a href="/datenschutz" target="_blank" class="text-brand-blue underline hover:text-brand-slate">Datenschutzerklärung</a> zur Kenntnis genommen und stimme zu, dass meine Angaben zur Kontaktaufnahme und für Rückfragen dauerhaft gespeichert werden.
+                                    </label>
+                                </div>
+
+                                <button type="button" onclick="submitLeadForm()" class="w-full py-5 bg-brand-slate text-white rounded-xl font-bold uppercase tracking-widest hover:bg-brand-blue transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                                    Kostenlose Prüfung anfordern
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NOTIFICATION -->
+    <div id="notification-toast" class="bg-brand-slate text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/10 backdrop-blur-xl">
+        <i data-lucide="check-circle" class="text-brand-blue"></i>
+        <span id="toast-message" class="font-bold text-sm italic">Status aktualisiert.</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-slate border-t border-white/10 py-24 px-6 text-left text-white">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-16 relative z-10">
+            <div class="col-span-2 space-y-8 text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-brand-slate font-black italic shadow-lg">N</div>
+                    <span class="font-extrabold text-white tracking-tight text-2xl uppercase italic">Navigator</span>
+                </div>
+                <p class="max-w-sm text-sm font-medium text-slate-400 italic text-left">© 2026 Sozialer Navigator | Made in Germany</p>
+            </div>
+            <div class="space-y-6 text-left">
+                <h6 class="text-white font-bold uppercase text-[10px] tracking-widest italic">Rechtliches</h6>
+                <ul class="grid grid-cols-1 gap-3 text-xs font-semibold text-slate-400 italic uppercase text-left">
+                    <li><a href="/impressum" class="hover:text-white">Impressum</a></li>
+                    <li><a href="/datenschutz" class="hover:text-white">Datenschutz</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script is:inline define:vars={{ cityData: wohngeldData, currentCity: stadtName, currentMietstufe: mietstufe }}>
+        window.cityData = cityData;
+        window.initialCity = currentCity;
+        window.initialMietstufe = currentMietstufe;
+    </script>
+
+    <script is:inline type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+        const SUPABASE_URL = 'https://iiimjuplyjqapvwhbozf.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaW1qdXBseWpxYXB2d2hib3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTI4MTgsImV4cCI6MjA4MTIyODgxOH0.Ru-09I4PuFQsJC-AMcdntn9bCS2f9lOdGQoMo7fAHYs';
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const RENT_LIMITS = {
+            1: [359, 436, 519, 606, 691],
+            2: [403, 490, 584, 683, 789],
+            3: [448, 546, 651, 762, 888],
+            4: [500, 609, 725, 890, 1034],
+            5: [553, 671, 808, 986, 1158],
+            6: [606, 739, 880, 1086, 1269],
+            7: [666, 806, 974, 1199, 1394]
+        };
+
+        lucide.createIcons();
+        let ratioChartInstance = null;
+
+        window.showView = (viewId) => {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('view-' + viewId);
+            if(target) {
+                target.classList.add('active');
+                gsap.fromTo(target, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 });
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        
+        window.scrollToId = (id) => {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.showToast = (msg) => {
+            const toast = document.getElementById('notification-toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => { toast.style.display = 'none'; }, 3500);
+        };
+
+        window.submitLeadForm = async () => {
+            const fname = document.getElementById('lead-firstname').value;
+            const lname = document.getElementById('lead-lastname').value;
+            const email = document.getElementById('lead-email').value;
+            const phone = document.getElementById('lead-phone').value;
+            const privacy = document.getElementById('lead-privacy').checked;
+            
+            const status = document.querySelector('input[name="status"]:checked')?.value || 'nicht angegeben';
+            const needs = Array.from(document.querySelectorAll('input[name="needs"]:checked')).map(el => el.value);
+
+            if(!fname || !lname || !email) {
+                showToast('Bitte füllen Sie alle Pflichtfelder aus.');
+                return;
+            }
+
+            if(!privacy) {
+                showToast('Bitte akzeptieren Sie die Datenschutzerklärung.');
+                return;
+            }
+
+            const btn = document.querySelector('button[onclick="submitLeadForm()"]');
+            const originalText = btn.innerText;
+            btn.innerText = "Sende...";
+            btn.disabled = true;
+
+            try {
+                const { error } = await supabase.from('leads').insert([{
+                    first_name: fname, last_name: lname, email, phone,
+                    status, needs, city: document.getElementById('city-input').value,
+                    created_at: new Date().toISOString()
+                }]);
+                if(error) throw error;
+                showToast('Anfrage erfolgreich gesendet! Ein Experte meldet sich.');
+                document.getElementById('lead-form-internal').reset();
+            } catch(e) {
+                console.error(e);
+                showToast('Fehler beim Senden. Bitte versuchen Sie es später.');
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        };
+
+        window.openLeadForm = (type) => {
+            const form = document.getElementById('lead-generation-form');
+            form.classList.remove('hidden');
+            document.querySelectorAll('input[name="needs"]').forEach(cb => cb.checked = false);
+            if (type) {
+                const target = document.querySelector(`input[name="needs"][value="${type}"]`);
+                if (target) target.checked = true;
+            }
+            setTimeout(() => scrollToId('lead-generation-form'), 100);
+        };
+
+        const calcForm = document.getElementById('main-calc');
+        calcForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inc = parseFloat(document.getElementById('income').value) || 0;
+            const rnt = parseFloat(document.getElementById('rent').value) || 0;
+            const ms = parseInt(document.getElementById('selected-mietstufe').value);
+            const kidsCount = parseInt(document.getElementById('kids').value) || 0;
+            const personsCount = parseInt(document.getElementById('persons').value) || 1;
+            
+            if (rnt > 0) {
+                // Button Feedback
+                const btn = calcForm.querySelector('button[type="submit"]');
+                const originalText = btn.innerText;
+                btn.innerText = "Analysiere...";
+                btn.disabled = true;
+
+                try {
+                    // 1. Payload für Python Backend bauen
+                    const members = [];
+                    // Hauptperson
+                    members.push({ role: "main", age: 35, incomes: [{ amount_net: inc, amount_brutto: inc * 1.4 }] });
+                    
+                    // Partner (wenn mehr als 1 Person und Differenz zu Kindern > 1)
+                    if (personsCount > 1 && (personsCount - kidsCount) > 1) {
+                        members.push({ role: "partner", age: 35, incomes: [] });
+                    }
+                    
+                    // Kinder
+                    for(let i=0; i<kidsCount; i++) {
+                        members.push({ role: "child", age: 10, incomes: [] });
+                    }
+
+                    const payload = {
+                        rent_cold: rnt, // Wir nutzen Warmmiete als Basis für die Schätzung
+                        rent_utility: 0,
+                        rent_heating: 0,
+                        termination_reason: "none",
+                        members: members
+                    };
+
+                    // 2. API Abfrage (Lokal oder Render)
+                    const apiUrl = window.location.hostname.includes('localhost') 
+                        ? 'http://localhost:8000/api/v4/analyze' 
+                        : 'https://sozialer-navigator-api.onrender.com/api/v4/analyze';
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) throw new Error('Server Fehler');
+                    const data = await response.json();
+
+                    // 3. Ergebnisse anzeigen
+                    showView('results');
+                    
+                    const resAmount = document.getElementById('res-amount');
+                    const nextStepsContainer = document.getElementById('next-steps-result');
+                    const ratioText = document.getElementById('ratio-text');
+                    
+                    // Beste Leistung ermitteln
+                    const sgb2 = data.results.find(r => r.type === 'SGB2');
+                    const wogg = data.results.find(r => r.type === 'WOHNGELD');
+                    
+                    let finalAmount = 0;
+                    let resultType = "Kein Anspruch";
+
+                    if (sgb2 && sgb2.amount > 0) {
+                        finalAmount = sgb2.amount;
+                        resultType = "Bürgergeld";
+                    } else if (wogg && wogg.amount > 0) {
+                        finalAmount = wogg.amount;
+                        resultType = "Wohngeld";
+                    }
+
+                    // UI Updates
+                    document.getElementById('res-date').innerText = new Date().toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+                    document.getElementById('res-city-name').innerText = document.getElementById('city-input').value;
+                    document.getElementById('res-mietstufe').innerText = `Mietstufe ${ms}`;
+                    
+                    resAmount.innerText = finalAmount > 0 ? `${finalAmount.toFixed(0)}€` : "0€";
+                    
+                    // Chart
+                    const ratio = Math.min(100, Math.round((rnt / (inc + finalAmount || 1)) * 100));
+                    if(ratioText) ratioText.innerText = `${ratio}%`;
+                    updateChart(ratio);
+
+                    // Text Feedback
+                    nextStepsContainer.innerHTML = `
+                        <h5 class="font-bold text-brand-slate text-sm uppercase tracking-wider mb-3">Ergebnis: ${resultType}</h5>
+                        <p class="text-sm text-slate-600 font-medium leading-relaxed">
+                            Basierend auf Ihren Angaben haben Sie voraussichtlich Anspruch auf <strong>${finalAmount.toFixed(2)}€ ${resultType}</strong>.
+                        </p>
+                    `;
+
+                } catch (err) {
+                    console.error(err);
+                    alert("Verbindungsfehler: Stellen Sie sicher, dass das Backend läuft (Port 8000).");
+                } finally {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
+
+                // --- MIET-CHECK LOGIK ---
+                const rentLimit = (RENT_LIMITS[ms] && RENT_LIMITS[ms][Math.min(kidsCount + (document.getElementById('persons').value - kidsCount) - 1, 4)]) || 500;
+                const isOverLimit = rnt > rentLimit;
+                const rentCheckContainer = document.getElementById('rent-check-result');
+                
+                rentCheckContainer.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isOverLimit ? 'bg-orange-100 text-orange-600' : 'bg-green-100 text-green-600'}">
+                            <i data-lucide="${isOverLimit ? 'alert-triangle' : 'check-circle-2'}" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-brand-slate text-sm uppercase tracking-wider mb-1">Miet-Check (Stufe ${ms})</h5>
+                            <p class="text-sm text-slate-600 font-medium leading-relaxed">
+                                ${isOverLimit ? `Ihre Miete liegt <strong>über dem Richtwert</strong> von ${rentLimit}€. Es wird nur der Höchstbetrag für die Berechnung berücksichtigt.` : `Ihre Miete liegt <strong>vollständig im Rahmen</strong> (Limit: ${rentLimit}€). Die Kosten werden voll anerkannt.`}
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                // --- LEADS ---
+                const leadsContainer = document.getElementById('result-leads');
+                let leads = [];
+
+                if (inc === 0) {
+                     leads.push({ 
+                        icon: 'briefcase', 
+                        title: 'Bürgergeld beantragen', 
+                        desc: 'Sichern Sie Ihren Lebensunterhalt. Hier finden Sie alle Infos zum Antrag beim Jobcenter.', 
+                        link: 'https://www.arbeitsagentur.de/arbeitslos-arbeit-finden/buergergeld', 
+                        cta: 'Zum Antrag', 
+                        recommended: true 
+                    });
+                }
+
+                if (kidsCount > 0 && inc > 0) {
+                    leads.push({ 
+                        icon: 'baby', 
+                        title: 'Kinder-Zuschuss (KiZ)', 
+                        desc: 'Zusätzlich zum Wohngeld stehen Ihnen bis zu 292€ pro Kind zu. Prüfen Sie jetzt Ihren Anspruch.', 
+                        link: 'https://www.arbeitsagentur.de/familie-und-kinder/kinderzuschlag-anspruch-hoehe-dauer', 
+                        cta: 'Anspruch prüfen', 
+                        recommended: true 
+                    });
+                }
+
+                leads.push({ 
+                    icon: 'graduation-cap', 
+                    title: '🎓 Karriere-Boost (AVGS)', 
+                    desc: 'Wir prüfen Ihren Anspruch auf 100% geförderte Coachings im Wert von 2.500€ – staatlich finanziert über den AVGS-Gutschein.', 
+                    link: '#lead-generation-form', 
+                    cta: 'Kostenlos prüfen', 
+                    recommended: true,
+                    preselect: 'avgs'
+                });
+                
+                leads.push({ 
+                    icon: 'file-warning', 
+                    title: 'Hilfe bei Ablehnung', 
+                    desc: 'Antrag abgelehnt oder falsch berechnet? Wir prüfen Ihren Bescheid kostenlos und legen Widerspruch ein.', 
+                    link: '#lead-generation-form', 
+                    cta: 'Bescheid prüfen', 
+                    recommended: false,
+                    preselect: 'ablehnung'
+                });
+
+                leadsContainer.innerHTML = leads.map(lead => `
+                    <a href="${lead.link}" ${lead.link.startsWith('#') ? `onclick="openLeadForm('${lead.preselect}'); return false;"` : 'target="_blank" rel="noopener noreferrer"'} class="group relative p-6 bg-white border ${lead.recommended ? 'border-brand-blue ring-1 ring-brand-blue shadow-lg' : 'border-slate-200'} rounded-2xl hover:border-brand-blue/30 hover:shadow-xl hover:-translate-y-1 transition-all text-left flex flex-col justify-between h-full">
+                        ${lead.recommended ? '<div class="absolute -top-3 left-6 bg-brand-blue text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Empfohlen</div>' : ''}
+                        <div class="space-y-4">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform">
+                                <i data-lucide="${lead.icon}" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-brand-slate text-lg">${lead.title}</h5>
+                                <p class="text-sm text-slate-500 mt-2 leading-relaxed">${lead.desc}</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center text-xs font-bold uppercase tracking-widest text-brand-blue group-hover:gap-2 transition-all">
+                            ${lead.cta} <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i>
+                        </div>
+                    </a>
+                `).join('');
+                lucide.createIcons();
+                
+                // Formular anzeigen
+                document.getElementById('lead-generation-form').classList.remove('hidden');
+            }
+        });
+
+        function updateChart(val) {
+            const ctx = document.getElementById('ratioChart').getContext('2d');
+            if (ratioChartInstance) ratioChartInstance.destroy();
+            ratioChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: { datasets: [{ data: [val, 100 - val], backgroundColor: ['#2563eb', '#f1f5f9'], borderWidth: 0, borderRadius: 15 }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+            });
+        }
+    </script>
+</body>
+</html>

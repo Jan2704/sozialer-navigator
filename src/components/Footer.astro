@@ -1,0 +1,137 @@
+---
+// src/components/Footer.astro
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="sn-footer">
+  <div class="sn-container">
+    
+    <div class="sn-footer-grid">
+      <div class="sn-footer-brand">
+        <a href="/" class="sn-logo">
+          <span class="sn-logo-title">Sozialer Navigator</span>
+          <span class="sn-logo-sub">Orientierung & Hilfe im Sozialstaat</span>
+        </a>
+        <p class="sn-footer-text">
+          Unabhängige Informationen und Tools für einen einfachen Zugang zu sozialen Leistungen.
+        </p>
+      </div>
+
+      <div class="sn-footer-nav">
+        <span class="sn-footer-label">Wichtige Themen</span>
+        <a href="/buergergeld-grundsicherung">Bürgergeld</a>
+        <a href="/wohngeld">Wohngeld</a>
+        <a href="/wissen">Wissen & Ratgeber</a>
+        <a href="/rechner">Leistungs-Rechner</a>
+      </div>
+
+      <div class="sn-footer-nav">
+        <span class="sn-footer-label">Service</span>
+        <a href="/hilfe">Hilfe finden</a>
+        <a href="/anspruch-pruefen">Anspruch prüfen</a>
+        <a href="/kontakt">Kontakt</a>
+      </div>
+
+      <div class="sn-footer-nav">
+        <span class="sn-footer-label">Rechtliches</span>
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+      </div>
+    </div>
+
+    <div class="sn-footer-bottom">
+      <p>&copy; {currentYear} Sozialer Navigator. Alle Rechte vorbehalten.</p>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .sn-footer {
+    background: #ffffff;
+    border-top: 1px solid var(--sn-border);
+    padding: 4rem 0 2rem 0;
+    margin-top: 4rem;
+  }
+
+  .sn-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .sn-footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sn-logo { text-decoration: none; display: flex; flex-direction: column; }
+  .sn-logo-title { font-size: 1.1rem; font-weight: 800; color: var(--sn-zinc-950); line-height: 1.2; }
+  .sn-logo-sub { font-size: 0.75rem; color: var(--sn-zinc-600); }
+
+  .sn-footer-text {
+    font-size: 0.9rem;
+    color: var(--sn-zinc-600);
+    line-height: 1.5;
+    max-width: 280px;
+  }
+
+  .sn-footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sn-footer-label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sn-zinc-950);
+    margin-bottom: 0.5rem;
+  }
+
+  .sn-footer-nav a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--sn-zinc-600);
+    transition: color 0.1s;
+  }
+
+  .sn-footer-nav a:hover {
+    color: var(--sn-blue);
+  }
+
+  .sn-footer-bottom {
+    border-top: 1px solid var(--sn-border);
+    padding-top: 2rem;
+    text-align: center;
+  }
+
+  .sn-footer-bottom p {
+    font-size: 0.8rem;
+    color: var(--sn-zinc-500);
+  }
+
+  @media (max-width: 900px) {
+    .sn-footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .sn-footer-brand {
+      grid-column: span 2;
+      margin-bottom: 1rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .sn-footer-grid {
+      grid-template-columns: 1fr;
+    }
+    .sn-footer-brand {
+      grid-column: span 1;
+    }
+  }
+</style>

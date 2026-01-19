@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import citiesData from '../../data/cities_2026.json';
+
+const cities = citiesData.sort((a, b) => a.stadt.localeCompare(b.stadt));
+---
+
+<Layout title="Wohngeld Ratgeber 2026 | Alle Städte & Mietstufen">
+  <main class="sn-portal-index">
+    <header class="hero">
+      <div class="sn-container">
+        <h1>Wohngeld 2026: <br/><span class="text-blue">Ihr Recht auf Minderung der Miete.</span></h1>
+        <p>Wählen Sie Ihre Stadt und sichern Sie sich Ihren Zuschuss ohne bürokratische Hürden.</p>
+      </div>
+    </header>
+
+    <section class="trust-story">
+      <div class="sn-container">
+        <div class="story-card">
+          <h2>Warum wir das tun</h2>
+          <p>
+            Hinter diesem Portal steht kein anonymes Amt, sondern eine klare Mission. Der <strong>Soziale Navigator</strong> wurde aus der Überzeugung heraus gegründet, dass Technologie komplexe bürokratische Prozesse für jeden verständlich und zugänglich machen sollte.
+          </p>
+          <p>
+            Aus eigener Erfahrung wissen wir, wie herausfordernd es sein kann, berechtigte Ansprüche ohne unabhängige Unterstützung durchzusetzen – besonders in Phasen des persönlichen Umbruchs. Wir nutzen dieses Wissen, um eine Hilfe zu bieten, die auf Ihrer Seite steht und administrative Barrieren abbaut. Unser Ziel ist es, den Zugang zu sozialen Leistungen einfacher, transparenter und menschlicher zu gestalten.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="city-selection">
+      <div class="sn-container">
+        <div class="city-grid">
+          {cities.map((city) => (
+            <a href={`/wohngeld/${city.slug}`} class="city-link">
+              {city.stadt} <span>→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hero { padding: 6rem 0 4rem; text-align: center; background: radial-gradient(circle at top right, #f1f7ff 0%, #ffffff 100%); }
+  h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -0.04em; }
+  .text-blue { color: #2563eb; }
+  .story-card { background: #fff; border: 1px solid #e2e8f0; padding: 3rem; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.03); margin-top: -3rem; position: relative; z-index: 10; }
+  .story-card h2 { font-weight: 900; margin-bottom: 1.5rem; color: #0f172a; }
+  .story-card p { font-size: 1.15rem; line-height: 1.8; color: #475569; margin-bottom: 1rem; }
+  .city-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; padding: 4rem 0; }
+  .city-link { background: #fff; border: 1px solid #e2e8f0; padding: 1.25rem; border-radius: 16px; text-decoration: none; color: inherit; font-weight: 700; display: flex; justify-content: space-between; transition: 0.2s; }
+  .city-link:hover { border-color: #2563eb; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+</style>
