@@ -3,48 +3,70 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Datenschutzerklärung | Sozialer Navigator" description="Informationen zum Datenschutz und zur Datenverarbeitung.">
-    <main class="max-w-4xl mx-auto px-6 py-24 prose lg:prose-lg">
-        <a href="/" class="no-underline text-sm font-bold text-blue-600 uppercase tracking-widest mb-12 hover:text-blue-800 transition-colors block">
-            &larr; Zurück zur Startseite
-        </a>
-
-        <h1 class="text-4xl font-black mb-8">Datenschutzerklärung</h1>
-
-        <h3 class="text-xl font-bold mt-8 mb-4">1. Verantwortlicher</h3>
-        <p>
-            Verantwortlich im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br />
-            Jan Rall, Parkstraße 4, 88326 Aulendorf<br />
-            E-Mail: info@sozialer-navigator.de
-        </p>
-
-        <h3 class="text-xl font-bold mt-8 mb-4">2. Datenschutz auf einen Blick</h3>
-        <p>
-            Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer Privatsphäre ist für uns sehr wichtig. Nachstehend informieren wir Sie ausführlich über den Umgang mit Ihren Daten.
-        </p>
+    <main class="min-h-screen bg-[#0F172A] text-slate-300 pt-32 pb-24 px-6 relative overflow-hidden">
         
-        <h3 class="text-xl font-bold mt-8 mb-4">3. Keine Speicherung von Eingabedaten</h3>
-        <p>
-            Sämtliche Eingaben, die Sie in den Rechner tätigen (z.B. Miete, Einkommen), werden <strong>ausschließlich lokal in Ihrem Browser</strong> verarbeitet. 
-            Es erfolgt <strong>keine Speicherung</strong> dieser sensiblen Daten auf unseren Servern und <strong>keine Weitergabe an Dritte</strong>.
-        </p>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="mb-12">
+                <a href="/" class="no-underline text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Zurück zur Startseite
+                </a>
+            </div>
 
-        <h3 class="text-xl font-bold mt-8 mb-4">4. Hosting und Datensicherheit</h3>
-        <p>
-            Diese Seite wird bei <strong>Vercel Inc.</strong> gehostet. Die Server-Kommunikation erfolgt verschlüsselt (SSL/TLS). 
-            Vercel verarbeitet Nutzungsdaten nur im Auftrag, um die Stabilität und Sicherheit des Dienstes zu gewährleisten. 
-        </p>
+            <h1 class="text-4xl font-black text-white mb-12 tracking-tight">Datenschutzerklärung</h1>
 
-        <h3 class="text-xl font-bold mt-8 mb-4">5. Affiliate-Links</h3>
-        <p>
-            Diese Website nutzt Affiliate-Links (z.B. zu Check24). Wenn Sie auf einen solchen Link klicken, werden Sie zum Anbieter weitergeleitet. 
-            <strong>Ab diesem Zeitpunkt gelten die Datenschutzbestimmungen des jeweiligen Anbieters.</strong> Wir speichern keine Daten im Zusammenhang mit diesen Klicks.
-        </p>
+            <div class="space-y-12">
+                
+                <section>
+                    <h3 class="text-xl font-bold text-white mb-4">1. Verantwortlicher</h3>
+                    <div class="bg-[#1e293b]/50 border border-white/5 rounded-xl p-6">
+                        <p class="leading-relaxed">
+                            Verantwortlich im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br />
+                            Jan Rall, Parkstraße 4, 88326 Aulendorf<br />
+                            E-Mail: <a href="mailto:info@sozialer-navigator.de" class="text-blue-400 hover:text-blue-300">info@sozialer-navigator.de</a>
+                        </p>
+                    </div>
+                </section>
 
-        <h3 class="text-xl font-bold mt-8 mb-4">6. Datenverarbeitung auf dieser Website</h3>
-        <p>
-            Wir nutzen die <strong>Vercel Analytics</strong> Funktion zur Analyse des Nutzerverhaltens (Seitenaufrufe, Klicks). 
-            Diese Daten werden anonymisiert und in aggregierter Form verarbeitet, um die Qualität unseres Angebots zu verbessern. 
-            Wir verwenden keine Tracking-Cookies und keine externen Dienste (wie Google Analytics), die personenbezogene Daten erheben.
-        </p>
+                <section>
+                    <div class="bg-blue-900/20 border border-blue-500/20 rounded-xl p-8 mb-8">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            3. Keine Speicherung von Eingabedaten
+                        </h3>
+                        <p class="text-slate-200 leading-relaxed font-medium">
+                            Sämtliche Eingaben, die Sie in den Rechner tätigen (z.B. Miete, Einkommen), werden <strong>ausschließlich lokal in Ihrem Browser</strong> verarbeitet. 
+                            Es erfolgt <strong>keine Speicherung</strong> dieser sensiblen Daten auf unseren Servern und <strong>keine Weitergabe an Dritte</strong>.
+                        </p>
+                    </div>
+                </section>
+
+                <div class="prose prose-invert prose-lg max-w-none text-slate-300">
+                    <h3 class="text-white">2. Datenschutz auf einen Blick</h3>
+                    <p>
+                        Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer Privatsphäre ist für uns sehr wichtig. Nachstehend informieren wir Sie ausführlich über den Umgang mit Ihren Daten.
+                    </p>
+
+                    <h3 class="text-white">4. Hosting und Datensicherheit</h3>
+                    <p>
+                        Diese Seite wird bei <strong>Vercel Inc.</strong> gehostet. Die Server-Kommunikation erfolgt verschlüsselt (SSL/TLS). 
+                        Vercel verarbeitet Nutzungsdaten nur im Auftrag, um die Stabilität und Sicherheit des Dienstes zu gewährleisten. 
+                    </p>
+
+                    <h3 class="text-white">5. Affiliate-Links</h3>
+                    <p>
+                        Diese Website nutzt Affiliate-Links (z.B. zu Check24). Wenn Sie auf einen solchen Link klicken, werden Sie zum Anbieter weitergeleitet. 
+                        <strong>Ab diesem Zeitpunkt gelten die Datenschutzbestimmungen des jeweiligen Anbieters.</strong> Wir speichern keine Daten im Zusammenhang mit diesen Klicks.
+                    </p>
+
+                    <h3 class="text-white">6. Datenverarbeitung auf dieser Website</h3>
+                    <p>
+                        Wir nutzen die <strong>Vercel Analytics</strong> Funktion zur Analyse des Nutzerverhaltens (Seitenaufrufe, Klicks). 
+                        Diese Daten werden anonymisiert und in aggregierter Form verarbeitet, um die Qualität unseres Angebots zu verbessern. 
+                        Wir verwenden keine Tracking-Cookies und keine externen Dienste (wie Google Analytics), die personenbezogene Daten erheben.
+                    </p>
+                </div>
+            </div>
+        </div>
     </main>
 </Layout>

@@ -1,72 +1,102 @@
 ---
+import SchemaOrg from '../components/SEO/SeoSchema.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen">
+  <fragment slot="head">
+    <meta name="description" content="Prüfen Sie Ihren Anspruch auf das Bildungspaket (Bildung und Teilhabe). Sichern Sie sich Zuschüsse für Schulessen, Ausflüge und mehr für Ihre Kinder." />
+    <meta property="og:title" content="Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen" />
+    <meta property="og:description" content="Prüfen Sie Ihren Anspruch auf das Bildungspaket (Bildung und Teilhabe). Sichern Sie sich Zuschüsse für Schulessen, Ausflüge und mehr für Ihre Kinder." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://sozialer-navigator.de/bildung-und-teilhabe" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1509023464722-18d996393ca8?auto=format&fit=crop&w=1200&q=80" />
+    
+    <SchemaOrg 
+        type="TechnicalArticle" 
+        data={{
+            title: "Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen",
+            description: "Prüfen Sie Ihren Anspruch auf das Bildungspaket (Bildung und Teilhabe). Sichern Sie sich Zuschüsse für Schulessen, Ausflüge und mehr für Ihre Kinder.",
+            url: "https://sozialer-navigator.de/bildung-und-teilhabe",
+            image: "https://images.unsplash.com/photo-1509023464722-18d996393ca8?auto=format&fit=crop&w=1200&q=80",
+            datePublished: "2025-10-01",
+            dateModified: new Date().toISOString().split('T')[0]
+        }} 
+    />
+  </fragment>
   <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', sans-serif; color: #1e293b; line-height: 1.6;">
     
-    <nav style="background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 1.25rem 0;">
-      <div style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; padding: 0 20px;">
-        <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-          <div style="background: #2563eb; color: white; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900;">N</div>
-          <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Sozialer Navigator</span>
+  <main class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <div class="inline-block bg-green-50 text-green-600 px-4 py-1.5 rounded-full text-sm font-extrabold mb-6 tracking-tight">FAMILIEN-HILFE</div>
+    <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter leading-tight italic">Geld für Schulessen & <span class="text-green-600">Ausflüge.</span></h1>
+    <p class="text-xl text-slate-600 mb-12 max-w-2xl font-medium leading-relaxed">
+      Wer Wohngeld bekommt, hat einen gesetzlichen Anspruch auf das <strong class="text-slate-900 border-b-4 border-green-200">Bildungspaket (BuT)</strong>. 
+      Wir helfen dir bei der Beantragung für deine Kinder.
+    </p>
+
+    <div id="but-form-wrapper" class="bg-white border-2 border-green-500 p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-green-100/50 relative overflow-hidden group">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+      
+      <h3 class="text-2xl font-black mb-8 text-green-800 italic">BuT-Hilfe kostenlos anfordern</h3>
+      
+      <form id="but-lead-form" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" id="b-v-name" placeholder="Vorname" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-green-100 focus:border-green-500 transition-all" />
+          <input type="text" id="b-n-name" placeholder="Nachname" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-green-100 focus:border-green-500 transition-all" />
+        </div>
+        <input type="email" id="b-e-mail" placeholder="E-Mail Adresse" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-green-100 focus:border-green-500 transition-all" />
+        <button type="submit" id="b-submit-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-6 rounded-2xl font-black text-xl shadow-lg shadow-green-200 transition-all hover:-translate-y-1 active:scale-[0.98]">
+          Hilfe anfordern →
+        </button>
+      </form>
+
+      <div id="b-success-message" class="hidden text-center py-8">
+        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i data-lucide="check" class="w-10 h-10"></i>
+        </div>
+        <h3 class="text-3xl font-black mb-3 text-green-900 italic">Fast geschafft!</h3>
+        <p class="text-slate-600 font-bold mb-8">Wir prüfen deine Daten und melden uns in Kürze.</p>
+        <a href="/" class="inline-flex items-center gap-2 text-green-600 font-black hover:gap-3 transition-all underline decoration-4 decoration-green-100 underline-offset-8">
+          Zurück zur Startseite
         </a>
       </div>
-    </nav>
-
-    <main style="max-width: 800px; margin: 0 auto; padding: 60px 20px;">
-      <div style="display: inline-block; background: #f0fdf4; color: #16a34a; padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 800; margin-bottom: 1.5rem;">FAMILIEN-HILFE</div>
-      <h1 style="font-weight: 900; font-size: 2.5rem; color: #0f172a; margin-bottom: 1.5rem; letter-spacing: -0.04em;">Geld für Schulessen & Ausflüge</h1>
-      <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 3rem;">Wer Wohngeld bekommt, hat einen gesetzlichen Anspruch auf das <strong>Bildungspaket (BuT)</strong>. Wir helfen dir bei der Beantragung für deine Kinder.</p>
-
-      <div id="but-form-wrapper" style="background: #ffffff; border: 2px solid #16a34a; padding: 3rem; border-radius: 32px; box-shadow: 0 20px 40px rgba(22,163,74,0.1);">
-        <h3 style="font-weight: 800; margin-bottom: 1.5rem; color: #166534;">BuT-Hilfe anfordern</h3>
-        <form id="but-lead-form" style="display: grid; gap: 15px;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <input type="text" id="b-v-name" placeholder="Vorname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;" />
-            <input type="text" id="b-n-name" placeholder="Nachname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;" />
-          </div>
-          <input type="email" id="b-e-mail" placeholder="E-Mail Adresse" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;" />
-          <button type="submit" id="b-submit-btn" style="background: #16a34a; color: white; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer;">Hilfe anfordern</button>
-        </form>
-
-        <div id="b-success-message" style="display: none; text-align: center; padding: 2rem;">
-          <h3 style="color: #16a34a; font-weight: 800;">Anfrage erfolgreich!</h3>
-          <p>Wir melden uns bei dir, um die BuT-Gelder für deine Kinder zu sichern.</p>
-          <a href="/" style="display: inline-block; margin-top: 2rem; color: #16a34a; font-weight: 700; text-decoration: none;">← Zurück</a>
-        </div>
-      </div>
-    </main>
+    </div>
+  </main>
   </div>
 </Layout>
 
 <script>
   import { createClient } from '@supabase/supabase-js'
-  const supabase = createClient('https://iiimjuplyjqapvwhbozf.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpaW1qdXBseWpxYXB2d2hib3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTI4MTgsImV4cCI6MjA4MTIyODgxOH0.Ru-09I4PuFQsJC-AMcdntn9bCS2f9lOdGQoMo7fAHYs')
+  const supabase = createClient(import.meta.env.PUBLIC_SUPABASE_URL, import.meta.env.PUBLIC_SUPABASE_ANON_KEY)
 
-  const form = document.getElementById('but-lead-form');
-  const btn = document.getElementById('b-submit-btn');
+  if (typeof document !== 'undefined') {
+    const form = document.getElementById('but-lead-form');
+    const btn = document.getElementById('b-submit-btn');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    btn.innerText = 'Wird gesendet...';
-    btn.disabled = true;
+    if (form && btn) {
+      form.addEventListener('submit', async (e) => {
+        // ... existing logic ...
+        e.preventDefault();
+        btn.innerText = 'Wird gesendet...';
+        btn.disabled = true;
 
-    const { error } = await supabase.from('leads').insert([{ 
-      vorname: document.getElementById('b-v-name').value, 
-      nachname: document.getElementById('b-n-name').value,
-      email: document.getElementById('b-e-mail').value,
-      typ: 'but',
-      status: 'neu'
-    }]);
+        const { error } = await supabase.from('leads').insert([{ 
+          vorname: document.getElementById('b-v-name').value, 
+          nachname: document.getElementById('b-n-name').value,
+          email: document.getElementById('b-e-mail').value,
+          typ: 'but',
+          status: 'neu'
+        }]);
 
-    if (!error) {
-      form.style.display = 'none';
-      document.getElementById('b-success-message').style.display = 'block';
-    } else {
-      alert('Fehler beim Senden.');
-      btn.innerText = 'Hilfe anfordern';
-      btn.disabled = false;
+        if (!error) {
+          form.style.display = 'none';
+          document.getElementById('b-success-message').style.display = 'block';
+        } else {
+          alert('Fehler beim Senden.');
+          btn.innerText = 'Hilfe anfordern';
+          btn.disabled = false;
+        }
+      });
     }
-  });
+  }
 </script>

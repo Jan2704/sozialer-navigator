@@ -1,0 +1,1082 @@
+
+> sozialer-navigator-app@0.0.1 build
+> astro build
+
+[33m[1m16:13:45[22m [WARN][39m Unsupported file type [1mC:\Users\Jan-r\OneDrive\Dokumente\Jan\Projekt\sozialer-navigator\sozialer-navigator-app\src\pages\buergergeld\robots.txt[22m found. Prefix filename with an underscore (`_`) to ignore.
+[2m16:13:46[22m [34m[content][39m Syncing content
+[2m16:13:46[22m [34m[content][39m Synced content
+[2m16:13:46[22m [34m[types][39m Generated [2m404ms[22m
+[2m16:13:46[22m [34m[build][39m output: [34m"static"[39m
+[2m16:13:46[22m [34m[build][39m mode: [34m"static"[39m
+[2m16:13:46[22m [34m[build][39m directory: [34mC:\Users\Jan-r\OneDrive\Dokumente\Jan\Projekt\sozialer-navigator\sozialer-navigator-app\dist\[39m
+[2m16:13:46[22m [34m[build][39m Collecting build info...
+[2m16:13:46[22m [34m[build][39m [32m✓ Completed in 715ms.[39m
+[2m16:13:53[22m [34m[build][39m Building static entrypoints...
+[33m[1m16:14:02[22m [WARN] [vite][39m [33m"isRemoteAllowed", "matchHostname", "matchPathname", "matchPort" and "matchProtocol" are imported from external module "@astrojs/internal-helpers/remote" but never used in "node_modules/astro/dist/assets/utils/remotePattern.js".[39m
+[2m16:14:02[22m [34m[vite][39m [32m✓ built in 8.23s[39m
+[2m16:14:02[22m [34m[build][39m [32m✓ Completed in 9.20s.[39m
+
+[42m[30m building client (vite) [39m[49m
+[2m16:14:02[22m [34m[vite][39m transforming...
+[2m16:14:10[22m [34m[vite][39m [32m✓[39m 93 modules transformed.
+[2m16:14:11[22m [34m[vite][39m rendering chunks...
+[2m16:14:11[22m [34m[vite][39m computing gzip size...
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/bildung-und-teilhabe.astro_astro_type_script_index_0_lang.BUozYerf.js  [39m[1m[2m  0.92 kB[22m[1m[22m[2m │ gzip:   0.59 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/avgs.astro_astro_type_script_index_0_lang.CRGQav_s.js                  [39m[1m[2m  0.96 kB[22m[1m[22m[2m │ gzip:   0.61 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/page.DGRhADao.js                                                       [39m[1m[2m  2.25 kB[22m[1m[22m[2m │ gzip:   1.01 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/ResultsSection.astro_astro_type_script_index_0_lang.DjjQO-tx.js        [39m[1m[2m  6.55 kB[22m[1m[22m[2m │ gzip:   2.61 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/index._OACqPSs.js                                                      [39m[1m[2m  6.81 kB[22m[1m[22m[2m │ gzip:   2.73 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/index.astro_astro_type_script_index_0_lang.Cr7BuY9a.js                 [39m[1m[2m 24.48 kB[22m[1m[22m[2m │ gzip:   7.20 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/SmartCalculator.D2gCMLxe.js                                            [39m[1m[2m 76.32 kB[22m[1m[22m[2m │ gzip:  16.94 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/client.UhKajuk8.js                                                     [39m[1m[2m136.50 kB[22m[1m[22m[2m │ gzip:  44.02 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/index.0LnPeXwf.js                                                      [39m[1m[2m168.69 kB[22m[1m[22m[2m │ gzip:  43.97 kB[22m
+[2m16:14:11[22m [34m[vite][39m [2mdist/[22m[36m_astro/index.astro_astro_type_script_index_1_lang.OqQ3rL4C.js                 [39m[1m[2m321.94 kB[22m[1m[22m[2m │ gzip: 116.11 kB[22m
+[2m16:14:11[22m [34m[vite][39m [32m✓ built in 8.96s[39m
+
+[42m[30m generating static routes [39m[49m
+[2m16:14:12[22m [32m▶[39m src/pages/admin/dashboard.astro
+[2m16:14:12[22m   [34m└─[39m [2m/admin/dashboard/index.html[22m [2m(+63ms)[22m 
+[2m16:14:12[22m [32m▶[39m src/pages/avgs.astro
+[2m16:14:12[22m   [34m└─[39m [2m/avgs/index.html[22m [2m(+9ms)[22m 
+[2m16:14:12[22m [32m▶[39m src/pages/bildung-und-teilhabe.astro
+[2m16:14:12[22m   [34m└─[39m [2m/bildung-und-teilhabe/index.html[22m [2m(+39ms)[22m 
+[2m16:14:12[22m [32m▶[39m src/pages/buergergeld/[slug].astro
+[2m16:14:12[22m   [34m├─[39m [2m/buergergeld/berlin/index.html[22m [2m(+96ms)[22m 
+[2m16:14:12[22m   [34m├─[39m [2m/buergergeld/hamburg/index.html[22m [2m(+58ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/muenchen/index.html[22m [2m(+24ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/koeln/index.html[22m [2m(+17ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/frankfurt/index.html[22m [2m(+22ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/stuttgart/index.html[22m [2m(+34ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/duesseldorf/index.html[22m [2m(+20ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/dortmund/index.html[22m [2m(+18ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/essen/index.html[22m [2m(+16ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/kassel/index.html[22m [2m(+24ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/hannover/index.html[22m [2m(+23ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/bremen/index.html[22m [2m(+28ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/leipzig/index.html[22m [2m(+21ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/dresden/index.html[22m [2m(+15ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/aachen/index.html[22m [2m(+30ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/mannheim/index.html[22m [2m(+30ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/muenster/index.html[22m [2m(+22ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/oberhausen/index.html[22m [2m(+42ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/nuernberg/index.html[22m [2m(+41ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/wuppertal/index.html[22m [2m(+15ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/braunschweig/index.html[22m [2m(+21ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/duisburg/index.html[22m [2m(+19ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/bonn/index.html[22m [2m(+26ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/moenchengladbach/index.html[22m [2m(+21ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/freiburg/index.html[22m [2m(+29ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/chemnitz/index.html[22m [2m(+34ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/magdeburg/index.html[22m [2m(+26ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/wiesbaden/index.html[22m [2m(+14ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/gelsenkirchen/index.html[22m [2m(+15ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/kiel/index.html[22m [2m(+14ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/neuss/index.html[22m [2m(+23ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/wuerzburg/index.html[22m [2m(+23ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/ludwigshafen/index.html[22m [2m(+16ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/bielefeld/index.html[22m [2m(+20ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/hagen/index.html[22m [2m(+26ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/koblenz/index.html[22m [2m(+17ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/giessen/index.html[22m [2m(+18ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/karlsruhe/index.html[22m [2m(+29ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/esslingen/index.html[22m [2m(+19ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/darmstadt/index.html[22m [2m(+16ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/regensburg/index.html[22m [2m(+16ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/trier/index.html[22m [2m(+18ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/bayreuth/index.html[22m [2m(+30ms)[22m 
+[2m16:14:13[22m   [34m├─[39m [2m/buergergeld/offenbach/index.html[22m [2m(+18ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/heilbronn/index.html[22m [2m(+21ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/bamberg/index.html[22m [2m(+22ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/mainz/index.html[22m [2m(+26ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/passau/index.html[22m [2m(+60ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/ingolstadt/index.html[22m [2m(+80ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/konstanz/index.html[22m [2m(+62ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/fulda/index.html[22m [2m(+54ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/luebeck/index.html[22m [2m(+36ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/heidelberg/index.html[22m [2m(+31ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/erfurt/index.html[22m [2m(+67ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/minden/index.html[22m [2m(+37ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/osnabrueck/index.html[22m [2m(+51ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/saarbruecken/index.html[22m [2m(+88ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/oldenburg/index.html[22m [2m(+55ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/halle/index.html[22m [2m(+48ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/augsburg/index.html[22m [2m(+44ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/siegen/index.html[22m [2m(+50ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/hildesheim/index.html[22m [2m(+41ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/rostock/index.html[22m [2m(+40ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/recklinghausen/index.html[22m [2m(+53ms)[22m 
+[2m16:14:14[22m   [34m├─[39m [2m/buergergeld/krefeld/index.html[22m [2m(+89ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/wolfsburg/index.html[22m [2m(+52ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/aschaffenburg/index.html[22m [2m(+27ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/bruehl/index.html[22m [2m(+39ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/ludwigsburg-stadt/index.html[22m [2m(+30ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/reutlingen/index.html[22m [2m(+43ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/herdecke/index.html[22m [2m(+31ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/witten/index.html[22m [2m(+35ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/kaiserslautern/index.html[22m [2m(+44ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/schwaebischhall/index.html[22m [2m(+43ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/goettingen/index.html[22m [2m(+56ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/amberg/index.html[22m [2m(+56ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/landshut/index.html[22m [2m(+67ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/marl/index.html[22m [2m(+63ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/memmingen/index.html[22m [2m(+50ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/boeblingen/index.html[22m [2m(+45ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/wetzlar/index.html[22m [2m(+51ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/remscheid/index.html[22m [2m(+45ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/paderborn/index.html[22m [2m(+21ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/moers/index.html[22m [2m(+19ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/salzgitter/index.html[22m [2m(+21ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/bremerhaven/index.html[22m [2m(+26ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/freising/index.html[22m [2m(+22ms)[22m 
+[2m16:14:15[22m   [34m├─[39m [2m/buergergeld/weiden/index.html[22m [2m(+27ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld/loerrach/index.html[22m [2m(+23ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld/worms/index.html[22m [2m(+15ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld/marburg/index.html[22m [2m(+14ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld/pforzheim/index.html[22m [2m(+18ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld/jena/index.html[22m [2m(+21ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld/herten/index.html[22m [2m(+18ms)[22m 
+[2m16:14:16[22m   [34m└─[39m [2m/buergergeld/halberstadt/index.html[22m [2m(+17ms)[22m 
+[2m16:14:16[22m [32m▶[39m src/pages/buergergeld/index.astro
+[2m16:14:16[22m   [34m└─[39m [2m/buergergeld/index.html[22m [2m(+21ms)[22m 
+[2m16:14:16[22m [32m▶[39m src/pages/buergergeld-grundsicherung/[citySlug].astro
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/berlin/index.html[22m [2m(+18ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/hamburg/index.html[22m [2m(+9ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/muenchen/index.html[22m [2m(+8ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/koeln/index.html[22m [2m(+10ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/frankfurt/index.html[22m [2m(+8ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/stuttgart/index.html[22m [2m(+10ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/duesseldorf/index.html[22m [2m(+9ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/dortmund/index.html[22m [2m(+12ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/essen/index.html[22m [2m(+7ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/kassel/index.html[22m [2m(+15ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/hannover/index.html[22m [2m(+15ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bremen/index.html[22m [2m(+17ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/leipzig/index.html[22m [2m(+16ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/dresden/index.html[22m [2m(+12ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/aachen/index.html[22m [2m(+14ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/mannheim/index.html[22m [2m(+8ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/muenster/index.html[22m [2m(+12ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/oberhausen/index.html[22m [2m(+11ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/nuernberg/index.html[22m [2m(+15ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/wuppertal/index.html[22m [2m(+10ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/braunschweig/index.html[22m [2m(+16ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/duisburg/index.html[22m [2m(+10ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bonn/index.html[22m [2m(+14ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/moenchengladbach/index.html[22m [2m(+8ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/freiburg/index.html[22m [2m(+9ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/chemnitz/index.html[22m [2m(+16ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/magdeburg/index.html[22m [2m(+18ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/wiesbaden/index.html[22m [2m(+18ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/gelsenkirchen/index.html[22m [2m(+34ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/kiel/index.html[22m [2m(+34ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/neuss/index.html[22m [2m(+27ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/wuerzburg/index.html[22m [2m(+23ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/ludwigshafen/index.html[22m [2m(+15ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bielefeld/index.html[22m [2m(+16ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/hagen/index.html[22m [2m(+22ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/koblenz/index.html[22m [2m(+17ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/giessen/index.html[22m [2m(+32ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/karlsruhe/index.html[22m [2m(+33ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/esslingen/index.html[22m [2m(+25ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/darmstadt/index.html[22m [2m(+19ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/regensburg/index.html[22m [2m(+23ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/trier/index.html[22m [2m(+39ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bayreuth/index.html[22m [2m(+21ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/offenbach/index.html[22m [2m(+13ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/fuerth/index.html[22m [2m(+9ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/ulm/index.html[22m [2m(+16ms)[22m 
+[2m16:14:16[22m   [34m├─[39m [2m/buergergeld-grundsicherung/heilbronn/index.html[22m [2m(+19ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/pforzheim/index.html[22m [2m(+21ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/wolfsburg/index.html[22m [2m(+12ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/goettingen/index.html[22m [2m(+23ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/neu-ulm/index.html[22m [2m(+13ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bottrop/index.html[22m [2m(+20ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/recklinghausen/index.html[22m [2m(+20ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bad-homburg/index.html[22m [2m(+21ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/solingen/index.html[22m [2m(+15ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/leverkusen/index.html[22m [2m(+13ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/heidelberg/index.html[22m [2m(+13ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/potsdam/index.html[22m [2m(+24ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bayreuth/index.html[22m [2m(+22ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/erfurt/index.html[22m [2m(+22ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/saarbruecken/index.html[22m [2m(+18ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/mainz/index.html[22m [2m(+19ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/hamm/index.html[22m [2m(+23ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/muelheim-an-der-ruhr/index.html[22m [2m(+19ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/ludwigshafen-am-rhein/index.html[22m [2m(+19ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/oldenburg/index.html[22m [2m(+19ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/osnabrueck/index.html[22m [2m(+16ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/wesel/index.html[22m [2m(+9ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/augsburg/index.html[22m [2m(+17ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/siegen/index.html[22m [2m(+12ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/hildesheim/index.html[22m [2m(+25ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/rostock/index.html[22m [2m(+7ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/aschaffenburg/index.html[22m [2m(+11ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bruehl/index.html[22m [2m(+6ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/reutlingen/index.html[22m [2m(+9ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/herdecke/index.html[22m [2m(+7ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/witten/index.html[22m [2m(+17ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/kaiserslautern/index.html[22m [2m(+13ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/schwaebischhall/index.html[22m [2m(+11ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/amberg/index.html[22m [2m(+8ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/landshut/index.html[22m [2m(+12ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/marl/index.html[22m [2m(+26ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/memmingen/index.html[22m [2m(+23ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/boeblingen/index.html[22m [2m(+22ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/wetzlar/index.html[22m [2m(+26ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/remscheid/index.html[22m [2m(+48ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/paderborn/index.html[22m [2m(+30ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/moers/index.html[22m [2m(+18ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/salzgitter/index.html[22m [2m(+19ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/bremerhaven/index.html[22m [2m(+48ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/freising/index.html[22m [2m(+11ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/weiden/index.html[22m [2m(+8ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/loerrach/index.html[22m [2m(+13ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/worms/index.html[22m [2m(+11ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/marburg/index.html[22m [2m(+23ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/pforzheim-stadt/index.html[22m [2m(+18ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/jena/index.html[22m [2m(+14ms)[22m 
+[2m16:14:17[22m   [34m├─[39m [2m/buergergeld-grundsicherung/herten/index.html[22m [2m(+17ms)[22m 
+[2m16:14:17[22m   [34m└─[39m [2m/buergergeld-grundsicherung/halberstadt/index.html[22m [2m(+18ms)[22m 
+[2m16:14:17[22m [32m▶[39m src/pages/buergergeld-grundsicherung/index.astro
+[2m16:14:17[22m   [34m└─[39m [2m/buergergeld-grundsicherung/index.html[22m [2m(+18ms)[22m 
+[2m16:14:18[22m [32m▶[39m src/pages/danke.astro
+[2m16:14:18[22m   [34m└─[39m [2m/danke/index.html[22m [2m(+13ms)[22m 
+[2m16:14:18[22m [32m▶[39m src/pages/datenschutz.astro
+[2m16:14:18[22m   [34m└─[39m [2m/datenschutz/index.html[22m [2m(+11ms)[22m 
+[2m16:14:18[22m [32m▶[39m src/pages/erfolg.astro
+[2m16:14:18[22m   [34m└─[39m [2m/erfolg/index.html[22m [2m(+70ms)[22m 
+[2m16:14:18[22m [32m▶[39m src/pages/impressum.astro
+[2m16:14:18[22m   [34m└─[39m [2m/impressum/index.html[22m [2m(+42ms)[22m 
+[2m16:14:18[22m [32m▶[39m src/pages/ratgeber/[slug].astro
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-abgelehnt-wegen-vermoegen/index.html[22m [2m(+48ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/wohngeld-oder-buergergeld-vergleich/index.html[22m [2m(+21ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-erstantrag-dauer/index.html[22m [2m(+22ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/kontoauszuege-jobcenter-schwaerzen/index.html[22m [2m(+28ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-und-minijob/index.html[22m [2m(+33ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/wohngeld-trotz-buergergeld/index.html[22m [2m(+28ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/wohnung-zu-teuer-fuer-buergergeld/index.html[22m [2m(+22ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/partner-zieht-ein-buergergeld-gekuerzt/index.html[22m [2m(+11ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-sanktionen/index.html[22m [2m(+7ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/stromschulden-jobcenter-darlehen/index.html[22m [2m(+13ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-fuer-studenten-und-azubis/index.html[22m [2m(+20ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/erstattung-von-umzugskosten/index.html[22m [2m(+13ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-rueckzahlung/index.html[22m [2m(+16ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-fuer-selbststaendige/index.html[22m [2m(+21ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/wohngeld-ablehnung-gruende/index.html[22m [2m(+27ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/buergergeld-miete-direkt-an-vermieter/index.html[22m [2m(+24ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/erstausstattung-fuer-die-wohnung/index.html[22m [2m(+24ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/bewerbungskosten-erstattung/index.html[22m [2m(+18ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/ratgeber/urlaub-ortsabwesenheit-buergergeld/index.html[22m [2m(+17ms)[22m 
+[2m16:14:18[22m   [34m└─[39m [2m/ratgeber/buergergeld-trotz-eigenheim/index.html[22m [2m(+20ms)[22m 
+[2m16:14:18[22m [35mλ[39m src/pages/sitemap.xml.js
+[2m16:14:18[22m   [34m└─[39m [2m/sitemap.xml[22m [2m(+19ms)[22m 
+[2m16:14:18[22m [32m▶[39m src/pages/ueber-uns.astro
+[2m16:14:18[22m   [34m└─[39m [2m/ueber-uns/index.html[22m [2m(+35ms)[22m 
+[2m16:14:18[22m [32m▶[39m src/pages/wohngeld/[slug].astro
+[2m16:14:18[22m   [34m├─[39m [2m/wohngeld/aachen/index.html[22m [2m(+42ms)[22m 
+[2m16:14:18[22m   [34m├─[39m [2m/wohngeld/amberg/index.html[22m [2m(+27ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/aschaffenburg/index.html[22m [2m(+23ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/augsburg/index.html[22m [2m(+17ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/bamberg/index.html[22m [2m(+23ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/bayreuth/index.html[22m [2m(+28ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/berlin/index.html[22m [2m(+16ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/bielefeld/index.html[22m [2m(+19ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/boeblingen/index.html[22m [2m(+19ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/bonn/index.html[22m [2m(+24ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/braunschweig/index.html[22m [2m(+19ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/bremen/index.html[22m [2m(+13ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/bremerhaven/index.html[22m [2m(+18ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/bruehl/index.html[22m [2m(+26ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/chemnitz/index.html[22m [2m(+23ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/darmstadt/index.html[22m [2m(+18ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/dortmund/index.html[22m [2m(+23ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/dresden/index.html[22m [2m(+17ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/duisburg/index.html[22m [2m(+13ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/duesseldorf/index.html[22m [2m(+15ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/erfurt/index.html[22m [2m(+17ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/essen/index.html[22m [2m(+14ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/esslingen/index.html[22m [2m(+15ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/frankfurt/index.html[22m [2m(+19ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/freiburg/index.html[22m [2m(+16ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/freising/index.html[22m [2m(+14ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/fulda/index.html[22m [2m(+16ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/gelsenkirchen/index.html[22m [2m(+20ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/giessen/index.html[22m [2m(+20ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/goettingen/index.html[22m [2m(+17ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/hagen/index.html[22m [2m(+24ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/halberstadt/index.html[22m [2m(+11ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/halle/index.html[22m [2m(+14ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/hamburg/index.html[22m [2m(+34ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/hannover/index.html[22m [2m(+20ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/heidelberg/index.html[22m [2m(+24ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/heilbronn/index.html[22m [2m(+27ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/herdecke/index.html[22m [2m(+30ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/herten/index.html[22m [2m(+39ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/hildesheim/index.html[22m [2m(+35ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/ingolstadt/index.html[22m [2m(+21ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/jena/index.html[22m [2m(+21ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/kaiserslautern/index.html[22m [2m(+30ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/karlsruhe/index.html[22m [2m(+18ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/kassel/index.html[22m [2m(+27ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/kiel/index.html[22m [2m(+32ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/koblenz/index.html[22m [2m(+25ms)[22m 
+[2m16:14:19[22m   [34m├─[39m [2m/wohngeld/koeln/index.html[22m [2m(+27ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/konstanz/index.html[22m [2m(+23ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/krefeld/index.html[22m [2m(+24ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/landshut/index.html[22m [2m(+16ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/leipzig/index.html[22m [2m(+26ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/loerrach/index.html[22m [2m(+22ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/luebeck/index.html[22m [2m(+16ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/ludwigsburg-stadt/index.html[22m [2m(+21ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/ludwigshafen/index.html[22m [2m(+31ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/magdeburg/index.html[22m [2m(+29ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/mainz/index.html[22m [2m(+32ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/mannheim/index.html[22m [2m(+22ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/marburg/index.html[22m [2m(+30ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/marl/index.html[22m [2m(+22ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/memmingen/index.html[22m [2m(+20ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/minden/index.html[22m [2m(+24ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/moers/index.html[22m [2m(+19ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/moenchengladbach/index.html[22m [2m(+21ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/muenchen/index.html[22m [2m(+16ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/muenster/index.html[22m [2m(+22ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/neuss/index.html[22m [2m(+19ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/nuernberg/index.html[22m [2m(+22ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/oberhausen/index.html[22m [2m(+18ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/offenbach/index.html[22m [2m(+16ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/oldenburg/index.html[22m [2m(+21ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/osnabrueck/index.html[22m [2m(+23ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/paderborn/index.html[22m [2m(+38ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/passau/index.html[22m [2m(+18ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/pforzheim/index.html[22m [2m(+17ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/recklinghausen/index.html[22m [2m(+27ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/regensburg/index.html[22m [2m(+36ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/remscheid/index.html[22m [2m(+16ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/reutlingen/index.html[22m [2m(+29ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/rostock/index.html[22m [2m(+20ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/saarbruecken/index.html[22m [2m(+19ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/salzgitter/index.html[22m [2m(+31ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/schwaebischhall/index.html[22m [2m(+26ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/siegen/index.html[22m [2m(+18ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/stuttgart/index.html[22m [2m(+17ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/trier/index.html[22m [2m(+24ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/weiden/index.html[22m [2m(+18ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/wetzlar/index.html[22m [2m(+18ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/wiesbaden/index.html[22m [2m(+22ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/witten/index.html[22m [2m(+23ms)[22m 
+[2m16:14:20[22m   [34m├─[39m [2m/wohngeld/wolfsburg/index.html[22m [2m(+26ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/worms/index.html[22m [2m(+28ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/wuppertal/index.html[22m [2m(+77ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/wuerzburg/index.html[22m [2m(+22ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/student/index.html[22m [2m(+54ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/azubi/index.html[22m [2m(+45ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/rentner/index.html[22m [2m(+70ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/eigentuemer/index.html[22m [2m(+20ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/wohngeld/selbststaendige/index.html[22m [2m(+58ms)[22m 
+[2m16:14:21[22m   [34m└─[39m [2m/wohngeld/alleinerziehend/index.html[22m [2m(+26ms)[22m 
+[2m16:14:21[22m [32m▶[39m src/pages/wohngeld/index.astro
+[2m16:14:21[22m   [34m└─[39m [2m/wohngeld/index.html[22m [2m(+9ms)[22m 
+[2m16:14:21[22m [32m▶[39m src/pages/[citySlug]/[benefitSlug]/steps.astro
+[2m16:14:21[22m   [34m├─[39m [2m/berlin/wohngeld/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/berlin/grundsicherung/steps/index.html[22m [2m(+12ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/hamburg/wohngeld/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/hamburg/grundsicherung/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/muenchen/wohngeld/steps/index.html[22m [2m(+32ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/muenchen/grundsicherung/steps/index.html[22m [2m(+31ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/koeln/wohngeld/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/koeln/grundsicherung/steps/index.html[22m [2m(+29ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/frankfurt/wohngeld/steps/index.html[22m [2m(+35ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/frankfurt/grundsicherung/steps/index.html[22m [2m(+41ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/stuttgart/wohngeld/steps/index.html[22m [2m(+49ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/stuttgart/grundsicherung/steps/index.html[22m [2m(+65ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/duesseldorf/wohngeld/steps/index.html[22m [2m(+70ms)[22m 
+[2m16:14:21[22m   [34m├─[39m [2m/duesseldorf/grundsicherung/steps/index.html[22m [2m(+47ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/dortmund/wohngeld/steps/index.html[22m [2m(+69ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/dortmund/grundsicherung/steps/index.html[22m [2m(+97ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/essen/wohngeld/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/essen/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/kassel/wohngeld/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/kassel/grundsicherung/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/hannover/wohngeld/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/hannover/grundsicherung/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/bremen/wohngeld/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/bremen/grundsicherung/steps/index.html[22m [2m(+46ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/leipzig/wohngeld/steps/index.html[22m [2m(+103ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/leipzig/grundsicherung/steps/index.html[22m [2m(+33ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/dresden/wohngeld/steps/index.html[22m [2m(+24ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/dresden/grundsicherung/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/aachen/wohngeld/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/aachen/grundsicherung/steps/index.html[22m [2m(+13ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/mannheim/wohngeld/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/mannheim/grundsicherung/steps/index.html[22m [2m(+46ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/muenster/wohngeld/steps/index.html[22m [2m(+66ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/muenster/grundsicherung/steps/index.html[22m [2m(+41ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/oberhausen/wohngeld/steps/index.html[22m [2m(+67ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/oberhausen/grundsicherung/steps/index.html[22m [2m(+39ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/nuernberg/wohngeld/steps/index.html[22m [2m(+98ms)[22m 
+[2m16:14:22[22m   [34m├─[39m [2m/nuernberg/grundsicherung/steps/index.html[22m [2m(+71ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/wuppertal/wohngeld/steps/index.html[22m [2m(+41ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/wuppertal/grundsicherung/steps/index.html[22m [2m(+38ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/braunschweig/wohngeld/steps/index.html[22m [2m(+49ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/braunschweig/grundsicherung/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/duisburg/wohngeld/steps/index.html[22m [2m(+52ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/duisburg/grundsicherung/steps/index.html[22m [2m(+35ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/bonn/wohngeld/steps/index.html[22m [2m(+47ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/bonn/grundsicherung/steps/index.html[22m [2m(+29ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/moenchengladbach/wohngeld/steps/index.html[22m [2m(+57ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/moenchengladbach/grundsicherung/steps/index.html[22m [2m(+34ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/freiburg/wohngeld/steps/index.html[22m [2m(+28ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/freiburg/grundsicherung/steps/index.html[22m [2m(+45ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/chemnitz/wohngeld/steps/index.html[22m [2m(+56ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/chemnitz/grundsicherung/steps/index.html[22m [2m(+29ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/magdeburg/wohngeld/steps/index.html[22m [2m(+49ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/magdeburg/grundsicherung/steps/index.html[22m [2m(+49ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/wiesbaden/wohngeld/steps/index.html[22m [2m(+70ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/wiesbaden/grundsicherung/steps/index.html[22m [2m(+24ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/gelsenkirchen/wohngeld/steps/index.html[22m [2m(+26ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/gelsenkirchen/grundsicherung/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/kiel/wohngeld/steps/index.html[22m [2m(+28ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/kiel/grundsicherung/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/neuss/wohngeld/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/neuss/grundsicherung/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/wuerzburg/wohngeld/steps/index.html[22m [2m(+33ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/wuerzburg/grundsicherung/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/ludwigshafen/wohngeld/steps/index.html[22m [2m(+24ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/ludwigshafen/grundsicherung/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:23[22m   [34m├─[39m [2m/bielefeld/wohngeld/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/bielefeld/grundsicherung/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/hagen/wohngeld/steps/index.html[22m [2m(+40ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/hagen/grundsicherung/steps/index.html[22m [2m(+30ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/koblenz/wohngeld/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/koblenz/grundsicherung/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/giessen/wohngeld/steps/index.html[22m [2m(+26ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/giessen/grundsicherung/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/karlsruhe/wohngeld/steps/index.html[22m [2m(+29ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/karlsruhe/grundsicherung/steps/index.html[22m [2m(+40ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/esslingen/wohngeld/steps/index.html[22m [2m(+30ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/esslingen/grundsicherung/steps/index.html[22m [2m(+31ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/darmstadt/wohngeld/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/darmstadt/grundsicherung/steps/index.html[22m [2m(+31ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/regensburg/wohngeld/steps/index.html[22m [2m(+25ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/regensburg/grundsicherung/steps/index.html[22m [2m(+50ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/trier/wohngeld/steps/index.html[22m [2m(+30ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/trier/grundsicherung/steps/index.html[22m [2m(+25ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/bayreuth/wohngeld/steps/index.html[22m [2m(+27ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/bayreuth/grundsicherung/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/offenbach/wohngeld/steps/index.html[22m [2m(+31ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/offenbach/grundsicherung/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/fuerth/wohngeld/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/fuerth/grundsicherung/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/ulm/wohngeld/steps/index.html[22m [2m(+31ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/ulm/grundsicherung/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/heilbronn/wohngeld/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/heilbronn/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/pforzheim/wohngeld/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/pforzheim/grundsicherung/steps/index.html[22m [2m(+29ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/wolfsburg/wohngeld/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/wolfsburg/grundsicherung/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/goettingen/wohngeld/steps/index.html[22m [2m(+24ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/goettingen/grundsicherung/steps/index.html[22m [2m(+13ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/neu-ulm/wohngeld/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/neu-ulm/grundsicherung/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/bottrop/wohngeld/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/bottrop/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/recklinghausen/wohngeld/steps/index.html[22m [2m(+27ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/recklinghausen/grundsicherung/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/bad-homburg/wohngeld/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:24[22m   [34m├─[39m [2m/bad-homburg/grundsicherung/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/solingen/wohngeld/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/solingen/grundsicherung/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/leverkusen/wohngeld/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/leverkusen/grundsicherung/steps/index.html[22m [2m(+11ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/heidelberg/wohngeld/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/heidelberg/grundsicherung/steps/index.html[22m [2m(+13ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/potsdam/wohngeld/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/potsdam/grundsicherung/steps/index.html[22m [2m(+12ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/bayreuth/wohngeld/steps/index.html[22m [2m(+7ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/bayreuth/grundsicherung/steps/index.html[22m [2m(+10ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/erfurt/wohngeld/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/erfurt/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/saarbruecken/wohngeld/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/saarbruecken/grundsicherung/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/mainz/wohngeld/steps/index.html[22m [2m(+26ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/mainz/grundsicherung/steps/index.html[22m [2m(+9ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/hamm/wohngeld/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/hamm/grundsicherung/steps/index.html[22m [2m(+45ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/muelheim-an-der-ruhr/wohngeld/steps/index.html[22m [2m(+48ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/muelheim-an-der-ruhr/grundsicherung/steps/index.html[22m [2m(+44ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/ludwigshafen-am-rhein/wohngeld/steps/index.html[22m [2m(+50ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/ludwigshafen-am-rhein/grundsicherung/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/oldenburg/wohngeld/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/oldenburg/grundsicherung/steps/index.html[22m [2m(+11ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/osnabrueck/wohngeld/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/osnabrueck/grundsicherung/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/wesel/wohngeld/steps/index.html[22m [2m(+24ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/wesel/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/augsburg/wohngeld/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/augsburg/grundsicherung/steps/index.html[22m [2m(+31ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/siegen/wohngeld/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/siegen/grundsicherung/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/hildesheim/wohngeld/steps/index.html[22m [2m(+26ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/hildesheim/grundsicherung/steps/index.html[22m [2m(+26ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/rostock/wohngeld/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/rostock/grundsicherung/steps/index.html[22m [2m(+17ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/aschaffenburg/wohngeld/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/aschaffenburg/grundsicherung/steps/index.html[22m [2m(+44ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/bruehl/wohngeld/steps/index.html[22m [2m(+35ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/bruehl/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/reutlingen/wohngeld/steps/index.html[22m [2m(+26ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/reutlingen/grundsicherung/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/herdecke/wohngeld/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/herdecke/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/witten/wohngeld/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:25[22m   [34m├─[39m [2m/witten/grundsicherung/steps/index.html[22m [2m(+14ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/kaiserslautern/wohngeld/steps/index.html[22m [2m(+13ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/kaiserslautern/grundsicherung/steps/index.html[22m [2m(+12ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/schwaebischhall/wohngeld/steps/index.html[22m [2m(+30ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/schwaebischhall/grundsicherung/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/amberg/wohngeld/steps/index.html[22m [2m(+32ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/amberg/grundsicherung/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/landshut/wohngeld/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/landshut/grundsicherung/steps/index.html[22m [2m(+12ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/marl/wohngeld/steps/index.html[22m [2m(+25ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/marl/grundsicherung/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/memmingen/wohngeld/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/memmingen/grundsicherung/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/boeblingen/wohngeld/steps/index.html[22m [2m(+22ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/boeblingen/grundsicherung/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/wetzlar/wohngeld/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/wetzlar/grundsicherung/steps/index.html[22m [2m(+15ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/remscheid/wohngeld/steps/index.html[22m [2m(+33ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/remscheid/grundsicherung/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/paderborn/wohngeld/steps/index.html[22m [2m(+33ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/paderborn/grundsicherung/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/moers/wohngeld/steps/index.html[22m [2m(+35ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/moers/grundsicherung/steps/index.html[22m [2m(+16ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/salzgitter/wohngeld/steps/index.html[22m [2m(+31ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/salzgitter/grundsicherung/steps/index.html[22m [2m(+18ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/bremerhaven/wohngeld/steps/index.html[22m [2m(+27ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/bremerhaven/grundsicherung/steps/index.html[22m [2m(+19ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/freising/wohngeld/steps/index.html[22m [2m(+21ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/freising/grundsicherung/steps/index.html[22m [2m(+27ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/weiden/wohngeld/steps/index.html[22m [2m(+23ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/weiden/grundsicherung/steps/index.html[22m [2m(+77ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/loerrach/wohngeld/steps/index.html[22m [2m(+75ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/loerrach/grundsicherung/steps/index.html[22m [2m(+41ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/worms/wohngeld/steps/index.html[22m [2m(+59ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/worms/grundsicherung/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/marburg/wohngeld/steps/index.html[22m [2m(+32ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/marburg/grundsicherung/steps/index.html[22m [2m(+20ms)[22m 
+[2m16:14:26[22m   [34m├─[39m [2m/pforzheim-stadt/wohngeld/steps/index.html[22m [2m(+32ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/pforzheim-stadt/grundsicherung/steps/index.html[22m [2m(+33ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/jena/wohngeld/steps/index.html[22m [2m(+91ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/jena/grundsicherung/steps/index.html[22m [2m(+38ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/herten/wohngeld/steps/index.html[22m [2m(+33ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/herten/grundsicherung/steps/index.html[22m [2m(+34ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/halberstadt/wohngeld/steps/index.html[22m [2m(+46ms)[22m 
+[2m16:14:27[22m   [34m└─[39m [2m/halberstadt/grundsicherung/steps/index.html[22m [2m(+25ms)[22m 
+[2m16:14:27[22m [32m▶[39m src/pages/[citySlug]/[benefitSlug].astro
+[2m16:14:27[22m   [34m├─[39m [2m/berlin/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+262ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/berlin/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+132ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/hamburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+94ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/hamburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+101ms)[22m 
+[2m16:14:27[22m   [34m├─[39m [2m/muenchen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+176ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/muenchen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+112ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/koeln/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+352ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/koeln/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+28ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/frankfurt/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+34ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/frankfurt/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+24ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/stuttgart/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+47ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/stuttgart/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+36ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/duesseldorf/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/duesseldorf/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/dortmund/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+18ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/dortmund/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+25ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/essen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+24ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/essen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+15ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/kassel/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/kassel/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+29ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/hannover/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+46ms)[22m 
+[2m16:14:28[22m   [34m├─[39m [2m/hannover/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/bremen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+18ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/bremen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+23ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/leipzig/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/leipzig/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/dresden/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+35ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/dresden/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+57ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/aachen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+57ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/aachen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+34ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/mannheim/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+54ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/mannheim/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/muenster/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+28ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/muenster/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+12ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/oberhausen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/oberhausen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/nuernberg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/nuernberg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+34ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/wuppertal/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+15ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/wuppertal/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+18ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/braunschweig/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+47ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/braunschweig/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+52ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/duisburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/duisburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/bonn/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+57ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/bonn/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+77ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/moenchengladbach/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+23ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/moenchengladbach/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+94ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/freiburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+54ms)[22m 
+[2m16:14:29[22m   [34m├─[39m [2m/freiburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+65ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/chemnitz/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+81ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/chemnitz/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+73ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/magdeburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+28ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/magdeburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+24ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/wiesbaden/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+71ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/wiesbaden/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+33ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/gelsenkirchen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+31ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/gelsenkirchen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+69ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/kiel/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+50ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/kiel/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+66ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/neuss/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/neuss/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+36ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/wuerzburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+34ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/wuerzburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+51ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/ludwigshafen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+43ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/ludwigshafen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+39ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/bielefeld/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+37ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/bielefeld/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+37ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/hagen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+36ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/hagen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/koblenz/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+13ms)[22m 
+[2m16:14:30[22m   [34m├─[39m [2m/koblenz/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+39ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/giessen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+62ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/giessen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/karlsruhe/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/karlsruhe/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+24ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/esslingen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/esslingen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/darmstadt/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/darmstadt/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/regensburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/regensburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/trier/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+29ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/trier/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/bayreuth/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+32ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/bayreuth/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/offenbach/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+36ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/offenbach/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/fuerth/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+37ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/fuerth/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/ulm/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/ulm/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/heilbronn/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/heilbronn/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+75ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/pforzheim/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/pforzheim/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/wolfsburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/wolfsburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+32ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/goettingen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/goettingen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/neu-ulm/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/neu-ulm/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/bottrop/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/bottrop/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/recklinghausen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+18ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/recklinghausen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+13ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/bad-homburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/bad-homburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/solingen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+23ms)[22m 
+[2m16:14:31[22m   [34m├─[39m [2m/solingen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/leverkusen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+13ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/leverkusen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/heidelberg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/heidelberg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+28ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/potsdam/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/potsdam/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+12ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/bayreuth/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+11ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/bayreuth/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+13ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/erfurt/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+13ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/erfurt/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/saarbruecken/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/saarbruecken/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/mainz/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+18ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/mainz/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+13ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/hamm/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/hamm/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/muelheim-an-der-ruhr/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/muelheim-an-der-ruhr/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/ludwigshafen-am-rhein/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/ludwigshafen-am-rhein/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/oldenburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/oldenburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+15ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/osnabrueck/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/osnabrueck/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/wesel/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/wesel/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/augsburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/augsburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/siegen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+15ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/siegen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/hildesheim/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/hildesheim/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/rostock/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+11ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/rostock/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+15ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/aschaffenburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/aschaffenburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/bruehl/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/bruehl/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+15ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/reutlingen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/reutlingen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+14ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/herdecke/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+32ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/herdecke/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/witten/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+36ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/witten/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+46ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/kaiserslautern/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+16ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/kaiserslautern/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/schwaebischhall/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/schwaebischhall/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+18ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/amberg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/amberg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+37ms)[22m 
+[2m16:14:32[22m   [34m├─[39m [2m/landshut/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/landshut/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/marl/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+19ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/marl/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/memmingen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/memmingen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+12ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/boeblingen/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+25ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/boeblingen/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/wetzlar/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+20ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/wetzlar/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+48ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/remscheid/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+69ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/remscheid/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/paderborn/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/paderborn/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+48ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/moers/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+31ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/moers/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/salzgitter/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+22ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/salzgitter/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+21ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/bremerhaven/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+39ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/bremerhaven/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+24ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/freising/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+37ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/freising/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+33ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/weiden/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+24ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/weiden/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+31ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/loerrach/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+76ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/loerrach/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+45ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/worms/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+33ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/worms/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+88ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/marburg/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+45ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/marburg/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+26ms)[22m 
+[2m16:14:33[22m   [34m├─[39m [2m/pforzheim-stadt/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+15ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/pforzheim-stadt/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+17ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/jena/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+27ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/jena/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+46ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/herten/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+36ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/herten/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+30ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/halberstadt/wohngeld/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+101ms)[22m 
+[2m16:14:34[22m   [34m└─[39m [2m/halberstadt/grundsicherung/index.html[22mYou are attempting to render <SmartCalculator client:load />, but SmartCalculator is an Astro component. Astro components do not render in the client and should not have a hydration directive. Please use a framework component for client rendering.
+ [2m(+49ms)[22m 
+[2m16:14:34[22m [32m▶[39m src/pages/[citySlug]/index.astro
+[2m16:14:34[22m   [34m├─[39m [2m/berlin/index.html[22m [2m(+15ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/hamburg/index.html[22m [2m(+11ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/muenchen/index.html[22m [2m(+15ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/koeln/index.html[22m [2m(+14ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/frankfurt/index.html[22m [2m(+17ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/stuttgart/index.html[22m [2m(+12ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/duesseldorf/index.html[22m [2m(+14ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/dortmund/index.html[22m [2m(+14ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/essen/index.html[22m [2m(+23ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/kassel/index.html[22m [2m(+22ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/hannover/index.html[22m [2m(+11ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/bremen/index.html[22m [2m(+15ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/leipzig/index.html[22m [2m(+40ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/dresden/index.html[22m [2m(+32ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/aachen/index.html[22m [2m(+11ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/mannheim/index.html[22m [2m(+9ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/muenster/index.html[22m [2m(+8ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/oberhausen/index.html[22m [2m(+6ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/nuernberg/index.html[22m [2m(+14ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/wuppertal/index.html[22m [2m(+13ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/braunschweig/index.html[22m [2m(+13ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/duisburg/index.html[22m [2m(+7ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/bonn/index.html[22m [2m(+11ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/moenchengladbach/index.html[22m [2m(+6ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/freiburg/index.html[22m [2m(+11ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/chemnitz/index.html[22m [2m(+12ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/magdeburg/index.html[22m [2m(+18ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/wiesbaden/index.html[22m [2m(+22ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/gelsenkirchen/index.html[22m [2m(+18ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/kiel/index.html[22m [2m(+13ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/neuss/index.html[22m [2m(+17ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/wuerzburg/index.html[22m [2m(+21ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/ludwigshafen/index.html[22m [2m(+19ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/bielefeld/index.html[22m [2m(+13ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/hagen/index.html[22m [2m(+11ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/koblenz/index.html[22m [2m(+16ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/giessen/index.html[22m [2m(+8ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/karlsruhe/index.html[22m [2m(+7ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/esslingen/index.html[22m [2m(+19ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/darmstadt/index.html[22m [2m(+26ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/regensburg/index.html[22m [2m(+23ms)[22m 
+[2m16:14:34[22m   [34m├─[39m [2m/trier/index.html[22m [2m(+15ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/bayreuth/index.html[22m [2m(+15ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/offenbach/index.html[22m [2m(+12ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/fuerth/index.html[22m [2m(+13ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/ulm/index.html[22m [2m(+10ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/heilbronn/index.html[22m [2m(+15ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/pforzheim/index.html[22m [2m(+17ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/wolfsburg/index.html[22m [2m(+10ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/goettingen/index.html[22m [2m(+8ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/neu-ulm/index.html[22m [2m(+9ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/bottrop/index.html[22m [2m(+13ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/recklinghausen/index.html[22m [2m(+9ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/bad-homburg/index.html[22m [2m(+9ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/solingen/index.html[22m [2m(+5ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/leverkusen/index.html[22m [2m(+6ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/heidelberg/index.html[22m [2m(+7ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/potsdam/index.html[22m [2m(+7ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/bayreuth/index.html[22m [2m(+15ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/erfurt/index.html[22m [2m(+12ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/saarbruecken/index.html[22m [2m(+6ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/mainz/index.html[22m [2m(+8ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/hamm/index.html[22m [2m(+8ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/muelheim-an-der-ruhr/index.html[22m [2m(+14ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/ludwigshafen-am-rhein/index.html[22m [2m(+12ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/oldenburg/index.html[22m [2m(+6ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/osnabrueck/index.html[22m [2m(+12ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/wesel/index.html[22m [2m(+6ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/augsburg/index.html[22m [2m(+9ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/siegen/index.html[22m [2m(+15ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/hildesheim/index.html[22m [2m(+8ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/rostock/index.html[22m [2m(+10ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/aschaffenburg/index.html[22m [2m(+6ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/bruehl/index.html[22m [2m(+10ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/reutlingen/index.html[22m [2m(+11ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/herdecke/index.html[22m [2m(+10ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/witten/index.html[22m [2m(+12ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/kaiserslautern/index.html[22m [2m(+23ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/schwaebischhall/index.html[22m [2m(+14ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/amberg/index.html[22m [2m(+17ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/landshut/index.html[22m [2m(+14ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/marl/index.html[22m [2m(+11ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/memmingen/index.html[22m [2m(+9ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/boeblingen/index.html[22m [2m(+13ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/wetzlar/index.html[22m [2m(+14ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/remscheid/index.html[22m [2m(+19ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/paderborn/index.html[22m [2m(+19ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/moers/index.html[22m [2m(+10ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/salzgitter/index.html[22m [2m(+14ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/bremerhaven/index.html[22m [2m(+17ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/freising/index.html[22m [2m(+32ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/weiden/index.html[22m [2m(+20ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/loerrach/index.html[22m [2m(+15ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/worms/index.html[22m [2m(+16ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/marburg/index.html[22m [2m(+14ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/pforzheim-stadt/index.html[22m [2m(+13ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/jena/index.html[22m [2m(+16ms)[22m 
+[2m16:14:35[22m   [34m├─[39m [2m/herten/index.html[22m [2m(+17ms)[22m 
+[2m16:14:35[22m   [34m└─[39m [2m/halberstadt/index.html[22m [2m(+14ms)[22m 
+[2m16:14:35[22m [32m▶[39m src/pages/index.astro
+[2m16:14:35[22m   [34m└─[39m [2m/index.html[22m [2m(+49ms)[22m 
+[2m16:14:35[22m [32m✓ Completed in 23.84s.
+[39m
+[2m16:14:38[22m [34m[@astrojs/sitemap][39m `sitemap-index.xml` created at `dist`
+[2m16:14:38[22m [34m[build][39m 822 page(s) built in [1m52.77s[22m
+[2m16:14:38[22m [34m[build][39m [1mComplete![22m

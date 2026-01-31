@@ -2,7 +2,8 @@
 // src/pages/[citySlug]/[benefitSlug].astro
 
 import Layout from '../../layouts/Layout.astro';
-import SmartCalculator from '../../components/SmartCalculator.astro';
+import { SmartCalculator } from '../../components/SmartCalculator.jsx';
+import ResultsSection from '../../components/ResultsSection.astro';
 
 // Daten importieren
 import cities from '../../data/cities_2026.json';
@@ -40,61 +41,163 @@ const { cityInfo, benefitInfo } = Astro.props;
 const { citySlug, benefitSlug } = Astro.params;
 
 // SEO-Titel generieren
-const seoTitle = `${benefitInfo.name} in ${cityInfo.stadt} | Check 2026`;
+// SEO-Titel generieren (Bevorzuge Daten aus JSON, Fallback auf generiertes Muster)
+const pageTitle = cityInfo.seo_title || `${benefitInfo.name} in ${cityInfo.stadt} | Check 2026`;
+const pageDescription = cityInfo.seo_meta_desc || `Prüfen Sie Ihren Anspruch auf ${benefitInfo.name} in ${cityInfo.stadt}. Aktuelle Informationen für 2026.`;
+
+// Daten für JSON-LD extrahieren
+// Wir extrahieren die Adresse aus dem String "Straße Hausnummer, PLZ Stadt"
+// Hinweis: Das ist ein einfacher Split. Für robustere Lösungen müsste man die Struktur in cities.json anpassen.
+// Format in JSON: "Karl-Marx-Allee 31, 10178 Berlin"
+let addressParts = {
+  streetAddress: "",
+  postalCode: "",
+  addressLocality: ""
+};
+
+const rawAddress = cityInfo.amt_adresse || "";
+const addressMatch = rawAddress.match(/^(.+),\s+(\d{5})\s+(.+)$/);
+
+if (addressMatch) {
+  addressParts = {
+    streetAddress: addressMatch[1],
+    postalCode: addressMatch[2],
+    addressLocality: addressMatch[3]
+  };
+} else {
+    // Fallback falls Format nicht passt
+    addressParts = {
+        streetAddress: rawAddress,
+        postalCode: cityInfo.plz,
+        addressLocality: cityInfo.stadt
+    }
+}
+
+import LocalBusinessSchema from '../../components/SEO/LocalBusinessSchema.astro';
 ---
 
-<Layout title={seoTitle} description={benefitInfo.description}>
-  <main class="container reveal" style="padding: 80px 24px;">
+<Layout title={pageTitle} description={pageDescription}>
+  
+  <LocalBusinessSchema
+    type="GovernmentOffice"
+    name={cityInfo.amt_name || `${benefitInfo.agency_type} ${cityInfo.stadt}`}
+    description={`Zuständige Stelle für ${benefitInfo.name} in ${cityInfo.stadt}`}
+    email={cityInfo[benefitInfo.agency_key]}
+    address={{
+        streetAddress: addressParts.streetAddress,
+        addressLocality: addressParts.addressLocality,
+        postalCode: addressParts.postalCode,
+        addressCountry: "DE"
+    }}
+  />
+
+  <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
     
-    <nav style="margin-bottom: 40px;">
-      <a href={`/${citySlug}`} style="text-decoration: none; color: var(--gray); font-weight: 700; font-size: 0.9rem;">
-        ← Übersicht {cityInfo.stadt}
-      </a>
-    </nav>
+    <!-- Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none"></div>
 
-    <header style="margin-bottom: 60px;">
-      <div style="display: inline-block; background: var(--black); color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 1rem;">
-        {benefitInfo.legal_basis}
-      </div>
-      <h1 style="font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 1rem;">
-        {benefitInfo.name} <br/> 
-        <span style="color: var(--brand);">für {cityInfo.stadt}</span>
-      </h1>
-      <p style="font-size: 1.2rem; color: var(--gray); max-width: 650px; line-height: 1.5;">
-        {benefitInfo.long_description}
-      </p>
-    </header>
+    <div class="max-w-5xl mx-auto relative z-10 space-y-12">
+    
+        <header class="text-left space-y-6">
+          <nav>
+            <a href={`/${citySlug}`} class="text-xs font-bold text-slate-400 uppercase flex items-center gap-2 hover:text-blue-300 transition-colors">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Zurück zur Übersicht
+            </a>
+          </nav>
 
-    <section style="margin-bottom: 80px;">
-      <SmartCalculator 
-        benefitSlug={benefitSlug} 
-        cityInfo={cityInfo} 
-        benefitInfo={benefitInfo} 
-      />
-    </section>
+          <div class="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-blue-300 tracking-widest">
+             <span class="truncate">{benefitInfo.legal_basis}</span>
+          </div>
 
-    <section style="background: var(--soft-bg); border-radius: 32px; padding: 50px;">
-      <h2 style="font-size: 1.8rem; margin-bottom: 20px;">Nächster Schritt</h2>
-      <p style="margin-bottom: 30px; color: #444;">
-        Um Ihre Ansprüche für den Monat Januar zu sichern, müssen Sie einen Antrag bei der zuständigen Stelle in {cityInfo.stadt} stellen. Ein formloses Schreiben per E-Mail reicht zur Fristwahrung aus.
-      </p>
-      
-      <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 25px; margin-bottom: 30px;">
-        <span style="font-size: 0.7rem; font-weight: 800; color: var(--gray); text-transform: uppercase;">Zuständige Behörde:</span>
-        <div style="font-size: 1.1rem; font-weight: 700; margin-top: 5px;">
-          {benefitInfo.agency_type} {cityInfo.stadt}
+          <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight">
+            {benefitInfo.name} <br/> 
+            <span class="text-blue-300">für {cityInfo.stadt}</span>
+          </h1>
+          <p class="text-slate-400 font-medium leading-relaxed text-lg max-w-2xl">
+            {benefitInfo.long_description}
+          </p>
+        </header>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          
+          <!-- Calculator Section (Left/Main) -->
+          <div id="calculator-section" class="md:col-span-2 relative">
+               <div class="absolute inset-0 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl -z-10"></div>
+               
+               <div class="p-8 md:p-10 space-y-8 text-left">
+                  <div class="border-b border-white/5 pb-6">
+                      <h2 class="text-2xl font-bold text-white mb-2">Anspruch online prüfen</h2>
+                      <p class="text-sm leading-relaxed text-slate-400 font-medium">
+                          Nutzen Sie unseren Rechner für eine unverbindliche Ersteinschätzung. Die Berechnung erfolgt direkt im Browser – 100% Datenschutz.
+                      </p>
+                  </div>
+                  
+                  <SmartCalculator 
+                    client:load
+                    benefitSlug={benefitSlug} 
+                    cityInfo={cityInfo} 
+                    benefitInfo={benefitInfo} 
+                    theme="dark"
+                    className="shadow-none border-none p-0 bg-transparent"
+                  />
+               </div>
+          </div>
+
+          <!-- RESULTS SECTION (Shared Component) -->
+          <!-- We might want to adjust ResultsSection to be more flexible if it has hardcoded bg, 
+               but for now we assume it adapts or we wrap it nicely if needed. 
+               The original design had it as a separate section below, but here we keep the grid structure.
+               Actually, ResultsSection in index.astro is full width. 
+               Let's check if we should put it outside the grid or keep it as a sidebar widget 
+               OR if the original code meant something else.
+               Refencing original code: it was inside the grid.
+          -->
+          <div class="md:col-span-1 space-y-6">
+               <div class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+                   <h3 class="text-lg font-bold text-white mb-4">Wichtige Infos</h3>
+                   <ul class="space-y-4 text-sm text-slate-400">
+                       <li class="flex gap-3">
+                           <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0"></i>
+                           <span>Aktuelle Werte für 2026 berücksichtigt</span>
+                       </li>
+                       <li class="flex gap-3">
+                           <i data-lucide="shield-check" class="w-5 h-5 text-blue-400 shrink-0"></i>
+                           <span>Anonyme Berechnung ohne Speicherung</span>
+                       </li>
+                       <li class="flex gap-3">
+                           <i data-lucide="file-text" class="w-5 h-5 text-amber-400 shrink-0"></i>
+                           <span>Direkter Link zum offiziellen Antrag</span>
+                       </li>
+                   </ul>
+               </div>
+          </div>
+
         </div>
-        <div style="color: var(--brand); font-weight: 600; margin-top: 5px;">
-          {cityInfo[benefitInfo.agency_key]}
-        </div>
-      </div>
-
-      <a href={`mailto:${cityInfo[benefitInfo.agency_key]}?subject=Fristwahrung ${benefitInfo.name}`} 
-         class="btn-primary" 
-         style="display: block; text-align: center; text-decoration: none; padding: 20px; border-radius: 12px; font-weight: 800;">
-        Fristwahrende E-Mail senden
-      </a>
-    </section>
-
+    </div>
   </main>
 </Layout>
+
+<style>
+/* Local overrides if necessary, but trying to stick to global utility classes from layout */
+.pro-card {
+    background: #ffffff;
+    border-radius: 2rem;
+    /* transition properties are usually global but added here just in case */
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pro-card:hover {
+    transform: translateY(-2px);
+}
+</style>
+
+<script>
+    // Re-run icons on navigation if View Transitions are used (standard Astro behavior coverage)
+    function initIcons() {
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    }
+    
+    initIcons();
+    document.addEventListener('astro:page-load', initIcons);
+</script>

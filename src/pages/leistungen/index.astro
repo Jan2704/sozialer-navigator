@@ -1,0 +1,61 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allEntries = await getCollection('lexikon');
+const sortedEntries = allEntries.sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<Layout title="Lexikon | Sozialer Navigator" activePage="lexikon">
+  
+    <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+        
+        <!-- Background Elements -->
+        <div class="fixed inset-0 z-0 select-none">
+            <img src="/images/hero-navigator.png" alt="" class="w-full h-full object-cover object-right-bottom opacity-30 ml-auto" />
+             <!-- Gradient Overlay: Seamless blend to dark bg -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/90 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent"></div>
+        </div>
+
+        <div class="max-w-5xl mx-auto relative z-10 space-y-12">
+            
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/10">
+                <div class="space-y-4">
+                    <h1 class="text-4xl font-bold tracking-tight text-white">Lexikon</h1>
+                    <p class="text-lg text-slate-400 font-medium leading-relaxed">Begriffe einfach erklärt. Keine Bürokratiesprache.</p>
+                </div>
+                
+
+            </div>
+
+            <!-- Entries List -->
+            <div class="grid sm:grid-cols-2 gap-6">
+                {sortedEntries.map(entry => (
+                    <a href={`/leistungen/${entry.slug}`} class="block group relative">
+                        <!-- Glass Card -->
+                        <div class="absolute inset-0 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl transition-all duration-300 group-hover:bg-[#1e293b]/70 group-hover:scale-[1.01] group-hover:shadow-2xl"></div>
+                        
+                        <div class="relative z-10 p-6 flex flex-col h-full justify-between">
+                            <div>
+                                 <h2 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors mb-2">
+                                    {entry.data.title}
+                                </h2>
+                                <p class="text-sm text-slate-400 leading-relaxed line-clamp-2">
+                                    {entry.data.description}
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-white/5 flex items-center text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-white transition-colors">
+                                Definition lesen 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 transform group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </div>
+                        </div>
+                    </a>
+                ))}
+            </div>
+        </div>
+
+    </main>
+
+</Layout>

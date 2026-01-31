@@ -1,0 +1,17 @@
+[31m[1m13:45:37[22m [ERROR] [vite][39m [31m✗[39m Build failed in 2.68s
+Expected "}" but found ":"
+  [1mHint:[22m
+[33m    Browser APIs are not available on the server.
+    
+    Move your code to a <script> tag outside of the frontmatter, so the code runs on the client.
+    
+    See [4mhttps://docs.astro.build/en/guides/troubleshooting/#document-or-window-is-not-defined[24m for more information.
+    		[39m
+  [1mLocation:[22m
+    [4mC:/Users/Jan-r/OneDrive/Dokumente/Jan/Projekt/sozialer-navigator/sozialer-navigator-app/src/layouts/Layout.astro:47:25[24m
+  [1mStack trace:[22m
+[2m    at failureErrorWithLog (C:\Users\Jan-r\OneDrive\Dokumente\Jan\Projekt\sozialer-navigator\sozialer-navigator-app\node_modules\esbuild\lib\main.js:1467:15)
+    at responseCallbacks.<computed> (C:\Users\Jan-r\OneDrive\Dokumente\Jan\Projekt\sozialer-navigator\sozialer-navigator-app\node_modules\esbuild\lib\main.js:603:9)
+    at Socket.readFromStdout (C:\Users\Jan-r\OneDrive\Dokumente\Jan\Projekt\sozialer-navigator\sozialer-navigator-app\node_modules\esbuild\lib\main.js:581:7)
+    at addChunk (node:internal/streams/readable:559:12)
+    at Readable.push (node:internal/streams/readable:390:5)[22m

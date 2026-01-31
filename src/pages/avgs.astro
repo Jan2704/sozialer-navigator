@@ -4,43 +4,54 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Wartezeit-Hilfe | AVGS Coaching Check" description="Prüfe deinen Anspruch auf ein kostenloses 1:1 Coaching während der Wohngeld-Wartezeit.">
   
-  <div style="background-color: #ffffff; min-height: 100vh; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1e293b; line-height: 1.6;">
+  <main class="min-h-screen bg-[#0F172A] text-slate-100 flex items-center justify-center p-6 pt-32 relative overflow-hidden">
     
-    <nav style="background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 1.25rem 0;">
-      <div style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; padding: 0 20px;">
-        <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-          <div style="background: #2563eb; color: white; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900;">N</div>
-          <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Sozialer Navigator</span>
-        </a>
+    <!-- Background Elements -->
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
+    <div class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-2xl w-full relative z-10 text-center">
+      
+      <div class="inline-block bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 border border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+         Wartezeit-Hilfe
       </div>
-    </nav>
+      
+      <h1 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight leading-tight">
+        Wartezeit sinnvoll nutzen.
+      </h1>
+      
+      <p class="text-lg text-slate-400 font-medium mb-12 max-w-xl mx-auto leading-relaxed">
+        Die Bearbeitung deines Antrags dauert Monate. Nutze diese Zeit für ein 100% gefördertes 1:1 Coaching (AVGS) im Wert von 2.500 €.
+      </p>
 
-    <main style="max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: center;">
-      <div style="display: inline-block; background: #eff6ff; color: #2563eb; padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 800; margin-bottom: 1.5rem;">WARTEZEIT-HILFE</div>
-      <h1 style="font-weight: 900; font-size: 2.5rem; color: #0f172a; margin-bottom: 1rem; letter-spacing: -0.04em;">Wartezeit sinnvoll nutzen.</h1>
-      <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 4rem;">Die Bearbeitung deines Antrags dauert Monate. Nutze diese Zeit für ein 100% gefördertes 1:1 Coaching (AVGS) im Wert von 2.500 €.</p>
-
-      <div id="form-wrapper" style="background: #ffffff; border: 2px solid #2563eb; padding: 3rem; border-radius: 32px; box-shadow: 0 20px 40px rgba(37,99,235,0.1); text-align: left;">
-        <h3 style="font-weight: 800; margin-bottom: 1.5rem;">Unverbindliche Prüfung anfordern</h3>
-        <form id="avgs-lead-form" style="display: grid; gap: 15px;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <input type="text" id="v-name" placeholder="Vorname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
-            <input type="text" id="n-name" placeholder="Nachname" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
+      <div id="form-wrapper" class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden text-left">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+        
+        <h3 class="text-xl font-bold text-white mb-6">Unverbindliche Prüfung anfordern</h3>
+        
+        <form id="avgs-lead-form" class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <input type="text" id="v-name" placeholder="Vorname" required class="w-full bg-[#0F172A] border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium" />
+            <input type="text" id="n-name" placeholder="Nachname" required class="w-full bg-[#0F172A] border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium" />
           </div>
-          <input type="email" id="e-mail" placeholder="E-Mail Adresse" required style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
-          <input type="tel" id="tel" placeholder="Telefonnummer (optional)" style="padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 1rem;" />
-          <button type="submit" id="submit-btn" style="background: #2563eb; color: white; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 1.1rem; cursor: pointer; margin-top: 10px;">Jetzt Anspruch prüfen</button>
+          <input type="email" id="e-mail" placeholder="E-Mail Adresse" required class="w-full bg-[#0F172A] border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium" />
+          <input type="tel" id="tel" placeholder="Telefonnummer (optional)" class="w-full bg-[#0F172A] border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium" />
+          
+          <button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold uppercase tracking-widest py-4 rounded-xl mt-4 shadow-lg shadow-blue-900/50 transition-all transform hover:-translate-y-0.5">
+            Jetzt Anspruch prüfen
+          </button>
         </form>
 
-        <div id="success-message" style="display: none; text-align: center; padding: 2rem;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-          <h3 style="color: #16a34a; font-weight: 800;">Anfrage gesendet!</h3>
-          <p>Wir prüfen deine Daten und melden uns in Kürze bei dir.</p>
-          <a href="/" style="display: inline-block; margin-top: 2rem; color: #2563eb; font-weight: 700; text-decoration: none;">← Zurück zum Navigator</a>
+        <div id="success-message" class="hidden text-center py-8">
+          <div class="text-6xl mb-4">✅</div>
+          <h3 class="text-2xl font-black text-emerald-400 mb-2">Anfrage gesendet!</h3>
+          <p class="text-slate-400 mb-8">Wir prüfen deine Daten und melden uns in Kürze bei dir.</p>
+          <a href="/" class="text-blue-400 font-bold hover:text-blue-300 transition-colors">← Zurück zum Navigator</a>
         </div>
       </div>
-    </main>
-  </div>
+
+    </div>
+  </main>
 </Layout>
 
 <script>
@@ -50,10 +61,12 @@ import Layout from '../layouts/Layout.astro';
   const form = document.getElementById('avgs-lead-form');
   const btn = document.getElementById('submit-btn');
 
-  form.addEventListener('submit', async (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    btn.innerText = 'Wird gesendet...';
-    btn.disabled = true;
+    if(btn) {
+        btn.innerText = 'Wird gesendet...';
+        btn.disabled = true;
+    }
 
     const { error } = await supabase.from('leads').insert([{ 
       vorname: document.getElementById('v-name').value, 
@@ -66,11 +79,14 @@ import Layout from '../layouts/Layout.astro';
 
     if (!error) {
       form.style.display = 'none';
-      document.getElementById('success-message').style.display = 'block';
+      const successMsg = document.getElementById('success-message');
+      if(successMsg) successMsg.style.display = 'block';
     } else {
       alert('Fehler beim Senden. Bitte versuche es später erneut.');
-      btn.innerText = 'Jetzt Anspruch prüfen';
-      btn.disabled = false;
+      if(btn) {
+          btn.innerText = 'Jetzt Anspruch prüfen';
+          btn.disabled = false;
+      }
     }
   });
 </script>

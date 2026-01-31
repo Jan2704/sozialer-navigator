@@ -3,135 +3,90 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="sn-footer">
-  <div class="sn-container">
+<footer class="mt-32 border-t-2 border-[#8B5CF6] bg-white pt-16 pb-12 relative overflow-hidden">
+  
+  <div class="mx-auto max-w-[90rem] px-6 lg:px-12 relative z-10">
     
-    <div class="sn-footer-grid">
-      <div class="sn-footer-brand">
-        <a href="/" class="sn-logo">
-          <span class="sn-logo-title">Sozialer Navigator</span>
-          <span class="sn-logo-sub">Orientierung & Hilfe im Sozialstaat</span>
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-4 lg:gap-20">
+      
+      <!-- Brand Section -->
+      <div class="md:col-span-1 lg:col-span-1">
+        <a href="/" class="group flex flex-col outline-none cursor-pointer text-decoration-none">
+          <span class="text-lg font-bold tracking-tight text-gray-900 transition-colors group-hover:text-[#8B5CF6]">
+            Sozialer Navigator
+          </span>
+          <span class="text-[0.65rem] font-medium uppercase tracking-widest text-gray-500 mt-1">
+            Ein Projekt für mehr Gerechtigkeit
+          </span>
         </a>
-        <p class="sn-footer-text">
-          Unabhängige Informationen und Tools für einen einfachen Zugang zu sozialen Leistungen.
+        <p class="mt-6 text-sm leading-relaxed text-gray-600 max-w-xs font-medium">
+          Wir vereinfachen den Zugang zu sozialen Leistungen durch intelligente Tools und klare Informationen.
         </p>
       </div>
 
-      <div class="sn-footer-nav">
-        <span class="sn-footer-label">Wichtige Themen</span>
-        <a href="/buergergeld-grundsicherung">Bürgergeld</a>
-        <a href="/wohngeld">Wohngeld</a>
-        <a href="/wissen">Wissen & Ratgeber</a>
-        <a href="/rechner">Leistungs-Rechner</a>
+      <!-- Navigation Column 1 -->
+      <div class="flex flex-col gap-6">
+        <span class="text-xs font-semibold uppercase tracking-widest text-gray-900">
+          Wichtige Themen
+        </span>
+        <div class="flex flex-col gap-3.5">
+          <a href="/buergergeld" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6] text-left">
+            Bürgergeld
+          </a>
+          <a href="/wohngeld" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6] text-left">
+            Wohngeld
+          </a>
+          <a href="/ueber-uns" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6] text-left">
+            Über uns
+          </a>
+          <a href="/leistungen" class="text-[0.95rem] font-bold text-[#8B5CF6] transition-colors hover:text-[#7C3AED] text-left">
+            Lexikon
+          </a>
+        </div>
       </div>
 
-      <div class="sn-footer-nav">
-        <span class="sn-footer-label">Service</span>
-        <a href="/hilfe">Hilfe finden</a>
-        <a href="/anspruch-pruefen">Anspruch prüfen</a>
-        <a href="/kontakt">Kontakt</a>
+      <!-- Navigation Column 2 -->
+      <div class="flex flex-col gap-6">
+        <span class="text-xs font-semibold uppercase tracking-widest text-gray-900">
+          Service
+        </span>
+        <div class="flex flex-col gap-3.5">
+          <a href="/#calculator" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6] text-left">
+            Anspruch prüfen
+          </a>
+          <a href="mailto:info@sozialer-navigator.de" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">
+            Kontakt
+          </a>
+        </div>
       </div>
 
-      <div class="sn-footer-nav">
-        <span class="sn-footer-label">Rechtliches</span>
-        <a href="/impressum">Impressum</a>
-        <a href="/datenschutz">Datenschutz</a>
+      <!-- Navigation Column 3 -->
+      <div class="flex flex-col gap-6">
+        <span class="text-xs font-semibold uppercase tracking-widest text-gray-900">
+          Rechtliches
+        </span>
+        <div class="flex flex-col gap-3.5">
+          <a href="/impressum" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">
+            Impressum
+          </a>
+          <a href="/datenschutz" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">
+            Datenschutz
+          </a>
+        </div>
       </div>
+
     </div>
 
-    <div class="sn-footer-bottom">
-      <p>&copy; {currentYear} Sozialer Navigator. Alle Rechte vorbehalten.</p>
+    <!-- Bottom Bar -->
+    <div class="mt-20 border-t border-gray-200 pt-10 flex flex-col items-center justify-between gap-6 md:flex-row">
+      <p class="text-sm font-medium text-gray-500">
+        &copy; {currentYear} Sozialer Navigator.
+      </p>
+      <div class="flex items-center gap-2">
+        <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+        <span class="text-xs font-medium text-gray-500">System operational</span>
+      </div>
     </div>
 
   </div>
 </footer>
-
-<style>
-  .sn-footer {
-    background: #ffffff;
-    border-top: 1px solid var(--sn-border);
-    padding: 4rem 0 2rem 0;
-    margin-top: 4rem;
-  }
-
-  .sn-footer-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 3rem;
-  }
-
-  .sn-footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .sn-logo { text-decoration: none; display: flex; flex-direction: column; }
-  .sn-logo-title { font-size: 1.1rem; font-weight: 800; color: var(--sn-zinc-950); line-height: 1.2; }
-  .sn-logo-sub { font-size: 0.75rem; color: var(--sn-zinc-600); }
-
-  .sn-footer-text {
-    font-size: 0.9rem;
-    color: var(--sn-zinc-600);
-    line-height: 1.5;
-    max-width: 280px;
-  }
-
-  .sn-footer-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .sn-footer-label {
-    font-size: 0.85rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--sn-zinc-950);
-    margin-bottom: 0.5rem;
-  }
-
-  .sn-footer-nav a {
-    text-decoration: none;
-    font-size: 0.9rem;
-    color: var(--sn-zinc-600);
-    transition: color 0.1s;
-  }
-
-  .sn-footer-nav a:hover {
-    color: var(--sn-blue);
-  }
-
-  .sn-footer-bottom {
-    border-top: 1px solid var(--sn-border);
-    padding-top: 2rem;
-    text-align: center;
-  }
-
-  .sn-footer-bottom p {
-    font-size: 0.8rem;
-    color: var(--sn-zinc-500);
-  }
-
-  @media (max-width: 900px) {
-    .sn-footer-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-    .sn-footer-brand {
-      grid-column: span 2;
-      margin-bottom: 1rem;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .sn-footer-grid {
-      grid-template-columns: 1fr;
-    }
-    .sn-footer-brand {
-      grid-column: span 1;
-    }
-  }
-</style>

@@ -1,0 +1,64 @@
+---
+interface Props {
+  type?: string;
+  name: string;
+  description?: string;
+  image?: string;
+  telephone?: string;
+  email?: string;
+  address?: {
+    streetAddress: string;
+    addressLocality: string;
+    postalCode: string;
+    addressCountry?: string;
+  };
+  geo?: {
+    latitude: number;
+    longitude: number;
+  };
+  url?: string;
+  openingHours?: string[];
+}
+
+const {
+  type = "GovernmentOffice", // Standard für Behörden
+  name,
+  description,
+  image,
+  telephone,
+  email,
+  address,
+  geo,
+  url,
+  openingHours,
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": type,
+  "name": name,
+  "description": description,
+  "image": image,
+  "telephone": telephone,
+  "email": email,
+  "url": url,
+  "address": address ? {
+    "@type": "PostalAddress",
+    "streetAddress": address.streetAddress,
+    "addressLocality": address.addressLocality,
+    "postalCode": address.postalCode,
+    "addressCountry": address.addressCountry || "DE"
+  } : undefined,
+  "geo": geo ? {
+    "@type": "GeoCoordinates",
+    "latitude": geo.latitude,
+    "longitude": geo.longitude
+  } : undefined,
+  "openingHoursSpecification": openingHours ? openingHours.map(hour => ({
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": hour
+  })) : undefined
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

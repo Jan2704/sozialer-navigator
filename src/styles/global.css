@@ -1,10 +1,183 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 
-/* Optionale Glättung für Premium-Optik */
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
+@import "tailwindcss";
+
+@theme {
+  /* Calm Authority Palette */
+  --color-bg-base: #F7F8FA;
+  /* Warm Off-White */
+  --color-bg-surface: #FFFFFF;
+  /* White Cards */
+  --color-bg-muted: #EEF1F5;
+  /* Light Gray Backgrounds */
+
+  --color-text-primary: #0F172A;
+  /* Very Dark Blue-Gray */
+  --color-text-secondary: #475569;
+  /* Slate 600 */
+  --color-text-muted: #64748B;
+  /* Slate 500 */
+
+  --color-brand-blue: #1E40AF;
+  /* Institutional Blue (Primary) */
+  --color-brand-blue-hover: #1E3A8A;
+
+  --color-success: #15803D;
+  --color-warning: #A16207;
+  --color-danger: #B91C1C;
+  --color-border-subtle: #E2E8F0;
+  /* Slate 200 */
+
+  --font-inter: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --radius-card: 16px;
+  --radius-btn: 8px;
+  /* Slightly rounded, rectangular */
+}
+
+@layer base {
+  :root {
+    --bg-base: #F7F8FA;
+    --bg-surface: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --brand-blue: #1E40AF;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-inter);
+  }
+
+  body {
+    line-height: 1.5;
+  }
+
+  /* Hierarchy */
+  h1 {
+    font-size: clamp(2.25rem, 5vw, 2.75rem);
+    font-weight: 600;
+    /* Semibold, not Bold */
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 4vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    /* Medium */
+    color: var(--text-primary);
+  }
+}
+
+@layer components {
+
+  /* Calm Card: Context, not Stage */
+  .calm-card {
+    @apply bg-[var(--bg-surface)] rounded-[16px] border border-[var(--bg-muted)];
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+    /* Soft shadow */
+  }
+
+  /* Buttons */
+  .calm-btn-primary {
+    background-color: var(--brand-blue);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    /* Rectangular but accessible */
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, transform 0.05s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .calm-btn-primary:hover {
+    background-color: var(--color-brand-blue-hover);
+  }
+
+  .calm-btn-primary:active {
+    transform: scale(0.99);
+    /* Minimal feedback */
+  }
+
+  .calm-btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--color-border-subtle);
+    color: var(--text-secondary);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .calm-btn-secondary:hover {
+    background-color: var(--bg-muted);
+    color: var(--text-primary);
+  }
+
+  /* Inputs */
+  .calm-input {
+    @apply w-full bg-[var(--bg-surface)] border border-slate-300 rounded-lg px-4 py-3 text-[var(--text-primary)] transition-all outline-none;
+  }
+
+  .calm-input:focus {
+    @apply border-[var(--brand-blue)] ring-2 ring-blue-100;
+  }
+
+  .calm-label {
+    @apply block text-sm font-medium text-[var(--text-secondary)] mb-1.5;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

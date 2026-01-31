@@ -1,0 +1,137 @@
+---
+// src/components/seo/SchemaOrg.astro
+
+interface Props {
+  type: 'Organization' | 'Website' | 'Article' | 'SoftwareApplication' | 'GovernmentService' | 'FAQPage';
+  data?: any;
+}
+
+const { type, data } = Astro.props;
+
+const siteUrl = "https://sozialer-navigator.de";
+
+// 1. Organization (Global Base)
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Sozialer Navigator",
+  "url": siteUrl,
+  "logo": `${siteUrl}/logo.png`, // Placeholder, ensure this exists or use a valid path
+  "description": "Ihr unabhängiger Ratgeber für Sozialleistungen, Wohngeld und Bürgergeld in Deutschland.",
+  "sameAs": [
+    // Add social profiles here if available
+  ]
+};
+
+// 2. WebSite (Global Base) - for Sitelinks Search Box
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Sozialer Navigator",
+  "url": siteUrl,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteUrl}/suche?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+let schema = null;
+
+if (type === 'Organization') {
+  schema = organizationSchema;
+} else if (type === 'Website') {
+    schema = websiteSchema;
+} else if (type === 'SoftwareApplication') {
+  // For the Calculator
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": data?.name || "Wohngeldrechner 2026",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "author": organizationSchema,
+    "description": data?.description || "Kostenloser Wohngeldrechner für 2026. Prüfen Sie Ihren Anspruch auf Mietzuschuss.",
+    "featureList": "Anspruchsberechnung, Mietstufen-Check, Einkommensprüfung"
+  };
+} else if (type === 'Article' || type === 'TechnicalArticle') {
+  // For Info Pages
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "TechnicalArticle", // Using TechnicalArticle for "authoritative" feel on complex topics
+    "headline": data?.title,
+    "description": data?.description,
+    "image": data?.image || `${siteUrl}/og-image.jpg`,
+    "author": {
+      "@type": "Organization",
+      "name": "Sozialer Navigator Redaktion"
+    },
+    "publisher": organizationSchema,
+    "datePublished": data?.datePublished || new Date().toISOString().split('T')[0],
+    "dateModified": data?.dateModified || new Date().toISOString().split('T')[0],
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": data?.url
+    }
+  };
+} else if (type === 'GovernmentService') {
+  // For City Pages
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "GovernmentService",
+    "name": `Wohngeldstelle ${data?.city}`,
+    "serviceType": "Wohngeld",
+    "provider": {
+        "@type": "GovernmentOrganization",
+        "name": data?.authorityName || "Wohngeldbehörde",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": data?.address || "",
+            "addressLocality": data?.city,
+            "addressCountry": "DE"
+        }
+    },
+    "areaServed": {
+        "@type": "City",
+        "name": data?.city
+    },
+    "url": data?.url
+  };
+} else if (type === 'FAQPage') {
+    // For FAQ Sections
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": data?.items?.map(item => ({
+            "@type": "Question",
+            "name": item.q,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": item.a
+            }
+        }))
+    };
+} else if (type === 'BreadcrumbList') {
+    // For Breadcrumbs
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": data?.items?.map((item, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": item.name,
+            "item": item.url ? (item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`) : undefined
+        }))
+    };
+}
+
+---
+{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

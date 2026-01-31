@@ -1,0 +1,264 @@
+---
+---
+<!-- AVGS Lead Modal -->
+<div id="avgs-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity opacity-0" id="avgs-modal-backdrop"></div>
+
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            
+            <!-- Modal Panel -->
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" id="avgs-modal-panel">
+                
+                <!-- Close Button -->
+                <button type="button" id="avgs-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <span class="sr-only">Schließen</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <!-- STEP 1: Interest Selection -->
+                <div id="avgs-step-1" class="p-6 sm:p-8">
+                    <div class="text-center mb-8">
+                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold leading-6 text-gray-900 mb-2">Bereich auswählen</h3>
+                        <p class="text-sm text-gray-500">Für welches Thema interessieren Sie sich?</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3">
+                        <button class="avgs-interest-btn w-full text-left px-4 py-3 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 flex items-center justify-between group transition-all" data-interest="Coaching">
+                            <span class="font-medium text-gray-900">Allgemeines Job-Coaching</span>
+                            <span class="text-gray-300 group-hover:text-blue-500">→</span>
+                        </button>
+                        <button class="avgs-interest-btn w-full text-left px-4 py-3 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 flex items-center justify-between group transition-all" data-interest="Gruendung">
+                            <span class="font-medium text-gray-900">Gründer-Coaching (Selbstständigkeit)</span>
+                            <span class="text-gray-300 group-hover:text-blue-500">→</span>
+                        </button>
+                        <button class="avgs-interest-btn w-full text-left px-4 py-3 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 flex items-center justify-between group transition-all" data-interest="IT">
+                            <span class="font-medium text-gray-900">IT & Digitales</span>
+                            <span class="text-gray-300 group-hover:text-blue-500">→</span>
+                        </button>
+                        <button class="avgs-interest-btn w-full text-left px-4 py-3 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 flex items-center justify-between group transition-all" data-interest="Other">
+                            <span class="font-medium text-gray-900">Anderes / Weiß nicht genau</span>
+                            <span class="text-gray-300 group-hover:text-blue-500">→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Contact Form -->
+                <div id="avgs-step-2" class="hidden p-6 sm:p-8">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold leading-6 text-gray-900 mb-2">Kostenlose Prüfung anfordern</h3>
+                        <p class="text-sm text-gray-500">Ein Experte meldet sich unverbindlich bei Ihnen.</p>
+                    </div>
+
+                    <form id="avgs-form" class="space-y-4">
+                        <input type="hidden" id="avgs-interest-input" name="interest" value="">
+                        
+                        <div>
+                            <label for="avgs-name" class="block text-xs font-medium text-gray-700 mb-1">Ihr Name</label>
+                            <input type="text" name="name" id="avgs-name" required class="block w-full rounded-lg border-gray-300 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2 px-3 border" placeholder="Max Mustermann">
+                        </div>
+
+                        <div>
+                             <label for="avgs-email" class="block text-xs font-medium text-gray-700 mb-1">E-Mail Adresse</label>
+                             <input type="email" name="email" id="avgs-email" required class="block w-full rounded-lg border-gray-300 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2 px-3 border" placeholder="max@beispiel.de">
+                        </div>
+                        
+                        <div>
+                             <label for="avgs-phone" class="block text-xs font-medium text-gray-700 mb-1">Telefonnummer (für Rückfragen)</label>
+                             <input type="tel" name="phone" id="avgs-phone" class="block w-full rounded-lg border-gray-300 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2 px-3 border" placeholder="017... (Optional)">
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="w-full justify-center rounded-xl bg-blue-600 px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors flex items-center gap-2">
+                                <span>Anfrage absenden</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            </button>
+                        </div>
+                        
+                        <p class="text-[10px] text-center text-gray-400 mt-4 flex items-center justify-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            Daten werden sicher übertragen. 100% Kostenlos.
+                        </p>
+                    </form>
+                </div>
+                
+                 <!-- STEP 3: Success -->
+                <div id="avgs-step-3" class="hidden p-6 sm:p-12 text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 mb-6">
+                        <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold leading-6 text-gray-900 mb-2">Anfrage erhalten!</h3>
+                    <p class="text-sm text-gray-500 mb-6">
+                        Vielen Dank. Ein Experte wird sich in Kürze bei Ihnen melden, um Ihren Anspruch zu prüfen.
+                    </p>
+                     <button type="button" id="avgs-modal-done" class="w-full justify-center rounded-xl bg-gray-100 px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-200 transition-colors">
+                        Schließen
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    import { supabase } from '../lib/supabase';
+
+    // Modal Logic
+    const modal = document.getElementById('avgs-modal');
+    const backdrop = document.getElementById('avgs-modal-backdrop');
+    const panel = document.getElementById('avgs-modal-panel');
+    const closeBtn = document.getElementById('avgs-modal-close');
+    const doneBtn = document.getElementById('avgs-modal-done');
+    
+    // Steps & content
+    const step1 = document.getElementById('avgs-step-1');
+    const step2 = document.getElementById('avgs-step-2');
+    const step3 = document.getElementById('avgs-step-3');
+    const interestInput = document.getElementById('avgs-interest-input');
+    
+    // Dynamic Elements in Step 2
+    const step2Title = step2.querySelector('h3');
+    const step2Desc = step2.querySelector('p');
+
+    // Open Modal Function (Global)
+    window.openLeadModal = (type = 'avgs') => {
+        modal.classList.remove('hidden');
+        // Animation
+        setTimeout(() => {
+            backdrop.classList.remove('opacity-0');
+            panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+        }, 10);
+        
+        // Reset state
+        step3.classList.add('hidden');
+        
+        if (type === 'application') {
+            // Context: Application Help -> Skip Step 1
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+            
+            // Set Content
+            if(step2Title) step2Title.textContent = "Experten-Hilfe anfordern";
+            if(step2Desc) step2Desc.textContent = "Wir helfen Ihnen bei der Beantragung und Kommunikation mit der Behörde.";
+            interestInput.value = "Application_Help"; // Default interest
+            
+        } else if (type === 'kiz') {
+            // Context: Kinderzuschlag -> Skip Step 1
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+            
+            // Set Content
+            if(step2Title) step2Title.textContent = "KiZ-Anspruch prüfen";
+            if(step2Desc) step2Desc.textContent = "Wir helfen Ihnen bei der Beantragung von Kinderzuschlag.";
+            interestInput.value = "KiZ_Check";
+
+        } else {
+            // Context: AVGS (Default) -> Show Step 1
+            step1.classList.remove('hidden');
+            step2.classList.add('hidden');
+            
+            // Set Content (will be visible when moving to Step 2)
+            if(step2Title) step2Title.textContent = "Kostenlose Prüfung anfordern";
+            if(step2Desc) step2Desc.textContent = "Ein Experte meldet sich unverbindlich bei Ihnen.";
+            interestInput.value = ""; // Reset
+        }
+    };
+    
+    // Old function for compatibility (redirects)
+    window.openAvgsModal = () => window.openLeadModal('avgs');
+
+    // Close Modal Function
+    const closeModal = () => {
+        backdrop.classList.add('opacity-0');
+        panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    };
+
+    // Events
+    closeBtn?.addEventListener('click', closeModal);
+    doneBtn?.addEventListener('click', closeModal);
+    
+    // Step 1 -> Step 2
+    document.querySelectorAll('.avgs-interest-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const interest = btn.dataset.interest;
+            interestInput.value = interest;
+            
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+        });
+    });
+    
+    // Step 2 -> Step 3 (Submit)
+    const form = document.getElementById('avgs-form');
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = "Wird gesendet...";
+        
+        try {
+             // Get Form Data
+             const formData = new FormData(form);
+             const data = Object.fromEntries(formData.entries());
+
+             // Split name into first and last
+             const nameParts = (data.name || '').trim().split(' ');
+             const firstName = nameParts[0];
+             const lastName = nameParts.slice(1).join(' ') || '';
+
+             // Get City from DOM (Result Header)
+             const cityEl = document.getElementById('res-city-header');
+             const city = (cityEl && cityEl.innerText !== '--') ? cityEl.innerText : 'Unbekannt';
+
+             // Supabase Insert
+             // Trying to support both schema styles (name vs first_name/last_name) by sending all
+             const { error } = await supabase
+                .from('leads')
+                .insert([
+                    { 
+                        first_name: firstName,
+                        last_name: lastName,
+                        // Fallback/Legacy fields just in case
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone || null,
+                        interest: data.interest || 'General',
+                        city: city 
+                    }
+                ]);
+
+             if (error) throw error;
+             
+             step2.classList.add('hidden');
+             step3.classList.remove('hidden');
+             
+             if(window.confetti) window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+        } catch (err) {
+            console.error('Supabase Error:', err);
+            btn.innerText = "Fehler";
+            // Show the actual error message to the user for debugging
+            alert(`Fehler beim Senden: ${err.message || JSON.stringify(err)}`);
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+    });
+
+</script>

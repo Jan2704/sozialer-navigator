@@ -1,0 +1,48 @@
+---
+// src/components/CapsuleNav.astro
+---
+
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500" id="capsule-nav">
+  <div class="bg-kelvin-card/80 backdrop-blur-xl border border-kelvin-border rounded-full px-2 py-2 flex items-center shadow-2xl shadow-black/50">
+    
+    <!-- Logo Icon (Left) -->
+    <a href="/" class="w-10 h-10 flex items-center justify-center bg-kelvin-base rounded-full border border-kelvin-border mr-2 group hover:border-kelvin-blue/50 transition-colors">
+      <div class="w-5 h-5 bg-gradient-to-tr from-kelvin-blue to-cyan-400 rounded-full group-hover:scale-110 transition-transform"></div>
+    </a>
+
+    <!-- Links (Center) -->
+    <ul class="flex items-center gap-1 px-2">
+      <li>
+        <a href="/buergergeld" class="text-kelvin-muted text-xs font-semibold px-4 py-2 hover:text-white transition-colors">Bürgergeld</a>
+      </li>
+      <li>
+        <a href="/wohngeld" class="text-kelvin-muted text-xs font-semibold px-4 py-2 hover:text-white transition-colors">Wohngeld</a>
+      </li>
+      <li>
+        <a href="/leistungen" class="text-kelvin-muted text-xs font-semibold px-4 py-2 hover:text-white transition-colors">Lexikon</a>
+      </li>
+    </ul>
+
+    <!-- CTA (Right) -->
+    <a href="#calculator" class="bg-kelvin-text text-kelvin-base text-xs font-bold px-5 py-2.5 rounded-full ml-2 hover:bg-white hover:scale-105 transition-all">
+      Start
+    </a>
+
+  </div>
+</nav>
+
+<style>
+  /* Entrance Animation */
+  #capsule-nav {
+    animation: capsule-drop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+  
+  @keyframes capsule-drop {
+    to {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  }
+</style>

@@ -1,0 +1,168 @@
+---
+import questions from '../../data/questions.json';
+import Layout from '../../layouts/Layout.astro';
+import SchemaOrg from '../../components/SEO/SeoSchema.astro';
+
+export async function getStaticPaths() {
+  return questions.map((question) => ({
+    params: { slug: question.slug },
+    props: { question },
+  }));
+}
+
+const { question } = Astro.props;
+
+// Helper to convert markdown-like headers to HTML
+function parseMarkdown(text) {
+  if (!text) return '';
+  let html = text
+    .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-white mt-10 mb-4">$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-black text-white mt-12 mb-6 border-b border-white/10 pb-4">$1</h2>')
+    .replace(/^\* (.*$)/gim, '<li class="ml-4">$1</li>')
+    .replace(/^\> (.*$)/gim, '<blockquote class="border-l-4 border-blue-500 pl-4 py-3 my-8 bg-blue-900/10 italic text-slate-300 rounded-r-lg">$1</blockquote>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong class="text-white">$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em class="text-blue-200">$1</em>');
+    
+  // Wrap lists
+  html = html.replace(/(<li.*<\/li>)/s, '<ul class="list-disc space-y-2 mb-8 text-slate-400 marker:text-blue-500">$1</ul>');
+  
+  // Paragraphs
+  html = html.split('\n\n').map(p => {
+    if (p.trim().startsWith('<h') || p.trim().startsWith('<ul') || p.trim().startsWith('<li') || p.trim().startsWith('<block')) return p;
+    return `<p class="mb-6 text-slate-400 leading-relaxed font-medium text-lg">${p}</p>`;
+  }).join('');
+  
+  return html;
+}
+
+const contentHtml = parseMarkdown(question.content);
+
+// Schema for FAQ/Article
+const faqSchema = {
+    items: [{
+        q: question.question,
+        a: question.shortAnswer
+    }]
+};
+---
+
+<Layout title={`${question.metaTitle} | Sozialer Navigator`} description={question.metaDescription}>
+    
+    <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+        
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none"></div>
+
+        <article class="max-w-7xl mx-auto relative z-10 space-y-16">
+            
+            <!-- Header Section -->
+            <header class="text-center space-y-8 max-w-4xl mx-auto">
+                <a href="/" class="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-blue-400 transition-colors uppercase tracking-widest mb-4">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Zurück zur Startseite
+                </a>
+                
+                <div class="flex flex-wrap justify-center gap-2 mb-4">
+                    {question.relatedBenefits.map(tag => (
+                        <div class="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase text-blue-300 tracking-widest shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                            {tag}
+                        </div>
+                    ))}
+                </div>
+
+                <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight leading-tight">
+                    {question.question}
+                </h1>
+                
+                <div class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-3xl text-left relative overflow-hidden shadow-2xl">
+                    <div class="relative z-10">
+                         <span class="text-blue-400 font-bold uppercase tracking-widest text-xs block mb-4">Die Kurzantwort</span>
+                         <p class="text-lg md:text-2xl font-medium text-slate-200 leading-relaxed">
+                            {question.shortAnswer}
+                        </p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="grid lg:grid-cols-3 gap-12 items-start max-w-6xl mx-auto">
+                
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-12">
+                    <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 p-8 md:p-12 rounded-3xl shadow-lg">
+                        <div class="prose prose-invert prose-lg max-w-none" set:html={contentHtml}></div>
+                    </div>
+                    
+                    <!-- Feedback / CTA -->
+                    <div class="bg-gradient-to-br from-blue-900/40 to-[#1e293b] border border-blue-500/20 p-8 md:p-12 rounded-[2.5rem] text-center space-y-8 shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                        
+                        <div>
+                            <h3 class="text-3xl font-black text-white mb-4 relative z-10">Noch Fragen?</h3>
+                            <p class="text-slate-400 font-medium text-lg relative z-10 max-w-lg mx-auto">Bürokratie ist kompliziert. Wir helfen Ihnen, den Durchblick zu behalten.</p>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
+                            <a href="/#calculator" class="flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/30 hover:-translate-y-1">
+                                Anspruch prüfen
+                            </a>
+                            <a href="https://www.google.com/search?q=sozialberatung+in+meiner+nähe" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-8 py-4 border border-white/10 text-slate-300 rounded-xl font-bold uppercase tracking-widest hover:bg-white/5 hover:text-white transition-colors">
+                               Beratungsstelle <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="space-y-6 lg:sticky lg:top-32">
+                    <!-- Calculator Teaser -->
+                    <div class="bg-[#1e293b]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-xl space-y-6">
+                        <h3 class="text-xl font-black text-white italic">Anspruch prüfen</h3>
+                        <p class="text-slate-400 font-medium leading-relaxed">
+                            Nutzen Sie unseren kostenlosen Rechner, um Ihren Anspruch auf Wohngeld oder Bürgergeld zu ermitteln.
+                        </p>
+                        <!-- CTA -->
+                        <a href="/#calculator" class="flex items-center justify-center gap-2 w-full py-4 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/30 hover:-translate-y-1">
+                            Zum Rechner <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <p class="text-xs text-center text-slate-500 font-bold uppercase tracking-widest">Dauer: ca. 60 Sekunden</p>
+                    </div>
+
+                    <!-- Related Topics -->
+                    <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 p-8 rounded-3xl">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Verwandte Themen</h3>
+                        <ul class="space-y-4">
+                            {questions.filter(q => q.slug !== question.slug).slice(0, 5).map(q => (
+                                <li>
+                                    <a href={`/ratgeber/${q.slug}`} class="group flex items-start gap-3 text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors">
+                                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-600 group-hover:bg-blue-400 transition-colors shrink-0"></div>
+                                        <span class="leading-relaxed">{q.question}</span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </aside>
+
+            </div>
+
+        </article>
+    </main>
+
+    <SchemaOrg type="FAQPage" data={faqSchema} />
+    <SchemaOrg type="Article" data={{
+        headline: question.question,
+        description: question.metaDescription,
+        author: "Sozialer Navigator Redaktion",
+        datePublished: "2026-01-24"
+    }} />
+    
+    <script>
+        // Init Icons for View Transitions
+        function initIcons() {
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        }
+        initIcons();
+        document.addEventListener('astro:page-load', initIcons);
+    </script>
+</Layout>

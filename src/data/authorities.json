@@ -1,0 +1,131 @@
+{
+    "Berlin": {
+        "type": "district",
+        "fallback": {
+            "wohngeld": {
+                "name": "Landesverwaltungsamt Berlin",
+                "address": "Fehrbelliner Platz 1, 10707 Berlin",
+                "email": "info@senstadt.berlin.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Berlin Mitte",
+                "address": "Müllerstraße 16, 13353 Berlin",
+                "email": "jobcenter-berlin-mitte@jobcenter-ge.de"
+            }
+        },
+        "districts": [
+            {
+                "name": "Spandau",
+                "authorities": {
+                    "wohngeld": {
+                        "name": "Amt für Soziales Spandau - Wohngeldstelle",
+                        "address": "Carl-Schurz-Straße 2-6, 13597 Berlin",
+                        "email": "sozialamt@ba-spandau.berlin.de",
+                        "lat": 52.5350,
+                        "lng": 13.1970
+                    },
+                    "jobcenter": {
+                        "name": "Jobcenter Berlin Spandau",
+                        "address": "Altonaer Str. 70/72, 13581 Berlin",
+                        "email": "jobcenter-berlin-spandau@jobcenter-ge.de",
+                        "lat": 52.5360,
+                        "lng": 13.1980
+                    }
+                },
+                "plz": [
+                    "13581",
+                    "13583",
+                    "13585",
+                    "13587",
+                    "13589",
+                    "13591",
+                    "13593",
+                    "13595",
+                    "13597",
+                    "13599"
+                ]
+            },
+            {
+                "name": "Mitte",
+                "authorities": {
+                    "wohngeld": {
+                        "name": "Amt für Soziales Mitte - Wohngeldstelle",
+                        "address": "Kapweg 3, 13405 Berlin",
+                        "email": "wohngeld@ba-mitte.berlin.de",
+                        "lat": 52.5560,
+                        "lng": 13.3150
+                    },
+                    "jobcenter": {
+                        "name": "Jobcenter Berlin Mitte",
+                        "address": "Seydelstraße 2-30, 10117 Berlin",
+                        "email": "jobcenter-berlin-mitte@jobcenter-ge.de",
+                        "lat": 52.5120,
+                        "lng": 13.4010
+                    }
+                },
+                "plz": [
+                    "10115",
+                    "10117",
+                    "10119",
+                    "10178",
+                    "10179",
+                    "10551",
+                    "10553",
+                    "10555",
+                    "10557",
+                    "10559",
+                    "13347",
+                    "13349",
+                    "13351",
+                    "13353",
+                    "13355",
+                    "13357",
+                    "13359",
+                    "13405",
+                    "13407",
+                    "13409"
+                ]
+            }
+        ]
+    },
+    "München": {
+        "type": "central",
+        "authority": {
+            "name": "Amt für Wohnen und Migration",
+            "address": "Werinherstraße 89, 81541 München",
+            "email": "wohngeld.soz@muenchen.de",
+            "lat": 48.1150,
+            "lng": 11.5950
+        }
+    },
+    "Hamburg": {
+        "type": "central",
+        "authority": {
+            "name": "Zentrales Wohngeldamt Hamburg",
+            "address": "Billstraße 80, 20539 Hamburg",
+            "email": "wohngeld@hamburg-mitte.de",
+            "lat": 53.5430,
+            "lng": 10.0450
+        }
+    },
+    "Köln": {
+        "type": "central",
+        "authority": {
+            "name": "Wohngeldstelle Köln",
+            "address": "Ottoplatz 1, 50679 Köln",
+            "email": "wohngeld@stadt-koeln.de",
+            "lat": 50.9380,
+            "lng": 6.9680
+        }
+    },
+    "Frankfurt": {
+        "type": "central",
+        "authority": {
+            "name": "Wohngeldbehörde Frankfurt",
+            "address": "Battonnstraße 12, 60311 Frankfurt am Main",
+            "email": "wohngeld@stadt-frankfurt.de",
+            "lat": 50.1130,
+            "lng": 8.6890
+        }
+    }
+}

@@ -4,36 +4,60 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
 ---
 
 <Layout title="Anspruch gesichert | Sozialer Navigator">
-  <main style="max-width: 800px; margin: 0 auto; padding: 60px 20px; font-family: 'Inter', sans-serif; text-align: center;">
+  <main class="min-h-screen bg-[#0F172A] text-slate-100 flex flex-col items-center justify-center p-6 pt-32 relative overflow-hidden">
     
-    <div style="font-size: 5rem; margin-bottom: 20px;">🎉</div>
-    <h1 style="font-size: 3rem; font-weight: 900; color: #0f172a; margin-bottom: 1rem;">Geschafft!</h1>
-    <p style="font-size: 1.25rem; color: #475569; margin-bottom: 3rem;">
-      Vielen Dank, <span id="display-name" style="font-weight: 800; color: #2563eb;">...</span>. Deine Daten sind sicher hinterlegt.
-    </p>
+    <!-- Background Effects -->
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-900/10 to-[#0F172A] pointer-events-none"></div>
+    <div class="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-    <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 30px; border-radius: 32px; margin-bottom: 3rem; display: inline-block; min-width: 300px;">
-      <span style="font-size: 0.85rem; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 5px;">Dein monatlicher Vorteil</span>
-      <div id="display-summe" style="font-size: 3rem; font-weight: 900; color: #16a34a;">0,00 €</div>
-    </div>
+    <div class="max-w-3xl w-full relative z-10 text-center">
+        
+        <div class="text-6xl mb-6 animate-bounce">🎉</div>
+        <h1 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">Geschafft!</h1>
+        <p class="text-xl text-slate-400 font-medium mb-12">
+          Vielen Dank, <span id="display-name" class="text-blue-400 font-bold">...</span>. Deine Daten sind sicher hinterlegt.
+        </p>
 
-    <div style="background: #ffffff; border: 2px solid #2563eb; padding: 40px; border-radius: 32px; text-align: left; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1);">
-      <h2 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem;">Wichtig: Sofortige Fristwahrung (§ 24 WoGG)</h2>
-      <p style="color: #475569; margin-bottom: 1.5rem;">Kopiere diesen Text und sende ihn heute per E-Mail an dein Wohngeldamt, um das Geld für {currentMonth} 2026 zu sichern.</p>
-      
-      <div id="copy-box" style="background: #f1f5f9; padding: 25px; border-radius: 16px; border: 1px solid #cbd5e1; font-family: monospace; font-size: 0.95rem; line-height: 1.6;">
-        Betreff: Formloser Antrag auf Wohngeld zur Fristwahrung<br/><br/>
-        Sehr geehrte Damen und Herren,<br/><br/>
-        hiermit beantrage ich für meinen Haushalt Wohngeld zur Fristwahrung nach § 24 WoGG für den Monat {currentMonth} 2026.<br/><br/>
-        Mit freundlichen Grüßen,<br/>
-        <span id="display-name-copy"></span>
-      </div>
-      
-      <button onclick="copyToClipboard()" style="width: 100%; margin-top: 20px; background: #0f172a; color: white; padding: 18px; border-radius: 12px; font-weight: 800; cursor: pointer; border: none;">TEXT KOPIEREN</button>
+        <div class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 p-8 rounded-3xl mb-12 inline-block min-w-[300px] shadow-2xl">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-2">Dein monatlicher Vorteil</span>
+          <div id="display-summe" class="text-5xl font-black text-emerald-400 text-glow">0,00 €</div>
+        </div>
+
+        <div class="bg-blue-600 rounded-3xl p-8 md:p-10 text-left shadow-2xl shadow-blue-900/50 relative overflow-hidden group">
+             <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 opacity-100 group-hover:scale-105 transition-transform duration-700"></div>
+             <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+
+             <div class="relative z-10">
+                  <h2 class="text-2xl font-black text-white mb-4">Wichtig: Sofortige Fristwahrung (§ 24 WoGG)</h2>
+                  <p class="text-blue-100/90 font-medium mb-6 leading-relaxed">
+                      Kopiere diesen Text und sende ihn heute per E-Mail an dein Wohngeldamt, um das Geld für <strong>{currentMonth} 2026</strong> zu sichern.
+                  </p>
+                  
+                  <div id="copy-box" class="bg-white/10 border border-white/20 rounded-xl p-6 font-mono text-sm text-blue-50 leading-relaxed overflow-x-auto">
+                    Betreff: Formloser Antrag auf Wohngeld zur Fristwahrung<br/><br/>
+                    Sehr geehrte Damen und Herren,<br/><br/>
+                    hiermit beantrage ich für meinen Haushalt Wohngeld zur Fristwahrung nach § 24 WoGG für den Monat {currentMonth} 2026.<br/><br/>
+                    Mit freundlichen Grüßen,<br/>
+                    <span id="display-name-copy"></span>
+                  </div>
+                  
+                  <button onclick="copyToClipboard()" class="w-full mt-6 bg-white text-blue-600 py-4 px-6 rounded-xl font-bold uppercase tracking-widest hover:bg-blue-50 transition-colors shadow-lg flex items-center justify-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                      Text kopieren
+                  </button>
+             </div>
+        </div>
+
     </div>
 
   </main>
 </Layout>
+
+<style>
+    .text-glow {
+        text-shadow: 0 0 20px rgba(52, 211, 153, 0.5);
+    }
+</style>
 
 <script is:inline>
   const params = new URLSearchParams(window.location.search);
@@ -42,7 +66,7 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
 
   document.getElementById('display-name').innerText = name;
   document.getElementById('display-name-copy').innerText = name;
-  document.getElementById('display-summe').innerText = summe + ' €';
+  document.getElementById('display-summe').innerText = summe.replace('.', ',') + ' €';
 
   function copyToClipboard() {
     const text = document.getElementById('copy-box').innerText;

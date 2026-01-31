@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sozialer-navigator.de/wohngeld/sitemap.xml
+Sitemap: https://www.sozialer-navigator.de/sitemap-index.xml

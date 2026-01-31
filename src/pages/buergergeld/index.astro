@@ -1,0 +1,163 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { wohngeldData } from '../../data/wohngeldData.js';
+
+const cities = wohngeldData.sort((a, b) => a.stadt.localeCompare(b.stadt));
+---
+
+<Layout title="Bürgergeld 2026 | Sozialer Navigator" description="Aktuelle Informationen zum Bürgergeld 2026. Regelsatz 563€, Mietübernahme und Zuständigkeiten.">
+  
+  <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+      
+      <!-- Background Elements -->
+      <div class="fixed inset-0 z-0 select-none">
+          <img src="/images/hero-navigator.png" alt="" class="w-full h-full object-cover object-right-bottom opacity-30 ml-auto" />
+           <!-- Gradient Overlay: Seamless blend to dark bg -->
+          <div class="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/90 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent"></div>
+      </div>
+      
+      <div class="max-w-5xl mx-auto relative z-10">
+          
+           <!-- Header -->
+           <div class="text-center mb-16">
+               <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 shadow-sm rounded-full px-4 py-1.5 mb-6">
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                  <span class="text-xs font-bold uppercase tracking-widest text-blue-100">Grundsicherung 2026</span>
+              </div>
+              <h1 class="font-bold tracking-tight text-white text-4xl md:text-5xl mb-6">
+                  Bürgergeld.
+              </h1>
+              <p class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                  Informationen zur Grundsicherung für Arbeitssuchende.
+              </p>
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-8">
+              
+              <!-- Search Widget (Span 2) -->
+              <div class="lg:col-span-2 relative group">
+                   <!-- Card Background -->
+                   <div class="absolute inset-0 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl -z-10 transition-colors group-hover:bg-[#1e293b]/70"></div>
+                   
+                   <div class="p-8 md:p-10">
+                       <div class="relative z-10">
+                           <span class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 block">Jobcenter Finder</span>
+                           <h2 class="text-2xl font-bold text-white mb-6">Zuständigkeit prüfen</h2>
+                           
+                           <div class="relative max-w-xl">
+                                <div class="relative z-20 group-focus-within:scale-[1.02] transition-transform duration-300">
+                                    <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 opacity-0 group-focus-within:opacity-50 blur transition duration-500 rounded-xl"></div>
+                                    <input 
+                                        type="text" 
+                                        id="hub-search" 
+                                        placeholder="Welche Stadt suchen Sie?" 
+                                        class="relative w-full bg-[#0F172A] border border-white/10 text-white placeholder:text-slate-500 rounded-xl px-5 py-4 font-medium text-lg outline-none focus:ring-1 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all shadow-xl"
+                                        autocomplete="off"
+                                    >
+                                </div>
+                                <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-4 bg-[#1e293b] border border-white/10 rounded-xl shadow-2xl max-h-80 overflow-y-auto z-50 p-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"></div>
+                           </div>
+                           
+                           <div class="mt-8 flex flex-wrap gap-3 items-center">
+                               <span class="text-xs font-bold uppercase tracking-wider text-slate-500 mr-2">Oft gesucht:</span>
+                               <a href="/buergergeld/berlin" class="text-xs bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all">Berlin</a>
+                               <a href="/buergergeld/hamburg" class="text-xs bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all">Hamburg</a>
+                               <a href="/buergergeld/muenchen" class="text-xs bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all">München</a>
+                           </div>
+                       </div>
+                   </div>
+              </div>
+
+              <!-- Info Widget (Span 1) -->
+              <div class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:bg-[#1e293b]/70 transition-colors">
+                  <div>
+                      <span class="text-xs font-bold uppercase tracking-wider text-blue-400 mb-3 block">Aktueller Wert</span>
+                      <h3 class="text-xl font-bold text-white mb-2">Regelsatz 2026</h3>
+                      <div class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white mb-2 tracking-tight">563 €</div>
+                      <p class="text-slate-400 text-sm font-medium leading-relaxed">
+                          + Übernahme der tatsächlichen Miete & Heizkosten.
+                      </p>
+                  </div>
+                  
+                  <div class="mt-10 pt-6 border-t border-white/5">
+                      <a href="/leistungen/regelsatz" class="flex items-center justify-between text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors group">
+                          Details ansehen
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                      </a>
+                  </div>
+              </div>
+          </div>
+
+           <!-- Quick Stats / Additional Info -->
+           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 rounded-xl p-6 hover:bg-[#1e293b]/50 transition-colors">
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </span>
+                    <h4 class="font-bold text-slate-200 text-base mb-2">Karenzzeit</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                         1 Jahr Schonvermögen & tatsächliche Mietkosten werden übernommen.
+                    </p>
+                </div>
+
+                 <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 rounded-xl p-6 hover:bg-[#1e293b]/50 transition-colors">
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </span>
+                    <h4 class="font-bold text-slate-200 text-base mb-2">Weiterbildung</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                         Weiterbildungsgeld von 150€ monatlich zusätzlich möglich.
+                    </p>
+                </div>
+
+                <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 rounded-xl p-6 hover:bg-[#1e293b]/50 transition-colors">
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </span>
+                    <h4 class="font-bold text-slate-200 text-base mb-2">Zuverdienst</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                         Höhere Freibeträge für Auszubildende und Schüler.
+                    </p>
+                </div>
+           </div>
+
+      </div>
+
+      <script is:inline define:vars={{ cities }}>
+        const searchInput = document.getElementById('hub-search');
+        const resultsContainer = document.getElementById('search-results');
+
+        if (searchInput && resultsContainer) {
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                if (val.length < 2) {
+                    resultsContainer.classList.add('hidden');
+                    return;
+                }
+
+                const filtered = cities.filter(c => c.stadt.toLowerCase().includes(val)).slice(0, 8);
+                
+                if (filtered.length > 0) {
+                    resultsContainer.innerHTML = filtered.map(c => `
+                        <a href="/buergergeld/${c.slug}" class="block px-4 py-3 hover:bg-white/5 transition-colors flex justify-between items-center group rounded-lg mb-1">
+                            <span class="text-sm font-medium text-slate-200 group-hover:text-white">${c.stadt}</span>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-400 uppercase tracking-wide border border-white/5 px-2 py-1 rounded">Mietstufe ${c.mietstufe}</span>
+                        </a>
+                    `).join('');
+                    resultsContainer.classList.remove('hidden');
+                } else {
+                    resultsContainer.innerHTML = `<div class="px-4 py-3 text-sm text-slate-500 italic">Keine Ergebnisse gefunden</div>`;
+                    resultsContainer.classList.remove('hidden');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+                    resultsContainer.classList.add('hidden');
+                }
+            });
+        }
+      </script>
+  </main>
+</Layout>

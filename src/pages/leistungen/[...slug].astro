@@ -1,0 +1,170 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../../utils/slugify';
+import { ArrowRight, BookOpen, Share2 } from 'lucide-react';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('lexikon');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+import SchemaOrg from '../../components/SEO/SeoSchema.astro';
+---
+
+<Layout title={`${entry.data.title} | Lexikon`} activePage="lexikon">
+  
+    <fragment slot="head">
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={entry.data.title} />
+        <meta property="og:description" content={entry.data.description} />
+        <meta property="og:url" content={`https://sozialer-navigator.de/leistungen/${entry.slug}`} />
+
+        <SchemaOrg 
+            type="TechnicalArticle" 
+            data={{
+                title: entry.data.title,
+                description: entry.data.description,
+                url: `https://sozialer-navigator.de/leistungen/${entry.slug}`,
+                datePublished: "2025-10-01", // Fallback launch date
+                dateModified: entry.data.lastUpdated ? entry.data.lastUpdated.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+            }} 
+        />
+        <SchemaOrg 
+            type="BreadcrumbList" 
+            data={{
+                items: [
+                    { name: "Startseite", url: "/" },
+                    { name: "Lexikon", url: "/leistungen" },
+                    { name: entry.data.title, url: `/leistungen/${entry.slug}` }
+                ]
+            }}
+        />
+    </fragment>
+
+    <main class="min-h-screen bg-[#0F172A] text-slate-300 relative overflow-hidden font-sans">
+        
+        <!-- Ambient Background Glow -->
+        <div class="absolute top-0 inset-x-0 h-[600px] bg-gradient-to-b from-blue-900/20 via-[#0F172A]/80 to-[#0F172A] pointer-events-none"></div>
+        <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none opacity-50 mix-blend-screen"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10 px-6 pt-32 pb-24">
+            
+            <!-- Breadcrumb Navigation -->
+            <nav class="mb-12 flex items-center gap-3 text-sm font-medium text-slate-500">
+                <a href="/leistungen" class="hover:text-blue-400 transition-colors flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Lexikon
+                </a>
+                <span class="text-slate-700">/</span>
+                <span class="text-blue-400 truncate max-w-[200px]">{entry.data.title}</span>
+            </nav>
+
+            <div class="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
+                
+                <!-- Main Content Column -->
+                <article class="min-w-0">
+                    
+                    <!-- Header Section -->
+                    <header class="mb-10 lg:mb-14">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider mb-6 shadow-[0_0_15px_-3px_rgba(59,130,246,0.3)] backdrop-blur-md">
+                            <BookOpen className="w-3.5 h-3.5" />
+                            <span>Definition</span>
+                        </div>
+                        
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-8 drop-shadow-sm">
+                            {entry.data.title}
+                        </h1>
+                        
+                        <div class="text-xl sm:text-2xl text-slate-400 font-medium leading-relaxed border-l-4 border-blue-500/50 pl-6 py-1">
+                            {entry.data.description}
+                        </div>
+                    </header>
+
+                    <!-- Content Body -->
+                    <div class="prose prose-lg prose-invert max-w-none 
+                        prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white 
+                        prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-b prose-h2:border-slate-800 prose-h2:pb-4
+                        prose-h3:text-2xl prose-h3:text-blue-100/90 markdown-content
+                        prose-p:text-slate-300 prose-p:leading-8
+                        prose-strong:text-white prose-strong:font-bold
+                        prose-a:text-blue-400 prose-a:font-semibold prose-a:no-underline hover:prose-a:text-blue-300 hover:prose-a:underline prose-a:transition-colors
+                        prose-li:text-slate-300 prose-li:marker:text-blue-500
+                        prose-blockquote:border-l-blue-500 prose-blockquote:bg-slate-800/30 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:text-slate-200 prose-blockquote:italic
+                        prose-code:text-blue-300 prose-code:bg-blue-900/30 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
+                        <Content />
+                    </div>
+
+                    <!-- Article Footer/Actions -->
+                    <div class="mt-16 pt-8 border-t border-slate-800/60 flex items-center justify-between">
+                        <p class="text-slate-500 text-sm">
+                            Zuletzt aktualisiert: <span class="text-slate-400">Heute</span>
+                        </p>
+                        <button class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-medium">
+                            <Share2 className="w-4 h-4" />
+                            Teilen
+                        </button>
+                    </div>
+
+                </article>
+
+                <!-- Sidebar Column -->
+                <aside class="space-y-8 sticky top-32">
+                    
+                    <!-- Related Terms Widget -->
+                    {entry.data.relatedTerms && entry.data.relatedTerms.length > 0 && (
+                        <div class="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-800/60 rounded-2xl p-6 overflow-hidden hover:border-blue-500/30 transition-all duration-500 shadow-lg shadow-black/20">
+                            <!-- Glow Effect -->
+                            <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-600/20 rounded-full blur-[50px] pointer-events-none group-hover:bg-blue-600/30 transition-all duration-500"></div>
+
+                            <h4 class="relative z-10 text-xs font-bold uppercase tracking-wider text-slate-400 mb-6 flex items-center gap-2">
+                                <span class="w-1 h-4 bg-blue-500 rounded-full"></span>
+                                Verwandte Begriffe
+                            </h4>
+                            
+                            <ul class="relative z-10 space-y-3">
+                                {entry.data.relatedTerms.map(term => (
+                                    <li>
+                                        <a href={`/leistungen/${slugify(term)}`} class="group/link flex items-center justify-between p-3 rounded-xl bg-slate-800/40 hover:bg-blue-600/10 border border-transparent hover:border-blue-500/20 transition-all duration-300">
+                                            <span class="text-sm font-medium text-slate-300 group-hover/link:text-blue-300 transition-colors">{term}</span>
+                                            <ArrowRight className="w-4 h-4 text-slate-600 group-hover/link:text-blue-400 transform group-hover/link:translate-x-1 transition-all" />
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    <!-- Expert Help Widget -->
+                    <div class="relative bg-gradient-to-br from-blue-900/20 to-slate-900/50 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-1 overflow-hidden">
+                        <div class="bg-slate-900/80 rounded-xl p-6 relative z-10 h-full flex flex-col items-start gap-4">
+                            
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                            </div>
+
+                            <div>
+                                <h4 class="text-base font-bold text-white mb-2">Noch Fragen offen?</h4>
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    Nicht sicher, ob das zutrifft? Unsere Experten helfen dir kostenlos weiter.
+                                </p>
+                            </div>
+
+                            <a href="mailto:hilfe@sozialer-navigator.de" class="w-full mt-2 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-blue-900/50 hover:shadow-blue-600/30">
+                                Kontakt aufnehmen
+                                <ArrowRight className="w-4 h-4" />
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </main>
+
+</Layout>

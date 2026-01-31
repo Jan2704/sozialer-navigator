@@ -1,0 +1,104 @@
+---
+
+
+interface CityData {
+  plz: string;
+  stadt: string;
+  mietstufe: number;
+  amt_name: string;
+  amt_adresse: string;
+  amt_email: string;
+  slug: string;
+  bundesland: string;
+}
+
+export interface Props {
+  city: CityData;
+}
+
+const { city } = Astro.props;
+
+const currentYear = new Date().getFullYear();
+const nextYear = currentYear + 1;
+
+// GovernmentService Schema
+const governmentServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "GovernmentService",
+  "name": `Wohngeldstelle ${city.stadt}`,
+  "serviceType": "Sozialleistung",
+  "provider": {
+    "@type": "GovernmentOrganization",
+    "name": city.amt_name,
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": city.amt_adresse.split(',')[0],
+        "addressLocality": city.stadt,
+        "postalCode": city.plz,
+        "addressCountry": "DE"
+    },
+    "email": city.amt_email
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": city.stadt
+  },
+  "url": `https://sozialer-navigator.de/wohngeld/${city.slug}` 
+};
+
+// SoftwareApplication Schema
+const softwareApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": `Wohngeldrechner ${city.stadt} 2026`,
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "featureList": [
+    `Mietstufe ${city.mietstufe} (${city.stadt}) Berücksichtigung`,
+    "Automatische Freibetrags-Berechnung",
+    "Prüfung der Mindesteinkommensgrenze",
+    "Formular für den Antrag"
+  ]
+};
+
+// FAQPage Schema
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `Welche Mietstufe hat ${city.stadt}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${city.stadt} ist aktuell in die Mietstufe ${city.mietstufe} eingeteilt. Das bedeutet, dass Mieten bis zu einer bestimmten Höchstgrenze (z.B. für 1 Person) voll bezuschussungsfähig sind.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Wo beantrage ich Wohngeld in ${city.stadt}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Der Antrag auf Wohngeld kann bei der ${city.amt_name} (${city.amt_adresse}) gestellt werden. Sie können den Antrag auch formlos per Mail an ${city.amt_email} senden, um die Frist zu wahren.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Gilt das Wohngeld-Plus Gesetz in ${city.stadt}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, die Wohngeld-Dauererhöhung und der Heizkostenzuschuss II gelten bundesweit, also auch für alle Bürger in er Stadt. Die Mietobergrenzen wurden entsprechend angepasst."
+      }
+    }
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(governmentServiceSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
