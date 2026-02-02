@@ -40,7 +40,7 @@
 
 @layer base {
   :root {
-    --bg-base: #F7F8FA;
+    --bg-base: #FFFFFF;
     --bg-surface: #FFFFFF;
     --text-primary: #0F172A;
     --text-secondary: #475569;

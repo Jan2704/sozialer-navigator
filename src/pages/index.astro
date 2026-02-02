@@ -61,97 +61,194 @@ const description = "Rechtlich fundierte Anspruchsprüfung für Wohngeld & Bürg
 
     <main class="min-h-screen relative pt-0 pb-32 text-slate-100">
 
-        <!-- Global Fixed Background -->
-        <div class="fixed inset-0 z-0 select-none pointer-events-none">
-             <img src="/images/hero-navigator.png" alt="Sozialer Navigator Hintergrund" class="w-full h-full object-cover object-right-bottom" />
-             <!-- Global Overlay for readability -->
-             <div class="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/80 to-transparent"></div>
-        </div>
-        
         <!-- VIEW 1: HOME -->
         <section id="view-home" class="view-section active w-full relative z-10">
              
-            <!-- HERO CLUSTER -->
-            <div class="relative w-full h-[800px] overflow-hidden animate-slide-up">
+            <!-- HERO SECTION (Dark/Image Background) -->
+            <div class="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden animate-slide-up">
+                
+                <!-- Hero Background Image (Scoped to this section) -->
+                <div class="absolute inset-0 z-0">
+                    <img src="/images/hero-humanity.png" alt="Sozialer Navigator Hintergrund" class="w-full h-full object-cover" />
+                    <!-- Dark Gradient Overlay for text readability -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/70 to-[#1e293b]/40 mix-blend-multiply"></div>
+                    <div class="absolute inset-0 bg-black/20"></div>
+                </div>
 
-                <!-- Content -->
-                <div class="relative z-10 h-full max-w-5xl mx-auto px-6 flex flex-col justify-center energy-line"> 
+                <div class="relative z-10 w-full max-w-6xl mx-auto px-6 text-center md:text-left flex flex-col md:flex-row items-center gap-12"> 
                     
-                    <div class="max-w-2xl pt-20">
-                        <!-- Status Badge -->
-
-                        
-                        <!-- Main Typography -->
-                        <h1 class="font-bold tracking-tight mb-6 text-white text-5xl lg:text-7xl leading-[1.1]">
-                            Wir prüfen deinen Rechtsanspruch auf <br />
-                            <span class="text-blue-200">Wohngeld & Bürgergeld.</span>
+                    <div class="md:w-3/5 pt-20">
+                        <h1 class="font-bold tracking-tight mb-8 text-white text-5xl lg:text-7xl leading-[1.05]">
+                            Menschlichkeit bewegt. <br />
+                            <span class="text-blue-300">Wir bewegen Bürokratie.</span>
                         </h1>
                         
-                        <p class="text-xl text-slate-300 leading-relaxed mb-10 text-balance max-w-lg">
-                           Für Mieter und Eigentümer. Wir beenden sofort das Rätselraten, ob dir staatliche Unterstützung zusteht.
+                        <p class="text-xl md:text-2xl text-slate-100 leading-relaxed mb-12 text-balance max-w-2xl drop-shadow-md">
+                           Dein Anspruch auf Wohngeld & Bürgergeld. Wir kämpfen für dein Recht – einfach, verständlich & von Menschen für Menschen.
                         </p>
 
-                             <a href="#calculator" class="calm-btn-primary shadow-lg shadow-blue-500/20 text-lg px-8 py-4">
-                                Jetzt Anspruch prüfen
-                             </a>
+                         <a href="#calculator" class="calm-btn-primary shadow-lg shadow-blue-500/30 text-lg px-10 py-5 rounded-full hover:scale-105 transition-transform">
+                            Jetzt Anspruch prüfen
+                         </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: WER SIND WIR (Light Background) -->
+            <div class="w-full bg-white py-24 border-b border-slate-100">
+                <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+                    <div class="md:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-blue-100 rounded-2xl transform rotate-3 transition-transform group-hover:rotate-6"></div>
+                        <div class="relative rounded-2xl overflow-hidden shadow-xl border border-slate-100 aspect-video">
+                            <img src="/images/initiative_abstract.png" alt="Sozialer Navigator Initiative" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 text-slate-900">
+                        <span class="text-blue-600 font-bold tracking-widest text-xs uppercase mb-4 block">Wer wir sind</span>
+                        <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-8">Unabhängig & Engagiert.</h2>
+                        <p class="text-slate-600 text-lg leading-relaxed mb-6">
+                           Der Soziale Navigator ist eine unabhängige Initiative. Unser Ziel: Soziale Sicherheit durch digitale Klarheit.
+                        </p>
+                        <p class="text-slate-500 leading-relaxed">
+                            Wir helfen dir, deine Rechte zu verstehen – ohne bürokratische Hürden. Wir verbinden Herz mit Technologie, um dir zu deinem Recht zu verhelfen.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: WARUM SOZIALER NAVIGATOR (Light Neutral Background) -->
+            <div class="w-full bg-slate-50 py-32">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="text-center mb-20">
+                         <span class="text-blue-600 font-bold tracking-widest text-xs uppercase mb-4 block">Warum Sozialer Navigator</span>
+                         <h2 class="text-3xl md:text-5xl font-bold text-slate-900">Deine Vorteile bei uns</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                         <!-- Benefit 1 -->
+                         <div class="calm-card p-8 bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group rounded-2xl">
+                             <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <i data-lucide="users" class="w-7 h-7"></i>
+                             </div>
+                             <h3 class="text-xl font-bold text-slate-900 mb-3">Persönlich & Nah</h3>
+                             <p class="text-slate-600 leading-relaxed text-sm">Wir verstecken uns nicht hinter Paragraphen. Wir erklären dir alles in einfacher Sprache.</p>
+                         </div>
+
+                         <!-- Benefit 2 -->
+                         <div class="calm-card p-8 bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group rounded-2xl">
+                             <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <i data-lucide="shield" class="w-7 h-7"></i>
+                             </div>
+                             <h3 class="text-xl font-bold text-slate-900 mb-3">Anonym & Sicher</h3>
+                             <p class="text-slate-600 leading-relaxed text-sm">Deine Daten gehören dir. Wir prüfen deinen Anspruch komplett anonym im Browser.</p>
+                         </div>
+
+                         <!-- Benefit 3 -->
+                         <div class="calm-card p-8 bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group rounded-2xl">
+                             <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                 <i data-lucide="check-circle" class="w-7 h-7"></i>
+                             </div>
+                             <h3 class="text-xl font-bold text-slate-900 mb-3">Rechtlich Aktuell</h3>
+                             <p class="text-slate-600 leading-relaxed text-sm">Verlass dich drauf: Wir basieren auf den aktuellsten Gesetzen für 2026.</p>
+                         </div>
+
+                         <!-- Benefit 4 -->
+                         <div class="calm-card p-8 bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group rounded-2xl">
+                             <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                 <i data-lucide="zap" class="w-7 h-7"></i>
+                             </div>
+                             <h3 class="text-xl font-bold text-slate-900 mb-3">Schnell & Digital</h3>
+                             <p class="text-slate-600 leading-relaxed text-sm">Kein Papierkram, kein Warten. Du erhältst dein Ergebnis in wenigen Minuten.</p>
+                         </div>
+
+                        <!-- Benefit 5 -->
+                         <div class="calm-card p-8 bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group rounded-2xl md:col-span-2 lg:col-span-2">
+                             <div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                                 <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-blue-50 text-blue-600 shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                     <i data-lucide="heart-handshake" class="w-7 h-7"></i>
+                                 </div>
+                                 <div>
+                                     <h3 class="text-xl font-bold text-slate-900 mb-2">Barrierefrei & Fair</h3>
+                                     <p class="text-slate-600 leading-relaxed text-sm">
+                                         Soziale Sicherheit darf keine Frage der Bildung sein. Wir brechen die Barrieren zwischen Gesetz und Mensch.
+                                     </p>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXPLANATION SECTION -->
+            <div class="w-full bg-slate-50 border-t border-slate-100 pt-24 pb-12">
+                <div class="max-w-4xl mx-auto px-6 text-center">
+                    <span class="text-blue-600 font-bold tracking-widest text-xs uppercase mb-4 block">So funktioniert es</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Dein Weg zur Klarheit</h2>
+                    <p class="text-slate-600 text-lg leading-relaxed mb-16 max-w-2xl mx-auto">
+                        In nur drei Schritten prüfen wir deinen Anspruch auf staatliche Unterstützung. Anonym, sicher und basierend auf den aktuellen Gesetzen für 2026.
+                    </p>
+
+                    <div class="grid md:grid-cols-3 gap-8 text-left">
+                        <!-- Step 1 -->
+                        <div class="relative pl-4 border-l-2 border-blue-200">
+                             <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                             <h4 class="font-bold text-slate-900 text-lg mb-2">1. Angaben machen</h4>
+                             <p class="text-sm text-slate-600 leading-relaxed">
+                                 Gib deine Einkommens- und Wohnsituation ein. Keine Sorge: Wir fragen nur das Nötigste und keine Namen.
+                             </p>
                         </div>
 
+                        <!-- Step 2 -->
+                        <div class="relative pl-4 border-l-2 border-blue-200">
+                             <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                             <h4 class="font-bold text-slate-900 text-lg mb-2">2. Analyse</h4>
+                             <p class="text-sm text-slate-600 leading-relaxed">
+                                 Unser Algorithmus prüft im Hintergrund, ob dir Wohngeld, Bürgergeld oder Kinderzuschlag zusteht.
+                             </p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative pl-4 border-l-2 border-blue-200">
+                             <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                             <h4 class="font-bold text-slate-900 text-lg mb-2">3. Ergebnis & Hilfe</h4>
+                             <p class="text-sm text-slate-600 leading-relaxed">
+                                 Du erhältst sofort eine Einschätzung und konkrete Handlungsempfehlungen für deinen Antrag.
+                             </p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- HOW IT WORKS CLUSTER -->
-            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 text-left mb-32 relative z-20 -mt-16">
-                 <div class="calm-card p-8 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 hover:bg-[#1e293b]/70 transition-colors">
-                     <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/20 text-blue-300 font-bold mb-6 border border-blue-500/30">1</div>
-                     <h3 class="font-bold text-white mb-3">Daten eingeben</h3>
-                     <p class="text-sm text-slate-400 leading-relaxed">Erfasse dein Haushaltseinkommen und deine Wohnkosten. Alle Angaben sind freiwillig.</p>
-                 </div>
-
-                 <div class="calm-card p-8 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 hover:bg-[#1e293b]/70 transition-colors">
-                     <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/20 text-blue-300 font-bold mb-6 border border-blue-500/30">2</div>
-                     <h3 class="font-bold text-white mb-3">Rechtliche Prüfung</h3>
-                     <p class="text-sm text-slate-400 leading-relaxed">Unser System gleicht deine Daten mit den aktuellen Tabellen für Wohngeld und Bürgergeld ab.</p>
-                 </div>
-
-                 <div class="calm-card p-8 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 hover:bg-[#1e293b]/70 transition-colors">
-                     <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/20 text-blue-300 font-bold mb-6 border border-blue-500/30">3</div>
-                     <h3 class="font-bold text-white mb-3">Ergebnis & Antrag</h3>
-                     <p class="text-sm text-slate-400 leading-relaxed">Du erhältst eine sofortige Einschätzung und Zugang zu den offiziellen Antragsformularen.</p>
-                 </div>
-            </div>
-
-            <!-- CALCULATOR SECTION (Pause before) -->
-            <div id="calculator" class="max-w-5xl mx-auto px-6 mb-32 scroll-mt-32 animate-slide-up delay-200 energy-line"> <!-- Gesture on Calculator too -->
-                <div class="calm-card p-0 overflow-hidden relative shadow-md bg-[#1e293b] border border-white/10">
-                    
-                    <!-- Header -->
-                    <div class="px-8 py-6 calm-divider bg-white/5 flex justify-between items-center">
-                         <div>
-                             <h2 class="text-lg font-bold text-white">Anspruchsprüfung</h2>
-                         </div>
-                         <div class="text-xs text-slate-400 font-medium flex items-center gap-2">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                             Privat & Anonym
-                         </div>
-                    </div>
-                    
-                    <!-- Calculator Component Wrapper -->
-                    <div class="p-6 md:p-12 bg-[#1e293b]">
-                        <SmartCalculator client:load theme="dark" />
-                    </div>
-                    
-                    <!-- Footer Info -->
-                    <div class="px-8 py-5 bg-[#0F172A]/50 calm-divider text-center">
-                        <p class="text-xs text-slate-400">
-                            Deine Eingaben werden nur lokal in deinem Browser verarbeitet. <br/>
-                            Es erfolgt keine Speicherung auf unseren Servern.
-                        </p>
+            <!-- CALCULATOR SECTION (White Background) -->
+            <div class="w-full bg-slate-50 pb-32 pt-12">
+                <div id="calculator" class="max-w-5xl mx-auto px-6 scroll-mt-32">
+                    <div class="calm-card p-0 overflow-hidden relative shadow-xl bg-white border border-slate-200">
+                        
+                        <!-- Header -->
+                        <div class="px-8 py-6 calm-divider bg-slate-50 border-b border-slate-100 flex justify-between items-center">
+                             <div>
+                                 <h2 class="text-lg font-bold text-slate-900">Anspruchsprüfung starten</h2>
+                             </div>
+                             <div class="text-xs text-slate-500 font-medium flex items-center gap-2">
+                                 <i data-lucide="lock" class="w-3 h-3"></i>
+                                 Privat & Anonym
+                             </div>
+                        </div>
+                        
+                        <!-- Calculator Component Wrapper -->
+                        <div class="p-6 md:p-12 bg-white">
+                            <SmartCalculator client:load theme="light" />
+                        </div>
+                        
+                        <!-- Footer Info -->
+                        <div class="px-8 py-5 bg-slate-50 border-t border-slate-100 calm-divider text-center">
+                            <p class="text-xs text-slate-500">
+                                Wir speichern keine persönlichen Daten. Die Berechnung erfolgt direkt in deinem Browser.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
 
         </section>
 

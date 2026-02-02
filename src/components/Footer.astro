@@ -7,7 +7,7 @@ const currentYear = new Date().getFullYear();
   
   <div class="mx-auto max-w-[90rem] px-6 lg:px-12 relative z-10">
     
-    <div class="grid grid-cols-1 gap-12 md:grid-cols-4 lg:gap-20">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-3 lg:grid-cols-5 lg:gap-8 xl:gap-20">
       
       <!-- Brand Section -->
       <div class="md:col-span-1 lg:col-span-1">
@@ -39,7 +39,7 @@ const currentYear = new Date().getFullYear();
           <a href="/ueber-uns" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6] text-left">
             Über uns
           </a>
-          <a href="/leistungen" class="text-[0.95rem] font-bold text-[#8B5CF6] transition-colors hover:text-[#7C3AED] text-left">
+          <a href="/lexikon" class="text-[0.95rem] font-bold text-[#8B5CF6] transition-colors hover:text-[#7C3AED] text-left">
             Lexikon
           </a>
         </div>
@@ -60,7 +60,7 @@ const currentYear = new Date().getFullYear();
         </div>
       </div>
 
-      <!-- Navigation Column 3 -->
+      <!-- Navigation Column 3: Legal -->
       <div class="flex flex-col gap-6">
         <span class="text-xs font-semibold uppercase tracking-widest text-gray-900">
           Rechtliches
@@ -72,6 +72,22 @@ const currentYear = new Date().getFullYear();
           <a href="/datenschutz" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">
             Datenschutz
           </a>
+        </div>
+      </div>
+
+       <!-- Navigation Column 4: Top Cities (Replacing old layout or appending) -->
+       <div class="flex flex-col gap-6">
+        <span class="text-xs font-semibold uppercase tracking-widest text-gray-900">
+          Städte
+        </span>
+        <div class="flex flex-col gap-3.5">
+            <a href="/berlin" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">Berlin</a>
+            <a href="/hamburg" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">Hamburg</a>
+            <a href="/muenchen" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">München</a>
+            <a href="/koeln" class="text-[0.95rem] font-medium text-gray-600 transition-colors hover:text-[#8B5CF6]">Köln</a>
+            <a href="/staedte" class="text-[0.95rem] font-bold text-[#8B5CF6] transition-colors hover:text-[#7C3AED] mt-2 flex items-center gap-1">
+                Alle Städte <span aria-hidden="true">&rarr;</span>
+            </a>
         </div>
       </div>
 

@@ -39,7 +39,7 @@ const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für
     </style>
     <slot name="head" />
   </head>
-  <body class={`antialiased font-sans flex flex-col min-h-screen ${Astro.props.class || 'bg-brand-base text-brand-slate'}`}>
+  <body class={`antialiased font-sans flex flex-col min-h-screen ${Astro.props.class || 'bg-[var(--bg-base)] text-[var(--text-primary)]'}`}>
     {!hideNav && <Nav />}
     <div class="flex-grow">
       <slot />

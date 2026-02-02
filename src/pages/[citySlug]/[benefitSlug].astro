@@ -74,6 +74,7 @@ if (addressMatch) {
 }
 
 import LocalBusinessSchema from '../../components/SEO/LocalBusinessSchema.astro';
+import SchemaOrg from '../../components/SEO/SeoSchema.astro';
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
@@ -87,33 +88,45 @@ import LocalBusinessSchema from '../../components/SEO/LocalBusinessSchema.astro'
         streetAddress: addressParts.streetAddress,
         addressLocality: addressParts.addressLocality,
         postalCode: addressParts.postalCode,
-        addressCountry: "DE"
     }}
   />
 
-  <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+  <fragment slot="head">
+     <SchemaOrg 
+        type="BreadcrumbList" 
+        data={{
+            items: [
+                { name: "Startseite", url: "/" },
+                { name: cityInfo.stadt, url: `/${citySlug}` },
+                { name: benefitInfo.name, url: `/${citySlug}/${benefitSlug}` }
+            ]
+        }}
+    />
+  </fragment>
+
+  <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
     
     <!-- Background Elements -->
-    <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none"></div>
+    <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-100/40 to-transparent pointer-events-none"></div>
 
     <div class="max-w-5xl mx-auto relative z-10 space-y-12">
     
         <header class="text-left space-y-6">
           <nav>
-            <a href={`/${citySlug}`} class="text-xs font-bold text-slate-400 uppercase flex items-center gap-2 hover:text-blue-300 transition-colors">
+            <a href={`/${citySlug}`} class="text-xs font-bold text-slate-500 uppercase flex items-center gap-2 hover:text-blue-600 transition-colors">
               <i data-lucide="arrow-left" class="w-4 h-4"></i> Zurück zur Übersicht
             </a>
           </nav>
 
-          <div class="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-blue-300 tracking-widest">
+          <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-blue-600 tracking-widest">
              <span class="truncate">{benefitInfo.legal_basis}</span>
           </div>
 
-          <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight">
+          <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
             {benefitInfo.name} <br/> 
-            <span class="text-blue-300">für {cityInfo.stadt}</span>
+            <span class="text-blue-600">für {cityInfo.stadt}</span>
           </h1>
-          <p class="text-slate-400 font-medium leading-relaxed text-lg max-w-2xl">
+          <p class="text-slate-600 font-medium leading-relaxed text-lg max-w-2xl">
             {benefitInfo.long_description}
           </p>
         </header>
@@ -122,12 +135,12 @@ import LocalBusinessSchema from '../../components/SEO/LocalBusinessSchema.astro'
           
           <!-- Calculator Section (Left/Main) -->
           <div id="calculator-section" class="md:col-span-2 relative">
-               <div class="absolute inset-0 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl -z-10"></div>
-               
-               <div class="p-8 md:p-10 space-y-8 text-left">
-                  <div class="border-b border-white/5 pb-6">
-                      <h2 class="text-2xl font-bold text-white mb-2">Anspruch online prüfen</h2>
-                      <p class="text-sm leading-relaxed text-slate-400 font-medium">
+               <!-- White Card with Shadow -->
+               <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-10 space-y-8 text-left relative overflow-hidden">
+                  
+                  <div class="border-b border-slate-100 pb-6">
+                      <h2 class="text-2xl font-bold text-slate-900 mb-2">Anspruch online prüfen</h2>
+                      <p class="text-sm leading-relaxed text-slate-500 font-medium">
                           Nutzen Sie unseren Rechner für eine unverbindliche Ersteinschätzung. Die Berechnung erfolgt direkt im Browser – 100% Datenschutz.
                       </p>
                   </div>
@@ -137,35 +150,27 @@ import LocalBusinessSchema from '../../components/SEO/LocalBusinessSchema.astro'
                     benefitSlug={benefitSlug} 
                     cityInfo={cityInfo} 
                     benefitInfo={benefitInfo} 
-                    theme="dark"
+                    theme="light"
                     className="shadow-none border-none p-0 bg-transparent"
                   />
                </div>
           </div>
 
-          <!-- RESULTS SECTION (Shared Component) -->
-          <!-- We might want to adjust ResultsSection to be more flexible if it has hardcoded bg, 
-               but for now we assume it adapts or we wrap it nicely if needed. 
-               The original design had it as a separate section below, but here we keep the grid structure.
-               Actually, ResultsSection in index.astro is full width. 
-               Let's check if we should put it outside the grid or keep it as a sidebar widget 
-               OR if the original code meant something else.
-               Refencing original code: it was inside the grid.
-          -->
+          <!-- RESULTS SECTION Sidebar -->
           <div class="md:col-span-1 space-y-6">
-               <div class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-                   <h3 class="text-lg font-bold text-white mb-4">Wichtige Infos</h3>
-                   <ul class="space-y-4 text-sm text-slate-400">
+               <div class="bg-white rounded-3xl shadow-lg border border-slate-100 p-8">
+                   <h3 class="text-lg font-bold text-slate-900 mb-4">Wichtige Infos</h3>
+                   <ul class="space-y-4 text-sm text-slate-600">
                        <li class="flex gap-3">
-                           <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 shrink-0"></i>
+                           <i data-lucide="check-circle" class="w-5 h-5 text-emerald-500 shrink-0"></i>
                            <span>Aktuelle Werte für 2026 berücksichtigt</span>
                        </li>
                        <li class="flex gap-3">
-                           <i data-lucide="shield-check" class="w-5 h-5 text-blue-400 shrink-0"></i>
+                           <i data-lucide="shield-check" class="w-5 h-5 text-blue-500 shrink-0"></i>
                            <span>Anonyme Berechnung ohne Speicherung</span>
                        </li>
                        <li class="flex gap-3">
-                           <i data-lucide="file-text" class="w-5 h-5 text-amber-400 shrink-0"></i>
+                           <i data-lucide="file-text" class="w-5 h-5 text-amber-500 shrink-0"></i>
                            <span>Direkter Link zum offiziellen Antrag</span>
                        </li>
                    </ul>
@@ -178,11 +183,8 @@ import LocalBusinessSchema from '../../components/SEO/LocalBusinessSchema.astro'
 </Layout>
 
 <style>
-/* Local overrides if necessary, but trying to stick to global utility classes from layout */
+/* Refined hover effect for cards if needed */
 .pro-card {
-    background: #ffffff;
-    border-radius: 2rem;
-    /* transition properties are usually global but added here just in case */
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .pro-card:hover {

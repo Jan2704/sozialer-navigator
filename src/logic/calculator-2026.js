@@ -11,6 +11,20 @@ export const RENT_LIMITS = {
 };
 const EXTRA_PERSON_LIMIT = [104, 114, 124, 136, 147, 159, 172]; // Per extra person per Mietstufe
 
+// Square Meter Limits for Wohngeld Components (Guideline)
+const QM_LIMITS = {
+    1: 48,
+    2: 62,
+    3: 74,
+    4: 85,
+    5: 96
+};
+const EXTRA_PERSON_QM = 12;
+
+// Components 2026
+const HEIZKOSTEN_KOMPONENTE = 1.20; // € per qm
+const KLIMA_KOMPONENTE = 0.40; // € per qm
+
 // WoGG Coefficients 2025/2026 (a, b, c) - Anlage 2
 const WOGG_COEFFS = {
     1: { a: 0.040, b: 0.0004797, c: 0.0000408 },
@@ -47,6 +61,11 @@ function getRentLimit(persons, mietstufe) {
         limit += extra * EXTRA_PERSON_LIMIT[msIdx];
     }
     return limit;
+}
+
+function getQmLimit(persons) {
+    if (persons <= 5) return QM_LIMITS[persons];
+    return QM_LIMITS[5] + (persons - 5) * EXTRA_PERSON_QM;
 }
 
 function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0 }) {
@@ -123,14 +142,14 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
         // Basic 100
         freeAmount += Math.min(inc, 100);
 
-        // 100-520 (20%)
+        // 100-538 (20%) - Updated 2024/2026 limit (was 520)
         if (inc > 100) {
-            freeAmount += Math.min(inc - 100, 420) * 0.20;
+            freeAmount += Math.min(inc - 100, 438) * 0.20;
         }
 
-        // 520-1000 (30%)
-        if (inc > 520) {
-            freeAmount += Math.min(inc - 520, 480) * 0.30;
+        // 538-1000 (30%)
+        if (inc > 538) {
+            freeAmount += Math.min(inc - 538, 462) * 0.30;
         }
 
         // 1000-1200 (10%) (or 1500 with child)
@@ -179,32 +198,66 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
     };
 }
 
-function calculateExactWohngeld({ income, rent, persons = 1, mietstufe = 1, expenses = 0, maintenance = 0 }) {
+function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe = 1, expenses = 0, maintenance = 0, quadratmeter = 0 }) {
     // 1. Inputs
     let Y = parseFloat(income) || 0; // Gesamteinkommen (monatlich, steuerpflichtig)
-    const M_actual = parseFloat(rent) || 0;
+    const M_actual = parseFloat(rent) || 0; // Kaltmiete
     const exp = parseFloat(expenses) || 0;
     const maint = parseFloat(maintenance) || 0;
+    const numPersons = parseInt(persons) || 1;
+    const numKids = parseInt(kids) || 0;
+    const numAdults = Math.max(1, numPersons - numKids);
 
-    // Deduct Expenses/Maintenance to get "Y" (Gesamteinkommen nach WoGG)
-    // Note: Usually WoGG deducts "Pauschal 10/20/30%" from Brutto.
-    // KEY FIX: The input 'income' is Brutto. usage of full Brutto makes Y too high.
-    // We assume standard employee (Tax + Health + Pension) -> ~30% deduction.
-    // Y = (Brutto - Expenses - Maintenance) * 0.7
+    // Estimate sqm if missing (Fallback)
+    const estimatedSqm = quadratmeter > 0 ? parseFloat(quadratmeter) : (50 + (numPersons - 1) * 15);
+    const qmLimit = getQmLimit(numPersons);
 
-    // First deduct specific expenses if any
-    let intermediateY = Math.max(0, Y - exp - maint);
+    // Cap sqm for component calculation
+    const recognizedSqm = Math.min(estimatedSqm, qmLimit);
+
+    // Deduct Expenses/Maintenance/Allowances to get "Y" (Gesamteinkommen nach WoGG)
+    // Formula: (Brutto - Expenses - Maintenance - Allowances) * 0.7 (Global Pauschale)
+
+    // a) Single Parent Allowance (Alleinerziehendenentlastungsbetrag)
+    // Source: 1320€ / Year => 110€ / Month
+    let allowance = 0;
+    if (numAdults === 1 && numKids > 0) {
+        allowance += 110;
+    }
+
+    // First deduct specific expenses and allowances from Brutto
+    let intermediateY = Math.max(0, Y - exp - maint - allowance);
 
     // Then apply global pauschal deduction (30% for Tax/Soz)
     // This is an estimation. Real WoGG checks if you actually pay these.
     // For a general calculator, 30% is the standard expectation for employees.
     Y = intermediateY * 0.7;
 
-    // 2. Rent Cap
-    const M_limit = getRentLimit(persons, mietstufe);
+    // 2. Rent Cap Calculation (WoGG 2026 Logic)
 
-    // M = Eligible Rent (Round to Integer)
-    const M = Math.round(Math.min(M_actual, M_limit));
+    // Base Rent Limit
+    // NOTE: The RENT_LIMITS table (491, 538...) provided in this file and confirmed by the user's checklist
+    // ALREADY INCLUDES the Climate Component and Heating Component adjustments to the Limit.
+    // ("inkl. Heiz- und Klimakomponente" in user's source).
+    // Therefore, we do NOT add them to the Limit here.
+    const M_limit_total = getRentLimit(persons, mietstufe);
+
+    // 3. Recognized Rent (M)
+    // The Heating Component is an addition to the Rent (Zuschuss), not just the Limit.
+    // Logic: (ColdRent + HeatingComponent) capped at TotalLimit
+    // Heating Component: 1.20€ per recognized sqm (Verified User Source)
+    const heatingAddOn = HEIZKOSTEN_KOMPONENTE * recognizedSqm;
+
+    // Climate Component is typically a Limit raiser (already in table),
+    // but does it add to rent?
+    // "Klimakomponente... erhöht den Höchstbetrag". It does NOT add to the rent directly.
+    // If table includes it, we are good.
+
+    const M_with_heating = M_actual + heatingAddOn;
+
+    // Final M used in formula
+    const M = Math.round(Math.min(M_with_heating, M_limit_total));
+
 
     // 3. Coefficients
     const pKey = Math.min(persons, 12); // clamp to 12
@@ -237,13 +290,15 @@ function calculateExactWohngeld({ income, rent, persons = 1, mietstufe = 1, expe
         details: {
             eligibleRent: M,
             formulaComponents: { M, Y, z1, z2, z3 },
-            limit: M_limit
+            limit: Math.round(M_limit_total),
+            climateComponent: 0, // Included in Table Limit
+            heatingComponent: Math.round(heatingAddOn)
         }
     };
 }
 
 
-export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, city = null }) {
+export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, city = null, quadratmeter = 0 }) {
     // Determine Mietstufe from City Object if available, else 1
     const mietstufe = city ? city.mietstufe : 1;
 
@@ -252,7 +307,7 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
 
     // 1. Exact Wohngeld
     const wgResult = calculateExactWohngeld({
-        income, rent, persons, mietstufe, expenses, maintenance
+        income, rent, persons, kids, mietstufe, expenses, maintenance, quadratmeter
     });
 
     // 2. Bürgergeld
@@ -266,8 +321,6 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
     // Logic: If (Real Disposable Income + Wohngeld) >= Total Need (SGB II Level),
     // then you are prioritized for Wohngeld (and likely excluded from SGB II or forced to switch).
 
-    // 1. Estimate Real Netto for Comparison (Reuse logic from BG)
-    // Note: We use the same Netto estimation as in calculateBuergergeld for consistency.
     // 1. Estimate Real Netto for Comparison (Reuse logic from BG)
     // Note: We use the same Netto estimation as in calculateBuergergeld for consistency.
     let nettoFactor = 0.7;

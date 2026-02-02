@@ -70,25 +70,25 @@ const defaultCity = {
         </style>
     </fragment>
 
-    <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+    <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
         
         <!-- Background Elements -->
-        <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none"></div>
+        <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-100/40 to-transparent pointer-events-none"></div>
 
         <section id="view-home" class="view-section active max-w-7xl mx-auto relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-start">
                 
                 <!-- LEFT CONTENT -->
                 <div class="space-y-10 text-left pt-4 lg:sticky lg:top-32">
-                    <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-blue-300 tracking-widest">
+                    <div class="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-blue-600 tracking-widest shadow-sm">
                         <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> {stadtName}
                     </div>
                     
-                    <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none italic">
-                        Bürgergeld in <br/> <span class="text-blue-400 not-italic">{stadtName}.</span>
+                    <h1 class="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none italic">
+                        Bürgergeld in <br/> <span class="text-blue-600 not-italic">{stadtName}.</span>
                     </h1>
                     
-                    <div class="space-y-6 text-slate-400 font-medium leading-relaxed text-lg">
+                    <div class="space-y-6 text-slate-600 font-medium leading-relaxed text-lg">
                         <p>
                             Sichern Sie Ihr Existenzminimum in {stadtName}. Unser Rechner prüft Ihren Anspruch auf Regelsatz und Kosten der Unterkunft (KdU) basierend auf der lokalen <strong>Mietstufe {mietstufe}</strong>.
                         </p>
@@ -98,14 +98,14 @@ const defaultCity = {
                     </div>
 
                     <div class="space-y-4 pt-4">
-                        <h3 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-4">Ihre Rechte 2026</h3>
+                        <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Ihre Rechte 2026</h3>
                         <ul class="space-y-3">
-                            <li class="flex items-center gap-3 text-slate-300 font-medium">
-                                <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0 border border-blue-500/20"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <li class="flex items-center gap-3 text-slate-600 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 border border-blue-100"><i data-lucide="check" class="w-4 h-4"></i></div>
                                 <span><strong>Miete:</strong> Volle Übernahme im ersten Jahr (Karenzzeit).</span>
                             </li>
-                            <li class="flex items-center gap-3 text-slate-300 font-medium">
-                                <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0 border border-blue-500/20"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <li class="flex items-center gap-3 text-slate-600 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 border border-blue-100"><i data-lucide="check" class="w-4 h-4"></i></div>
                                 <span><strong>Regelsatz:</strong> 563€ für Alleinstehende + Miete.</span>
                             </li>
                         </ul>
@@ -113,11 +113,11 @@ const defaultCity = {
                 </div>
 
                 <!-- RIGHT: CALCULATOR (Shared) -->
-                <div id="calculator" class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl shadow-2xl relative z-10 space-y-8">
-                    <div class="border-b border-white/10 pb-6">
-                        <h2 class="text-2xl font-black text-white italic mb-2">Anspruch prüfen</h2>
-                        <p class="text-sm leading-relaxed text-slate-400 font-medium">
-                            <strong class="text-blue-400">Jobcenter {stadtName}:</strong> Wir prüfen Ihren Anspruch auf Grundsicherung.
+                <div id="calculator" class="bg-white border border-slate-200 p-8 md:p-10 rounded-3xl shadow-xl relative z-10 space-y-8">
+                    <div class="border-b border-slate-100 pb-6">
+                        <h2 class="text-2xl font-black text-slate-900 italic mb-2">Anspruch prüfen</h2>
+                        <p class="text-sm leading-relaxed text-slate-500 font-medium">
+                            <strong class="text-blue-600">Jobcenter {stadtName}:</strong> Wir prüfen Ihren Anspruch auf Grundsicherung.
                         </p>
                     </div>
                     
@@ -125,32 +125,32 @@ const defaultCity = {
                         client:load 
                         benefitSlug="buergergeld" 
                         regelsatz={563} 
-                        className="shadow-none border-none p-0 !bg-transparent text-white"
+                        className="shadow-none border-none p-0 !bg-transparent text-slate-900"
                         defaultCity={defaultCity}
-                        theme="dark"
+                        theme="light"
                     />
                 </div>
             </div>
 
             <!-- FAQ SECTION -->
             <div class="max-w-3xl mx-auto space-y-8 text-left pt-24">
-                <h3 class="text-3xl font-black text-white tracking-tight italic text-center">Häufige Fragen in {stadtName}</h3>
+                <h3 class="text-3xl font-black text-slate-900 tracking-tight italic text-center">Häufige Fragen in {stadtName}</h3>
                 <div class="space-y-4">
-                    <details class="group bg-[#1e293b]/30 border border-white/5 rounded-2xl open:bg-[#1e293b]/50 transition-all">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-slate-200">
+                    <details class="group bg-white border border-slate-200 rounded-2xl open:bg-slate-50 transition-all shadow-sm">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-slate-800">
                             <span>Wo ist das Jobcenter in {stadtName}?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform"></i>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
                         </summary>
-                        <div class="px-6 pb-6 text-slate-400 leading-relaxed text-sm">
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed text-sm">
                             Das {amtName} ist für die Auszahlung des Bürgergeldes zuständig. Sie können den Antrag dort digital oder schriftlich einreichen.
                         </div>
                     </details>
-                    <details class="group bg-[#1e293b]/30 border border-white/5 rounded-2xl open:bg-[#1e293b]/50 transition-all">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-slate-200">
+                    <details class="group bg-white border border-slate-200 rounded-2xl open:bg-slate-50 transition-all shadow-sm">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-slate-800">
                             <span>Wie hoch ist die angemessene Miete in {stadtName}?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform"></i>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
                         </summary>
-                        <div class="px-6 pb-6 text-slate-400 leading-relaxed text-sm">
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed text-sm">
                             In {stadtName} (Mietstufe {mietstufe}) gelten bestimmte Obergrenzen. Allerdings gilt im ersten Jahr des Bürgergeld-Bezugs eine <strong>Karenzzeit</strong>: Das Jobcenter übernimmt in dieser Zeit die tatsächlichen Kosten der Unterkunft, auch wenn diese "zu hoch" sind (Heizkosten müssen jedoch angemessen sein).
                         </div>
                     </details>
@@ -159,7 +159,7 @@ const defaultCity = {
         </section>
 
         <!-- VIEW: RESULTS -->
-        <ResultsSection class="bg-[#0F172A]" />
+        <ResultsSection class="bg-[#F8FAFC]" />
 
     </main>
 </Layout>

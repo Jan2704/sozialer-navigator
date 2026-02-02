@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro';
+import cities from '../data/cities_2026.json';
+import SchemaOrg from '../components/SEO/SeoSchema.astro';
+
+// Group cities by initial letter
+const groupedCities = cities.reduce((acc, city) => {
+  const letter = city.stadt.charAt(0).toUpperCase();
+  if (!acc[letter]) {
+    acc[letter] = [];
+  }
+  acc[letter].push(city);
+  return acc;
+}, {} as Record<string, typeof cities>);
+
+const letters = Object.keys(groupedCities).sort();
+---
+
+<Layout title="Städte Verzeichnis | Sozialer Navigator" description="Übersicht aller Städte im Sozialen Navigator. Finden Sie lokale Informationen zu Wohngeld, Bürgergeld und sozialen Leistungen in Ihrer Stadt.">
+  <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
+     
+    <!-- Light Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
+    <div class="fixed inset-0 z-0 select-none pointer-events-none">
+         <div class="absolute inset-0 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/90 to-transparent"></div>
+         <div class="absolute inset-0 bg-gradient-to-t from-[#F8FAFC] via-transparent to-transparent"></div>
+    </div>
+
+     <div class="max-w-6xl mx-auto relative z-10">
+        <header class="text-left space-y-6 mb-16">
+            <a href="/" class="text-xs font-bold text-slate-500 uppercase flex items-center gap-2 hover:text-blue-600 transition-colors">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> Startseite
+            </a>
+            
+            <fragment slot="head">
+                 <SchemaOrg 
+                    type="BreadcrumbList" 
+                    data={{
+                        items: [
+                            { name: "Startseite", url: "/" },
+                            { name: "Städte Verzeichnis", url: "/staedte" }
+                        ]
+                    }}
+                />
+            </fragment>
+
+            <div>
+                <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 shadow-sm rounded-full px-4 py-1.5 mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-blue-700">Regionaler Wegweiser</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight mb-4">
+                  Städte <span class="text-blue-600">Verzeichnis</span>
+                </h1>
+                <p class="text-slate-600 font-medium leading-relaxed text-lg max-w-2xl">
+                   Finden Sie schnell und einfach Ihre Stadt, um lokale Informationen zu Wohngeldgrenzen, Jobcentern und Anlaufstellen zu erhalten.
+                </p>
+            </div>
+        </header>
+
+        <!-- Search Filter (Light Theme) -->
+        <div class="mb-12">
+            <div class="relative w-full md:w-1/2">
+                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                <input type="text" id="city-search" placeholder="Stadt suchen..." class="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 shadow-sm transition-all" />
+            </div>
+        </div>
+
+        <div id="city-list">
+            {letters.map((letter) => (
+                <div class="mb-12 city-group" data-letter={letter}>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b border-slate-200 pb-2">{letter}</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {groupedCities[letter].sort((a, b) => a.stadt.localeCompare(b.stadt)).map((city) => (
+                            <a href={`/${city.slug}`} class="city-item block p-4 bg-white border border-slate-200 rounded-xl hover:shadow-md hover:border-blue-300 transition-all group">
+                                <span class="text-slate-600 font-medium group-hover:text-blue-600 transition-colors">{city.stadt}</span>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+        
+        <div id="no-results" class="hidden text-center py-12 text-slate-500 text-lg">
+            Keine Stadt gefunden.
+        </div>
+
+     </div>
+  </main>
+</Layout>
+
+<script>
+    function initSearch() {
+        const searchInput = document.getElementById('city-search') as HTMLInputElement;
+        const cityGroups = document.querySelectorAll('.city-group');
+        const noResults = document.getElementById('no-results');
+
+        if (!searchInput) return;
+
+        searchInput.addEventListener('input', (e) => {
+            const term = (e.target as HTMLInputElement).value.toLowerCase();
+            let hasResults = false;
+
+            cityGroups.forEach(group => {
+                let groupHasMatch = false;
+                const items = group.querySelectorAll('.city-item');
+                
+                items.forEach((item) => {
+                    const text = item.textContent?.toLowerCase() || '';
+                    if (text.includes(term)) {
+                        (item as HTMLElement).style.display = 'block';
+                        groupHasMatch = true;
+                        hasResults = true;
+                    } else {
+                        (item as HTMLElement).style.display = 'none';
+                    }
+                });
+
+                if (groupHasMatch) {
+                    (group as HTMLElement).style.display = 'block';
+                } else {
+                    (group as HTMLElement).style.display = 'none';
+                }
+            });
+            
+             if (noResults) {
+                noResults.style.display = hasResults ? 'none' : 'block';
+             }
+        });
+    }
+
+    document.addEventListener('astro:page-load', initSearch);
+    initSearch(); // For initial load
+</script>
+
+<script>
+    function initIcons() {
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    }
+    initIcons();
+    document.addEventListener('astro:page-load', initIcons);
+</script>

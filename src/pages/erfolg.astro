@@ -4,36 +4,36 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
 ---
 
 <Layout title="Anspruch gesichert | Sozialer Navigator">
-  <main class="min-h-screen bg-[#0F172A] text-slate-100 flex flex-col items-center justify-center p-6 pt-32 relative overflow-hidden">
+  <main class="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col items-center justify-center p-6 pt-32 relative overflow-hidden">
     
     <!-- Background Effects -->
-    <div class="absolute inset-0 bg-gradient-to-b from-blue-900/10 to-[#0F172A] pointer-events-none"></div>
-    <div class="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none"></div>
+    <div class="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-100/50 blur-[120px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-3xl w-full relative z-10 text-center">
         
         <div class="text-6xl mb-6 animate-bounce">🎉</div>
-        <h1 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">Geschafft!</h1>
-        <p class="text-xl text-slate-400 font-medium mb-12">
-          Vielen Dank, <span id="display-name" class="text-blue-400 font-bold">...</span>. Deine Daten sind sicher hinterlegt.
+        <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">Geschafft!</h1>
+        <p class="text-xl text-slate-600 font-medium mb-12">
+          Vielen Dank, <span id="display-name" class="text-blue-600 font-bold">...</span>. Deine Daten sind sicher hinterlegt.
         </p>
 
-        <div class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 p-8 rounded-3xl mb-12 inline-block min-w-[300px] shadow-2xl">
+        <div class="bg-white border border-slate-200 p-8 rounded-3xl mb-12 inline-block min-w-[300px] shadow-xl">
           <span class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-2">Dein monatlicher Vorteil</span>
-          <div id="display-summe" class="text-5xl font-black text-emerald-400 text-glow">0,00 €</div>
+          <div id="display-summe" class="text-5xl font-black text-emerald-500 text-glow">0,00 €</div>
         </div>
 
-        <div class="bg-blue-600 rounded-3xl p-8 md:p-10 text-left shadow-2xl shadow-blue-900/50 relative overflow-hidden group">
+        <div class="bg-blue-600 rounded-3xl p-8 md:p-10 text-left shadow-2xl shadow-blue-200 relative overflow-hidden group">
              <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 opacity-100 group-hover:scale-105 transition-transform duration-700"></div>
              <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
 
              <div class="relative z-10">
                   <h2 class="text-2xl font-black text-white mb-4">Wichtig: Sofortige Fristwahrung (§ 24 WoGG)</h2>
-                  <p class="text-blue-100/90 font-medium mb-6 leading-relaxed">
+                  <p class="text-blue-50 font-medium mb-6 leading-relaxed">
                       Kopiere diesen Text und sende ihn heute per E-Mail an dein Wohngeldamt, um das Geld für <strong>{currentMonth} 2026</strong> zu sichern.
                   </p>
                   
-                  <div id="copy-box" class="bg-white/10 border border-white/20 rounded-xl p-6 font-mono text-sm text-blue-50 leading-relaxed overflow-x-auto">
+                  <div id="copy-box" class="bg-white/10 border border-white/20 rounded-xl p-6 font-mono text-sm text-blue-50 leading-relaxed overflow-x-auto selection:bg-blue-800 selection:text-white">
                     Betreff: Formloser Antrag auf Wohngeld zur Fristwahrung<br/><br/>
                     Sehr geehrte Damen und Herren,<br/><br/>
                     hiermit beantrage ich für meinen Haushalt Wohngeld zur Fristwahrung nach § 24 WoGG für den Monat {currentMonth} 2026.<br/><br/>
@@ -55,7 +55,7 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
 
 <style>
     .text-glow {
-        text-shadow: 0 0 20px rgba(52, 211, 153, 0.5);
+        text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
     }
 </style>
 

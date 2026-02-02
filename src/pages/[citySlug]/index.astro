@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import cities from '../../data/cities_2026.json';
+import SchemaOrg from '../../components/SEO/SeoSchema.astro';
 
 export async function getStaticPaths() {
   return cities.map((city) => ({
@@ -13,28 +14,48 @@ const { city } = Astro.props;
 ---
 
 <Layout title={`Sozialer Navigator ${city.stadt}: Wohngeld & Bürgergeld 2026`} description={`Ihr Wegweiser für soziale Leistungen in ${city.stadt}. Prüfen Sie Anspruch auf Wohngeld und Bürgergeld.`}>
-  <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+  <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
      
      <!-- Background Elements -->
-     <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-900/10 to-transparent pointer-events-none"></div>
-     <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+     <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-50 to-transparent pointer-events-none"></div>
+     <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full blur-3xl pointer-events-none opacity-50"></div>
 
      <div class="max-w-5xl mx-auto relative z-10">
         <header class="text-left space-y-6 mb-16">
-            <a href="/" class="text-xs font-bold text-slate-400 uppercase flex items-center gap-2 hover:text-blue-300 transition-colors">
+            <a href="/" class="text-xs font-bold text-slate-500 uppercase flex items-center gap-2 hover:text-blue-600 transition-colors">
               <i data-lucide="arrow-left" class="w-4 h-4"></i> Startseite
             </a>
             
+            <fragment slot="head">
+                <SchemaOrg 
+                    type="GovernmentService" 
+                    data={{
+                        city: city.stadt,
+                        url: `https://sozialer-navigator.de/${city.slug}`,
+                        authorityName: `Stadtverwaltung ${city.stadt}`
+                    }}
+                />
+                 <SchemaOrg 
+                    type="BreadcrumbList" 
+                    data={{
+                        items: [
+                            { name: "Startseite", url: "/" },
+                            { name: city.stadt, url: `/${city.slug}` }
+                        ]
+                    }}
+                />
+            </fragment>
+
             <div>
-                <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 shadow-sm rounded-full px-4 py-1.5 mb-6">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                    <span class="text-xs font-bold uppercase tracking-widest text-blue-100">Regionaler Wegweiser</span>
+                <div class="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-blue-700">Regionaler Wegweiser</span>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">
+                <h1 class="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight mb-4">
                   Sozialer Navigator <br/>
-                  <span class="text-blue-300">{city.stadt}</span>
+                  <span class="text-blue-600">{city.stadt}</span>
                 </h1>
-                <p class="text-slate-400 font-medium leading-relaxed text-lg max-w-2xl">
+                <p class="text-slate-600 font-medium leading-relaxed text-lg max-w-2xl">
                    Finden Sie lokale Anlaufstellen, prüfen Sie Ihre Ansprüche und erhalten Sie Unterstützung bei Anträgen in {city.stadt}.
                 </p>
             </div>
@@ -42,27 +63,27 @@ const { city } = Astro.props;
 
          <div class="grid md:grid-cols-2 gap-8">
             <!-- Wohngeld Card -->
-            <a href={`/${city.slug}/wohngeld`} class="group relative block p-10 overflow-hidden">
-               <!-- Card Background -->
-               <div class="absolute inset-0 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl -z-10 transition-colors group-hover:bg-[#1e293b]/70"></div>
+            <a href={`/${city.slug}/wohngeld`} class="group relative block p-10 overflow-hidden bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl transition-all">
+               <!-- Card Background (Hover) -->
+               <div class="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition-opacity -z-10"></div>
                
                <div class="relative z-10 flex flex-col h-full">
                    <div class="flex items-center justify-between mb-8">
-                      <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 border border-blue-500/20 group-hover:scale-110 transition-transform duration-300">
+                      <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 border border-blue-100 group-hover:scale-110 transition-transform duration-300">
                          <i data-lucide="home" class="w-7 h-7"></i>
                       </div>
-                      <div class="bg-white/5 rounded-full p-2 text-slate-400 group-hover:text-white group-hover:bg-blue-500/20 transition-all">
+                      <div class="bg-slate-50 rounded-full p-2 text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-100 transition-all">
                         <i data-lucide="arrow-right" class="w-5 h-5"></i>
                       </div>
                    </div>
                    
-                   <h3 class="text-3xl font-bold text-white mb-4 group-hover:text-blue-200 transition-colors">Wohngeld</h3>
-                   <p class="text-slate-400 leading-relaxed mb-auto">
+                   <h3 class="text-3xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors">Wohngeld</h3>
+                   <p class="text-slate-600 leading-relaxed mb-auto">
                       Zuschuss zur Miete für Geringverdiener. Prüfen Sie, ob Ihnen Wohngeld in {city.stadt} zusteht.
                    </p>
                    
-                   <div class="mt-8 pt-6 border-t border-white/5">
-                        <span class="text-xs font-bold uppercase tracking-widest text-blue-400">
+                   <div class="mt-8 pt-6 border-t border-slate-100">
+                        <span class="text-xs font-bold uppercase tracking-widest text-blue-600">
                             Mietstufe {city.mietstufe}
                         </span>
                    </div>
@@ -70,27 +91,27 @@ const { city } = Astro.props;
             </a>
 
             <!-- Bürgergeld Card -->
-            <a href={`/${city.slug}/grundsicherung`} class="group relative block p-10 overflow-hidden">
-               <!-- Card Background -->
-               <div class="absolute inset-0 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl -z-10 transition-colors group-hover:bg-[#1e293b]/70"></div>
+            <a href={`/${city.slug}/grundsicherung`} class="group relative block p-10 overflow-hidden bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl transition-all">
+               <!-- Card Background (Hover) -->
+               <div class="absolute inset-0 bg-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity -z-10"></div>
                
                <div class="relative z-10 flex flex-col h-full">
                    <div class="flex items-center justify-between mb-8">
-                      <div class="w-14 h-14 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 border border-indigo-500/20 group-hover:scale-110 transition-transform duration-300">
+                      <div class="w-14 h-14 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 border border-indigo-100 group-hover:scale-110 transition-transform duration-300">
                          <i data-lucide="briefcase" class="w-7 h-7"></i>
                       </div>
-                      <div class="bg-white/5 rounded-full p-2 text-slate-400 group-hover:text-white group-hover:bg-indigo-500/20 transition-all">
+                      <div class="bg-slate-50 rounded-full p-2 text-slate-400 group-hover:text-indigo-600 group-hover:bg-indigo-100 transition-all">
                         <i data-lucide="arrow-right" class="w-5 h-5"></i>
                       </div>
                    </div>
                    
-                   <h3 class="text-3xl font-bold text-white mb-4 group-hover:text-indigo-200 transition-colors">Bürgergeld</h3>
-                   <p class="text-slate-400 leading-relaxed mb-auto">
+                   <h3 class="text-3xl font-bold text-slate-900 mb-4 group-hover:text-indigo-700 transition-colors">Bürgergeld</h3>
+                   <p class="text-slate-600 leading-relaxed mb-auto">
                       Grundsicherung für Arbeitssuchende. Finden Sie Ihr Jobcenter in {city.stadt}.
                    </p>
                    
-                   <div class="mt-8 pt-6 border-t border-white/5">
-                        <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">
+                   <div class="mt-8 pt-6 border-t border-slate-100">
+                        <span class="text-xs font-bold uppercase tracking-widest text-indigo-600">
                             Jobcenter
                         </span>
                    </div>

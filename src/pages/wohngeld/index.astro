@@ -3,130 +3,272 @@ import Layout from '../../layouts/Layout.astro';
 import { wohngeldData } from '../../data/wohngeldData.js';
 
 const cities = wohngeldData.sort((a, b) => a.stadt.localeCompare(b.stadt));
-const description = "Finden Sie Ihre zuständige Wohngeldstelle und prüfen Sie Ihren Anspruch. Alle Städte, Mietstufen und Kontaktinformationen.";
+const title = "Wohngeld 2026: Der umfassende Leitfaden & Rechner | Sozialer Navigator";
+const description = "Alles zum Wohngeld 2026: Anspruch, Berechnung, Mietstufen und Antrag. Finden Sie Ihre zuständige Wohngeldstelle und prüfen Sie Ihren Anspruch mit unserem Leitfaden.";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Wohngeld 2026: Der umfassende Leitfaden",
+  "description": description,
+  "author": {
+    "@type": "Organization",
+    "name": "Sozialer Navigator"
+  },
+  "datePublished": "2026-02-02",
+  "dateModified": "2026-02-02"
+};
 ---
 
-<Layout title="Wohngeldstelle finden | Sozialer Navigator" description={description}>
+<Layout title={title} description={description}>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
     
-    <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+    <main class="min-h-screen bg-slate-50 text-slate-900 pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
         
         <!-- Background Elements -->
-        <div class="fixed inset-0 z-0 select-none">
-            <img src="/images/hero-navigator.png" alt="" class="w-full h-full object-cover object-right-bottom opacity-30 ml-auto" />
-             <!-- Gradient Overlay: Seamless blend to dark bg -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/90 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
+        <div class="fixed inset-0 z-0 select-none pointer-events-none">
+             <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/90 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent"></div>
         </div>
 
-        <div class="max-w-5xl mx-auto relative z-10">
+        <div class="max-w-7xl mx-auto relative z-10">
             
-            <div class="text-center mb-16">
-                 <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 shadow-sm rounded-full px-4 py-1.5 mb-6">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                    <span class="text-xs font-bold uppercase tracking-widest text-blue-100">Stadtfinder 2026</span>
-                </div>
-                <h1 class="font-bold tracking-tight text-white text-4xl md:text-5xl mb-6">
-                    Wohngeldstelle finden.
-                </h1>
-                <p class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                    Suchen Sie nach Ihrer Stadt, um die zuständige Wohngeldstelle, Mietstufen und spezifische Informationen zu erhalten.
-                </p>
-            </div>
-
-            <div class="grid lg:grid-cols-3 gap-8">
+            <div class="grid lg:grid-cols-12 gap-12">
                 
-                <!-- Search Widget (Span 2) -->
-                <div class="lg:col-span-2 relative group">
-                     <!-- Card Background -->
-                     <div class="absolute inset-0 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl -z-10 transition-colors group-hover:bg-[#1e293b]/70"></div>
-                     
-                     <div class="p-8 md:p-10">
-                         <div class="relative z-10">
-                             <div class="relative max-w-xl mx-auto lg:mx-0">
-                                  <div class="relative z-20 group-focus-within:scale-[1.02] transition-transform duration-300">
-                                      <!-- Input Glow Effect -->
-                                      <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 opacity-0 group-focus-within:opacity-50 blur transition duration-500 rounded-xl"></div>
-                                      
-                                      <input 
-                                          type="text" 
-                                          id="hub-search" 
-                                          placeholder="Welche Stadt suchen Sie?" 
-                                          class="relative w-full bg-[#0F172A] border border-white/10 text-white placeholder:text-slate-500 rounded-xl px-5 py-4 font-medium text-lg outline-none focus:ring-1 focus:ring-blue-400/50 focus:border-blue-400/50 transition-all shadow-xl"
-                                          autocomplete="off"
-                                      >
-                                      
-                                      <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                      </div>
-                                  </div>
-                                  
-                                  <!-- Dropdown Results -->
-                                  <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-4 bg-[#1e293b] border border-white/10 rounded-xl shadow-2xl max-h-80 overflow-y-auto z-50 p-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"></div>
-                             </div>
+                <!-- Sidebar / TOC (Desktop) -->
+                <aside class="hidden lg:block lg:col-span-3">
+                    <div class="sticky top-32 space-y-8">
+                        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                            <h3 class="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider">Inhalt</h3>
+                            <nav class="space-y-2">
+                                <a href="#einleitung" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">1. Einleitung</a>
+                                <a href="#anspruch" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">2. Anspruch & Zielgruppen</a>
+                                <a href="#voraussetzungen" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">3. Voraussetzungen & Vermögen</a>
+                                <a href="#berechnung-plus" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">4. Berechnung & Wohngeld-Plus</a>
+                                <a href="#antrag" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">5. Antrag & Behörden</a>
+                                <a href="#wohngeldstelle-finden" class="block text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-3 py-2 rounded-lg mt-4">
+                                    <span class="mr-2">🔍</span> Wohngeldstelle finden
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
 
-                             <div class="mt-8 flex flex-wrap gap-3 items-center">
-                                 <span class="text-xs font-bold uppercase tracking-wider text-slate-500 mr-2">Beliebt:</span>
-                                 <a href="/wohngeld/berlin" class="text-xs bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all">Berlin</a>
-                                 <a href="/wohngeld/koeln" class="text-xs bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all">Köln</a>
-                                 <a href="/wohngeld/frankfurt" class="text-xs bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all">Frankfurt</a>
-                                 <a href="/wohngeld/muenchen" class="text-xs bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all">München</a>
-                             </div>
-                         </div>
-                     </div>
-                </div>
-
-                <!-- Info Widget (Span 1) -->
-                <div class="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:bg-[#1e293b]/70 transition-colors">
-                    <div>
-                        <span class="text-xs font-bold uppercase tracking-wider text-blue-400 mb-3 block">Aktuell</span>
-                        <h3 class="text-xl font-bold text-white mb-2">Wohngeld-Plus</h3>
-                        <div class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white mb-2 tracking-tight">Mehr Geld.</div>
-                        <p class="text-slate-400 text-sm font-medium leading-relaxed">
-                            Die Heizkostenkomponente und Klimakomponente erhöhen Ihren Anspruch deutlich.
+                <!-- Main Content -->
+                <div class="lg:col-span-9 space-y-16">
+                    
+                    <!-- Hero Section -->
+                    <div class="text-center lg:text-left max-w-4xl">
+                        <div class="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-6">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-700">Aktualisiert für 2026</span>
+                        </div>
+                        <h1 class="font-bold tracking-tight text-slate-900 text-4xl md:text-5xl lg:text-6xl mb-6">
+                            Der umfassende Leitfaden zum <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Wohngeld</span>
+                        </h1>
+                        <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
+                            Ein zentrales Instrument der sozialen Wohnraumförderung. Erfahren Sie alles über Mietzuschuss, Lastenzuschuss und Ihre Ansprüche nach der großen Reform.
                         </p>
                     </div>
-                    
-                    <div class="mt-10 pt-6 border-t border-white/5">
-                        <a href="/leistungen/wohngeld-plus" class="flex items-center justify-between text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors group">
-                            Was ist neu?
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                        </a>
-                    </div>
+
+                    <!-- Article Content -->
+                    <article class="prose prose-slate prose-lg max-w-none">
+                        
+                        <!-- 1. Einleitung -->
+                        <section id="einleitung" class="scroll-mt-32">
+                            <h2>1. Einleitung: Was ist Wohngeld und warum ist es wichtig?</h2>
+                            <p>
+                                Das Wohngeld ist ein zentrales Instrument der deutschen Sozialpolitik und fungiert als staatlicher Zuschuss zu den Wohnkosten. Es verfolgt das Ziel, Haushalte mit geringem Einkommen finanziell zu entlasten und ihnen ein angemessenes und familiengerechtes Wohnen zu sichern. Als eine der tragenden Säulen der sozialen Wohnraumförderung unterstützt es Bürgerinnen und Bürger seit Jahrzehnten dabei, die finanzielle Last des Wohnens zu bewältigen.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-6 my-8 not-prose">
+                                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                                    <div class="font-bold text-blue-600 mb-2">Mietzuschuss</div>
+                                    <p class="text-slate-600 text-sm">Diese Form richtet sich an Mieterinnen und Mieter von Wohnraum.</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                                    <div class="font-bold text-emerald-600 mb-2">Lastenzuschuss</div>
+                                    <p class="text-slate-600 text-sm">Diese Variante unterstützt Eigentümerinnen und Eigentümer von selbstgenutztem Wohnraum.</p>
+                                </div>
+                            </div>
+                            <p>
+                                Konzeptionell ist das Wohngeld als eine vorgelagerte soziale Sicherungsleistung angelegt. Es soll die Abhängigkeit von Grundsicherungsleistungen wie dem Bürgergeld oder der Sozialhilfe vermeiden, indem es Haushalte mit eigenem, aber niedrigem Einkommen gezielt stärkt. Angesichts der 2026 anstehenden systemischen Neuausrichtung der Grundsicherung für Arbeitsuchende gewinnt das Wohngeld als präventives Instrument zur Sicherung der Wohnstabilität und zur Vermeidung von Vollbedürftigkeit zusätzlich an strategischer Bedeutung.
+                            </p>
+                        </section>
+
+                        <!-- 2. Anspruch -->
+                        <section id="anspruch" class="scroll-mt-32">
+                            <h2>2. Wer hat Anspruch auf Wohngeld? Die Kernzielgruppen</h2>
+                            <p>
+                                Die strategische Bedeutung des Wohngeldes zeigt sich in der klaren Definition seiner Anspruchsberechtigten. Es wurde gezielt für einkommensschwächere Haushalte konzipiert, die sich oberhalb der Grundsicherungsschwelle befinden und ihren Lebensunterhalt größtenteils selbst bestreiten, jedoch bei den Wohnkosten auf Unterstützung angewiesen sind.
+                            </p>
+                            <ul class="marker:text-blue-500">
+                                <li><strong>Familien:</strong> Ein Anteil von 44 % aller Wohngeldhaushalte sind Familien. Darunter befinden sich auch viele Alleinerziehende, die durch das Wohngeld gezielt entlastet werden.</li>
+                                <li><strong>Rentnerinnen und Rentner:</strong> In 52 % der geförderten Haushalte leben Rentnerinnen und Rentner. Für sie ist das Wohngeld ein entscheidender Faktor, um im Alter in der vertrauten Wohnung bleiben zu können.</li>
+                                <li><strong>Arbeitnehmerinnen und Arbeitnehmer:</strong> Personen im Niedriglohnbereich, deren Einkommen nicht ausreicht, um die vollen Wohnkosten zu decken.</li>
+                                <li><strong>Studierende und Auszubildende:</strong> Ein Anspruch besteht, wenn nicht der gesamte Haushalt dem Grunde nach BAföG-berechtigt ist.</li>
+                                <li><strong>Bewohnerinnen und Bewohner von Pflegeheimen:</strong> Auch diese Personengruppe kann unter bestimmten Voraussetzungen wohngeldberechtigt sein.</li>
+                            </ul>
+                        </section>
+
+                        <!-- 3. Voraussetzungen -->
+                        <section id="voraussetzungen" class="scroll-mt-32">
+                            <h2>3. Die drei Säulen der Anspruchsprüfung</h2>
+                            <p>Die Prüfung basiert auf drei Faktoren: Einkommen, Vermögen und Haushaltszusammensetzung.</p>
+                            
+                            <h3>3.1. Das anrechenbare Einkommen</h3>
+                            <p>Vom Bruttoeinkommen werden pauschale Abzüge für Steuern und Sozialversicherungsbeiträge vorgenommen:</p>
+                            
+                            <div class="overflow-x-auto my-6 not-prose">
+                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th class="p-4 border-b border-slate-200 font-semibold text-slate-700">Abzugsart (je 10 %)</th>
+                                            <th class="p-4 border-b border-slate-200 font-semibold text-slate-700">Anwendungsfall</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr>
+                                            <td class="p-4 text-slate-600">Lohn-/Einkommensteuer</td>
+                                            <td class="p-4 text-slate-600">Bei Steuerpflicht</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-4 text-slate-600">Kranken- und Pflegeversicherung</td>
+                                            <td class="p-4 text-slate-600">Bei Versicherungspflicht</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-4 text-slate-600">Rentenversicherung</td>
+                                            <td class="p-4 text-slate-600">Bei Versicherungspflicht</td>
+                                        </tr>
+                                        <tr class="bg-blue-50/50">
+                                            <td class="p-4 font-medium text-slate-900" colspan="2">Maximal 30 % Pauschalabzug vom Brutto möglich.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p>Besondere Freibeträge mindern das Einkommen weiter:</p>
+                            <ul class="marker:text-blue-500">
+                                <li><strong>Alleinerziehende:</strong> 1.320 € Freibetrag.</li>
+                                <li><strong>Schwerbehinderung:</strong> 1.800 € (bei GdB 100 oder Pflegebedürftigkeit).</li>
+                                <li><strong>Erwerbstätige Kinder (<25):</strong> Bis zu 1.200 € bleiben anrechnungsfrei.</li>
+                            </ul>
+
+                            <h3>3.2. Vermögensgrenzen (Schonvermögen)</h3>
+                            <p>Das Wohngeld gewährt großzügige Freibeträge:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose my-6">
+                                <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex items-center gap-3">
+                                    <span class="text-2xl font-bold text-emerald-600">60.000 €</span>
+                                    <span class="text-emerald-800 text-sm font-medium">Erstes Haushaltsmitglied</span>
+                                </div>
+                                <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex items-center gap-3">
+                                    <span class="text-2xl font-bold text-emerald-600">+ 30.000 €</span>
+                                    <span class="text-emerald-800 text-sm font-medium">Jedes weitere Mitglied</span>
+                                </div>
+                            </div>
+
+                            <h3>3.3. Einkommensgrenzen nach Mietenstufen (2026)</h3>
+                            <div class="overflow-x-auto my-6 not-prose">
+                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Personen</th>
+                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Mietstufe I <span class="text-slate-400 font-normal block text-xs">(z.B. ländl. Sachsen)</span></th>
+                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Mietstufe IV <span class="text-slate-400 font-normal block text-xs">(z.B. Berlin)</span></th>
+                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Mietstufe VII <span class="text-slate-400 font-normal block text-xs">(z.B. München)</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr><td class="p-3 font-medium">1 Person</td><td class="p-3">1.443 €</td><td class="p-3">1.541 €</td><td class="p-3">1.619 €</td></tr>
+                                        <tr><td class="p-3 font-medium">2 Personen</td><td class="p-3">1.953 €</td><td class="p-3">2.080 €</td><td class="p-3">2.181 €</td></tr>
+                                        <tr><td class="p-3 font-medium">3 Personen</td><td class="p-3">2.453 €</td><td class="p-3">2.600 €</td><td class="p-3">2.717 €</td></tr>
+                                        <tr><td class="p-3 font-medium">4 Personen</td><td class="p-3">3.324 €</td><td class="p-3">3.516 €</td><td class="p-3">3.671 €</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- 4. Berechnung & Wohngeld Plus -->
+                        <section id="berechnung-plus" class="scroll-mt-32">
+                            <h2>4. Die "Wohngeld-Plus"-Komponenten</h2>
+                            <p>Die Reform integriert dauerhafte Komponenten für Heizkosten und Klimaschutz:</p>
+                            
+                            <div class="overflow-x-auto my-6 not-prose">
+                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Haushalt</th>
+                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Heizkostenpauschale</th>
+                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Klimakomponente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr><td class="p-3 font-medium">1 Person</td><td class="p-3">110,40 €</td><td class="p-3">19,20 €</td></tr>
+                                        <tr><td class="p-3 font-medium">2 Personen</td><td class="p-3">142,60 €</td><td class="p-3">24,80 €</td></tr>
+                                        <tr><td class="p-3 font-medium">3 Personen</td><td class="p-3">170,20 €</td><td class="p-3">29,60 €</td></tr>
+                                        <tr><td class="p-3 font-medium">4 Personen</td><td class="p-3">197,80 €</td><td class="p-3">34,40 €</td></tr>
+                                        <tr class="bg-slate-50/50"><td class="p-3 font-medium">Weitere P.</td><td class="p-3">+ 27,60 €</td><td class="p-3">+ 4,80 €</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <ul>
+                                <li><strong>Heizkostenkomponente:</strong> Pauschaler Zuschlag zur Miete, um Energiekosten abzufedern.</li>
+                                <li><strong>Klimakomponente:</strong> Zuschlag von 0,40 €/qm auf die Höchstbeträge für energetisch sanierten Wohnraum.</li>
+                            </ul>
+                        </section>
+
+                         <!-- 5. Search Tool Integration -->
+                        <section id="wohngeldstelle-finden" class="scroll-mt-32 full-width my-16 bg-blue-50/50 -mx-4 sm:-mx-6 lg:-mx-0 px-4 sm:px-6 lg:px-8 py-12 lg:rounded-3xl border border-blue-100">
+                            <div class="max-w-2xl mx-auto text-center mb-8">
+                                <h2 class="text-3xl font-bold text-slate-900 mb-4 !mt-0">Zuständige Behörde finden</h2>
+                                <p class="text-slate-600">Geben Sie Ihre Stadt ein, um die Adresse Ihrer Wohngeldstelle und Ihre Mietstufe zu ermitteln.</p>
+                            </div>
+
+                             <div class="max-w-xl mx-auto relative z-20 group">
+                                  <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-blue-200 opacity-70 blur transition duration-500 rounded-xl"></div>
+                                  <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        id="hub-search" 
+                                        placeholder="Welche Stadt suchen Sie?" 
+                                        class="relative w-full bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl px-5 py-4 font-medium text-lg outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
+                                        autocomplete="off"
+                                    >
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    </div>
+                                  </div>
+                                  
+                                   <!-- Dropdown Results -->
+                                  <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl max-h-80 overflow-y-auto z-50 p-2 scrollbar-thin scrollbar-thumb-slate-300"></div>
+                             </div>
+
+                             <div class="mt-6 text-center">
+                                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2">Top Städte:</span>
+                                 <div class="inline-flex gap-2 flex-wrap justify-center">
+                                    <a href="/wohngeld/berlin" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Berlin</a>
+                                    <a href="/wohngeld/muenchen" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">München</a>
+                                    <a href="/wohngeld/hamburg" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Hamburg</a>
+                                 </div>
+                             </div>
+                        </section>
+
+                        <!-- 6. Antrag & Abgrenzung -->
+                        <section id="antrag" class="scroll-mt-32">
+                            <h2>6. Antragsprozess & Abgrenzung zum Bürgergeld</h2>
+                            <p>
+                                Wohngeld wird nur auf Antrag gewährt, rückwirkend maximal bis zum Ersten des Antragsmonats.
+                                <strong>Wichtig:</strong> Es gilt der Vorrang des Wohngeldes. Wenn Wohngeld (plus ggf. Kinderzuschlag) ausreicht, um die Hilfebedürftigkeit zu vermeiden, müssen Sie dies statt Bürgergeld beantragen.
+                            </p>
+                            <p>
+                                Empfänger von Transferleistungen (Bürgergeld, Grundsicherung), bei denen die Unterkunftskosten bereits enthalten sind, erhalten in der Regel <strong>kein</strong> Wohngeld.
+                            </p>
+                        </section>
+
+                    </article>
                 </div>
             </div>
-
-             <!-- Quick Stats / Additional Info -->
-             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                  <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 rounded-xl p-6 hover:bg-[#1e293b]/50 transition-colors">
-                      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                      </span>
-                      <h4 class="font-bold text-slate-200 text-base mb-2">Dauerhafte Heizkosten</h4>
-                      <p class="text-sm text-slate-400 leading-relaxed">
-                           Pauschale für Heizkosten ist nun fest in die Berechnung integriert.
-                      </p>
-                  </div>
-
-                   <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 rounded-xl p-6 hover:bg-[#1e293b]/50 transition-colors">
-                      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                      </span>
-                      <h4 class="font-bold text-slate-200 text-base mb-2">Mehr Berechtigte</h4>
-                      <p class="text-sm text-slate-400 leading-relaxed">
-                           Einkommensgrenzen wurden angehoben, mehr Haushalte sind berechtigt.
-                      </p>
-                  </div>
-
-                  <div class="bg-[#1e293b]/30 backdrop-blur-sm border border-white/5 rounded-xl p-6 hover:bg-[#1e293b]/50 transition-colors">
-                      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 mb-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/><line x1="3.27" y1="6.96" x2="12" y2="12.01"/><line x1="20.73" y1="6.96" x2="12" y2="12.01"/></svg>
-                      </span>
-                      <h4 class="font-bold text-slate-200 text-base mb-2">Klimakomponente</h4>
-                      <p class="text-sm text-slate-400 leading-relaxed">
-                           Zuschlag für energetische Sanierung und klimafreundliches Wohnen.
-                      </p>
-                  </div>
-             </div>
         </div>
 
         <script is:inline define:vars={{ cities }}>
@@ -145,9 +287,9 @@ const description = "Finden Sie Ihre zuständige Wohngeldstelle und prüfen Sie 
                     
                     if (filtered.length > 0) {
                         resultsContainer.innerHTML = filtered.map(c => `
-                            <a href="/wohngeld/${c.slug}" class="block px-4 py-3 hover:bg-white/5 transition-colors flex justify-between items-center group rounded-lg mb-1">
-                                <span class="text-sm font-medium text-slate-200 group-hover:text-white">${c.stadt}</span>
-                                <span class="text-[10px] text-slate-500 group-hover:text-slate-400 uppercase tracking-wide border border-white/5 px-2 py-1 rounded">Mietstufe ${c.mietstufe}</span>
+                            <a href="/wohngeld/${c.slug}" class="block px-4 py-3 hover:bg-slate-50 transition-colors flex justify-between items-center group rounded-lg mb-1">
+                                <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">${c.stadt}</span>
+                                <span class="text-[10px] text-slate-500 group-hover:text-slate-700 uppercase tracking-wide border border-slate-200 px-2 py-1 rounded">Mietstufe ${c.mietstufe}</span>
                             </a>
                         `).join('');
                         resultsContainer.classList.remove('hidden');
@@ -163,7 +305,7 @@ const description = "Finden Sie Ihre zuständige Wohngeldstelle und prüfen Sie 
                     }
                 });
 
-                // Keyboard navigation for accessibility
+                // Keyboard navigation
                 searchInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         resultsContainer.classList.add('hidden');

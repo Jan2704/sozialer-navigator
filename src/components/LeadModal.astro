@@ -55,7 +55,7 @@
                 <div id="avgs-step-2" class="hidden p-6 sm:p-8">
                     <div class="text-center mb-6">
                         <h3 class="text-xl font-bold leading-6 text-gray-900 mb-2">Kostenlose Prüfung anfordern</h3>
-                        <p class="text-sm text-gray-500">Ein Experte meldet sich unverbindlich bei Ihnen.</p>
+                        <p class="text-sm text-gray-500">Ein zertifizierter Berater prüft Ihren Fall persönlich.</p>
                     </div>
 
                     <form id="avgs-form" class="space-y-4">
@@ -99,7 +99,7 @@
                     </div>
                     <h3 class="text-2xl font-bold leading-6 text-gray-900 mb-2">Anfrage erhalten!</h3>
                     <p class="text-sm text-gray-500 mb-6">
-                        Vielen Dank. Ein Experte wird sich in Kürze bei Ihnen melden, um Ihren Anspruch zu prüfen.
+                        Vielen Dank. Ihre Anfrage ist eingegangen. Ein zuständiger Berater wird sich zeitnah bei Ihnen melden.
                     </p>
                      <button type="button" id="avgs-modal-done" class="w-full justify-center rounded-xl bg-gray-100 px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-200 transition-colors">
                         Schließen
@@ -170,7 +170,7 @@
             
             // Set Content (will be visible when moving to Step 2)
             if(step2Title) step2Title.textContent = "Kostenlose Prüfung anfordern";
-            if(step2Desc) step2Desc.textContent = "Ein Experte meldet sich unverbindlich bei Ihnen.";
+            if(step2Desc) step2Desc.textContent = "Ein zertifizierter Berater prüft Ihren Fall persönlich.";
             interestInput.value = ""; // Reset
         }
     };

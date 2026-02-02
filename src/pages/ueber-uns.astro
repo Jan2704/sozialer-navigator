@@ -22,22 +22,21 @@ const description = "Erfahren Sie mehr über unsere Mission, Unabhängigkeit und
         />
     </fragment>
   
-    <main class="min-h-screen bg-[#0F172A] text-slate-100 pt-32 pb-24 px-6 relative overflow-hidden">
+    <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
         
         <!-- Background Elements -->
-        <!-- Background Elements -->
-        <div class="fixed inset-0 z-0 select-none">
-            <img src="/images/hero-navigator.png" alt="Team und Mission des Sozialen Navigators" class="w-full h-full object-cover object-right-bottom opacity-30 ml-auto" />
-             <!-- Gradient Overlay: Seamless blend to dark bg -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/90 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
+        <div class="fixed inset-0 z-0 select-none pointer-events-none">
+             <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/90 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#F8FAFC] via-transparent to-transparent"></div>
         </div>
         
         <div class="max-w-4xl mx-auto relative z-10 space-y-16">
             
              <!-- Breadcrumbs -->
             <div class="mb-4">
-                <a href="/" class="no-underline text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center gap-2">
+                <a href="/" class="no-underline text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                     Zurück zur Startseite
                 </a>
@@ -45,59 +44,59 @@ const description = "Erfahren Sie mehr über unsere Mission, Unabhängigkeit und
 
             <!-- Page Header -->
             <div class="space-y-6">
-                <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white">Über das Projekt</h1>
-                <p class="text-xl text-slate-400 font-medium leading-relaxed max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Über das Projekt</h1>
+                <p class="text-xl text-slate-600 font-medium leading-relaxed max-w-2xl">
                     Der Soziale Navigator ist eine unabhängige Initiative zur Modernisierung des sozialen Sektors. Wir nutzen Technologie, um die Barrieren zwischen staatlichen Leistungen und den Menschen, die sie benötigen, abzubauen.
                 </p>
             </div>
 
             <!-- Mission Content -->
             <div class="space-y-6">
-                <h2 class="text-2xl font-bold text-white">Unsere Mission</h2>
-                <div class="prose prose-invert prose-lg text-slate-300">
+                <h2 class="text-2xl font-bold text-slate-900">Unsere Mission</h2>
+                <div class="prose prose-lg text-slate-600">
                     <p>
                         Soziale Sicherheit ist ein verbrieftes Recht. Doch jedes Jahr bleiben Milliarden Euro an Hilfen ungenutzt, weil bürokratische Hürden den Zugang versperren. Wir übersetzen komplexe Gesetzestexte in digitale Klarheit und sorgen dafür, dass Hilfe dort ankommt, wo sie gebraucht wird – effizient, direkt und ohne Umwege.
                     </p>
                 </div>
             </div>
 
-            <hr class="border-white/10" />
+            <hr class="border-slate-200" />
 
             <!-- Values Grid -->
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-[#1e293b]/50 backdrop-blur-md border border-white/5 rounded-2xl p-8 hover:bg-[#1e293b]/70 transition-colors">
-                    <h3 class="text-lg font-bold text-white mb-3">Unabhängigkeit</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
+                <div class="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg transition-all shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Unabhängigkeit</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
                         Behörden müssen neutral beraten. Wir sind spezialisiert auf Ihren maximalen Rechtsanspruch und werden nicht vom Staat finanziert.
                     </p>
                 </div>
 
-                <div class="bg-[#1e293b]/50 backdrop-blur-md border border-white/5 rounded-2xl p-8 hover:bg-[#1e293b]/70 transition-colors">
-                    <h3 class="text-lg font-bold text-white mb-3">Datensouveränität</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
+                <div class="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg transition-all shadow-sm block">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Datensouveränität</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
                         Ihre Daten gehören Ihnen. Keine Werbe-Tracker. Analysen finden nur statt, wenn Sie eine konkrete Berechnung anfordern.
                     </p>
                 </div>
 
-                <div class="bg-[#1e293b]/50 backdrop-blur-md border border-white/5 rounded-2xl p-8 hover:bg-[#1e293b]/70 transition-colors">
-                    <h3 class="text-lg font-bold text-white mb-3">Aktualität 2026</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
+                <div class="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg transition-all shadow-sm block">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Aktualität 2026</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
                         Unsere Algorithmen werden laufend an die neuesten Gesetzesänderungen (Stand: Januar 2026) angepasst.
                     </p>
                 </div>
 
-                 <div class="bg-[#1e293b]/50 backdrop-blur-md border border-white/5 rounded-2xl p-8 hover:bg-[#1e293b]/70 transition-colors">
-                    <h3 class="text-lg font-bold text-white mb-3">Kostenlos</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
+                 <div class="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg transition-all shadow-sm block">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">Kostenlos</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
                         Für Bürger dauerhaft kostenfrei. Finanziert durch staatlich geförderte Bildungsträger (AVGS).
                     </p>
                 </div>
             </div>
 
             <!-- Legal Note -->
-            <div class="bg-[#1e293b]/30 border border-white/5 rounded-xl p-6 text-sm text-slate-400">
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 text-sm text-slate-600">
                 <p class="flex gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <span>
                         <strong>Hinweis:</strong> Wir sind keine Behörde. Rechtsverbindliche Auskünfte erhalten Sie ausschließlich bei Ihrem zuständigen Jobcenter oder Wohngeldamt.
                     </span>
