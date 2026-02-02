@@ -24,6 +24,20 @@ const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={new URL(Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/\/?$/, '/'), Astro.site)} />
     <title>{title}</title>
+
+    <!-- OpenGraph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL('/images/hero-navigator.png', Astro.site)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL('/images/hero-navigator.png', Astro.site)} />
     
     <!-- Lucide Icons -->
     <!-- Lucide Icons removed: using react-lucide or inline SVGs for privacy -->

@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Button } from '../components/ui/button';
+---
+
+<Layout title="404 - Seite nicht gefunden | Sozialer Navigator">
+  <div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
+    <!-- Background Gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 -z-10"></div>
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 -z-10"></div>
+
+    <h1 class="text-9xl font-black text-indigo-100 select-none">404</h1>
+    
+    <div class="relative -mt-12 z-10 glass-card p-8 rounded-2xl max-w-lg w-full">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Upps! Diese Seite ist verschwunden.</h2>
+      <p class="text-lg text-gray-600 mb-8">
+        Vielleicht haben wir sie verschoben, oder sie existiert nicht mehr. 
+        Aber keine Sorge, wir helfen dir trotzdem weiter.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/" class="w-full sm:w-auto">
+          <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200">
+            Zur Startseite
+          </Button>
+        </a>
+        <a href="/#wohngeldrechner" class="w-full sm:w-auto">
+          <Button variant="outline" className="w-full border-indigo-200 text-indigo-700 hover:bg-indigo-50">
+            Zum Rechner
+          </Button>
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
