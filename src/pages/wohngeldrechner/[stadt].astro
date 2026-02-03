@@ -1,10 +1,9 @@
 ---
 // src/pages/wohngeldrechner/[stadt].astro
 import Layout from '../../layouts/Layout.astro';
-import SchemaOrg from '../../components/SEO/SeoSchema.astro';
-import ResultsSection from '../../components/ResultsSection.astro';
+// SchemaOrg removed for legacy page
 import { wohngeldData } from '../../data/wohngeldData.js';
-import { SmartCalculator } from '../../components/SmartCalculator.jsx';
+import { SmartCalculator } from '../../components/SmartCalculator.jsx'; // Kept only for visual teaser if needed, or we can remove. Let's keep it as specific requested "Teaser + CTA" might imply just a button, but user said "Simplified content (Teaser + CTA)". I will use a strong visual card instead of the full calculator to force the click.
 
 export function getStaticPaths() {
   return wohngeldData.filter(item => item.slug).map((item) => ({ 
@@ -17,158 +16,60 @@ const { info } = Astro.props;
 
 const stadtName = info?.stadt || "Deine Stadt";
 const mietstufe = info?.mietstufe || 1;
-const amtName = info?.amt_name || "Wohngeldbehörde";
-const amtAdresse = info?.amt_adresse || "";
+// const amtName = info?.amt_name || "Wohngeldbehörde"; // Removed unused
 
-const currentYear = 2026;
-const seoTitle = `Wohngeldrechner ${stadtName} ${currentYear} | Anspruch prüfen`;
-const seoDesc = `Wohngeld Rechner für ${stadtName} (Mietstufe ${mietstufe}). Prüfen Sie Ihren Anspruch auf Mietzuschuss bei der ${amtName}. Aktuell für ${currentYear}.`;
+// Updated canonical to point to the new structure
+const canonicalUrl = `https://sozialer-navigator.de/${info.slug}/wohngeld`;
 
-const defaultCity = {
-    stadt: stadtName,
-    plz: info.plz || "",
-    mietstufe: mietstufe,
-    amt_name: amtName,
-    amt_adresse: amtAdresse,
-    amt_email: info.amt_email || ""
-};
+const seoTitle = `Wohngeldrechner ${stadtName} - Jetzt auf der Hauptseite`;
+const seoDesc = `Der Wohngeldrechner für ${stadtName} ist umgezogen. Bitte nutzen Sie die neue, aktuelle Seite mit allen Infos für 2026.`;
+
 ---
 
-<Layout title={seoTitle} description={seoDesc}>
+<Layout title={seoTitle} description={seoDesc} canonical={canonicalUrl}>
     <fragment slot="head">
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={seoTitle} />
-        <meta property="og:description" content={seoDesc} />
-        <meta property="og:url" content={`https://sozialer-navigator.de/wohngeldrechner/${info.slug}`} />
-        
-        <!-- SEO Schemas -->
-        <SchemaOrg type="Organization" />
-        <SchemaOrg 
-            type="GovernmentService" 
-            data={{
-                city: stadtName,
-                authorityName: amtName,
-                address: amtAdresse,
-                url: `https://sozialer-navigator.de/wohngeldrechner/${info.slug}`
-            }} 
-        />
-        <SchemaOrg 
-            type="FAQPage" 
-            data={{
-                items: [
-                    { q: `Wo beantrage ich Wohngeld in ${stadtName}?`, a: `Zuständig ist die ${amtName}. Sie können den Antrag dort schriftlich einreichen oder oft auch online stellen. Wichtig: Der Antrag gilt ab dem Monat der Einreichung.` },
-                    { q: `Welche Mietstufe hat ${stadtName}?`, a: `${stadtName} ist aktuell in die <strong>Mietstufe ${mietstufe}</strong> eingestuft. Das bedeutet, dass die Mietobergrenzen entsprechend angepasst sind. Unser Rechner berücksichtigt diesen Wert automatisch.` }
-                ]
-            }} 
-        />
-
-        <!-- Libraries -->
-        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-        <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script is:inline src="https://unpkg.com/lucide@latest"></script>
-
-        <style>
-            .view-section { display: none; opacity: 0; }
-            .view-section.active { display: block; opacity: 1; }
-        </style>
+        <meta name="robots" content="index, follow" />
     </fragment>
 
-    <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
+    <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden flex items-center justify-center">
         
          <!-- Background Elements -->
         <div class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-50 to-transparent pointer-events-none"></div>
 
-        <!-- VIEW 1: HOME (Product Page) -->
-        <section id="view-home" class="view-section active max-w-7xl mx-auto relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 items-start">
-                <!-- LEFT: Sales Copy -->
-                <div class="space-y-10 text-left pt-4 lg:sticky lg:top-32">
-                    <div class="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase text-blue-600 tracking-widest shadow-sm">
-                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> {stadtName} • Mietstufe {mietstufe}
-                    </div>
-                    
-                    <h1 class="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none italic">
-                        Wohngeld in <br/> <span class="text-blue-600 not-italic">{stadtName}.</span>
-                    </h1>
-                    
-                    <div class="space-y-6 text-slate-600 font-medium leading-relaxed text-lg">
-                        <p>
-                            Die Mieten in {stadtName} steigen. Holen Sie sich Ihr Geld zurück.
-                            Unser Rechner prüft Ihren Anspruch auf Wohngeld basierend auf der offiziellen <strong>Mietstufe {mietstufe}</strong>.
-                        </p>
-                        <p>
-                             Zuständig ist die {amtName}. Wir helfen Ihnen bei der Vorprüfung und dem Antrag.
-                        </p>
-                    </div>
-
-                    <div class="space-y-4 pt-4">
-                        <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Ihre Vorteile</h3>
-                        <ul class="space-y-3">
-                            <li class="flex items-center gap-3 text-slate-600 font-medium">
-                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 border border-blue-100"><i data-lucide="check" class="w-4 h-4"></i></div>
-                                <span><strong>Exakt:</strong> Offizielle Mietstufe {mietstufe} für {stadtName}.</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-600 font-medium">
-                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 border border-blue-100"><i data-lucide="check" class="w-4 h-4"></i></div>
-                                <span><strong>Aktuell:</strong> Datenstand 2026 berücksichtigt.</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-600 font-medium">
-                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0 border border-blue-100"><i data-lucide="shield-check" class="w-4 h-4"></i></div>
-                                <span><strong>Anonym:</strong> Keine Datenspeicherung.</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- RIGHT: CALCULATOR (Shared) -->
-                <div id="calculator" class="bg-white border border-slate-200 p-8 md:p-10 rounded-3xl shadow-xl relative z-10 space-y-8">
-                    <div class="border-b border-slate-100 pb-6">
-                        <h2 class="text-2xl font-black text-slate-900 italic mb-2">Anspruch prüfen</h2>
-                        <p class="text-sm leading-relaxed text-slate-500 font-medium">
-                            <strong class="text-blue-600">Mietstufe {mietstufe}:</strong> Wir prüfen Ihren Anspruch für {stadtName}.
-                        </p>
-                    </div>
-                    
-                    <SmartCalculator 
-                        client:load 
-                        benefitSlug="wohngeld" 
-                        regelsatz={563} 
-                        className="shadow-none border-none p-0 !bg-transparent text-slate-900"
-                        defaultCity={defaultCity}
-                        theme="light"
-                    />
-                </div>
+        <div class="max-w-2xl mx-auto text-center relative z-10 space-y-8">
+            
+            <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full text-xs font-bold uppercase text-blue-600 tracking-widest">
+                <i data-lucide="info" class="w-4 h-4"></i> Seite umgezogen
             </div>
 
-            <!-- FAQ SECTION -->
-            <div class="max-w-3xl mx-auto space-y-8 text-left pt-24">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tight italic text-center">Häufige Fragen in {stadtName}</h3>
-                <div class="space-y-4">
-                     <details class="group bg-white border border-slate-200 rounded-2xl open:bg-slate-50 transition-all shadow-sm">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-slate-800">
-                            <span>Wo beantrage ich Wohngeld in {stadtName}?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
-                        </summary>
-                        <div class="px-6 pb-6 text-slate-600 leading-relaxed text-sm">
-                            Zuständig ist die {amtName}. Sie können den Antrag dort schriftlich einreichen oder oft auch online stellen. Wichtig: Der Antrag gilt ab dem Monat der Einreichung.
-                        </div>
-                    </details>
-                    <details class="group bg-white border border-slate-200 rounded-2xl open:bg-slate-50 transition-all shadow-sm">
-                        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-slate-800">
-                             <span>Welche Mietstufe hat {stadtName}?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
-                        </summary>
-                        <div class="px-6 pb-6 text-slate-600 leading-relaxed text-sm">
-                            {stadtName} ist aktuell in die <strong>Mietstufe {mietstufe}</strong> eingestuft. Das bedeutet, dass die Mietobergrenzen entsprechend angepasst sind. Unser Rechner berücksichtigt diesen Wert automatisch.
-                        </div>
-                    </details>
-                </div>
-            </div>
-        </section>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                Der Wohngeldrechner für <br/>
+                <span class="text-blue-600">{stadtName}</span> ist jetzt hier:
+            </h1>
+            
+            <p class="text-slate-600 text-lg leading-relaxed">
+                Wir haben unsere Daten aktualisiert. Für die offizielle Berechnung (Stand 2026) und lokale Antragsformulare nutzen Sie bitte unsere neue Hauptseite.
+            </p>
 
-        <!-- VIEW: RESULTS -->
-        <ResultsSection class="bg-[#0F172A]" />
-
+            <a href={canonicalUrl} class="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold px-8 py-4 rounded-2xl shadow-lg hover:shadow-blue-500/20 transition-all transform hover:-translate-y-1">
+                <span>Zum neuen Wohngeldrechner</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+            
+            <p class="text-sm text-slate-400 mt-8">
+                Sie werden in Kürze automatisch weitergeleitet...
+            </p>
+            <meta http-equiv="refresh" content={`3;url=${canonicalUrl}`} />
+        </div>
     </main>
 </Layout>
+
+<script>
+    import { createIcons, Info, ArrowRight } from 'lucide';
+    createIcons({
+        icons: {
+            Info,
+            ArrowRight
+        }
+    });
+</script>

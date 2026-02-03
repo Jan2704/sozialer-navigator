@@ -9,9 +9,10 @@ interface Props {
   description?: string;
   hideNav?: boolean;
   class?: string;
+  canonical?: string;
 }
 
-const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für 2026", hideNav = false } = Astro.props;
+const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für 2026", hideNav = false, canonical } = Astro.props;
 ---
 <!doctype html>
 <html lang="de">
@@ -22,7 +23,7 @@ const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={new URL(Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/\/?$/, '/'), Astro.site)} />
+    <link rel="canonical" href={canonical || new URL(Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/\/?$/, '/'), Astro.site)} />
     <title>{title}</title>
 
     <!-- OpenGraph / Social Media -->

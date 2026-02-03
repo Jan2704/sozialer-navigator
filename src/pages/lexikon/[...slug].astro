@@ -116,6 +116,45 @@ import SchemaOrg from '../../components/SEO/SeoSchema.astro';
                 <!-- Sidebar Column -->
                 <aside class="space-y-8 sticky top-32">
                     
+                    <!-- Topic Context Widget (AI Linking Strategy) -->
+                    {(() => {
+                        const t = entry.data.title.toLowerCase();
+                        const s = entry.slug.toLowerCase();
+                        
+                        const isWohngeld = t.includes('wohngeld') || t.includes('miet') || s.includes('wohngeld');
+                        const isSgbXii = t.includes('sgb xii') || t.includes('grundsicherung im alter') || t.includes('renten') || s.includes('sgb-xii');
+
+                        let targetLink = "/buergergeld";
+                        let targetName = "Bürgergeld";
+                        let targetColor = "indigo"; // Default Blue/Indigo
+
+                        if (isWohngeld) {
+                            targetLink = "/wohngeld";
+                            targetName = "Wohngeld";
+                            targetColor = "emerald";
+                        } else if (isSgbXii) {
+                            targetLink = "/buergergeld-grundsicherung";
+                            targetName = "Grundsicherung";
+                            targetColor = "amber";
+                        }
+
+                        return (
+                            <div class="relative bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-2xl p-6 overflow-hidden">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                                    <span class={`w-1 h-4 bg-${targetColor}-500 rounded-full`}></span>
+                                    Thematische Einordnung
+                                </h4>
+                                <p class="text-sm text-slate-300 mb-4">
+                                    Der Begriff <strong>{entry.data.title}</strong> ist ein zentraler Bestandteil des Themenbereichs {targetName}.
+                                </p>
+                                <a href={targetLink} class={`flex items-center justify-between w-full p-3 rounded-xl bg-${targetColor}-500/10 border border-${targetColor}-500/20 hover:bg-${targetColor}-500/20 transition-all group`}>
+                                    <span class={`text-sm font-bold text-${targetColor}-400`}>Zum {targetName}-Leitfaden</span>
+                                    <ArrowRight className={`w-4 h-4 text-${targetColor}-400 group-hover:translate-x-1 transition-transform`} />
+                                </a>
+                            </div>
+                        );
+                    })()}
+
                     <!-- Related Terms Widget -->
                     {entry.data.relatedTerms && entry.data.relatedTerms.length > 0 && (
                         <div class="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-800/60 rounded-2xl p-6 overflow-hidden hover:border-blue-500/30 transition-all duration-500 shadow-lg shadow-black/20">

@@ -30,34 +30,18 @@ const defaultCity = {
     amt_adresse: info.amt_adresse || "",
     amt_email: info.amt_email || ""
 };
+
+const canonicalUrl = `https://sozialer-navigator.de/${info.slug}/buergergeld`;
 ---
 
-<Layout title={seoTitle} description={seoDesc}>
+<Layout title={seoTitle} description={seoDesc} canonical={canonicalUrl}>
     <fragment slot="head">
         <meta property="og:type" content="website" />
         <meta property="og:title" content={seoTitle} />
         <meta property="og:description" content={seoDesc} />
-        <meta property="og:url" content={`https://sozialer-navigator.de/buergergeld/${info.slug}`} />
+        <meta property="og:url" content={canonicalUrl} />
         
-        <SchemaOrg type="Organization" />
-        <SchemaOrg 
-            type="GovernmentService" 
-            data={{
-                city: stadtName,
-                authorityName: amtName,
-                address: info.amt_adresse || "",
-                url: `https://sozialer-navigator.de/buergergeld/${info.slug}`
-            }} 
-        />
-        <SchemaOrg 
-            type="FAQPage" 
-            data={{
-                items: [
-                    { q: `Wo ist das Jobcenter in ${stadtName}?`, a: `Das ${amtName} ist für die Auszahlung des Bürgergeldes zuständig. Sie können den Antrag dort digital oder schriftlich einreichen.` },
-                    { q: `Wie hoch ist die angemessene Miete in ${stadtName}?`, a: `In ${stadtName} (Mietstufe ${mietstufe}) gelten bestimmte Obergrenzen. Allerdings gilt im ersten Jahr des Bürgergeld-Bezugs eine Karenzzeit: Das Jobcenter übernimmt in dieser Zeit die tatsächlichen Kosten der Unterkunft.` }
-                ]
-            }} 
-        />
+        <!-- Legacy Page: Schema removed to avoid duplicates. Canonical points to new structure. -->
 
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>

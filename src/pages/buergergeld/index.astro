@@ -18,9 +18,11 @@ const schema = {
   "datePublished": "2026-02-02",
   "dateModified": "2026-02-02"
 };
+
+const canonicalUrl = "https://sozialer-navigator.de/buergergeld";
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} canonical={canonicalUrl}>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
     
     <main class="min-h-screen bg-slate-50 text-slate-900 pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
@@ -187,6 +189,12 @@ const schema = {
                                 <li><strong>Kein Rückgriff auf Kinder:</strong> Erst ab 100.000 € Jahreseinkommen der Kinder.</li>
                                 <li><strong>Vermögen:</strong> Freibetrag liegt bei 10.000 € pro Person.</li>
                             </ul>
+                            <div class="mt-4 not-prose">
+                                <a href="/buergergeld-grundsicherung" class="inline-flex items-center text-sm font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-2 rounded-lg transition-colors">
+                                    Mehr zur Grundsicherung im Alter erfahren
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                </a>
+                            </div>
                         </section>
 
                         <!-- 5. Vorrangprinzip -->
@@ -248,9 +256,9 @@ const schema = {
 
                               <div class="mt-6 text-center">
                                  <div class="inline-flex gap-2 flex-wrap justify-center">
-                                    <a href="/buergergeld/berlin" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Berlin</a>
-                                    <a href="/buergergeld/koeln" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Köln</a>
-                                    <a href="/buergergeld/frankfurt" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Frankfurt</a>
+                                    <a href="/berlin/buergergeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Berlin</a>
+                                    <a href="/koeln/buergergeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Köln</a>
+                                    <a href="/frankfurt-am-main/buergergeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Frankfurt</a>
                                  </div>
                              </div>
                         </section>
@@ -299,9 +307,9 @@ const schema = {
                     
                     if (filtered.length > 0) {
                         resultsContainer.innerHTML = filtered.map(c => `
-                            <a href="/buergergeld/${c.slug}" class="block px-4 py-3 hover:bg-slate-50 transition-colors flex justify-between items-center group rounded-lg mb-1">
+                            <a href="/${c.slug}/buergergeld" class="block px-4 py-3 hover:bg-slate-50 transition-colors flex justify-between items-center group rounded-lg mb-1">
                                 <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">${c.stadt}</span>
-                                <span class="text-[10px] text-slate-500 group-hover:text-slate-700 uppercase tracking-wide border border-slate-200 px-2 py-1 rounded">Mietstufe ${c.mietstufe}</span>
+                                <span class="text-xs text-slate-500 group-hover:text-slate-700 uppercase tracking-wide border border-slate-200 px-2 py-1 rounded">Mietstufe ${c.mietstufe}</span>
                             </a>
                         `).join('');
                         resultsContainer.classList.remove('hidden');

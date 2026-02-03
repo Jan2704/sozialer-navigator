@@ -94,18 +94,21 @@ const defaultCity = isCity ? {
     amt_adresse: info.amt_adresse || "",
     amt_email: info.amt_email || ""
 } : null;
+
+const canonicalUrl = isCity ? `https://sozialer-navigator.de/${info.slug}/wohngeld` : undefined;
 ---
 
-<Layout title={pageTitle} description={pageDesc}>
+<Layout title={pageTitle} description={pageDesc} canonical={canonicalUrl}>
     <fragment slot="head">
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
-        <meta property="og:url" content={`https://sozialer-navigator.de/wohngeld/${info.slug}`} />
+        <meta property="og:url" content={canonicalUrl || `https://sozialer-navigator.de/wohngeld/${info.slug}`} />
 
         <SchemaOrg type="Organization" />
         {isCity ? (
-            <CitySchemas city={defaultCity} />
+            /* Legacy City Page: Schema removed to avoid duplicates. Canonical points to new structure. */
+            <Fragment />
         ) : (
              <>
                 <SchemaOrg 

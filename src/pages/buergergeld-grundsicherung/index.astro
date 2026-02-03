@@ -1,54 +1,85 @@
 ---
 // src/pages/buergergeld-grundsicherung/index.astro
 import Layout from '../../layouts/Layout.astro';
+const canonicalUrl = "https://sozialer-navigator.de/buergergeld-grundsicherung";
 ---
 
-<Layout title="Bürgergeld & Grundsicherung 2026: Anspruch, Sätze & Hilfe">
+<Layout title="Grundsicherung im Alter (SGB XII) 2026: Anspruch & Höhe" canonical={canonicalUrl}>
   <main class="sn-page">
     <header class="sn-hero-alt">
       <div class="sn-container">
         <nav class="sn-breadcrumbs">
-          <a href="/">Startseite</a> <span>/</span> <strong>Bürgergeld</strong>
+          <a href="/">Startseite</a> <span>/</span> <strong>Grundsicherung (SGB XII)</strong>
         </nav>
-        <h1>Bürgergeld & Grundsicherung 2026</h1>
-        <p class="sn-lead">Informationen zu den aktuellen Regelsätzen, dem Schonvermögen und Tipps für deinen Antrag beim Jobcenter.</p>
+        <h1>Grundsicherung im Alter & bei Erwerbsminderung</h1>
+        <p class="sn-lead">Hilfe für Rentner und dauerhaft voll erwerbsgeminderte Menschen. Aktuelle Regelsätze 2026, Freibeträge und Unterschiede zum Bürgergeld.</p>
       </div>
     </header>
 
     <div class="sn-container sn-content-grid">
       <article class="sn-article">
-        <section class="sn-highlight-box">
-          <div class="sn-highlight-text">
-            <h3>Anspruch prüfen?</h3>
-            <p>Berechne jetzt unverbindlich, wie viel Bürgergeld dir zustehen könnte.</p>
-          </div>
-          <a href="/rechner" class="sn-cta-btn">Zum Rechner</a>
+        
+        <section class="mb-12">
+            <h2>Nicht Bürgergeld, sondern Grundsicherung</h2>
+            <p>
+                Viele verwechseln es: Das <strong>Bürgergeld (SGB II)</strong> ist für Menschen, die grundsätzlich arbeiten könnten (erwerbsfähig sind). 
+                Die <strong>Grundsicherung (SGB XII)</strong> ist für Menschen, die dauerhaft nicht mehr arbeiten können – sei es durch Alter oder Gesundheit.
+            </p>
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r mt-4">
+                <strong>Wichtig für 2026:</strong> Die Regelsätze sind identisch (582 € für Alleinstehende), aber beim Vermögen gelten strengere Regeln als beim Bürgergeld (nur 10.000 € Schonvermögen pro Person).
+            </div>
         </section>
 
-        <h2>Regelsätze ab Januar 2026</h2>
+        <h2>Wer hat Anspruch auf Grundsicherung?</h2>
+        <ul class="list-disc pl-5 space-y-2 mb-8 text-slate-600">
+            <li><strong>Altersrentner:</strong> Personen, die die Regelaltersgrenze erreicht haben und deren Rente nicht zum Leben reicht.</li>
+            <li><strong>Erwerbsgeminderte:</strong> Erwachsene (ab 18 Jahren), die dauerhaft voll erwerbsgemindert sind.</li>
+        </ul >
+
+        <h2>Regelsätze ab Januar 2026 (SGB XII)</h2>
         <div class="sn-table-wrapper">
           <table>
             <thead>
-              <tr><th>Status</th><th>Betrag 2026</th></tr>
+              <tr><th>Bedarfsstufe</th><th>Betrag 2026</th></tr>
             </thead>
             <tbody>
-              <tr><td>Alleinstehende</td><td>582,00 €</td></tr>
-              <tr><td>Partner (pro Person)</td><td>523,00 €</td></tr>
-              <tr><td>Kinder (14-17 Jahre)</td><td>481,00 €</td></tr>
+              <tr><td>Stufe 1 (Alleinstehende)</td><td>582,00 €</td></tr>
+              <tr><td>Stufe 2 (Paare/Bedarfsgemeinschaften)</td><td>523,00 €</td></tr>
+              <tr><td>Stufe 3 (Erwachsene in Einrichtungen)</td><td>481,00 €</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h2>Wer hat Anspruch?</h2>
-        <p>Bürgergeld erhält, wer erwerbsfähig und hilfebedürftig ist. Das bedeutet, dein Einkommen reicht nicht aus, um deinen Lebensunterhalt und die Miete zu decken.</p>
+        <h2>Unterschiede zum Bürgergeld</h2>
+        <p>Der wichtigste Unterschied liegt im Vermögen und der Zuständigkeit:</p>
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div class="border p-4 rounded-lg bg-white shadow-sm">
+                <h3 class="text-lg font-bold mb-2">Bürgergeld</h3>
+                <ul class="text-sm space-y-1 text-slate-600">
+                    <li>Zuständig: <strong>Jobcenter</strong></li>
+                    <li>Ziel: Integration in Arbeit</li>
+                    <li>Hohes Schonvermögen (40.000 €+)</li>
+                </ul>
+            </div>
+            <div class="border p-4 rounded-lg bg-blue-50 border-blue-100 shadow-sm">
+                <h3 class="text-lg font-bold mb-2 text-blue-900">Grundsicherung (SGB XII)</h3>
+                <ul class="text-sm space-y-1 text-blue-800">
+                    <li>Zuständig: <strong>Sozialamt</strong></li>
+                    <li>Ziel: Existenzsicherung im Alter</li>
+                    <li>Niedrigeres Schonvermögen (10.000 €)</li>
+                </ul>
+            </div>
+        </div>
+
       </article>
 
       <aside class="sn-sidebar">
-        <div class="sn-card sn-partner">
-          <span class="sn-label">Anzeige / Partner</span>
-          <h4>Bescheid prüfen lassen</h4>
-          <p>Fehler im Jobcenter-Bescheid? Lass ihn von Experten kostenlos prüfen.</p>
-          <a href="#" class="sn-sidebar-btn">Jetzt einreichen</a>
+        <div class="sn-card bg-emerald-50 border-emerald-100">
+          <h4 class="text-emerald-900 font-bold mb-2">Wohngeld als Alternative?</h4>
+          <p class="text-sm text-emerald-800 mb-4">Oft haben Rentner Anspruch auf Wohngeld statt Grundsicherung. Der Vorteil: Höhere Vermögensfreibeträge.</p>
+          <a href="/wohngeld" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded transition-colors">
+            Wohngeld prüfen
+          </a>
         </div>
       </aside>
     </div>
@@ -63,18 +94,15 @@ import Layout from '../../layouts/Layout.astro';
   h1 { font-size: 2.5rem; font-weight: 900; color: var(--sn-zinc-950); margin-bottom: 1rem; }
   .sn-lead { font-size: 1.2rem; color: var(--sn-zinc-600); max-width: 800px; line-height: 1.6; }
   .sn-content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; }
-  .sn-article h2 { font-size: 1.75rem; font-weight: 800; margin: 2rem 0 1rem; }
-  .sn-article p { font-size: 1.1rem; line-height: 1.7; color: var(--sn-zinc-600); }
-  .sn-highlight-box { background: var(--sn-blue); color: #fff; padding: 2rem; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
-  .sn-cta-btn { background: #fff; color: var(--sn-blue); padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 800; }
+  .sn-article h2 { font-size: 1.75rem; font-weight: 800; margin: 2rem 0 1rem; color: #1e293b; }
+  .sn-article h3 { font-size: 1.3rem; font-weight: 700; margin: 1.5rem 0 0.5rem; color: #1e293b; }
+  .sn-article p { font-size: 1.1rem; line-height: 1.7; color: var(--sn-zinc-600); margin-bottom: 1rem; }
   .sn-table-wrapper { border: 1px solid var(--sn-border); border-radius: 12px; overflow: hidden; margin: 1.5rem 0; }
   table { width: 100%; border-collapse: collapse; background: #fff; }
-  th { background: var(--sn-bg-soft); padding: 1rem; text-align: left; font-size: 0.9rem; }
-  td { padding: 1rem; border-top: 1px solid var(--sn-border); }
+  th { background: #f1f5f9; padding: 1rem; text-align: left; font-size: 0.9rem; font-weight: 700; color: #334155; }
+  td { padding: 1rem; border-top: 1px solid var(--sn-border); color: #475569; }
   .sn-sidebar { display: flex; flex-direction: column; gap: 2rem; }
   .sn-card { border: 1px solid var(--sn-border); padding: 1.5rem; border-radius: 16px; background: #fff; }
-  .sn-partner { background: #fdf2f8; border-color: #fbcfe8; }
-  .sn-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #db2777; margin-bottom: 0.5rem; display: block; }
-  .sn-sidebar-btn { display: block; text-align: center; background: #db2777; color: #fff; padding: 0.75rem; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 1rem; }
-  @media (max-width: 1000px) { .sn-content-grid { grid-template-columns: 1fr; } .sn-highlight-box { flex-direction: column; text-align: center; gap: 1.5rem; } }
+  
+  @media (max-width: 1000px) { .sn-content-grid { grid-template-columns: 1fr; } }
 </style>
