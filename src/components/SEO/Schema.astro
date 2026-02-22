@@ -1,0 +1,145 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Thing, WithContext, Graph, Organization, WebSite, BreadcrumbList, GovernmentService, FAQPage, Article } from "schema-dts";
+
+interface Props {
+  type?: "website" | "article" | "city-service";
+  title?: string;
+  description?: string;
+  image?: string;
+  publishDate?: Date;
+  author?: string; // Default to "Sozialer Navigator Redaktion"
+  canonicalUrl?: string; // e.g. https://sozialer-navigator.de/berlin/wohngeld
+  city?: string; // For Local/GovernmentService
+  serviceType?: "Wohngeld" | "Bürgergeld" | "WBS";
+  faq?: { question: string; answer: string }[];
+}
+
+const {
+  type = "website",
+  title = "Sozialer Navigator - Wohngeld & Bürgergeld Rechner 2026",
+  description = "Prüfen Sie Ihren Anspruch auf Wohngeld und Bürgergeld. Kostenlos, anonym und mit Sofort-Ergebnis.",
+  image = "/og-image.jpg",
+  publishDate,
+  author = "Sozialer Navigator Redaktion",
+  canonicalUrl = Astro.url.href,
+  city,
+  serviceType,
+  faq
+} = Astro.props;
+
+// Base Organization Schema (The "Publisher")
+const organizationSchema: Organization = {
+  "@type": "Organization",
+  "@id": "https://sozialer-navigator.de/#organization",
+  "name": "Sozialer Navigator",
+  "url": "https://sozialer-navigator.de",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://sozialer-navigator.de/logo.png", // TODO: Verify logo path
+    "width": "112",
+    "height": "112"
+  },
+  "sameAs": [
+    // Social profiles if available
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "email": "hilfe@sozialer-navigator.de"
+  }
+};
+
+// Website Schema (Search Box)
+const websiteSchema: WebSite = {
+    "@type": "WebSite",
+    "@id": "https://sozialer-navigator.de/#website",
+    "url": "https://sozialer-navigator.de",
+    "name": "Sozialer Navigator",
+    "description": "Ihr Wegweiser durch den Sozialstaat",
+    "publisher": { "@id": "https://sozialer-navigator.de/#organization" },
+    "inLanguage": "de-DE"
+};
+
+
+// 1. GovernmentService (CRITICAL for Local SEO / GEO)
+// Used on City Pages to signal "This page helps you get this government service in this city"
+let governmentServiceSchema: GovernmentService | undefined;
+if (type === "city-service" && city && serviceType) {
+  governmentServiceSchema = {
+    "@type": "GovernmentService",
+    "name": `${serviceType} Beratungsstelle ${city}`, // e.g. "Wohngeld Beratungsstelle Hamburg"
+    "serviceType": serviceType,
+    "provider": {
+       "@type": "GovernmentOrganization",
+       "name": `Amt für Soziales ${city} (oder zuständige Stelle)` // Placeholder, clearer if we had real data
+    },
+    "areaServed": {
+       "@type": "City",
+       "name": city
+    },
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Antragsteller für Sozialleistungen"
+    },
+    "isSimilarTo": [
+       // Semantic linkage to official concepts
+       {
+         "@type": "GovernmentService", 
+         "name": "Wohngeld beantragen",
+         "url": "https://verwaltung.bund.de/"
+       }
+    ]
+  };
+}
+
+
+// 2. FAQ Schema (CRITICAL for AEO / Voice Search)
+let faqSchema: FAQPage | undefined;
+if (faq && faq.length > 0) {
+  faqSchema = {
+    "@type": "FAQPage",
+    "mainEntity": faq.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer // Needs to be concise for GEO
+      }
+    }))
+  };
+}
+
+// 3. Article Schema (For Lexikon/Guides)
+let articleSchema: Article | undefined;
+if (type === "article" && title && description) {
+    articleSchema = {
+        "@type": "Article",
+        "headline": title,
+        "description": description,
+        "image": image,
+        "author": {
+            "@type": "Person", // or Organization
+            "name": author
+        },
+        "publisher": { "@id": "https://sozialer-navigator.de/#organization" },
+        "datePublished": publishDate ? publishDate.toISOString() : undefined,
+        "inLanguage": "de-DE"
+    }
+}
+
+
+// Graph Construction
+const graph: Graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    organizationSchema,
+    websiteSchema,
+    ...(governmentServiceSchema ? [governmentServiceSchema] : []),
+    ...(faqSchema ? [faqSchema] : []),
+    ...(articleSchema ? [articleSchema] : [])
+  ]
+};
+
+---
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

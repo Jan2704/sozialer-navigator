@@ -1,0 +1,306 @@
+---
+// src/components/FeedbackWidget.astro
+---
+
+<!-- Feedback Trigger Button -->
+<button
+  id="feedback-trigger"
+  class="fixed bottom-6 right-24 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand-gold text-brand-navy shadow-xl shadow-brand-gold/20 transition-all hover:scale-105 hover:bg-white focus:outline-none focus:ring-4 focus:ring-brand-gold/50 print:hidden group border-2 border-brand-navy/5"
+  aria-label="Feedback geben"
+>
+  <span class="sr-only">Feedback</span>
+  <!-- Icon: Message or similar -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+  </svg>
+</button>
+
+<!-- Feedback Modal/Popover -->
+<div
+  id="feedback-menu"
+  class="fixed bottom-24 right-24 md:right-6 z-50 hidden w-80 origin-bottom-right scale-95 transform rounded-sm bg-white p-2 shadow-2xl ring-1 ring-black/5 transition-all duration-200 opacity-0 font-sans"
+>
+  <div class="p-4 text-center border-b border-gray-100 pb-4">
+    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-gold block mb-1">Ihre Meinung</span>
+    <h3 class="font-serif text-xl text-brand-navy">Helfen Sie uns.</h3>
+    <p class="text-xs text-slate-500 mt-2 font-light">Ehrliches Feedback hilft uns, den Sozialen Navigator zu verbessern.</p>
+  </div>
+  
+  <div class="flex flex-col gap-2 p-2">
+    <button class="feedback-option-btn flex items-center gap-4 rounded-sm p-3 text-left transition-all hover:bg-slate-50 group border border-transparent hover:border-slate-100" data-type="rating">
+      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-gold/10 text-brand-gold group-hover:bg-brand-gold group-hover:text-brand-navy transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+        </svg>
+      </div>
+      <div>
+        <span class="block text-sm font-bold text-brand-navy">Bewertung abgeben</span>
+        <span class="block text-xs text-slate-500">Wie zufrieden sind Sie?</span>
+      </div>
+    </button>
+
+    <button class="feedback-option-btn flex items-center gap-4 rounded-sm p-3 text-left transition-all hover:bg-slate-50 group border border-transparent hover:border-slate-100" data-type="issue">
+      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-50 text-red-500 group-hover:bg-red-500 group-hover:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <div>
+         <span class="block text-sm font-bold text-brand-navy">Problem melden</span>
+         <span class="block text-xs text-slate-500">Etwas funktioniert nicht</span>
+      </div>
+    </button>
+
+    <button class="feedback-option-btn flex items-center gap-4 rounded-sm p-3 text-left transition-all hover:bg-slate-50 group border border-transparent hover:border-slate-100" data-type="idea">
+      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      </div>
+      <div>
+         <span class="block text-sm font-bold text-brand-navy">Vorschlag machen</span>
+         <span class="block text-xs text-slate-500">Idee zur Verbesserung</span>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- Detailed Form Modal -->
+<div id="feedback-form-modal" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-brand-navy/80 backdrop-blur-sm transition-opacity opacity-0" id="feedback-backdrop"></div>
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+             <div class="relative transform overflow-hidden rounded-sm bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 border-t-4 border-brand-gold" id="feedback-panel">
+                
+                <!-- Close -->
+                <button type="button" id="feedback-close" class="absolute top-4 right-4 text-slate-400 hover:text-brand-navy transition-colors">
+                    <span class="sr-only">Schließen</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <div class="p-8">
+                    <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] mb-2 block">Feedback</span>
+                    <h3 id="feedback-title" class="text-2xl font-serif text-brand-navy mb-2">Ihre Meinung</h3>
+                    <p id="feedback-desc" class="text-sm text-slate-500 mb-8 font-light leading-relaxed">Wir freuen uns auf Ihre ehrliche Meinung.</p>
+
+                    <form id="feedback-form" class="space-y-6">
+                        <input type="hidden" name="type" id="feedback-type" value="other">
+                        
+                        <!-- Rating Stars (Only for 'rating' type) -->
+                        <div id="feedback-rating-group" class="hidden mb-6">
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Zufriedenheit</label>
+                            <div class="flex items-center justify-center gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <button type="button" class="feedback-star text-slate-200 hover:text-brand-gold transition-all duration-300 focus:outline-none transform hover:scale-110" data-value={star}>
+                                        <svg class="h-10 w-10" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    </button>
+                                ))}
+                            </div>
+                            <input type="hidden" name="rating" id="feedback-rating-value">
+                        </div>
+
+                        <div>
+                            <label for="feedback-message" class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Nachricht</label>
+                            <textarea id="feedback-message" name="message" rows="4" required class="block w-full rounded-sm border-slate-200 shadow-sm focus:border-brand-gold focus:ring-brand-gold sm:text-sm border p-3 bg-slate-50 font-light"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="feedback-contact" class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">E-Mail (Optional)</label>
+                            <input type="email" name="contact" id="feedback-contact" class="block w-full rounded-sm border-slate-200 shadow-sm focus:border-brand-gold focus:ring-brand-gold sm:text-sm border p-3 bg-slate-50 font-light">
+                        </div>
+
+                        <button type="submit" class="w-full rounded-sm bg-brand-navy px-6 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-lg hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy transition-all">
+                            Absenden
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Success State -->
+                <div id="feedback-success" class="hidden p-12 text-center">
+                     <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 mb-6 border border-emerald-100">
+                        <svg class="h-10 w-10 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-serif text-brand-navy mb-4">Vielen Dank!</h3>
+                    <p class="text-slate-500 text-sm mb-8 font-light leading-relaxed">Wir haben Ihr Feedback erhalten und werden es sorgfältig prüfen.</p>
+                    <button type="button" id="feedback-success-close" class="w-full rounded-sm bg-slate-100 px-6 py-4 text-xs font-bold uppercase tracking-widest text-brand-navy hover:bg-slate-200 transition-colors">
+                        Schließen
+                    </button>
+                </div>
+
+             </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    import { supabase } from '../lib/supabase';
+
+    const triggerBtn = document.getElementById('feedback-trigger');
+    const menu = document.getElementById('feedback-menu');
+    const optionBtns = document.querySelectorAll('.feedback-option-btn');
+    
+    const formModal = document.getElementById('feedback-form-modal');
+    const backdrop = document.getElementById('feedback-backdrop');
+    const panel = document.getElementById('feedback-panel');
+    const closeBtn = document.getElementById('feedback-close');
+    const successCloseBtn = document.getElementById('feedback-success-close');
+    
+    const form = document.getElementById('feedback-form');
+    const feedbackTitle = document.getElementById('feedback-title');
+    const feedbackDesc = document.getElementById('feedback-desc');
+    const typeInput = document.getElementById('feedback-type') as HTMLInputElement;
+    const ratingGroup = document.getElementById('feedback-rating-group');
+    const ratingValue = document.getElementById('feedback-rating-value') as HTMLInputElement;
+    const stars = document.querySelectorAll('.feedback-star');
+    const successView = document.getElementById('feedback-success');
+
+    let isMenuOpen = false;
+
+    // Toggle Menu
+    triggerBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isMenuOpen = !isMenuOpen;
+        if(isMenuOpen) {
+            menu?.classList.remove('hidden');
+            setTimeout(() => {
+                menu?.classList.remove('opacity-0', 'scale-95');
+                menu?.classList.add('opacity-100', 'scale-100');
+            }, 10);
+        } else {
+            closeMenu();
+        }
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!menu?.contains(e.target as Node) && !triggerBtn?.contains(e.target as Node)) {
+            closeMenu();
+        }
+    });
+
+    function closeMenu() {
+        isMenuOpen = false;
+        menu?.classList.remove('opacity-100', 'scale-100');
+        menu?.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            menu?.classList.add('hidden');
+        }, 200);
+    }
+
+    // Open Form
+    optionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const type = (btn as HTMLElement).dataset.type || 'other';
+            openForm(type);
+            closeMenu();
+        });
+    });
+
+    function openForm(type: string) {
+        // Reset state
+        form?.classList.remove('hidden');
+        successView?.classList.add('hidden');
+        (form as HTMLFormElement).reset();
+        ratingValue.value = "";
+        updateStars(0);
+
+        // Customize content
+        typeInput.value = type;
+        if (type === 'rating') {
+            feedbackTitle!.innerText = "Erfahrung bewerten";
+            feedbackDesc!.innerText = "Wie gefällt Ihnen der Soziale Navigator?";
+            ratingGroup?.classList.remove('hidden');
+        } else if (type === 'issue') {
+            feedbackTitle!.innerText = "Problem melden";
+            feedbackDesc!.innerText = "Was funktioniert nicht wie erwartet?";
+            ratingGroup?.classList.add('hidden');
+        } else {
+             feedbackTitle!.innerText = "Idee senden";
+             feedbackDesc!.innerText = "Was können wir verbessern?";
+             ratingGroup?.classList.add('hidden');
+        }
+
+        formModal?.classList.remove('hidden');
+        setTimeout(() => {
+            backdrop?.classList.remove('opacity-0');
+            panel?.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+        }, 10);
+    }
+
+    function closeForm() {
+        backdrop?.classList.add('opacity-0');
+        panel?.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+        setTimeout(() => {
+            formModal?.classList.add('hidden');
+        }, 300);
+    }
+
+    closeBtn?.addEventListener('click', closeForm);
+    successCloseBtn?.addEventListener('click', closeForm);
+
+    // Star Rating Logic
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const val = (star as HTMLElement).dataset.value;
+            ratingValue.value = val || "";
+            updateStars(parseInt(val || "0"));
+        });
+    });
+
+    function updateStars(val: number) {
+        stars.forEach((s, idx) => {
+            if (idx < val) {
+                s.classList.add('text-yellow-400');
+                s.classList.remove('text-gray-300');
+            } else {
+                s.classList.add('text-gray-300');
+                s.classList.remove('text-yellow-400');
+            }
+        });
+    }
+
+    // Submit Handler
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+        const originalText = btn.innerText;
+        btn.disabled = true;
+        btn.innerText = "Sende...";
+
+        try {
+            const formData = new FormData(form as HTMLFormElement);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Insert into Supabase
+            const { error } = await supabase
+                .from('user_feedback')
+                .insert([{
+                    type: data.type,
+                    message: data.message,
+                    rating: data.rating ? parseInt(data.rating as string) : null,
+                    contact: data.contact,
+                    url: window.location.pathname
+                }]);
+
+            if (error) throw error;
+
+            // Success
+            form.classList.add('hidden');
+            successView?.classList.remove('hidden');
+
+        } catch (err) {
+            console.error('Feedback Error:', err);
+            alert('Fehler beim Senden. Bitte versuchen Sie es später erneut.');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }
+    });
+
+</script>

@@ -1,0 +1,21 @@
+[2026-02-21T19:22:42.764Z] INFO: === Starte autonomen Backend- und Infrastruktur-Test ===
+[2026-02-21T19:22:42.791Z] INFO: Prüfe Server-Erreichbarkeit...
+[2026-02-21T19:22:44.240Z] INFO: ✅ Lokaler Dev-Server läuft und ist erreichbar.
+[2026-02-21T19:22:44.248Z] INFO: 
+
+[2026-02-21T19:22:44.252Z] INFO: --- Starte Test: Leads API (/api/leads) ---
+[2026-02-21T19:22:46.287Z] INFO: ✅ Leads API erfolgreich (Status 200). Supabase & Webhook Trigger vermutlich erfolgreich.
+[2026-02-21T19:22:46.291Z] INFO:    Antwort: JSON mit keys: success
+[2026-02-21T19:22:46.294Z] INFO: 
+
+[2026-02-21T19:22:46.302Z] INFO: --- Starte Test: Stripe Checkout API (/api/checkout) ---
+[2026-02-21T19:22:47.572Z] INFO: ✅ Stripe API erfolgreich (Status 200). Session ID generiert.
+[2026-02-21T19:22:47.575Z] INFO:    URL: https://checkout.stripe.com/c/pay/cs_test_a1xHWErFxBblWZ1S4oP2cXMtg1APTMzH9fDXBJthJrUo8VKirIUa0xICM9#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdkdWxOYHwnPyd1blpxYHZxWjA0UTVWaE9VTUdjVWw1Qlx2c2B2c2tJblxsVjEwbWs1N1ZPUmQwcG9fPWp%2FfUtuc01wSTBqMmFKNF9BXWJXZmZRa2tIUmpPNE9KN31hREJOXHNmcWM2RkBzNTU8S3wxdWpQUicpJ2N3amhWYHdzYHcnP3F3cGApJ2dkZm5id2pwa2FGamlqdyc%2FJyZjY2NjY2MnKSdpZHxqcHFRfHVgJz8ndmxrYmlgWmxxYGgnKSdga2RnaWBVaWRmYG1qaWFgd3YnP3F3cGB4JSUl
+[2026-02-21T19:22:47.577Z] INFO: 
+
+[2026-02-21T19:22:47.580Z] INFO: --- Starte Test: PDF & Email API (/api/send-pdf) ---
+[2026-02-21T19:22:50.798Z] INFO: ✅ Email & PDF API erfolgreich (Status 200). Resend wurde getriggert.
+[2026-02-21T19:22:50.801Z] INFO:    Antwort: {"success":true,"id":"52e7827a-a2dc-4b77-bb86-1ff313cedfe7"}
+[2026-02-21T19:22:50.803Z] INFO: 
+=== Autonomer Testdurchlauf abgeschlossen ===
+[2026-02-21T19:22:50.806Z] INFO: Ausführlichere Error-Logs sind in debug_infrastructure_log.txt gepspeichert.

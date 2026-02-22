@@ -68,7 +68,7 @@ function getQmLimit(persons) {
     return QM_LIMITS[5] + (persons - 5) * EXTRA_PERSON_QM;
 }
 
-function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0 }) {
+function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, status = 'employee' }) {
     let inc = parseFloat(income) || 0;
     const rnt = parseFloat(rent) || 0;
     const heat = parseFloat(heating) || 0;
@@ -138,7 +138,12 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
 
     // Freibetrag on Brutto
     let freeAmount = 0;
-    if (inc > 0) {
+
+    if (status === 'pensioner') {
+        // SGB XII: Renten haben i.d.R. keinen Erwerbstätigenfreibetrag, nur Versicherungspauschale
+        freeAmount = 30; // 30€ Pauschale
+    } else if (inc > 0) {
+        // SGB II: Erwerbstätigenfreibetrag
         // Basic 100
         freeAmount += Math.min(inc, 100);
 
@@ -166,15 +171,23 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
 
     let nettoFactor = 0.7; // Default
 
-    // Family Helper (Synced with Priority Logic)
-    // If kids > 0 or persons > 1, the tax burden is lower.
-    const isFamily = (numKids > 0 || numPersons > 1);
-    const taxFreeBonus = isFamily ? 1000 : 0;
+    if (status === 'pensioner') {
+        // Renten sind oft brutto fast netto (nur KV/PV Abzüge)
+        nettoFactor = 0.89;
+    } else if (status === 'self-employed') {
+        // Einkommen ist oft Gewinn vor Steuern
+        nettoFactor = 0.80;
+    } else {
+        // Family Helper (Synced with Priority Logic)
+        // If kids > 0 or persons > 1, the tax burden is lower.
+        const isFamily = (numKids > 0 || numPersons > 1);
+        const taxFreeBonus = isFamily ? 1000 : 0;
 
-    if (inc <= (538 + taxFreeBonus)) nettoFactor = 1.0;
-    else if (inc <= (2200 + taxFreeBonus)) nettoFactor = 0.78;
-    else if (inc <= (3500 + taxFreeBonus)) nettoFactor = 0.73;
-    else nettoFactor = 0.68;
+        if (inc <= (538 + taxFreeBonus)) nettoFactor = 1.0;
+        else if (inc <= (2200 + taxFreeBonus)) nettoFactor = 0.78;
+        else if (inc <= (3500 + taxFreeBonus)) nettoFactor = 0.73;
+        else nettoFactor = 0.68;
+    }
 
     let estimatedNetto = inc * nettoFactor;
 
@@ -183,10 +196,16 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
     // --- 3. Result ---
     const claimAmount = Math.max(0, totalNeed - countableIncome);
 
+    // Label Logic
+    let label = "Bürgergeld";
+    if (status === 'pensioner') {
+        label = "Grundsicherung im Alter";
+    }
+
     return {
         eligible: claimAmount > 0,
         amount: Math.round(claimAmount),
-        type: "Bürgergeld",
+        type: label,
         details: {
             standardRate: totalRegelsatz,
             mehrbedarf: Math.round(mehrbedarf),
@@ -198,7 +217,7 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
     };
 }
 
-function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe = 1, expenses = 0, maintenance = 0, quadratmeter = 0 }) {
+function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe = 1, expenses = 0, maintenance = 0, quadratmeter = 0, status = 'employee' }) {
     // 1. Inputs
     let Y = parseFloat(income) || 0; // Gesamteinkommen (monatlich, steuerpflichtig)
     const M_actual = parseFloat(rent) || 0; // Kaltmiete
@@ -228,10 +247,18 @@ function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe
     // First deduct specific expenses and allowances from Brutto
     let intermediateY = Math.max(0, Y - exp - maint - allowance);
 
-    // Then apply global pauschal deduction (30% for Tax/Soz)
-    // This is an estimation. Real WoGG checks if you actually pay these.
-    // For a general calculator, 30% is the standard expectation for employees.
-    Y = intermediateY * 0.7;
+    // Then apply global pauschal deduction (WoGG Pauschalabzüge: 10% per tax/health/pension)
+    let pauschale = 0.7; // Standard: 30% Abzug für Steuer, KV/PV, RV
+
+    if (status === 'pensioner') {
+        // Rentner zahlen meist nur Kranken-/Pflegeversicherung: 10% Abzug
+        pauschale = 0.9;
+    } else if (status === 'self-employed') {
+        // Selbstständige zahlen meist KV/PV und Steuer, aber keine Pflicht-RV: 20% Abzug
+        pauschale = 0.8;
+    }
+
+    Y = intermediateY * pauschale;
 
     // 2. Rent Cap Calculation (WoGG 2026 Logic)
 
@@ -298,7 +325,7 @@ function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe
 }
 
 
-export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, city = null, quadratmeter = 0 }) {
+export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, city = null, quadratmeter = 0, status = 'employee' }) {
     // Determine Mietstufe from City Object if available, else 1
     const mietstufe = city ? city.mietstufe : 1;
 
@@ -307,13 +334,41 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
 
     // 1. Exact Wohngeld
     const wgResult = calculateExactWohngeld({
-        income, rent, persons, kids, mietstufe, expenses, maintenance, quadratmeter
+        income, rent, persons, kids, mietstufe, expenses, maintenance, quadratmeter, status
     });
 
-    // 2. Bürgergeld
-    const bgResult = calculateBuergergeld({
-        income, rent, heating, regelsatz, rentLimit: limit, persons, kids, expenses, maintenance
+    // 2. Bürgergeld / Grundsicherung (Based on Status)
+    let bgResult = calculateBuergergeld({
+        income, rent, heating, regelsatz, rentLimit: limit, persons, kids, expenses, maintenance, status
     });
+
+    // SPECIAL STATUS LOGIC
+    // Status: Student / Azubi
+    if (status === 'student') {
+        // Students are generally NOT eligible for Bürgergeld (SGB II Exclusion due to BAföG/BAB)
+        bgResult.eligible = false;
+        bgResult.amount = 0;
+        bgResult.type = "Bürgergeld (Studenten-Ausschluss)";
+
+        if (wgResult.eligible) {
+            wgResult.comparison = { reason: "Studierende können Wohngeld erhalten, wenn sie 'dem Grunde nach' keinen Anspruch auf BAföG haben (z.B. Zweitstudium) oder mit Nicht-Studierenden zusammenleben." };
+            return wgResult;
+        } else {
+            return {
+                eligible: true,
+                amount: 0,
+                type: "BAföG",
+                details: {
+                    wohngeld: 0,
+                    buergergeld: 0,
+                    message: "Als Student:in hast du primär Anspruch auf BAföG. Wohngeld und Bürgergeld sind für Studierende meist ausgeschlossen, es sei denn in speziellen Härtefällen."
+                },
+                comparison: { reason: "Prüfe deinen BAföG-Anspruch beim zuständigen Studierendenwerk." }
+            };
+        }
+    }
+
+    // Status: Rentner -> "Grundsicherung im Alter" is already labeled inside calculateBuergergeld
 
 
     // DECISION LOGIC: VORRANGPRÜFUNG (Priority Check)
@@ -322,20 +377,22 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
     // then you are prioritized for Wohngeld (and likely excluded from SGB II or forced to switch).
 
     // 1. Estimate Real Netto for Comparison (Reuse logic from BG)
-    // Note: We use the same Netto estimation as in calculateBuergergeld for consistency.
     let nettoFactor = 0.7;
     const inc = parseFloat(income) || 0;
 
-    // Family Helper: Higher Free Income / Lower effective tax due to splitting/kids
-    // Primitive Approach: Increase threshold effectively for families
-    // If kids > 0 or persons > 1, the tax burden is lower for same income.
-    const isFamily = (kids > 0 || persons > 1);
-    const taxFreeBonus = isFamily ? 1000 : 0; // Shift thresholds up
+    if (status === 'pensioner') {
+        nettoFactor = 0.89;
+    } else if (status === 'self-employed') {
+        nettoFactor = 0.80;
+    } else {
+        const isFamily = (kids > 0 || persons > 1);
+        const taxFreeBonus = isFamily ? 1000 : 0;
 
-    if (inc <= (538 + taxFreeBonus)) nettoFactor = 1.0;
-    else if (inc <= (2200 + taxFreeBonus)) nettoFactor = 0.78;
-    else if (inc <= (3500 + taxFreeBonus)) nettoFactor = 0.73; // Slightly better than 0.7
-    else nettoFactor = 0.68;
+        if (inc <= (538 + taxFreeBonus)) nettoFactor = 1.0;
+        else if (inc <= (2200 + taxFreeBonus)) nettoFactor = 0.78;
+        else if (inc <= (3500 + taxFreeBonus)) nettoFactor = 0.73;
+        else nettoFactor = 0.68;
+    }
 
     // Real available money (Netto - Expenses)
     const netIncomeForCheck = (inc * nettoFactor) - expenses - maintenance;
@@ -343,22 +400,51 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
     // 2. Check Sufficiency
     const coversNeed = (netIncomeForCheck + wgResult.amount) >= bgResult.details.totalNeed;
 
-    // 3. Decision
+    // 3. Decision - UPDATED PRIORITIZATION
+    // If Wohngeld is eligible (> 10€), we prefer showing it as the primary result
+    // because it's often the "preferred" benefit (less invasive, no asset check etc.)
+    // unless Bürgergeld is significantly higher (e.g. +30% or +100€) which would be misleading to hide.
+
+    const wgAmount = wgResult.amount;
+    const bgAmount = bgResult.eligible ? bgResult.amount : 0;
+
+    // Comparison Object
+    const comparison = {
+        wohngeld: wgAmount,
+        buergergeld: bgAmount,
+        difference: bgAmount - wgAmount,
+        reason: ""
+    };
+
+    // Strict Legal Logic:
     if (wgResult.eligible && coversNeed) {
         // Wohngeld is sufficient -> Priority!
+        wgResult.comparison = { ...comparison, reason: "Dein Einkommen plus Wohngeld deckt deinen Bedarf. Wohngeld ist vorrangig vor Bürgergeld." };
         return wgResult;
     }
 
-    if (bgResult.amount > wgResult.amount && bgResult.eligible) {
-        // Wohngeld not sufficient, and BG pays more -> SGB II
+    // "Soft" Logic for User Experience:
+    // If valid Wohngeld claim exists, show it, even if BG might be slightly higher or needed as top-up.
+    // User can usually choose to apply for Wohngeld + KiZ instead of BG.
+    if (wgResult.eligible) {
+        // Only force BG if it's MUCH better (> 200€ difference)
+        if (bgAmount > (wgAmount + 200)) {
+            bgResult.comparison = { ...comparison, reason: `Bürgergeld ist deutlich höher (+${bgAmount - wgAmount} €) als Wohngeld. Da dein Einkommen gering ist, sichert Bürgergeld deinen Lebensunterhalt besser.` };
+            return bgResult;
+        }
+
+        // Otherwise default to Wohngeld (Psychologically better)
+        wgResult.comparison = { ...comparison, reason: "Wohngeld ist möglich und oft einfacher zu beantragen. Bürgergeld wäre zwar evtl. etwas höher, aber mit mehr Auflagen verbunden." };
+        return wgResult;
+    }
+
+    // If only BG is eligible
+    if (bgResult.eligible) {
+        bgResult.comparison = { ...comparison, reason: "Dein Einkommen reicht nicht aus, um deinen Bedarf zu decken. Wohngeld allein würde nicht reichen, daher hast du Anspruch auf Bürgergeld zur Existenzsicherung." };
         return bgResult;
     }
 
-    if (wgResult.eligible) {
-        // WG eligible, BG not (or WG pays more)
-        return wgResult;
-    }
-
-    // Default to Wohngeld (likely both 0)
+    // Default (likely both 0)
+    wgResult.comparison = { ...comparison, reason: "Derzeit besteht voraussichtlich kein Anspruch auf Unterstützung." };
     return wgResult;
 }

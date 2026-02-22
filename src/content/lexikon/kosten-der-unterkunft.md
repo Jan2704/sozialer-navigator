@@ -6,7 +6,7 @@ relatedTerms: ["Heizkosten", "Mietobergrenze", "Mietstufe"]
 
 # Kosten der Unterkunft und Heizung (KdU)
 
-Beim Bürgergeld werden neben dem pauschalen Regelsatz auch die tatsächlichen Kosten für die Unterkunft übernommen. Dies ist im Sozialgesetzbuch II (SGB II) geregelt.
+Die **Kosten der Unterkunft und Heizung (KdU)** sind die tatsächlichen monatlichen Aufwendungen für Wohnen und Wärme, die vom Jobcenter übernommen werden. Sie umfassen die **Nettokaltmiete**, die **kalten Betriebskosten** und die **angemessenen Heizkosten**. Die Übernahme ist gesetzlich im SGB II geregelt und soll das Existenzminimum im Bereich Wohnen sichern.
 
 ## Was gehört dazu?
 

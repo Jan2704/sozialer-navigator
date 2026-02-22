@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Vorgang abgebrochen | Sozialer Navigator">
+  <main class="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 pt-32 relative overflow-hidden">
+    
+    <!-- Background Effects -->
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-100 to-transparent pointer-events-none"></div>
+    <div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-slate-200/50 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-xl w-full relative z-10 text-center">
+        
+        <div class="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-8 text-3xl">
+            ✕
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-serif text-[#0a1628] mb-6">Vorgang abgebrochen</h1>
+        
+        <p class="text-lg text-slate-600 font-light mb-12">
+          Es wurde keine Zahlung durchgeführt. Falls dies ein Versehen war, können Sie den Vorgang jederzeit erneut starten.
+        </p>
+
+        <div class="flex flex-col gap-4">
+            <a href="/pdf-paket" class="w-full bg-[#0a1628] text-white py-4 px-8 rounded-xl font-bold uppercase tracking-widest hover:bg-[#1b2b40] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 block">
+                Erneut versuchen
+            </a>
+            
+            <a href="/" class="text-slate-500 hover:text-[#0a1628] transition-colors py-2 text-sm">
+                Zurück zur Startseite
+            </a>
+        </div>
+
+    </div>
+  </main>
+</Layout>

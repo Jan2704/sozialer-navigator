@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+export const prerender = true;
 import SchemaOrg from '../../components/SEO/SeoSchema.astro';
 import ResultsSection from '../../components/ResultsSection.astro';
 import { wohngeldData } from '../../data/wohngeldData.js';
@@ -31,7 +32,7 @@ const defaultCity = {
     amt_email: info.amt_email || ""
 };
 
-const canonicalUrl = `https://sozialer-navigator.de/${info.slug}/buergergeld`;
+const canonicalUrl = `https://sozialer-navigator.de/${info.slug}/buergergeld/`;
 ---
 
 <Layout title={seoTitle} description={seoDesc} canonical={canonicalUrl}>

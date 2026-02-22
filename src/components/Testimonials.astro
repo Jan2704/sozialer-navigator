@@ -1,0 +1,69 @@
+---
+const testimonials = [
+  {
+    name: "Thomas W.",
+    city: "München",
+    text: "Ich dachte immer, Wohngeld sei nur was für 'andere'. Herr R. hat mir gezeigt, dass es mein gutes Recht ist. Die 280€ monatlich helfen meiner Familie sehr.",
+    rating: 5,
+    role: "Logistiker"
+  },
+  {
+    name: "Sabine K.",
+    city: "Berlin",
+    text: "Kompetent, schnell und diskret. Die Einschätzung war präzise und der Antrag dank der Vorlagen in 10 Minuten erledigt. So stelle ich mir modernen Bürgerservice vor.",
+    rating: 5,
+    role: "Erzieherin"
+  },
+  {
+    name: "Michael R.",
+    city: "Hamburg",
+    text: "Endlich Klarheit im Paragraphen-Dschungel. Die Professionalität dieses Tools hat mich überzeugt. Klare Empfehlung für jeden, der unsicher ist.",
+    rating: 5,
+    role: "Selbstständig"
+  }
+];
+---
+
+<section class="py-20 bg-white relative overflow-hidden">
+    <!-- Background Decor -->
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+    <div class="absolute -left-20 top-20 w-72 h-72 bg-blue-50/50 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">Erfolgsgeschichten</h2>
+            <p class="text-lg text-slate-600">
+                Tausende Menschen nutzen den Sozialen Navigator um ihre Rechte durchzusetzen.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            {testimonials.map((t) => (
+                <div class="bg-slate-50 border border-slate-100 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative group">
+                    <!-- Quote Icon -->
+                    <div class="absolute top-6 right-6 text-4xl text-slate-200 font-serif opacity-50 group-hover:text-blue-100 transition-colors">"</div>
+                    
+                    <div class="mb-4 flex text-amber-400">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                            <span class={i < t.rating ? "text-amber-400" : "text-slate-300"}>★</span>
+                        ))}
+                    </div>
+
+                    <p class="text-slate-700 italic mb-6 leading-relaxed relative z-10">"{t.text}"</p>
+
+                    <div class="flex items-center gap-3 pt-6 border-t border-slate-200/50">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500 text-sm">
+                            {t.name.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-sm">{t.name}</div>
+                            <div class="text-xs text-slate-500">{t.role} • {t.city}</div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+    </div>
+</section>

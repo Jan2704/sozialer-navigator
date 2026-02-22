@@ -1,0 +1,67 @@
+---
+interface Props {
+  items?: {
+    question: string;
+    answer: string;
+  }[];
+}
+
+import { defaultFaqs } from '../data/faqs.js';
+
+const { items } = Astro.props;
+const faqs = items || defaultFaqs;
+---
+
+<section class="py-32 bg-white">
+  <div class="max-w-4xl mx-auto px-6">
+    
+    <div class="text-center mb-20">
+      <span class="text-[#c5a67c] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">
+        Häufige Fragen
+      </span>
+      <h2 class="text-4xl md:text-5xl font-serif text-[#0a1628] mb-6">Wir haben Antworten.</h2>
+      <div class="w-24 h-[1px] bg-[#0a1628]/10 mx-auto"></div>
+    </div>
+
+    <div class="space-y-4">
+      {faqs.map((faq, index) => (
+        <div class="group border-b border-slate-200 bg-white overflow-hidden transition-all duration-500 hover:bg-slate-50">
+          <details class="group flex flex-col">
+            <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+              <span class="font-serif text-xl text-[#0a1628] group-hover:text-[#c5a67c] transition-colors">
+                {faq.question}
+              </span>
+              <span class="ml-4 flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-slate-200 text-slate-400 transition-all duration-300 group-open:bg-[#0a1628] group-open:border-[#0a1628] group-open:text-[#c5a67c] group-open:rotate-180">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="px-6 pb-8 text-slate-600 font-light leading-relaxed animate-accordion-down max-w-3xl">
+              {faq.answer}
+            </div>
+          </details>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  details > summary {
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+    
+  details[open] summary ~ * {
+    animation: sweep .4s ease-in-out;
+  }
+
+  @keyframes sweep {
+    0%    {opacity: 0; transform: translateY(-10px)}
+    100%  {opacity: 1; transform: translateY(0)}
+  }
+</style>

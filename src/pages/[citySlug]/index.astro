@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import cities from '../../data/cities_2026.json';
 import SchemaOrg from '../../components/SEO/SeoSchema.astro';
+import Faq from '../../components/Faq.astro';
+
+export const prerender = true;
 
 export async function getStaticPaths() {
   return cities.map((city) => ({
@@ -11,6 +14,27 @@ export async function getStaticPaths() {
 }
 
 const { city } = Astro.props;
+
+const cityFaqs = [
+  {
+    question: `Wo beantrage ich Wohngeld in ${city.stadt}?`,
+    answer: `Die Zuständigkeit liegt bei der ${city.amt_name || 'lokalen Wohngeldbehörde'}. Sie finden die Stelle in der ${city.amt_adresse || 'Stadtverwaltung'}.`
+  },
+  {
+    question: `Wie hoch ist die Miete in ${city.stadt} (Mietstufe)?`,
+    answer: `${city.stadt} ist der Mietstufe ${city.mietstufe} zugeordnet. Dies beeinflusst die Höhe Ihres Wohngeldanspruchs. Je höher die Stufe, desto höher der Zuschuss.`
+  },
+  {
+    question: `Kann ich in ${city.stadt} Bürgergeld beantragen?`,
+    answer: `Ja, das Jobcenter ${city.stadt} ist für Bürgergeld (ehemals Hartz 4) zuständig. Den Antrag können Sie oft auch online stellen.`
+  },
+  {
+    question: `Gibt es einen Wohngeldrechner für ${city.stadt}?`,
+    answer: `Ja, unser Rechner ist speziell auf die Mietstufe ${city.mietstufe} von ${city.stadt} eingestellt und liefert Ihnen eine genaue Schätzung.`
+  }
+];
+
+const faqSchemaItems = cityFaqs.map(item => ({ q: item.question, a: item.answer }));
 ---
 
 <Layout title={`Sozialer Navigator ${city.stadt}: Wohngeld & Bürgergeld 2026`} description={`Ihr Wegweiser für soziale Leistungen in ${city.stadt}. Prüfen Sie Anspruch auf Wohngeld und Bürgergeld.`}>
@@ -31,8 +55,10 @@ const { city } = Astro.props;
                     type="GovernmentService" 
                     data={{
                         city: city.stadt,
-                        url: `https://sozialer-navigator.de/${city.slug}`,
-                        authorityName: `Stadtverwaltung ${city.stadt}`
+                        url: `https://sozialer-navigator.de/${city.slug}/`,
+                        authorityName: city.amt_name || `Stadtverwaltung ${city.stadt}`,
+                        address: city.amt_adresse ? city.amt_adresse.split(',')[0] : undefined,
+                        zip: city.plz
                     }}
                 />
                  <SchemaOrg 
@@ -40,9 +66,13 @@ const { city } = Astro.props;
                     data={{
                         items: [
                             { name: "Startseite", url: "/" },
-                            { name: city.stadt, url: `/${city.slug}` }
+                            { name: city.stadt, url: `/${city.slug}/` }
                         ]
                     }}
+                />
+                <SchemaOrg 
+                    type="FAQPage" 
+                    data={{ items: faqSchemaItems }}
                 />
             </fragment>
 
@@ -61,9 +91,9 @@ const { city } = Astro.props;
             </div>
         </header>
 
-         <div class="grid md:grid-cols-2 gap-8">
+         <div class="grid md:grid-cols-2 gap-8 mb-24">
             <!-- Wohngeld Card -->
-            <a href={`/${city.slug}/wohngeld`} class="group relative block p-10 overflow-hidden bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl transition-all">
+            <a href={`/${city.slug}/wohngeld/`} class="group relative block p-10 overflow-hidden bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl transition-all">
                <!-- Card Background (Hover) -->
                <div class="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition-opacity -z-10"></div>
                
@@ -79,7 +109,7 @@ const { city } = Astro.props;
                    
                    <h3 class="text-3xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors">Wohngeld</h3>
                    <p class="text-slate-600 leading-relaxed mb-auto">
-                      Zuschuss zur Miete für Geringverdiener. Prüfen Sie, ob Ihnen Wohngeld in {city.stadt} zusteht.
+                      Zuschuss zur Miete für Geringverdiener. Prüfen Sie, ob Ihnen Wohngeld in {city.stadt} zusteht – im Schnitt winken 370 € monatlich!
                    </p>
                    
                    <div class="mt-8 pt-6 border-t border-slate-100">
@@ -91,7 +121,7 @@ const { city } = Astro.props;
             </a>
 
             <!-- Bürgergeld Card -->
-            <a href={`/${city.slug}/grundsicherung`} class="group relative block p-10 overflow-hidden bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl transition-all">
+            <a href={`/${city.slug}/grundsicherung/`} class="group relative block p-10 overflow-hidden bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl transition-all">
                <!-- Card Background (Hover) -->
                <div class="absolute inset-0 bg-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity -z-10"></div>
                
@@ -118,8 +148,46 @@ const { city } = Astro.props;
                </div>
             </a>
          </div>
+
+         <!-- LOCAL SEO CONTENT HUB -->
+         <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12 mb-12">
+              <div class="mb-10">
+                  <span class="text-blue-600 text-xs font-bold uppercase tracking-[0.2em] mb-3 block">Lokaler Ratgeber</span>
+                  <h2 class="text-2xl md:text-3xl font-serif text-slate-900 mb-4">
+                      Ihr Wegweiser für Sozialleistungen in {city.stadt} ({city.plz})
+                  </h2>
+                  <div class="w-16 h-[2px] bg-blue-600"></div>
+              </div>
+
+              <div class="prose prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-relaxed">
+                  
+                  <p>
+                      Die Beantragung von staatlichen Hilfen zur Sicherung des Lebensunterhalts kann komplex sein – besonders aufgrund der starken regionalen Unterschiede. Wenn Sie in <strong>{city.stadt}</strong> leben und Unterstützung bei Ihren Wohn- oder Lebenshaltungskosten benötigen, stehen Ihnen grundsätzlich zwei Wege offen: Das Wohngeld als reiner Mietzuschuss oder das Bürgergeld (ehemals Hartz IV) als vollumfängliche Grundsicherung.
+                  </p>
+
+                  <h3>Die Bedeutung der Mietstufe in {city.stadt}</h3>
+                  <p>
+                      Eine der wichtigsten Variablen bei der Berechnung Ihres Wohngeldanspruchs ist die lokale Mietstufe. Der Gesetzgeber bewertet die Wohnkosten in Deutschland regional unterschiedlich. <strong>{city.stadt}</strong> ist aktuell der <strong>Mietstufe {city.mietstufe}</strong> zugeordnet. Diese Einstufung bestimmt maßgeblich, bis zu welchem Höchstbetrag Ihre tatsächliche Bruttokaltmiete bei der Wohngeldberechnung bezuschusst wird. Unser integrierter Rechner für {city.stadt} hat diese Werte bereits vollautomatisch für Sie hinterlegt, um eine punktgenaue Überprüfung zu ermöglichen.
+                  </p>
+
+                  <h3>Zuständigkeiten vor Ort: {city.amt_name || "Die Wohngeldstelle"}</h3>
+                  <p>
+                      Sollte unser Rechner für Sie einen positiven Wohngeldanspruch in Höhe des durchschnittlichen Zuschusses (oft um die 370 €) ermitteln, ist der nächste Schritt die formelle Beantragung. Die Zuständigkeit liegt hierbei bei der lokalen Behörde in {city.stadt}. 
+                      {city.amt_name && city.amt_adresse ? `Konkret können Sie sich an das ${city.amt_name} unter der Adresse ${city.amt_adresse.split(',')[0]} wenden.` : `Bitte wenden Sie sich hierfür an die zuständige Stadt- oder Gemeindeverwaltung in ${city.stadt}.`} Es ist ratsam, dem Antrag direkt alle notwendigen Gehalts- und Mietnachweise beizufügen, um die Bearbeitungszeit zu verkürzen.
+                  </p>
+
+                  <h3>Bürgergeld oder Wohngeld?</h3>
+                  <p>
+                      Oft herrscht Unklarheit darüber, welche Leistung beantragt werden sollte. Ein wichtiger rechtlicher Grundsatz lautet: Wohngeld geht dem Bürgergeld vor. Reicht Ihr Haushaltseinkommen (inkl. z.B. Kinderzuschlag) aus, um den eigenen Bedarf zu decken, aber nicht für die Miete in {city.stadt}, dann ist die <strong>Wohngeldstelle</strong> Ihr Ansprechpartner. Liegt Ihr Einkommen jedoch generell unter dem Existenzminimum, fällt die Zuständigkeit an das <strong>Jobcenter {city.stadt}</strong> für Leistungen nach dem SGB II.
+                  </p>
+                  
+              </div>
+         </div>
+
      </div>
   </main>
+  
+  <Faq items={cityFaqs} />
 </Layout>
 
 <script>

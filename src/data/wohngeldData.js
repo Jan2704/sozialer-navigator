@@ -769,18 +769,18 @@ export const wohngeldData = [
   {
     plz: "96047",
     stadt: "Bamberg",
-    mietstufe: 5,
-    max_kalt_1p: "525.00",
+    mietstufe: 4,
+    max_kalt_1p: "495.00",
     heiz_pausch_1p: "54.00",
     klima_pausch_1p: "18.00",
-    gesamt_deckel_1p: "597.00",
+    gesamt_deckel_1p: "567.00",
     amt_name: "Sozialreferat Bamberg",
-    amt_adresse: "Hauptwachstraße 3, 96047 Bamberg",
+    amt_adresse: "Promenadestraße 2a, 96047 Bamberg",
     amt_email: "sozialamt@stadt.bamberg.de",
     slug: "bamberg",
     bundesland: "Bayern",
     seo_title: "Wohngeld Rechner Bamberg | Hilfe bei Sperrzeit & Notlage",
-    seo_meta_desc: "Prüfen Sie Ihren Wohngeldanspruch für Bamberg (Mietstufe 5).",
+    seo_meta_desc: "Prüfen Sie Ihren Wohngeldanspruch für Bamberg (Mietstufe 4). Erhalten Sie alle wichtigen Infos zur Notlage, Fristen und kopieren Sie einen formlosen Erstantrag sofort.",
     daten_valide: true
   },
   {

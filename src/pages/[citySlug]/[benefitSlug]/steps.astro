@@ -2,6 +2,8 @@
 // src/pages/[citySlug]/[benefitSlug]/steps.astro
 import Layout from '../../../layouts/Layout.astro';
 import cities from '../../../data/cities_2026.json';
+import { getCollection } from 'astro:content';
+export const prerender = true;
 import benefits from '../../../data/benefits.json';
 
 export async function getStaticPaths() {

@@ -2,6 +2,9 @@
 // src/layouts/Layout.astro
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import FeedbackWidget from '../components/FeedbackWidget.astro';
+import ChatWidget from '../components/ChatWidget.jsx';
+import Schema from '../components/seo/Schema.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -10,9 +13,22 @@ interface Props {
   hideNav?: boolean;
   class?: string;
   canonical?: string;
+  type?: "website" | "article" | "city-service";
+  city?: string; // For Local SEO
+  serviceType?: "Wohngeld" | "Bürgergeld" | "WBS";
+  faq?: { question: string; answer: string }[];
 }
 
-const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für 2026", hideNav = false, canonical } = Astro.props;
+const { 
+  title, 
+  description = "Sozialer Navigator - Ihre rechtssichere Hilfe für 2026", 
+  hideNav = false, 
+  canonical,
+  type = "website",
+  city,
+  serviceType,
+  faq
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="de">
@@ -23,7 +39,7 @@ const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonical || new URL(Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/\/?$/, '/'), Astro.site)} />
+    <link rel="canonical" href={canonical || new URL(Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/', Astro.site)} />
     <title>{title}</title>
 
     <!-- OpenGraph / Social Media -->
@@ -43,6 +59,16 @@ const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für
     <!-- Lucide Icons -->
     <!-- Lucide Icons removed: using react-lucide or inline SVGs for privacy -->
     
+    <Schema 
+      type={type}
+      title={title}
+      description={description}
+      canonicalUrl={canonical || new URL(Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/', Astro.site).href}
+      city={city}
+      serviceType={serviceType}
+      faq={faq}
+    />
+
     <style is:global>
         /* Styling für Rechtstexte */
         .prose h1 { font-weight: 900; font-size: 2.5rem; margin-bottom: 2rem; color: #0f172a; letter-spacing: -0.05em; font-style: italic; }
@@ -60,5 +86,7 @@ const { title, description = "Sozialer Navigator - Ihre rechtssichere Hilfe für
       <slot />
     </div>
     <Footer />
+    <FeedbackWidget />
+    <ChatWidget client:load />
   </body>
 </html>

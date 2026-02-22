@@ -1,15 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { wohngeldData } from '../../data/wohngeldData.js';
 
-const cities = wohngeldData.sort((a, b) => a.stadt.localeCompare(b.stadt));
 const title = "Bürgergeld 2026: Grundsicherung, Regelsätze & Antrag | Sozialer Navigator";
 const description = "Der aktuelle Leitfaden zum Bürgergeld 2026 (Grundsicherungsgeld): Alle Regelsätze, Voraussetzungen, Sanktionen und der direkte Vergleich zum Wohngeld.";
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Bürgergeld 2026: Das Grundsicherungsgeld",
+  "headline": "Bürgergeld 2026: Der umfassende Leitfaden",
   "description": description,
   "author": {
     "@type": "Organization",
@@ -19,21 +17,14 @@ const schema = {
   "dateModified": "2026-02-02"
 };
 
-const canonicalUrl = "https://sozialer-navigator.de/buergergeld";
+const canonicalUrl = "https://sozialer-navigator.de/buergergeld/";
 ---
 
 <Layout title={title} description={description} canonical={canonicalUrl}>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
     
-    <main class="min-h-screen bg-slate-50 text-slate-900 pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
+    <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-4 sm:px-6 relative">
         
-        <!-- Background Elements -->
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
-        <div class="fixed inset-0 z-0 select-none pointer-events-none">
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/90 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent"></div>
-        </div>
-
         <div class="max-w-7xl mx-auto relative z-10">
             
             <div class="grid lg:grid-cols-12 gap-12">
@@ -41,18 +32,16 @@ const canonicalUrl = "https://sozialer-navigator.de/buergergeld";
                 <!-- Sidebar / TOC (Desktop) -->
                 <aside class="hidden lg:block lg:col-span-3">
                     <div class="sticky top-32 space-y-8">
-                        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-                            <h3 class="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider">Inhalt</h3>
-                            <nav class="space-y-2">
-                                <a href="#sozialsystem" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">1. Das Sozialsystem 2026</a>
-                                <a href="#grundsicherung" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">2. Bürgergeld / Grundsicherungsgeld</a>
-                                <a href="#wohngeld-plus" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">3. Wohngeld-Plus</a>
-                                <a href="#sgb-xii" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">4. Grundsicherung im Alter</a>
-                                <a href="#vorrang" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">5. Vorrangprinzip</a>
-                                <a href="#antrag" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">6. Antrag & Unterlagen</a>
-                                <a href="#jobcenter-finden" class="block text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-3 py-2 rounded-lg mt-4">
-                                    <span class="mr-2">🔍</span> Jobcenter finden
-                                </a>
+                        <div class="bg-slate-50 border-l-2 border-brand-gold p-6">
+                            <h3 class="font-bold text-brand-navy mb-6 text-xs uppercase tracking-widest">
+                                Inhalt
+                            </h3>
+                            <nav class="space-y-1">
+                                <a href="#einleitung" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">1. Einleitung</a>
+                                <a href="#regelsatz" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">2. Regelsätze 2026</a>
+                                <a href="#voraussetzungen" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">3. Voraussetzungen</a>
+                                <a href="#sanktionen" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">4. Mitwirkung & Sanktionen</a>
+                                <a href="#vergleich" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">5. Bürgergeld vs. Wohngeld</a>
                             </nav>
                         </div>
                     </div>
@@ -62,227 +51,168 @@ const canonicalUrl = "https://sozialer-navigator.de/buergergeld";
                 <div class="lg:col-span-9 space-y-16">
                     
                     <!-- Hero Section -->
-                    <div class="text-center lg:text-left max-w-4xl">
-                         <div class="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-6">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                            <span class="text-xs font-bold uppercase tracking-widest text-blue-700">Reform 2026</span>
-                        </div>
-                        <h1 class="font-bold tracking-tight text-slate-900 text-4xl md:text-5xl lg:text-6xl mb-6">
-                            Ihr Leitfaden zu <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Sozialleistungen 2026</span>
+                    <div class="text-center lg:text-left max-w-4xl border-b border-slate-100 pb-12">
+                        <h1 class="font-serif font-medium tracking-tight text-brand-navy text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1]">
+                            Das Bürgergeld 2026: <br/> <span class="italic text-brand-gold">Grundsicherung neu gedacht.</span>
                         </h1>
-                        <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
-                            Bürgergeld, Grundsicherung und Wohngeld: Ein umfassender Wegweiser durch die aktuellen Regelungen und Ihre Ansprüche.
+                        <p class="text-xl text-slate-600 leading-relaxed max-w-3xl font-light">
+                            Seit der Einführung als Nachfolger von "Hartz IV" hat sich das Bürgergeld etabliert. Erfahren Sie alles über die aktuellen Regelsätze, Freibeträge und die Rechte und Pflichten der Leistungsberechtigten.
                         </p>
                     </div>
 
                     <!-- Article Content -->
-                    <article class="prose prose-slate prose-lg max-w-none">
+                    <article class="prose prose-slate prose-lg max-w-none prose-headings:font-serif prose-headings:text-brand-navy prose-a:text-brand-navy hover:prose-a:text-brand-gold prose-strong:text-brand-navy">
                         
-                        <!-- 1. Sozialsystem Overview -->
-                        <section id="sozialsystem" class="scroll-mt-32">
-                            <h2>1. Das deutsche Sozialsystem 2026</h2>
+                        <!-- 1. Einleitung -->
+                        <section id="einleitung" class="scroll-mt-32">
+                            <h2>1. Einleitung: Grundsicherung statt Arbeitslosengeld II</h2>
                             <p>
-                                Das System stützt sich auf drei zentrale Säulen, um passgenaue Unterstützung zu bieten:
+                                Das Bürgergeld stellt die Basisabsicherung des Sozialstaates dar. Es garantiert das Existenzminimum für alle, die ihren Lebensunterhalt nicht aus eigenem Einkommen, Vermögen oder anderen vorrangigen Leistungen (wie Wohngeld oder Arbeitslosengeld I) bestreiten können.
                             </p>
-                            <div class="grid md:grid-cols-3 gap-6 my-8 not-prose">
-                                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                                    <div class="text-blue-600 font-bold mb-2">SGB II (Bürgergeld)</div>
-                                    <p class="text-sm text-slate-600">Für erwerbsfähige Arbeitsuchende. Ziel: Schnelle Integration in den Arbeitsmarkt.</p>
-                                </div>
-                                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                                    <div class="text-emerald-600 font-bold mb-2">SGB XII (Alter/Erwerbsminderung)</div>
-                                    <p class="text-sm text-slate-600">Für Rentner und dauerhaft voll Erwerbsgeminderte.</p>
-                                </div>
-                                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                                    <div class="text-amber-600 font-bold mb-2">Wohngeld</div>
-                                    <p class="text-sm text-slate-600">Zuschuss zu Wohnkosten für Haushalte mit eigenem Einkommen (Vermeidung von SGB II/XII).</p>
-                                </div>
-                            </div>
+                            <p>
+                                Im Fokus stehen die **Würde des Einzelnen** und die **dauerhafte Integration in den Arbeitsmarkt** durch Qualifizierung und Weiterbildung, anstatt kurzfristiger Vermittlung in Aushilfsjobs ("Vermittlungsvorrang" wurde abgeschafft).
+                            </p>
                         </section>
 
-                        <!-- 2. Grundsicherung / Bürgergeld -->
-                        <section id="grundsicherung" class="scroll-mt-32">
-                            <h2>2. Grundsicherung für Arbeitsuchende (SGB II)</h2>
+                        <!-- 2. Regelsätze -->
+                        <section id="regelsatz" class="scroll-mt-32 border-t border-slate-100 pt-12">
+                            <h2>2. Die aktuellen Regelsätze (2026)</h2>
                             <p>
-                                Der Übergang zum "Grundsicherungsgeld" 2026 markiert einen Fokus auf Arbeitsmarktintegration und Mitwirkung. Anspruch haben erwerbsfähige Personen ab 15 Jahren, die ihren Lebensunterhalt nicht selbst decken können.
+                                Die Regelsätze decken den täglichen Bedarf an Ernährung, Kleidung, Körperpflege, Hausrat, Haushaltsenergie (ohne Heizung!) und persönlichen Bedürfnissen des täglichen Lebens sowie in vertretbarem Umfang auch Beziehungen zur Umwelt und eine Teilnahme am kulturellen Leben (sog. soziokulturelles Existenzminimum).
                             </p>
-
-                            <h3>2.2. Regelbedarfe 2026</h3>
-                            <p>Trotz rechnerisch niedrigerer Werte bleibt es aufgrund des Besitzschutzes bei einer "Nullrunde".</p>
                             
-                            <div class="overflow-x-auto my-6 not-prose">
-                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
-                                    <thead class="bg-slate-50">
+                            <div class="overflow-x-auto my-8 not-prose border border-slate-200">
+                                <table class="w-full text-left border-collapse bg-white text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
                                         <tr>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Stufe</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Personengruppe</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700 text-right">Betrag 2026</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Bedarfsgruppe</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Monatlicher Regelsatz</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Beschreibung</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="p-3 font-medium text-slate-500">Stufe 1</td><td class="p-3">Alleinstehende / Alleinerziehende</td><td class="p-3 font-bold text-right">563 €</td></tr>
-                                        <tr><td class="p-3 font-medium text-slate-500">Stufe 2</td><td class="p-3">Partner in Bedarfsgemeinschaft</td><td class="p-3 font-bold text-right" >506 €</td></tr>
-                                        <tr><td class="p-3 font-medium text-slate-500">Stufe 3</td><td class="p-3">Erwachsene bis 25 im Elternhaus</td><td class="p-3 font-bold text-right">451 €</td></tr>
-                                        <tr><td class="p-3 font-medium text-slate-500">Stufe 4</td><td class="p-3">Jugendliche (14-17 Jahre)</td><td class="p-3 font-bold text-right">471 €</td></tr>
-                                        <tr><td class="p-3 font-medium text-slate-500">Stufe 5</td><td class="p-3">Kinder (6-13 Jahre)</td><td class="p-3 font-bold text-right">390 €</td></tr>
-                                        <tr><td class="p-3 font-medium text-slate-500">Stufe 6</td><td class="p-3">Kinder (0-5 Jahre)</td><td class="p-3 font-bold text-right">357 €</td></tr>
+                                        <tr class="hover:bg-slate-50 relative group">
+                                            <td class="p-4 font-bold text-brand-navy">Alleinstehende / Alleinerziehende</td>
+                                            <td class="p-4 tabular-nums font-bold text-brand-gold text-lg">563 €</td>
+                                            <td class="p-4 text-slate-500 font-light">Regelbedarfsstufe 1</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-4 font-bold text-brand-navy">Paare (je Partner)</td>
+                                            <td class="p-4 tabular-nums font-bold text-brand-gold text-lg">506 €</td>
+                                            <td class="p-4 text-slate-500 font-light">Regelbedarfsstufe 2</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-4 font-bold text-brand-navy">Erwachsene im Haushalt (U25)</td>
+                                            <td class="p-4 tabular-nums font-bold text-brand-gold text-lg">451 €</td>
+                                            <td class="p-4 text-slate-500 font-light">Regelbedarfsstufe 3 (z.B. bei Eltern wohnend)</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-4 font-bold text-brand-navy">Jugendliche (14 - 17 Jahre)</td>
+                                            <td class="p-4 tabular-nums font-bold text-brand-gold text-lg">471 €</td>
+                                            <td class="p-4 text-slate-500 font-light">Regelbedarfsstufe 4</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-4 font-bold text-brand-navy">Kinder (6 - 13 Jahre)</td>
+                                            <td class="p-4 tabular-nums font-bold text-brand-gold text-lg">390 €</td>
+                                            <td class="p-4 text-slate-500 font-light">Regelbedarfsstufe 5</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-4 tabular-nums font-bold text-brand-gold text-lg">357 €</td>
+                                            <td class="p-4 text-slate-500 font-light">Regelbedarfsstufe 6</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <p class="text-sm text-slate-500 italic mt-2">Zusätzlich werden die angemessenen Kosten für Unterkunft und Heizung (KdU) übernommen.</p>
+                            
+                            <div class="bg-slate-50 border-l-4 border-brand-navy p-6 mt-6">
+                                <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wide mb-2 mt-0">Zusätzlich zum Regelsatz werden übernommen:</h4>
+                                <ul class="list-none space-y-2 p-0 m-0 text-sm text-slate-600">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-gold"></i><span>Angemessene Kosten der Unterkunft (Nettokaltmiete).</span></li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-gold"></i><span>Angemessene Heizkosten.</span></li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-gold"></i><span>Beiträge zur Kranken- und Pflegeversicherung.</span></li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-gold"></i><span>Mehrbedarfe (z.B. Schwangerschaft, Alleinerziehende, kostenaufwändige Ernährung).</span></li>
+                                </ul>
+                            </div>
 
-                            <h3>2.3. Die Reform 2026: Sanktionen & Vermögen</h3>
-                            <p>Die Regeln werden verschärft:</p>
-                            <ul class="marker:text-blue-500">
-                                <li><strong>Vermittlungsvorrang:</strong> Schnelle Arbeitsaufnahme hat Priorität vor langfristiger Qualifizierung.</li>
-                                <li><strong>Keine Karenzzeit beim Vermögen:</strong> Ab Tag 1 gelten niedrigere Freibeträge (z.B. 15.000 € für eine 35-jährige Person).</li>
+                        <!-- 3. Voraussetzungen -->
+                        <section id="voraussetzungen" class="scroll-mt-32 border-t border-slate-100 pt-12">
+                            <h2>3. Voraussetzungen für den Bezug</h2>
+                            <p>Einen Anspruch auf Bürgergeld haben Personen, die:</p>
+                            <ul class="marker:text-brand-gold">
+                                <li><strong>Erwerbsfähig</strong> sind (mindestens 3 Stunden täglich arbeiten können).</li>
+                                <li><strong>Hilfebedürftig</strong> sind (Einkommen und Vermögen reichen nicht aus).</li>
+                                <li>Ihren <strong>gewöhnlichen Aufenthalt</strong> in Deutschland haben.</li>
+                                <li>Mindestens 15 Jahre alt sind und die Altersgrenze für die Rente noch nicht erreicht haben.</li>
                             </ul>
 
-                            <h4 class="text-base font-bold mt-6 mb-2 text-slate-900">Leistungsminderungen (Sanktionen)</h4>
-                            <div class="overflow-x-auto mb-6 not-prose">
-                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
-                                    <thead class="bg-slate-50">
-                                        <tr>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Verfehleung</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Minderung</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Dauer</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="p-3">1. Meldeversäumnis</td><td class="p-3 text-red-600 font-medium">10 %</td><td class="p-3">1 Monat</td></tr>
-                                        <tr><td class="p-3">2. Meldeversäumnis</td><td class="p-3 text-red-600 font-medium">30 %</td><td class="p-3">1 Monat</td></tr>
-                                        <tr><td class="p-3">Pflichtverletzung (z.B. Arbeitsablehnung)</td><td class="p-3 text-red-600 font-medium">30 %</td><td class="p-3">3 Monate</td></tr>
-                                        <tr class="bg-red-50/50"><td class="p-3 font-medium">Totale Verweigerung</td><td class="p-3 text-red-700 font-bold">100 % (Entzug)</td><td class="p-3">1-2 Monate</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <h3>2.4. Zuverdienst</h3>
+                             <h3>Schonvermögen & Karenzzeit</h3>
                             <p>
-                                Arbeit lohnt sich: Die ersten 100 € sind voll anrechnungsfrei. Darüber hinaus gelten Freibeträge (20% bis 520€, 30% bis 1000€).
+                                Im ersten Jahr des Bezugs (Karenzzeit) gilt ein sehr hohes Schonvermögen, damit Erspartes nicht sofort aufgebraucht werden muss. Die angemessenen Kosten der Unterkunft werden in diesem Zeitraum ebenfalls in tatsächlicher Höhe übernommen (außer Heizkosten, diese müssen immer "angemessen" sein).
                             </p>
-                        </section>
-
-                        <!-- 3. Wohngeld Plus -->
-                        <section id="wohngeld-plus" class="scroll-mt-32">
-                            <h2>3. Wohngeld-Plus: Der vorrangige Zuschuss</h2>
-                            <p>
-                                <strong>Wichtig:</strong> Sie müssen Wohngeld beantragen, wenn dadurch die Hilfebedürftigkeit (SGB II/XII) vermieden wird.
-                            </p>
-                            <p>Für wen? Rentner, Geringverdiener, Familien. Vermögensgrenzen sind großzügig (60.000 € für die erste Person).</p>
-                             <div class="my-4 not-prose">
-                                <a href="/wohngeld" class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 transition-colors">
-                                    Zum detaillierten Wohngeld-Leitfaden wechseln
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                </a>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose my-8">
+                                <div class="bg-white border border-slate-200 p-6 flex flex-col gap-1 hover:border-brand-gold transition-colors">
+                                    <span class="text-xs uppercase tracking-widest font-bold text-brand-navy mb-2">Karenzzeit (Jahr 1)</span>
+                                    <span class="text-3xl font-serif text-brand-navy">40.000 €</span>
+                                    <span class="text-slate-500 font-light text-sm">für den ersten Antragsteller</span>
+                                     <span class="text-xl font-serif text-brand-navy mt-2">+ 15.000 €</span>
+                                    <span class="text-slate-500 font-light text-sm">für jede weitere Person</span>
+                                </div>
+                                <div class="bg-white border border-slate-200 p-6 flex flex-col gap-1 hover:border-brand-gold transition-colors">
+                                    <span class="text-xs uppercase tracking-widest font-bold text-brand-navy mb-2">Nach Karenzzeit</span>
+                                    <span class="text-3xl font-serif text-brand-navy">15.000 €</span>
+                                    <span class="text-slate-500 font-light text-sm">pro Person im Haushalt</span>
+                                </div>
                             </div>
                         </section>
 
-                        <!-- 4. SGB XII -->
-                        <section id="sgb-xii" class="scroll-mt-32">
-                            <h2>4. Grundsicherung im Alter (SGB XII)</h2>
+                        <!-- 4. Sanktionen -->
+                        <section id="sanktionen" class="scroll-mt-32 border-t border-slate-100 pt-12">
+                            <h2>4. Mitwirkungspflichten & Sanktionen</h2>
                             <p>
-                                Für Senioren und voll Erwerbsgeminderte.
-                                Unterschiede zum Bürgergeld:
+                                Das Prinzip "Fördern und Fordern" gilt weiterhin. Wer Leistungen bezieht, muss aktiv an der Verbesserung seiner Situation mitwirken (Bewerbungen schreiben, Termine wahrnehmen, Maßnahmen besuchen).
                             </p>
-                            <ul class="marker:text-emerald-500">
-                                <li><strong>Kein Rückgriff auf Kinder:</strong> Erst ab 100.000 € Jahreseinkommen der Kinder.</li>
-                                <li><strong>Vermögen:</strong> Freibetrag liegt bei 10.000 € pro Person.</li>
+                            <p>Bei Pflichtverletzungen (z.B. Ablehnung eines zumutbaren Jobangebots) können Leistungen gekürzt werden:</p>
+                             <ul class="marker:text-brand-gold">
+                                <li><strong>1. Pflichtverletzung:</strong> 10 % Minderung des Regelsatzes für 1 Monat.</li>
+                                <li><strong>2. Pflichtverletzung:</strong> 20 % Minderung für 2 Monate.</li>
+                                <li><strong>3. Pflichtverletzung:</strong> 30 % Minderung für 3 Monate.</li>
                             </ul>
-                            <div class="mt-4 not-prose">
-                                <a href="/buergergeld-grundsicherung" class="inline-flex items-center text-sm font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-2 rounded-lg transition-colors">
-                                    Mehr zur Grundsicherung im Alter erfahren
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                </a>
-                            </div>
-                        </section>
-
-                        <!-- 5. Vorrangprinzip -->
-                        <section id="vorrang" class="scroll-mt-32">
-                            <h2>5. Das Prinzip des Vorrangs</h2>
                             <p>
-                                Bevor Bürgergeld gezahlt wird, müssen andere Quellen ausgeschöpft sein:
-                                Arbeitslosengeld I, Renten, Krankengeld, Kinderzuschlag und Wohngeld.
-                                <br/>
-                                <em>Ausnahme:</em> Wohngeld/Kinderzuschlag muss nur beantragt werden, wenn dadurch für mindestens 3 Monate keine Hilfebedürftigkeit mehr besteht.
+                                <strong>Wichtig:</strong> Die Kosten für Unterkunft und Heizung werden <strong>nicht</strong> gekürzt. Eine Totalsanktion (kompletter Wegfall der Leistungen) ist verfassungsrechtlich stark eingeschränkt und nur in absoluten Extremfällen denkbar.
                             </p>
                         </section>
 
-                        <!-- 6. Antrag & Jobcenter Search -->
-                        <section id="antrag" class="scroll-mt-32">
-                            <h2>6. Antrag und Unterlagen</h2>
-                            <div class="overflow-x-auto my-6 not-prose">
-                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
-                                    <thead class="bg-slate-50">
-                                        <tr>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Leistungsart</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Wesentliche Nachweise</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="p-3 font-medium">Bürgergeld</td><td class="p-3">Ausweis, Mietvertrag, Heizkosten, Kontoauszüge (3 Monate), Lohnbescheide.</td></tr>
-                                        <tr><td class="p-3 font-medium">Wohngeld</td><td class="p-3">Mietvertrag, Verdienstbescheinigung, Mietzahlungsnachweis.</td></tr>
-                                        <tr><td class="p-3 font-medium">Grundsicherung (SGB XII)</td><td class="p-3">Rentenbescheide, Vermögensnachweise, Mietvertrag.</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
 
-                        <!-- Jobcenter Finder Tool -->
-                        <section id="jobcenter-finden" class="scroll-mt-32 full-width my-16 bg-blue-50/50 -mx-4 sm:-mx-6 lg:-mx-0 px-4 sm:px-6 lg:px-8 py-12 lg:rounded-3xl border border-blue-100">
-                            <div class="max-w-2xl mx-auto text-center mb-8">
-                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">Behördenfinder</span>
-                                <h2 class="text-3xl font-bold text-slate-900 mb-4 !mt-0">Zuständiges Jobcenter finden</h2>
-                                <p class="text-slate-600">Finden Sie direkt die Adresse und Kontaktdaten Ihres zuständigen Jobcenters sowie die geltenden Mietobergrenzen.</p>
-                            </div>
 
-                             <div class="max-w-xl mx-auto relative z-20 group">
-                                  <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-blue-200 opacity-70 blur transition duration-500 rounded-xl"></div>
-                                  <div class="relative">
-                                    <input 
-                                        type="text" 
-                                        id="hub-search" 
-                                        placeholder="Welche Stadt suchen Sie?" 
-                                        class="relative w-full bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl px-5 py-4 font-medium text-lg outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
-                                        autocomplete="off"
-                                    >
-                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                    </div>
-                                  </div>
-                                  
-                                  <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl max-h-80 overflow-y-auto z-50 p-2 scrollbar-thin scrollbar-thumb-slate-300"></div>
-                             </div>
-
-                              <div class="mt-6 text-center">
-                                 <div class="inline-flex gap-2 flex-wrap justify-center">
-                                    <a href="/berlin/buergergeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Berlin</a>
-                                    <a href="/koeln/buergergeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Köln</a>
-                                    <a href="/frankfurt-am-main/buergergeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Frankfurt</a>
-                                 </div>
-                             </div>
-                        </section>
-
-                        <!-- Lohnabstand -->
-                        <section id="lohnabstand" class="scroll-mt-32">
-                            <h2>8. Arbeit lohnt sich: Das Lohnabstandsgebot</h2>
+                        <!-- 6. Vergleich -->
+                        <section id="vergleich" class="scroll-mt-32 border-t border-slate-100 pt-12">
+                            <h2>5. Vergleich: Bürgergeld oder Wohngeld?</h2>
                             <p>
-                                Durch Mindestlohn, Wohngeld und Freibeträge ist Arbeit finanziell attraktiver als reiner Leistungsbezug.
+                                Viele Menschen stellen sich die Frage: Was lohnt sich mehr? 
+                                Grundsätzlich gilt der Grundsatz: <strong>Wohngeld vor Bürgergeld</strong>. Das bedeutet, wenn Sie durch Wohngeld (und ggf. Kinderzuschlag) genug Geld haben, um Ihren Bedarf zu decken, sind Sie verpflichtet, Wohngeld zu beantragen.
                             </p>
-                            <div class="overflow-x-auto my-6 not-prose">
-                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
-                                    <thead class="bg-slate-50">
-                                        <tr>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Haushalt</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700 text-right">Differenz (Lohnabstand)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="p-3 font-medium">Single (Vollzeit Mindestlohn)</td><td class="p-3 text-right font-medium text-emerald-600">+ 647 €</td></tr>
-                                        <tr><td class="p-3 font-medium">Paar, 2 Kinder (1 Vollzeit)</td><td class="p-3 text-right font-medium text-emerald-600">+ 801 €</td></tr>
-                                        <tr><td class="p-3 font-medium">Alleinerziehend, 1 Kind (Teilzeit)</td><td class="p-3 text-right font-medium text-emerald-600">+ 665 €</td></tr>
-                                    </tbody>
-                                </table>
+                            <div class="grid md:grid-cols-2 gap-8 my-8 not-prose">
+                                <div class="bg-white p-6 border border-slate-200 hover:border-brand-navy transition-colors">
+                                    <h3 class="font-serif font-bold text-xl text-brand-navy mt-0 mb-4">Bürgergeld</h3>
+                                    <ul class="space-y-3 text-sm text-slate-600">
+                                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Sichert das gesamte Existenzminimum.</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Übernahme tatsächlicher Heizkosten.</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>GEZ-Befreiung inklusive.</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400 mt-0.5 shrink-0"></i><span>Strenge Vermögensprüfung (nach Karenzzeit).</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400 mt-0.5 shrink-0"></i><span>Verpflichtung zur Stellensuche.</span></li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-6 border border-slate-200 hover:border-brand-navy transition-colors">
+                                    <h3 class="font-serif font-bold text-xl text-brand-navy mt-0 mb-4">Wohngeld</h3>
+                                    <ul class="space-y-3 text-sm text-slate-600">
+                                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Nur Mietzuschuss (Rest muss selbst erwirtschaftet werden).</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Sehr hohe Vermögensfreibeträge (60.000€).</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Keine Verpflichtung zur Stellensuche / keine Maßnahmen.</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i><span>Keine Stigmatisierung.</span></li>
+                                        <li class="flex items-start gap-2"><i data-lucide="x" class="w-4 h-4 text-red-400 mt-0.5 shrink-0"></i><span>Keine automatische GEZ-Befreiung (nur auf Antrag).</span></li>
+                                    </ul>
+                                </div>
                             </div>
                         </section>
 
@@ -291,48 +221,5 @@ const canonicalUrl = "https://sozialer-navigator.de/buergergeld";
             </div>
         </div>
 
-        <script is:inline define:vars={{ cities }}>
-            const searchInput = document.getElementById('hub-search');
-            const resultsContainer = document.getElementById('search-results');
-
-            if (searchInput && resultsContainer) {
-                searchInput.addEventListener('input', (e) => {
-                    const val = e.target.value.toLowerCase();
-                    if (val.length < 2) {
-                        resultsContainer.classList.add('hidden');
-                        return;
-                    }
-
-                    const filtered = cities.filter(c => c.stadt.toLowerCase().includes(val)).slice(0, 8);
-                    
-                    if (filtered.length > 0) {
-                        resultsContainer.innerHTML = filtered.map(c => `
-                            <a href="/${c.slug}/buergergeld" class="block px-4 py-3 hover:bg-slate-50 transition-colors flex justify-between items-center group rounded-lg mb-1">
-                                <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">${c.stadt}</span>
-                                <span class="text-xs text-slate-500 group-hover:text-slate-700 uppercase tracking-wide border border-slate-200 px-2 py-1 rounded">Mietstufe ${c.mietstufe}</span>
-                            </a>
-                        `).join('');
-                        resultsContainer.classList.remove('hidden');
-                    } else {
-                        resultsContainer.innerHTML = `<div class="px-4 py-3 text-sm text-slate-500 italic">Keine Ergebnisse gefunden</div>`;
-                        resultsContainer.classList.remove('hidden');
-                    }
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
-                        resultsContainer.classList.add('hidden');
-                    }
-                });
-
-                // Keyboard navigation
-                searchInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        resultsContainer.classList.add('hidden');
-                        searchInput.blur();
-                    }
-                });
-            }
-        </script>
     </main>
 </Layout>

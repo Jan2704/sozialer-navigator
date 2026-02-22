@@ -2,11 +2,16 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 
+import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   // ERSETZE DIES DURCH DEINE ECHTE DOMAIN
   site: 'https://www.sozialer-navigator.de',
+  // output: 'hybrid', // DEPRECATED: Use 'static' or 'server'
+  adapter: vercel(),
+  output: 'server',
+  trailingSlash: 'always',
 
   integrations: [sitemap({
     serialize(item) {

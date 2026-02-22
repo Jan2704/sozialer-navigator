@@ -1,0 +1,99 @@
+---
+import { FileText, Lock, Download, CheckCircle2 } from 'lucide-react';
+---
+
+<section id="lead-magnet" class="w-full bg-[#0a1628] py-24 relative overflow-hidden text-white">
+    
+    <!-- Background Effects -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#c5a67c]/10 rounded-full blur-[120px] mix-blend-screen animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#0a1628] rounded-full blur-[100px]"></div>
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c5a67c_1px,transparent_1px)] [background-size:20px_20px]"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+            
+            <!-- CONTENT SIDE -->
+            <div class="lg:w-1/2 space-y-8">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-[#c5a67c]/10 border border-[#c5a67c]/30 text-[#c5a67c] text-xs font-bold uppercase tracking-[0.2em]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#c5a67c] animate-pulse"></span>
+                    Kostenloses PDF-Paket
+                </div>
+                
+                <h2 class="text-4xl md:text-5xl font-serif font-bold leading-tight text-white">
+                    Sichern Sie sich Ihr Recht. <br>
+                    <span class="text-[#c5a67c] italic">Schriftlich & rechtssicher.</span>
+                </h2>
+                
+                <p class="text-lg text-slate-300 leading-relaxed font-light text-balance">
+                    Behördenfehler vermeiden, Fristen wahren und Ansprüche sichern. Mit unserem professionellen Antragspaket sind Sie auf der sicheren Seite.
+                </p>
+
+                <ul class="space-y-5 text-slate-300 font-medium">
+                    <li class="flex items-start gap-4">
+                        <CheckCircle2 class="text-[#c5a67c] w-6 h-6 flex-shrink-0 mt-0.5" />
+                        <span>
+                            <strong class="text-white block font-serif">Vollständige Checkliste</strong>
+                            <span class="text-sm font-light text-slate-400">Alle notwendigen Unterlagen auf einen Blick.</span>
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <CheckCircle2 class="text-[#c5a67c] w-6 h-6 flex-shrink-0 mt-0.5" />
+                        <span>
+                            <strong class="text-white block font-serif">Rechtssicherer Antragstext</strong>
+                            <span class="text-sm font-light text-slate-400">Vorformuliert zur Fristwahrung (§ 28 SGB X).</span>
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <CheckCircle2 class="text-[#c5a67c] w-6 h-6 flex-shrink-0 mt-0.5" />
+                        <span>
+                            <strong class="text-white block font-serif">100% Kostenlos</strong>
+                            <span class="text-sm font-light text-slate-400">Sofortiger Download als PDF.</span>
+                        </span>
+                    </li>
+                </ul>
+
+            </div>
+
+            <!-- CARD / FORM SIDE -->
+            <div class="lg:w-1/2 w-full">
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-sm p-8 md:p-12 shadow-2xl relative group hover:border-[#c5a67c]/30 transition-all duration-500">
+                    
+                    <!-- Decorative Lines -->
+                    <div class="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-[#c5a67c]/20 rounded-tr-sm"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 border-b-2 border-l-2 border-[#c5a67c]/20 rounded-bl-sm"></div>
+
+                    <h3 class="text-2xl font-serif text-white mb-2">Paket anfordern</h3>
+                    <p class="text-sm text-slate-400 mb-8 font-light">Senden Sie mir das PDF-Paket jetzt kostenlos per E-Mail.</p>
+
+                    <form class="space-y-5" onsubmit="event.preventDefault(); window.openLeadModal('pdf-checklist');">
+                        <div>
+                            <label for="email-magnet" class="sr-only">E-Mail Adresse</label>
+                            <input 
+                                type="email" 
+                                id="email-magnet" 
+                                placeholder="Ihre E-Mail Adresse" 
+                                required
+                                class="w-full bg-[#0a1628]/50 border border-slate-700 rounded-sm px-5 py-4 text-white placeholder-slate-500 focus:outline-none focus:border-[#c5a67c] focus:ring-1 focus:ring-[#c5a67c] transition-all font-light"
+                            />
+                        </div>
+                        
+                        <button type="submit" class="w-full group relative overflow-hidden bg-[#c5a67c] hover:bg-[#b08d55] text-[#0a1628] text-sm font-bold uppercase tracking-widest py-4 rounded-sm transition-all shadow-lg hover:shadow-[#c5a67c]/20">
+                            <span class="relative z-10 flex items-center justify-center gap-3">
+                                Jetzt kostenlos anfordern <Download class="w-5 h-5 group-hover:translate-y-1 transition-transform" />
+                            </span>
+                        </button>
+
+                        <div class="flex items-center justify-center gap-2 text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-6 border-t border-white/5 pt-4">
+                            <Lock class="w-3 h-3 text-[#c5a67c]" />
+                            <span class="hover:text-slate-300 transition-colors">Sichere SSL-Übertragung</span> • <span class="text-slate-600">Kein Spam</span>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

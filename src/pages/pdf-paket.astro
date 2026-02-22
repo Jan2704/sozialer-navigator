@@ -1,0 +1,461 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// This page is designed to be printed as a PDF
+---
+
+<Layout title="Sozialer Navigator - PDF Paket" hideNav={true}>
+    <div class="bg-[#f0f2f5] min-h-screen py-12 print:py-0 print:bg-white">
+        
+        <!-- Print Button / Actions (Hidden in Print) -->
+        <div class="max-w-[210mm] mx-auto mb-8 px-6 flex flex-col md:flex-row justify-between items-center gap-6 print:hidden">
+            <div>
+                <a href="/" class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-[#c5a67c] mb-3 inline-block transition-colors">&larr; Zurück zur Startseite</a>
+                <h1 class="text-3xl font-serif text-[#0a1628]">Ihr PDF-Paket</h1>
+                <p class="text-slate-600 font-light mt-1">Drucken Sie diese Seite aus oder speichern Sie sie als PDF.</p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 items-end w-full md:w-auto">
+                <div class="w-full sm:w-auto">
+                    <label for="email-input" class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Per E-Mail senden</label>
+                    <div class="flex gap-2">
+                        <input type="email" id="email-input" placeholder="ihre@email.de" class="border border-slate-300 rounded-sm px-3 py-2 text-sm w-full sm:w-64 shadow-sm focus:border-[#c5a67c] focus:ring-1 focus:ring-[#c5a67c] outline-none" />
+                        <button id="email-btn" class="bg-[#0a1628] hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-widest py-2 px-4 rounded-sm shadow-md flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span id="email-btn-text">Senden</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p id="email-status" class="text-xs mt-1 h-4"></p>
+                </div>
+
+                <div class="hidden sm:block h-10 border-l border-slate-300 mx-2"></div>
+
+                <button onclick="window.print()" class="w-full sm:w-auto bg-[#c5a67c] hover:bg-[#b08d55] text-[#0a1628] text-sm font-bold uppercase tracking-widest py-3 px-6 rounded-sm shadow-lg flex items-center justify-center gap-2 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    Drucken / PDF
+                </button>
+            </div>
+            
+            <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+            <script is:inline>
+                const emailBtn = document.getElementById('email-btn');
+                const emailInput = document.getElementById('email-input');
+                const emailStatus = document.getElementById('email-status');
+                const btnText = document.getElementById('email-btn-text');
+
+                emailBtn.addEventListener('click', async () => {
+                    const email = emailInput.value;
+                    if (!email || !email.includes('@')) {
+                        emailStatus.textContent = 'Bitte gültige E-Mail eingeben.';
+                        emailStatus.className = 'text-xs mt-1 h-4 text-red-500';
+                        return;
+                    }
+
+                    // UI Loading State
+                    emailBtn.disabled = true;
+                    btnText.textContent = '...';
+                    emailStatus.textContent = 'Bitte warten...';
+                    emailStatus.className = 'text-xs mt-1 h-4 text-slate-500';
+
+                    try {
+                        const element = document.getElementById('print-area');
+                        
+                        // Generate PDF Blob
+                        const opt = {
+                            margin: [0, 0, 0, 0], // mm - we handle margins in CSS
+                            filename: 'Sozialer-Navigator-Paket.pdf',
+                            image: { type: 'jpeg', quality: 0.98 },
+                            html2canvas: { scale: 2, useCORS: true },
+                            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                        };
+
+                        btnText.textContent = 'PDF...';
+                        
+                        // We use html2pdf to get a blob
+                        const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+                        console.log('PDF Blob Size:', pdfBlob.size);
+
+                        if (pdfBlob.size > 4 * 1024 * 1024) {
+                             if(!confirm(`Das PDF ist recht groß (${(pdfBlob.size/1024/1024).toFixed(2)} MB). Das Senden könnte dauern oder scheitern. Fortfahren?`)) {
+                                  btnText.textContent = 'Senden';
+                                  emailBtn.disabled = false;
+                                  return;
+                             }
+                        }
+
+                        btnText.textContent = 'Sende...';
+
+                        // Create FormData
+                        const formData = new FormData();
+                        formData.append('email', email);
+                        formData.append('pdf', pdfBlob, 'download.pdf');
+
+                        // Send to Backend
+                        const response = await fetch('/api/send-pdf/', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        console.log('Response Status:', response.status);
+
+                        let result;
+                        let text = '';
+                        try {
+                            text = await response.text();
+                            try {
+                                result = JSON.parse(text);
+                            } catch (e) {
+                                console.error('Server returned non-JSON:', text);
+                                if (response.status === 413) {
+                                     throw new Error(`Fehler 413: Datei zu groß (${(pdfBlob.size/1024/1024).toFixed(2)} MB).`);
+                                }
+                                throw new Error(`Server Fehler (${response.status} ${response.statusText}): ${text.substring(0, 50)}...`);
+                            }
+                        } catch (e) {
+                             if (e.message && e.message.includes('Server Fehler')) throw e;
+                             throw new Error(`Netzwerkfehler beim Lesen der Antwort (${response.status} ${response.statusText}).`);
+                        }
+
+                        if (response.ok) {
+                            emailStatus.textContent = 'Erfolgreich versendet!';
+                            emailStatus.className = 'text-xs mt-1 h-4 text-emerald-600 font-bold';
+                            btnText.textContent = 'Gesendet';
+                            emailInput.value = '';
+                        } else {
+                            throw new Error(result.error || `Fehler: ${result ? JSON.stringify(result) : text}`);
+                        }
+
+                    } catch (error) {
+                        console.error(error);
+                        emailStatus.textContent = 'Fehler: ' + error.message;
+                        emailStatus.className = 'text-xs mt-1 h-4 text-red-500';
+                        btnText.textContent = 'Senden';
+                        emailBtn.disabled = false;
+                    } finally {
+                        if (!emailBtn.disabled) return;
+                        setTimeout(() => {
+                            emailBtn.disabled = false;
+                            btnText.textContent = 'Senden';
+                        }, 3000);
+                    }
+                });
+            </script>
+        </div>
+
+        <!-- CONTENT CONTAINER -->
+        <div class="max-w-[210mm] mx-auto bg-[#ffffff] shadow-xl print:shadow-none print:w-full print:max-w-none px-16 py-16 print:p-0 text-[#0f172a]" id="print-area">
+            
+            <!-- HEADER (Logo & Brand) - Only visible on Page 1 naturally as it's at the top of the flow -->
+            <div class="border-b-2 border-[#0a1628] pb-6 mb-12 flex justify-between items-end">
+                <div>
+                    <div class="text-3xl font-serif font-bold text-[#0a1628] flex items-center gap-3">
+                        <span class="text-4xl text-[#c5a67c]">§</span> Sozialer Navigator
+                    </div>
+                    <p class="text-[10px] text-[#0a1628] mt-2 uppercase tracking-[0.2em] font-semibold">Recht statt Almosen</p>
+                </div>
+                <div class="text-right text-[10px] text-slate-400 uppercase tracking-widest">
+                    Stand: 2026<br>
+                    www.sozialer-navigator.de
+                </div>
+            </div>
+
+            <!-- PAGE 1: INTRO -->
+            <section class="mb-16 print:break-after-page min-h-[900px] flex flex-col">
+                <h1 class="text-5xl font-serif text-[#0a1628] mb-8 leading-tight">
+                    Ihr Wegweiser zum Recht. <br>
+                    <span class="text-[#c5a67c] italic">Nicht zum Bittsteller werden.</span>
+                </h1>
+                
+                <div class="bg-slate-50 p-10 border-l-4 border-[#c5a67c] mb-12">
+                    <p class="text-xl text-[#334155] font-serif italic leading-relaxed">
+                        "Der Sozialstaat ist kein Almosen, sondern eine Versicherung, in die wir alle einzahlen. 
+                        Es ist Ihr gutes Recht, diese Leistung in Anspruch zu nehmen. 
+                        Dieses Paket sichert Ihre Ansprüche ab."
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 mt-8">
+                    <div class="p-8 bg-white border border-slate-200 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-[#c5a67c]/10 rounded-bl-full"></div>
+                        <h3 class="font-serif text-xl mb-3 text-[#0a1628] flex items-center gap-3">
+                            <span class="bg-[#0a1628] text-[#c5a67c] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold font-sans">1</span>
+                            Unterlagen sammeln
+                        </h3>
+                        <p class="text-sm text-slate-500 font-light leading-relaxed">Nutzen Sie die Checkliste auf der folgenden Seite, um alle Nachweise effizient vorzubereiten.</p>
+                    </div>
+                    <div class="p-8 bg-white border border-slate-200 shadow-sm relative overflow-hidden">
+                         <div class="absolute top-0 right-0 w-16 h-16 bg-[#0a1628]/5 rounded-bl-full"></div>
+                        <h3 class="font-serif text-xl mb-3 text-[#0a1628] flex items-center gap-3">
+                            <span class="bg-[#0a1628] text-[#c5a67c] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold font-sans">2</span>
+                            Antrag stellen
+                        </h3>
+                        <p class="text-sm text-slate-500 font-light leading-relaxed">Verwenden Sie das rechtssichere Formular zur Fristwahrung. Einfach ausfüllen und absenden.</p>
+                    </div>
+                </div>
+
+                <div class="mt-auto pt-12 border-t border-slate-100 text-center">
+                    <p class="text-xs text-slate-400 uppercase tracking-widest">Ein Service vom Sozialen Navigator</p>
+                </div>
+            </section>
+
+            <!-- PAGE 2: CHECKLIST -->
+            <section class="mb-16 print:break-after-page min-h-[1000px]">
+                 <h2 class="text-2xl font-serif text-[#0a1628] mb-8 border-b border-[#c5a67c]/30 pb-4">
+                    1. Die 10-Minuten-Checkliste
+                </h2>
+                <p class="mb-10 text-slate-600 font-light">Bitte fügen Sie Kopien dieser Dokumente bei. Haken Sie ab, was vorhanden ist.</p>
+
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- A -->
+                    <div class="bg-slate-50 p-6 border border-slate-200">
+                        <h3 class="font-bold text-[#0a1628] mb-4 uppercase text-xs tracking-[0.1em] border-l-2 border-[#c5a67c] pl-3">A. Persönliches</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-4">
+                                <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                <span class="text-slate-700 text-sm">Personalausweis oder Reisepass (Kopie)</span>
+                            </li>
+                            <li class="flex items-center gap-4">
+                                <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                <span class="text-slate-700 text-sm">Meldebescheinigung (falls Adresse nicht im Ausweis)</span>
+                            </li>
+                            <li class="flex items-center gap-4">
+                                <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                <span class="text-slate-700 text-sm">Krankenversicherungskarte / Mitgliedsbescheinigung</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                     <!-- B -->
+                     <div class="bg-slate-50 p-6 border border-slate-200">
+                        <h3 class="font-bold text-[#0a1628] mb-4 uppercase text-xs tracking-[0.1em] border-l-2 border-[#c5a67c] pl-3">B. Einkommen (letzte 3-6 Monate)</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-4">
+                                <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                <span class="text-slate-700 text-sm">Lohnabrechnungen / Gehaltsnachweise</span>
+                            </li>
+                            <li class="flex items-center gap-4">
+                                <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                <span class="text-slate-700 text-sm">Rentenbescheide / Elterngeld / Kindergeld Bescheide</span>
+                            </li>
+                             <li class="flex items-center gap-4">
+                                <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                <span class="text-slate-700 text-sm">Unterhaltszahlungen (erhaltene oder geleistete)</span>
+                            </li>
+                             <li class="flex items-center gap-4">
+                                <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                <span class="text-slate-700 text-sm">Ggf. Arbeitslosengeld I Bescheid</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- C & D -->
+                    <div class="grid grid-cols-2 gap-6">
+                         <div class="bg-slate-50 p-6 border border-slate-200">
+                            <h3 class="font-bold text-[#0a1628] mb-4 uppercase text-xs tracking-[0.1em] border-l-2 border-[#c5a67c] pl-3">C. Vermögen</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-4">
+                                    <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                    <span class="text-slate-700 text-sm">Kontoauszüge (letzte 3 Mon.)</span>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                    <span class="text-slate-700 text-sm">Sparbücher / Bausparer</span>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                    <span class="text-slate-700 text-sm">KFZ-Schein (Fahrzeug)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 p-6 border border-slate-200">
+                            <h3 class="font-bold text-[#0a1628] mb-4 uppercase text-xs tracking-[0.1em] border-l-2 border-[#c5a67c] pl-3">D. Wohnkosten</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-4">
+                                    <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                    <span class="text-slate-700 text-sm">Aktueller Mietvertrag</span>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                    <span class="text-slate-700 text-sm">Heiz-/Nebenkosten</span>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <div class="w-5 h-5 border border-slate-300 bg-white flex-shrink-0"></div>
+                                    <span class="text-slate-700 text-sm">Letzte Betriebskostenabr.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- PAGE 3: APPLICATION -->
+             <section class="section-application min-h-[1000px] relative">
+                <h2 class="text-2xl font-serif text-[#0a1628] mb-4 border-b border-[#c5a67c]/30 pb-4">
+                   2. Der "Rechtssichere" formlose Antrag
+               </h2>
+               <div class="mb-10 p-5 bg-[#fffbeb] text-[#92400e] text-sm border-l-4 border-[#f59e0b] font-light">
+                 <strong>Wichtig:</strong> Dieser Antrag sichert Ihnen das Geld rückwirkend zum 1. des Monats. Senden Sie ihn per <strong>Einschreiben Einwurf</strong>, <strong>Fax mit Sendebericht</strong> oder <strong>E-Mail (vorab mit Lesebestätigung)</strong>.
+               </div>
+
+               <!-- FORM TEMPLATE -->
+               <div class="font-serif text-sm bg-white p-12 border border-slate-200 text-[#0f172a] leading-relaxed relative shadow-xl print:shadow-none print:border-none">
+                    <!-- Cut lines -->
+                    <div class="absolute -left-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-1 print:hidden opacity-30">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+                        <span class="text-[10px] text-slate-900 rotate-[-90deg] whitespace-nowrap mt-4 tracking-widest uppercase">Hier abtrennen</span>
+                    </div>
+
+                    <div class="text-right mb-12">
+                        <p class="text-xs text-slate-400">Eingangsstempel der Behörde</p>
+                        <div class="w-32 h-16 border border-slate-200 ml-auto mt-1"></div>
+                    </div>
+
+                    <p class="mb-8 font-bold text-lg">
+                        Betreff: Formloser Antrag auf Sozialleistungen zur Fristwahrung
+                    </p>
+
+                    <p class="mb-6">Sehr geehrte Damen und Herren,</p>
+
+                    <p class="mb-6">hiermit beantrage ich zur Fristwahrung Leistungen für mich und meine Bedarfsgemeinschaft.</p>
+
+                    <p class="mb-4 font-bold border-b border-slate-100 pb-2">Ich beantrage: <span class="font-normal text-slate-500 text-xs ml-2">(Bitte Zutreffendes ankreuzen)</span></p>
+
+                    <div class="pl-4 mb-10 space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-5 h-5 border pdf-border-navy flex-shrink-0 mt-1 flex items-center justify-center cursor-pointer select-none hover:bg-slate-50" onclick="this.querySelector('div').classList.toggle('hidden')">
+                                <div class="w-3 h-3 pdf-bg-navy hidden"></div>
+                            </div>
+                            <div>
+                                <strong class="block pdf-text-navy">Bürgergeld (SGB II)</strong>
+                                <span class="pdf-text-slate-500 block text-xs mt-1">Ich kann meinen Lebensunterhalt derzeit nicht aus eigenen Mitteln bestreiten.</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                             <div class="w-5 h-5 border pdf-border-navy flex-shrink-0 mt-1 flex items-center justify-center cursor-pointer select-none hover:bg-slate-50" onclick="this.querySelector('div').classList.toggle('hidden')">
+                                <div class="w-3 h-3 pdf-bg-navy hidden"></div>
+                            </div>
+                            <div>
+                                <strong class="block pdf-text-navy">Wohngeld & Kinderzuschlag</strong>
+                                <span class="pdf-text-slate-500 block text-xs mt-1">Ich habe eigenes Einkommen, das jedoch nicht ganz für Miete/Kinder reicht.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="mb-8 text-justify pdf-text-slate-700 leading-7">
+                        Sollte sich bei der Prüfung herausstellen, dass ein Anspruch auf die jeweils andere (vorrangige oder nachrangige) Leistung besteht, bitte ich um Weiterleitung an die zuständige Stelle und Wertung dieses Antrags ab dem heutigen Tag gemäß § 28 SGB X.
+                    </p>
+
+                    <p class="mb-12 font-bold pdf-bg-slate-50 p-4 border-l-2 pdf-border-navy">Bitte bestätigen Sie mir den Eingang dieses Schreibens schriftlich.</p>
+
+                    <p class="mb-24">Mit freundlichen Grüßen,</p>
+
+                    <div class="flex justify-between items-end">
+                        <div class="text-center">
+                            <div class="border-b pdf-border-navy w-56 mb-2"></div>
+                            <p class="text-[10px] pdf-text-slate-400 uppercase tracking-widest">(Unterschrift)</p>
+                        </div>
+
+                        <div class="text-right">
+                             <div class="flex gap-2 items-end justify-end">
+                                <span class="pdf-text-navy mb-1 text-xs">, den</span>
+                                <div class="border-b pdf-border-navy w-32 mb-1 text-center text-sm font-handwriting"></div>
+                            </div>
+                            <p class="text-[10px] pdf-text-slate-400 uppercase tracking-widest mt-1">(Ort, Datum)</p>
+                        </div>
+                    </div>
+               </div>
+            </section>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    @media print {
+        @page {
+            margin: 0;
+            size: A4;
+        }
+        body {
+            background: white;
+            -webkit-print-color-adjust: exact;
+            margin: 0;
+            padding: 0;
+        }
+        #print-area {
+            padding: 2.5cm !important;
+            width: 100%;
+            max-width: none;
+            box-shadow: none;
+            margin: 0;
+        }
+        nav, header, footer, .cookie-banner, #feedback-trigger, #feedback-menu {
+            display: none !important;
+        }
+        .print\:break-after-page {
+            break-after: page;
+        }
+        .print\:hidden {
+            display: none !important;
+        }
+
+    /* 
+     * STRICT PDF COLOR SYSTEM
+     * We define explicit classes with HEX values to ensure html2pdf/html2canvas
+     * never encounters an oklch() color from Tailwind variables.
+     */
+    .pdf-text-navy { color: #0a1628 !important; }
+    .pdf-text-gold { color: #c5a67c !important; }
+    .pdf-text-slate-700 { color: #334155 !important; }
+    .pdf-text-slate-600 { color: #475569 !important; }
+    .pdf-text-slate-500 { color: #64748b !important; }
+    .pdf-text-slate-400 { color: #94a3b8 !important; }
+    
+    .pdf-bg-navy { background-color: #0a1628 !important; }
+    .pdf-bg-gold { background-color: #c5a67c !important; }
+    .pdf-bg-slate-50 { background-color: #f8fafc !important; }
+    .pdf-bg-white { background-color: #ffffff !important; }
+    
+    .pdf-border-navy { border-color: #0a1628 !important; }
+    .pdf-border-gold { border-color: #c5a67c !important; }
+    .pdf-border-slate-200 { border-color: #e2e8f0 !important; }
+    .pdf-border-slate-300 { border-color: #cbd5e1 !important; }
+
+    /* Override defaults for print area */
+    #print-area {
+        color: #0f172a !important; /* slate-900 */
+        background-color: #ffffff !important;
+    }
+
+    @media print {
+        @page {
+            margin: 0;
+            size: A4;
+        }
+        body {
+            background: white !important;
+            -webkit-print-color-adjust: exact;
+            margin: 0;
+            padding: 0;
+        }
+        #print-area {
+            padding: 2.5cm !important;
+            width: 100%;
+            max-width: none;
+            box-shadow: none;
+            margin: 0;
+        }
+        nav, header, footer, .cookie-banner, #feedback-trigger, #feedback-menu {
+            display: none !important;
+        }
+        .print\:break-after-page {
+            break-after: page;
+        }
+        .print\:hidden {
+            display: none !important;
+        }
+    }
+</style>

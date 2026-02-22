@@ -3,67 +3,78 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Datenschutzerklärung | Sozialer Navigator" description="Informationen zum Datenschutz und zur Datenverarbeitung.">
-    <main class="min-h-screen bg-[#0F172A] text-slate-300 pt-32 pb-24 px-6 relative overflow-hidden">
-        
+    <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-6 relative">
+    
         <div class="max-w-4xl mx-auto relative z-10">
+            <!-- Breadcrumb -->
             <div class="mb-12">
-                <a href="/" class="no-underline text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                <a href="/" class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-[#0a1628] transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
                     Zurück zur Startseite
                 </a>
             </div>
 
-            <h1 class="text-4xl font-black text-white mb-12 tracking-tight">Datenschutzerklärung</h1>
+            <h1 class="text-4xl md:text-5xl font-serif text-[#0a1628] mb-16">Datenschutzerklärung</h1>
 
-            <div class="space-y-12">
+            <div class="space-y-16">
                 
                 <section>
-                    <h3 class="text-xl font-bold text-white mb-4">1. Verantwortlicher</h3>
-                    <div class="bg-[#1e293b]/50 border border-white/5 rounded-xl p-6">
-                        <p class="leading-relaxed">
-                            Verantwortlich im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br />
-                            Jan Rall, Parkstraße 4, 88326 Aulendorf<br />
-                            E-Mail: <a href="mailto:info@sozialer-navigator.de" class="text-blue-400 hover:text-blue-300">info@sozialer-navigator.de</a>
+                    <h3 class="text-2xl font-serif text-[#0a1628] mb-6">1. Verantwortlicher</h3>
+                    <div class="bg-[#f7f8fa] border-l-4 border-[#c5a67c] p-8">
+                        <p class="leading-relaxed text-slate-600 font-light">
+                            Verantwortlich im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br /><br />
+                            <strong>Jan Rall</strong><br />
+                            Parkstraße 4<br />
+                            88326 Aulendorf<br /><br />
+                            E-Mail: <a href="mailto:info@sozialer-navigator.de" class="text-[#0a1628] hover:underline">info@sozialer-navigator.de</a>
                         </p>
                     </div>
                 </section>
 
                 <section>
-                    <div class="bg-blue-900/20 border border-blue-500/20 rounded-xl p-8 mb-8">
-                        <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                            3. Keine Speicherung von Eingabedaten
+                    <div class="bg-[#0a1628] text-white p-10 rounded-sm shadow-xl shadow-[#0a1628]/10">
+                        <h3 class="text-xl font-bold uppercase tracking-widest text-[#c5a67c] mb-6 flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            2. Wichtig: Wo liegen meine Daten?
                         </h3>
-                        <p class="text-slate-200 leading-relaxed font-medium">
-                            Sämtliche Eingaben, die Sie in den Rechner tätigen (z.B. Miete, Einkommen), werden <strong>ausschließlich lokal in Ihrem Browser</strong> verarbeitet. 
-                            Es erfolgt <strong>keine Speicherung</strong> dieser sensiblen Daten auf unseren Servern und <strong>keine Weitergabe an Dritte</strong>.
+                        <p class="text-slate-300 leading-relaxed font-light">
+                            <strong>Rechner-Nutzung:</strong> Sämtliche Eingaben im Rechner (Miete, Einkommen etc.) werden <strong>ausschließlich lokal in Ihrem Browser</strong> verarbeitet. Es erfolgt hierbei keine Speicherung auf unseren Servern.
+                        </p>
+                        <p class="text-slate-300 leading-relaxed font-light mt-4">
+                            <strong>Anfragen & Anträge:</strong> Wenn Sie aktiv eine Anfrage stellen (z.B. "PDF anfordern" oder "Fristsicher starten"), werden die eingegebenen Daten (Name, Adresse, E-Mail) verschlüsselt an unsere Datenbank übertragen, um Ihren Antrag zu bearbeiten.
                         </p>
                     </div>
                 </section>
 
-                <div class="prose prose-invert prose-lg max-w-none text-slate-300">
-                    <h3 class="text-white">2. Datenschutz auf einen Blick</h3>
+                <div class="prose prose-lg text-slate-600 font-light max-w-none prose-headings:font-serif prose-headings:text-[#0a1628] prose-a:text-[#0a1628] prose-strong:text-[#0a1628]">
+                    <h3>3. Hosting & Infrastruktur</h3>
                     <p>
-                        Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer Privatsphäre ist für uns sehr wichtig. Nachstehend informieren wir Sie ausführlich über den Umgang mit Ihren Daten.
+                        Wir nutzen professionelle Infrastruktur-Dienstleister, um Sicherheit und Verfügbarkeit zu gewährleisten:
+                    </p>
+                    <ul>
+                        <li><strong>Hosting:</strong> Vercel Inc. (USA) – Auslieferung der Webseite.</li>
+                        <li><strong>Datenbank:</strong> Supabase Inc. (USA) – Speicherung von Anfragen.</li>
+                    </ul>
+                    <p>
+                        Beide Anbieter sind nach gängigen Standards zertifiziert und gewährleisten durch Standardvertragsklauseln (SCC) ein angemessenes Datenschutzniveau.
                     </p>
 
-                    <h3 class="text-white">4. Hosting und Datensicherheit</h3>
+                    <h3>4. Zahlungsabwicklung</h3>
                     <p>
-                        Diese Seite wird bei <strong>Vercel Inc.</strong> gehostet. Die Server-Kommunikation erfolgt verschlüsselt (SSL/TLS). 
-                        Vercel verarbeitet Nutzungsdaten nur im Auftrag, um die Stabilität und Sicherheit des Dienstes zu gewährleisten. 
+                        Für den kostenpflichtigen Versandservice nutzen wir <strong>Stripe Payments Europe, Ltd.</strong> (Irland). 
+                        Zahlungsdaten (Kreditkarte, IBAN) werden direkt im kryptografisch gesicherten Eingabefeld von Stripe erfasst und verarbeitet. 
+                        Wir selbst speichern zu keinem Zeitpunkt vollständige Zahlungsdaten.
                     </p>
 
-                    <h3 class="text-white">5. Affiliate-Links</h3>
+                    <h3>5. Analyse & Drittanbieter</h3>
                     <p>
-                        Diese Website nutzt Affiliate-Links (z.B. zu Check24). Wenn Sie auf einen solchen Link klicken, werden Sie zum Anbieter weitergeleitet. 
-                        <strong>Ab diesem Zeitpunkt gelten die Datenschutzbestimmungen des jeweiligen Anbieters.</strong> Wir speichern keine Daten im Zusammenhang mit diesen Klicks.
+                        Wir setzen <strong>Vercel Analytics</strong> ein, um anonymisierte Abrufzahlen zu messen (keine Cookies, keine IP-Speicherung). 
+                        Zudem nutzen wir Affiliate-Links (z.B. Check24). Bei Klick auf diese Links gelten die Datenschutzbestimmungen der jeweiligen Zielseite.
                     </p>
 
-                    <h3 class="text-white">6. Datenverarbeitung auf dieser Website</h3>
+                    <h3>6. Ihre Rechte</h3>
                     <p>
-                        Wir nutzen die <strong>Vercel Analytics</strong> Funktion zur Analyse des Nutzerverhaltens (Seitenaufrufe, Klicks). 
-                        Diese Daten werden anonymisiert und in aggregierter Form verarbeitet, um die Qualität unseres Angebots zu verbessern. 
-                        Wir verwenden keine Tracking-Cookies und keine externen Dienste (wie Google Analytics), die personenbezogene Daten erheben.
+                        Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung sowie ein Recht auf Berichtigung, Sperrung oder Löschung dieser Daten.
                     </p>
                 </div>
             </div>

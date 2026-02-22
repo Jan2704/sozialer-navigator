@@ -96,6 +96,7 @@ if (type === 'Organization') {
             "@type": "PostalAddress",
             "streetAddress": data?.address || "",
             "addressLocality": data?.city,
+            "postalCode": data?.zip || "",
             "addressCountry": "DE"
         }
     },

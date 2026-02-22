@@ -4,28 +4,32 @@ import { Button } from '../components/ui/button';
 ---
 
 <Layout title="404 - Seite nicht gefunden | Sozialer Navigator">
-  <div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
+  <div class="min-h-[80vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden bg-slate-50">
     <!-- Background Gradient -->
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 -z-10"></div>
-    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 -z-10"></div>
-
-    <h1 class="text-9xl font-black text-indigo-100 select-none">404</h1>
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03] pointer-events-none"></div>
     
-    <div class="relative -mt-12 z-10 glass-card p-8 rounded-2xl max-w-lg w-full">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4">Upps! Diese Seite ist verschwunden.</h2>
-      <p class="text-lg text-gray-600 mb-8">
-        Vielleicht haben wir sie verschoben, oder sie existiert nicht mehr. 
-        Aber keine Sorge, wir helfen dir trotzdem weiter.
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/30 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <h1 class="text-[12rem] font-black text-slate-900/5 select-none absolute z-0 leading-none tracking-tighter mix-blend-multiply">404</h1>
+    
+    <div class="relative z-10 bg-white/80 backdrop-blur-xl border border-white/50 p-10 md:p-12 rounded-[2.5rem] max-w-lg w-full shadow-2xl shadow-blue-900/5">
+      <div class="w-20 h-20 bg-blue-50 text-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"/><circle cx="10" cy="10" r="7"/><path d="M7 10h6"/></svg>
+      </div>
+      <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Upps! Sackgasse.</h2>
+      <p class="text-lg text-slate-600 font-medium mb-10 leading-relaxed">
+        Diese Seite existiert nicht (mehr). Aber wir lassen dich nicht im Regen stehen.
       </p>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="/" class="w-full sm:w-auto">
-          <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200">
+          <Button className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-lg shadow-blue-500/20 text-base">
             Zur Startseite
           </Button>
         </a>
         <a href="/#wohngeldrechner" class="w-full sm:w-auto">
-          <Button variant="outline" className="w-full border-indigo-200 text-indigo-700 hover:bg-indigo-50">
+          <Button variant="outline" className="w-full h-14 border-2 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-2xl font-bold text-base bg-transparent">
             Zum Rechner
           </Button>
         </a>

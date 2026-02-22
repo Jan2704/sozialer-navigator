@@ -1,8 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { wohngeldData } from '../../data/wohngeldData.js';
 
-const cities = wohngeldData.sort((a, b) => a.stadt.localeCompare(b.stadt));
 const title = "Wohngeld 2026: Der umfassende Leitfaden & Rechner | Sozialer Navigator";
 const description = "Alles zum Wohngeld 2026: Anspruch, Berechnung, Mietstufen und Antrag. Finden Sie Ihre zuständige Wohngeldstelle und prüfen Sie Ihren Anspruch mit unserem Leitfaden.";
 
@@ -19,22 +17,14 @@ const schema = {
   "dateModified": "2026-02-02"
 };
 
-const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
+const canonicalUrl = "https://sozialer-navigator.de/wohngeld/";
 ---
 
 <Layout title={title} description={description} canonical={canonicalUrl}>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
     
-    <main class="min-h-screen bg-slate-50 text-slate-900 pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
+    <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-4 sm:px-6 relative">
         
-        <!-- Background Elements -->
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
-        <div class="fixed inset-0 z-0 select-none pointer-events-none">
-             <!-- Gradient Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/90 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent"></div>
-        </div>
-
         <div class="max-w-7xl mx-auto relative z-10">
             
             <div class="grid lg:grid-cols-12 gap-12">
@@ -42,17 +32,16 @@ const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
                 <!-- Sidebar / TOC (Desktop) -->
                 <aside class="hidden lg:block lg:col-span-3">
                     <div class="sticky top-32 space-y-8">
-                        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-                            <h3 class="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider">Inhalt</h3>
-                            <nav class="space-y-2">
-                                <a href="#einleitung" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">1. Einleitung</a>
-                                <a href="#anspruch" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">2. Anspruch & Zielgruppen</a>
-                                <a href="#voraussetzungen" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">3. Voraussetzungen & Vermögen</a>
-                                <a href="#berechnung-plus" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">4. Berechnung & Wohngeld-Plus</a>
-                                <a href="#antrag" class="block text-sm text-slate-600 hover:text-blue-600 transition-colors">5. Antrag & Behörden</a>
-                                <a href="#wohngeldstelle-finden" class="block text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors bg-blue-50 px-3 py-2 rounded-lg mt-4">
-                                    <span class="mr-2">🔍</span> Wohngeldstelle finden
-                                </a>
+                        <div class="bg-slate-50 border-l-2 border-brand-gold p-6">
+                            <h3 class="font-bold text-brand-navy mb-6 text-xs uppercase tracking-widest">
+                                Inhalt
+                            </h3>
+                            <nav class="space-y-1">
+                                <a href="#einleitung" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">1. Einleitung</a>
+                                <a href="#anspruch" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">2. Anspruch & Zielgruppen</a>
+                                <a href="#voraussetzungen" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">3. Voraussetzungen</a>
+                                <a href="#berechnung-plus" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">4. Wohngeld-Plus</a>
+                                <a href="#antrag" class="block text-sm font-medium text-slate-600 hover:text-brand-navy hover:underline px-2 py-1.5 transition-all">5. Antrag & Behörden</a>
                             </nav>
                         </div>
                     </div>
@@ -62,21 +51,17 @@ const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
                 <div class="lg:col-span-9 space-y-16">
                     
                     <!-- Hero Section -->
-                    <div class="text-center lg:text-left max-w-4xl">
-                        <div class="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-6">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                            <span class="text-xs font-bold uppercase tracking-widest text-blue-700">Aktualisiert für 2026</span>
-                        </div>
-                        <h1 class="font-bold tracking-tight text-slate-900 text-4xl md:text-5xl lg:text-6xl mb-6">
-                            Der umfassende Leitfaden zum <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Wohngeld</span>
+                    <div class="text-center lg:text-left max-w-4xl border-b border-slate-100 pb-12">
+                        <h1 class="font-serif font-medium tracking-tight text-brand-navy text-4xl md:text-5xl lg:text-6xl mb-8 leading-[1.1]">
+                            Der umfassende Leitfaden <br/> zum <span class="italic text-brand-gold">Wohngeld.</span>
                         </h1>
-                        <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
+                        <p class="text-xl text-slate-600 leading-relaxed max-w-3xl font-light">
                             Ein zentrales Instrument der sozialen Wohnraumförderung. Erfahren Sie alles über Mietzuschuss, Lastenzuschuss und Ihre Ansprüche nach der großen Reform.
                         </p>
                     </div>
 
                     <!-- Article Content -->
-                    <article class="prose prose-slate prose-lg max-w-none">
+                    <article class="prose prose-slate prose-lg max-w-none prose-headings:font-serif prose-headings:text-brand-navy prose-a:text-brand-navy hover:prose-a:text-brand-gold prose-strong:text-brand-navy">
                         
                         <!-- 1. Einleitung -->
                         <section id="einleitung" class="scroll-mt-32">
@@ -84,14 +69,20 @@ const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
                             <p>
                                 Das Wohngeld ist ein zentrales Instrument der deutschen Sozialpolitik und fungiert als staatlicher Zuschuss zu den Wohnkosten. Es verfolgt das Ziel, Haushalte mit geringem Einkommen finanziell zu entlasten und ihnen ein angemessenes und familiengerechtes Wohnen zu sichern. Als eine der tragenden Säulen der sozialen Wohnraumförderung unterstützt es Bürgerinnen und Bürger seit Jahrzehnten dabei, die finanzielle Last des Wohnens zu bewältigen.
                             </p>
-                            <div class="grid md:grid-cols-2 gap-6 my-8 not-prose">
-                                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                                    <div class="font-bold text-blue-600 mb-2">Mietzuschuss</div>
-                                    <p class="text-slate-600 text-sm">Diese Form richtet sich an Mieterinnen und Mieter von Wohnraum.</p>
+                            <div class="grid md:grid-cols-2 gap-6 my-12 not-prose">
+                                <div class="bg-white p-8 border border-slate-200 shadow-sm hover:border-brand-gold transition-colors duration-300">
+                                    <div class="w-10 h-10 bg-brand-navy text-white flex items-center justify-center mb-4 rounded-sm">
+                                        <i data-lucide="home" class="w-5 h-5"></i>
+                                    </div>
+                                    <div class="font-serif font-bold text-xl text-brand-navy mb-2">Mietzuschuss</div>
+                                    <p class="text-slate-500 font-light text-sm leading-relaxed">Diese Form richtet sich an Mieterinnen und Mieter von Wohnraum.</p>
                                 </div>
-                                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                                    <div class="font-bold text-emerald-600 mb-2">Lastenzuschuss</div>
-                                    <p class="text-slate-600 text-sm">Diese Variante unterstützt Eigentümerinnen und Eigentümer von selbstgenutztem Wohnraum.</p>
+                                <div class="bg-white p-8 border border-slate-200 shadow-sm hover:border-brand-gold transition-colors duration-300">
+                                    <div class="w-10 h-10 bg-brand-gold text-brand-navy flex items-center justify-center mb-4 rounded-sm">
+                                         <i data-lucide="key" class="w-5 h-5"></i>
+                                    </div>
+                                    <div class="font-serif font-bold text-xl text-brand-navy mb-2">Lastenzuschuss</div>
+                                    <p class="text-slate-500 font-light text-sm leading-relaxed">Diese Variante unterstützt Eigentümerinnen und Eigentümer von selbstgenutztem Wohnraum.</p>
                                 </div>
                             </div>
                             <p>
@@ -100,12 +91,12 @@ const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
                         </section>
 
                         <!-- 2. Anspruch -->
-                        <section id="anspruch" class="scroll-mt-32">
+                        <section id="anspruch" class="scroll-mt-32 border-t border-slate-100 pt-12">
                             <h2>2. Wer hat Anspruch auf Wohngeld? Die Kernzielgruppen</h2>
                             <p>
                                 Die strategische Bedeutung des Wohngeldes zeigt sich in der klaren Definition seiner Anspruchsberechtigten. Es wurde gezielt für einkommensschwächere Haushalte konzipiert, die sich oberhalb der Grundsicherungsschwelle befinden und ihren Lebensunterhalt größtenteils selbst bestreiten, jedoch bei den Wohnkosten auf Unterstützung angewiesen sind.
                             </p>
-                            <ul class="marker:text-blue-500">
+                            <ul class="marker:text-brand-gold">
                                 <li><strong>Familien:</strong> Ein Anteil von 44 % aller Wohngeldhaushalte sind Familien. Darunter befinden sich auch viele Alleinerziehende, die durch das Wohngeld gezielt entlastet werden.</li>
                                 <li><strong>Rentnerinnen und Rentner:</strong> In 52 % der geförderten Haushalte leben Rentnerinnen und Rentner. Für sie ist das Wohngeld ein entscheidender Faktor, um im Alter in der vertrauten Wohnung bleiben zu können.</li>
                                 <li><strong>Arbeitnehmerinnen und Arbeitnehmer:</strong> Personen im Niedriglohnbereich, deren Einkommen nicht ausreicht, um die vollen Wohnkosten zu decken.</li>
@@ -115,43 +106,43 @@ const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
                         </section>
 
                         <!-- 3. Voraussetzungen -->
-                        <section id="voraussetzungen" class="scroll-mt-32">
+                        <section id="voraussetzungen" class="scroll-mt-32 border-t border-slate-100 pt-12">
                             <h2>3. Die drei Säulen der Anspruchsprüfung</h2>
                             <p>Die Prüfung basiert auf drei Faktoren: Einkommen, Vermögen und Haushaltszusammensetzung.</p>
                             
                             <h3>3.1. Das anrechenbare Einkommen</h3>
                             <p>Vom Bruttoeinkommen werden pauschale Abzüge für Steuern und Sozialversicherungsbeiträge vorgenommen:</p>
                             
-                            <div class="overflow-x-auto my-6 not-prose">
-                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm">
-                                    <thead class="bg-slate-50">
+                            <div class="overflow-x-auto my-8 not-prose border border-slate-200">
+                                <table class="w-full text-left border-collapse bg-white text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
                                         <tr>
-                                            <th class="p-4 border-b border-slate-200 font-semibold text-slate-700">Abzugsart (je 10 %)</th>
-                                            <th class="p-4 border-b border-slate-200 font-semibold text-slate-700">Anwendungsfall</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Abzugsart (je 10 %)</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Anwendungsfall</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr>
-                                            <td class="p-4 text-slate-600">Lohn-/Einkommensteuer</td>
-                                            <td class="p-4 text-slate-600">Bei Steuerpflicht</td>
+                                        <tr class="hover:bg-slate-50 transition-colors">
+                                            <td class="p-4 text-slate-700 font-medium">Lohn-/Einkommensteuer</td>
+                                            <td class="p-4 text-slate-500 font-light">Bei Steuerpflicht</td>
                                         </tr>
-                                        <tr>
-                                            <td class="p-4 text-slate-600">Kranken- und Pflegeversicherung</td>
-                                            <td class="p-4 text-slate-600">Bei Versicherungspflicht</td>
+                                        <tr class="hover:bg-slate-50 transition-colors">
+                                            <td class="p-4 text-slate-700 font-medium">Kranken- und Pflegeversicherung</td>
+                                            <td class="p-4 text-slate-500 font-light">Bei Versicherungspflicht</td>
                                         </tr>
-                                        <tr>
-                                            <td class="p-4 text-slate-600">Rentenversicherung</td>
-                                            <td class="p-4 text-slate-600">Bei Versicherungspflicht</td>
+                                        <tr class="hover:bg-slate-50 transition-colors">
+                                            <td class="p-4 text-slate-700 font-medium">Rentenversicherung</td>
+                                            <td class="p-4 text-slate-500 font-light">Bei Versicherungspflicht</td>
                                         </tr>
-                                        <tr class="bg-blue-50/50">
-                                            <td class="p-4 font-medium text-slate-900" colspan="2">Maximal 30 % Pauschalabzug vom Brutto möglich.</td>
+                                        <tr class="bg-slate-50">
+                                            <td class="p-4 font-bold text-brand-navy border-t-2 border-slate-200" colspan="2">Maximal 30 % Pauschalabzug vom Brutto möglich.</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
 
                             <p>Besondere Freibeträge mindern das Einkommen weiter:</p>
-                            <ul class="marker:text-blue-500">
+                            <ul class="marker:text-brand-gold">
                                 <li><strong>Alleinerziehende:</strong> 1.320 € Freibetrag.</li>
                                 <li><strong>Schwerbehinderung:</strong> 1.800 € (bei GdB 100 oder Pflegebedürftigkeit).</li>
                                 <li><strong>Erwerbstätige Kinder (<25):</strong> Bis zu 1.200 € bleiben anrechnungsfrei.</li>
@@ -159,58 +150,58 @@ const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
 
                             <h3>3.2. Vermögensgrenzen (Schonvermögen)</h3>
                             <p>Das Wohngeld gewährt großzügige Freibeträge:</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose my-6">
-                                <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex items-center gap-3">
-                                    <span class="text-2xl font-bold text-emerald-600">60.000 €</span>
-                                    <span class="text-emerald-800 text-sm font-medium">Erstes Haushaltsmitglied</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose my-8">
+                                <div class="bg-slate-50 border-l-4 border-brand-navy p-6 flex flex-col gap-1">
+                                    <span class="text-3xl font-serif text-brand-navy">60.000 €</span>
+                                    <span class="text-slate-500 text-xs uppercase tracking-widest font-bold">Erstes Haushaltsmitglied</span>
                                 </div>
-                                <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex items-center gap-3">
-                                    <span class="text-2xl font-bold text-emerald-600">+ 30.000 €</span>
-                                    <span class="text-emerald-800 text-sm font-medium">Jedes weitere Mitglied</span>
+                                <div class="bg-slate-50 border-l-4 border-brand-gold p-6 flex flex-col gap-1">
+                                    <span class="text-3xl font-serif text-brand-navy">+ 30.000 €</span>
+                                    <span class="text-slate-500 text-xs uppercase tracking-widest font-bold">Jedes weitere Mitglied</span>
                                 </div>
                             </div>
 
                             <h3>3.3. Einkommensgrenzen nach Mietenstufen (2026)</h3>
-                            <div class="overflow-x-auto my-6 not-prose">
-                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
-                                    <thead class="bg-slate-50">
+                            <div class="overflow-x-auto my-8 not-prose border border-slate-200">
+                                <table class="w-full text-left border-collapse bg-white text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
                                         <tr>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Personen</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Mietstufe I <span class="text-slate-400 font-normal block text-xs">(z.B. ländl. Sachsen)</span></th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Mietstufe IV <span class="text-slate-400 font-normal block text-xs">(z.B. Berlin)</span></th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Mietstufe VII <span class="text-slate-400 font-normal block text-xs">(z.B. München)</span></th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Personen</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Mietstufe I <span class="text-slate-400 font-normal block text-[9px] mt-0.5">Ländlich</span></th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Mietstufe IV <span class="text-slate-400 font-normal block text-[9px] mt-0.5">Urban (z.B. Berlin)</span></th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Mietstufe VII <span class="text-slate-400 font-normal block text-[9px] mt-0.5">Teuer (z.B. München)</span></th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="p-3 font-medium">1 Person</td><td class="p-3">1.443 €</td><td class="p-3">1.541 €</td><td class="p-3">1.619 €</td></tr>
-                                        <tr><td class="p-3 font-medium">2 Personen</td><td class="p-3">1.953 €</td><td class="p-3">2.080 €</td><td class="p-3">2.181 €</td></tr>
-                                        <tr><td class="p-3 font-medium">3 Personen</td><td class="p-3">2.453 €</td><td class="p-3">2.600 €</td><td class="p-3">2.717 €</td></tr>
-                                        <tr><td class="p-3 font-medium">4 Personen</td><td class="p-3">3.324 €</td><td class="p-3">3.516 €</td><td class="p-3">3.671 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">1 Person</td><td class="p-4 tabular-nums font-light text-slate-600">1.443 €</td><td class="p-4 tabular-nums font-light text-slate-600">1.541 €</td><td class="p-4 tabular-nums font-light text-slate-600">1.619 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">2 Personen</td><td class="p-4 tabular-nums font-light text-slate-600">1.953 €</td><td class="p-4 tabular-nums font-light text-slate-600">2.080 €</td><td class="p-4 tabular-nums font-light text-slate-600">2.181 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">3 Personen</td><td class="p-4 tabular-nums font-light text-slate-600">2.453 €</td><td class="p-4 tabular-nums font-light text-slate-600">2.600 €</td><td class="p-4 tabular-nums font-light text-slate-600">2.717 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">4 Personen</td><td class="p-4 tabular-nums font-light text-slate-600">3.324 €</td><td class="p-4 tabular-nums font-light text-slate-600">3.516 €</td><td class="p-4 tabular-nums font-light text-slate-600">3.671 €</td></tr>
                                     </tbody>
                                 </table>
                             </div>
                         </section>
 
                         <!-- 4. Berechnung & Wohngeld Plus -->
-                        <section id="berechnung-plus" class="scroll-mt-32">
+                        <section id="berechnung-plus" class="scroll-mt-32 border-t border-slate-100 pt-12">
                             <h2>4. Die "Wohngeld-Plus"-Komponenten</h2>
                             <p>Die Reform integriert dauerhafte Komponenten für Heizkosten und Klimaschutz:</p>
                             
-                            <div class="overflow-x-auto my-6 not-prose">
-                                <table class="w-full text-left border-collapse bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm text-sm">
-                                    <thead class="bg-slate-50">
+                            <div class="overflow-x-auto my-8 not-prose border border-slate-200">
+                                <table class="w-full text-left border-collapse bg-white text-sm">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
                                         <tr>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Haushalt</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Heizkostenpauschale</th>
-                                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Klimakomponente</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Haushalt</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Heizkostenpauschale</th>
+                                            <th class="p-4 font-bold text-brand-navy uppercase tracking-wider text-xs">Klimakomponente</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="p-3 font-medium">1 Person</td><td class="p-3">110,40 €</td><td class="p-3">19,20 €</td></tr>
-                                        <tr><td class="p-3 font-medium">2 Personen</td><td class="p-3">142,60 €</td><td class="p-3">24,80 €</td></tr>
-                                        <tr><td class="p-3 font-medium">3 Personen</td><td class="p-3">170,20 €</td><td class="p-3">29,60 €</td></tr>
-                                        <tr><td class="p-3 font-medium">4 Personen</td><td class="p-3">197,80 €</td><td class="p-3">34,40 €</td></tr>
-                                        <tr class="bg-slate-50/50"><td class="p-3 font-medium">Weitere P.</td><td class="p-3">+ 27,60 €</td><td class="p-3">+ 4,80 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">1 Person</td><td class="p-4 tabular-nums font-light text-slate-600">110,40 €</td><td class="p-4 tabular-nums font-light text-slate-600">19,20 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">2 Personen</td><td class="p-4 tabular-nums font-light text-slate-600">142,60 €</td><td class="p-4 tabular-nums font-light text-slate-600">24,80 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">3 Personen</td><td class="p-4 tabular-nums font-light text-slate-600">170,20 €</td><td class="p-4 tabular-nums font-light text-slate-600">29,60 €</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-brand-navy">4 Personen</td><td class="p-4 tabular-nums font-light text-slate-600">197,80 €</td><td class="p-4 tabular-nums font-light text-slate-600">34,40 €</td></tr>
+                                        <tr class="bg-slate-50"><td class="p-4 font-bold text-brand-navy border-t border-slate-200">Weitere P.</td><td class="p-4 font-bold text-brand-navy border-t border-slate-200">+ 27,60 €</td><td class="p-4 font-bold text-brand-navy border-t border-slate-200">+ 4,80 €</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -220,101 +211,24 @@ const canonicalUrl = "https://sozialer-navigator.de/wohngeld";
                             </ul>
                         </section>
 
-                         <!-- 5. Search Tool Integration -->
-                        <section id="wohngeldstelle-finden" class="scroll-mt-32 full-width my-16 bg-blue-50/50 -mx-4 sm:-mx-6 lg:-mx-0 px-4 sm:px-6 lg:px-8 py-12 lg:rounded-3xl border border-blue-100">
-                            <div class="max-w-2xl mx-auto text-center mb-8">
-                                <h2 class="text-3xl font-bold text-slate-900 mb-4 !mt-0">Zuständige Behörde finden</h2>
-                                <p class="text-slate-600">Geben Sie Ihre Stadt ein, um die Adresse Ihrer Wohngeldstelle und Ihre Mietstufe zu ermitteln.</p>
-                            </div>
 
-                             <div class="max-w-xl mx-auto relative z-20 group">
-                                  <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-blue-200 opacity-70 blur transition duration-500 rounded-xl"></div>
-                                  <div class="relative">
-                                    <input 
-                                        type="text" 
-                                        id="hub-search" 
-                                        placeholder="Welche Stadt suchen Sie?" 
-                                        class="relative w-full bg-white border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl px-5 py-4 font-medium text-lg outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
-                                        autocomplete="off"
-                                    >
-                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                    </div>
-                                  </div>
-                                  
-                                   <!-- Dropdown Results -->
-                                  <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl max-h-80 overflow-y-auto z-50 p-2 scrollbar-thin scrollbar-thumb-slate-300"></div>
-                             </div>
-
-                             <div class="mt-6 text-center">
-                                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2">Top Städte:</span>
-                                 <div class="inline-flex gap-2 flex-wrap justify-center">
-                                    <a href="/berlin/wohngeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Berlin</a>
-                                    <a href="/muenchen/wohngeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">München</a>
-                                    <a href="/hamburg/wohngeld" class="text-xs hover:bg-white bg-slate-100 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-md font-medium transition-all">Hamburg</a>
-                                 </div>
-                             </div>
-                        </section>
 
                         <!-- 6. Antrag & Abgrenzung -->
-                        <section id="antrag" class="scroll-mt-32">
+                        <section id="antrag" class="scroll-mt-32 border-t border-slate-100 pt-12">
                             <h2>6. Antragsprozess & Abgrenzung zum Bürgergeld</h2>
                             <p>
                                 Wohngeld wird nur auf Antrag gewährt, rückwirkend maximal bis zum Ersten des Antragsmonats.
                                 <strong>Wichtig:</strong> Es gilt der Vorrang des Wohngeldes. Wenn Wohngeld (plus ggf. Kinderzuschlag) ausreicht, um die Hilfebedürftigkeit zu vermeiden, müssen Sie dies statt Bürgergeld beantragen.
                             </p>
-                            <p>
-                                Empfänger von Transferleistungen (Bürgergeld, Grundsicherung), bei denen die Unterkunftskosten bereits enthalten sind, erhalten in der Regel <strong>kein</strong> Wohngeld.
-                            </p>
+                            <div class="bg-slate-50 border-l-4 border-brand-navy p-6 mt-8">
+                                <p class="text-sm text-slate-600 font-light mb-0">
+                                    <strong>Hinweis:</strong> Empfänger von Transferleistungen (Bürgergeld, Grundsicherung), bei denen die Unterkunftskosten bereits enthalten sind, erhalten in der Regel <strong>kein</strong> Wohngeld.
+                                </p>
+                            </div>
                         </section>
 
                     </article>
                 </div>
             </div>
-        </div>
-
-        <script is:inline define:vars={{ cities }}>
-            const searchInput = document.getElementById('hub-search');
-            const resultsContainer = document.getElementById('search-results');
-
-            if (searchInput && resultsContainer) {
-                searchInput.addEventListener('input', (e) => {
-                    const val = e.target.value.toLowerCase();
-                    if (val.length < 2) {
-                        resultsContainer.classList.add('hidden');
-                        return;
-                    }
-
-                    const filtered = cities.filter(c => c.stadt.toLowerCase().includes(val)).slice(0, 8);
-                    
-                    if (filtered.length > 0) {
-                        resultsContainer.innerHTML = filtered.map(c => `
-                            <a href="/${c.slug}/wohngeld" class="block px-4 py-3 hover:bg-slate-50 transition-colors flex justify-between items-center group rounded-lg mb-1">
-                                <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">${c.stadt}</span>
-                                <span class="text-xs text-slate-500 group-hover:text-slate-700 uppercase tracking-wide border border-slate-200 px-2 py-1 rounded">Mietstufe ${c.mietstufe}</span>
-                            </a>
-                        `).join('');
-                        resultsContainer.classList.remove('hidden');
-                    } else {
-                        resultsContainer.innerHTML = `<div class="px-4 py-3 text-sm text-slate-500 italic">Keine Ergebnisse gefunden</div>`;
-                        resultsContainer.classList.remove('hidden');
-                    }
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
-                        resultsContainer.classList.add('hidden');
-                    }
-                });
-
-                // Keyboard navigation
-                searchInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        resultsContainer.classList.add('hidden');
-                        searchInput.blur();
-                    }
-                });
-            }
-        </script>
     </main>
 </Layout>

@@ -1,0 +1,220 @@
+---
+// src/pages/admin/feedback.astro
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import { createClient } from '@supabase/supabase-js';
+
+// Configuration
+const ADMIN_PASSWORD = "navigator-secret"; // Simple password for now
+const SERVICE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+const SITE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
+
+let isAuthenticated = false;
+let feedbackData = [];
+let error = "";
+
+// 1. Check Authentication (via Form POST or Cookie)
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const password = data.get("password");
+    const action = data.get("action");
+
+    if (password === ADMIN_PASSWORD) {
+      isAuthenticated = true;
+      // Set a simple cookie to stay logged in for this session (optional, simpler to just re-post)
+      // For this simple version, we require password on every reload or use hidden input
+    } else if (action === 'delete' || action === 'toggle') {
+        // If performing action, we assume already authenticated if we want to be strict,
+        // but for this simple "single file" approach, we might need to pass the password again.
+        // Let's rely on the cookie for actions?
+        // Simpler: Just use a cookie for the session.
+    } else {
+        error = "Falsches Passwort";
+    }
+  } catch (e) {
+    error = "Fehler beim Login";
+  }
+}
+
+// 2. Cookie Auth Check
+const cookieAuth = Astro.cookies.get("admin_auth");
+if (cookieAuth && cookieAuth.value === ADMIN_PASSWORD) {
+    isAuthenticated = true;
+}
+
+// 3. Login/Set Cookie
+if (Astro.request.method === "POST") {
+     const data = await Astro.request.formData();
+     const password = data.get("password");
+     if (password === ADMIN_PASSWORD) {
+        isAuthenticated = true;
+        Astro.cookies.set("admin_auth", ADMIN_PASSWORD, { path: '/admin', maxAge: 60 * 60 * 24 }); // 1 day
+     }
+}
+
+// 4. Handle Actions (Delete/Resolved) if authenticated
+if (isAuthenticated && Astro.request.method === "POST") {
+     const data = await Astro.request.formData();
+     const action = data.get("action");
+     const id = data.get("id");
+
+     if (SERVICE_KEY && SITE_URL) {
+         const supabaseAdmin = createClient(SITE_URL, SERVICE_KEY, {
+            auth: {
+                persistSession: false
+            }
+         });
+
+         if (action === "delete" && id) {
+             await supabaseAdmin.from('user_feedback').delete().eq('id', id);
+         } else if (action === "toggle" && id) {
+             const currentStatus = data.get("current_status") === "true";
+             await supabaseAdmin.from('user_feedback').update({ resolved: !currentStatus }).eq('id', id);
+         }
+     }
+}
+
+
+// 5. Fetch Data if Authenticated
+if (isAuthenticated) {
+    if (!SERVICE_KEY) {
+        error = "SUPABASE_SERVICE_ROLE_KEY fehlt in .env";
+    } else {
+        const supabaseAdmin = createClient(SITE_URL, SERVICE_KEY, {
+            auth: { persistSession: false }
+        });
+
+        const { data, error: fetchError } = await supabaseAdmin
+            .from('user_feedback')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(100);
+        
+        if (fetchError) {
+             error = "Fehler beim Laden: " + fetchError.message;
+        } else {
+            feedbackData = data;
+        }
+    }
+}
+
+// Helper for formatting date
+const formatDate = (dateStr) => {
+    return new Date(dateStr).toLocaleDateString('de-DE', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+    });
+};
+---
+
+<Layout title="Admin Feedback" hideNav={true}>
+    <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Feedback Dashboard</h1>
+                <a href="/" class="text-sm font-medium text-purple-600 hover:text-purple-500">Zurück zur Seite</a>
+            </div>
+
+            {!isAuthenticated ? (
+                /* LOGIN FORM */
+                <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-semibold mb-6">Login</h2>
+                    {error && <div class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>}
+                    <form method="POST" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Passwort</label>
+                            <input type="password" name="password" required class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 border p-2" />
+                        </div>
+                        <button type="submit" class="w-full bg-purple-600 text-white rounded-lg py-2.5 font-medium hover:bg-purple-700 transition-colors">
+                            Anmelden
+                        </button>
+                    </form>
+                </div>
+            ) : (
+                /* DASHBOARD */
+                <div class="space-y-6">
+                    {error && <div class="p-4 bg-red-100 text-red-700 rounded-xl">{error}</div>}
+
+                    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-2xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Typ</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nachricht</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Kontakt/URL</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Datum</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                            <span class="sr-only">Aktionen</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 bg-white">
+                                    {feedbackData.map((item) => (
+                                        <tr class={item.resolved ? "bg-gray-50/50" : ""}>
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                <span class:list={[
+                                                    "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset",
+                                                    item.type === 'rating' ? "bg-yellow-50 text-yellow-800 ring-yellow-600/20" : 
+                                                    item.type === 'issue' ? "bg-red-50 text-red-700 ring-red-600/10" : 
+                                                    "bg-blue-50 text-blue-700 ring-blue-700/10"
+                                                ]}>
+                                                    {item.type.toUpperCase()}
+                                                    {item.rating && ` (${item.rating}★)`}
+                                                </span>
+                                            </td>
+                                            <td class="px-3 py-4 text-sm text-gray-500 max-w-xs truncate" title={item.message}>
+                                                {item.message}
+                                            </td>
+                                            <td class="px-3 py-4 text-sm text-gray-500">
+                                                <div class="flex flex-col gap-1">
+                                                    {item.contact && <span class="text-gray-900">{item.contact}</span>}
+                                                    {item.url && <a href={item.url} target="_blank" class="text-xs text-blue-500 hover:underline">{item.url}</a>}
+                                                </div>
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                {formatDate(item.created_at)}
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                <form method="POST" class="inline">
+                                                    <input type="hidden" name="action" value="toggle" />
+                                                    <input type="hidden" name="id" value={item.id} />
+                                                    <input type="hidden" name="current_status" value={item.resolved.toString()} />
+                                                    <button type="submit" class:list={[
+                                                        "rounded px-2 py-1 text-xs font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+                                                        item.resolved 
+                                                            ? "bg-gray-100 text-gray-600 hover:bg-gray-200" 
+                                                            : "bg-green-100 text-green-700 hover:bg-green-200"
+                                                    ]}>
+                                                        {item.resolved ? "Erledigt" : "Offen"}
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                <form method="POST" onsubmit="return confirm('Wirklich löschen?');">
+                                                    <input type="hidden" name="action" value="delete" />
+                                                    <input type="hidden" name="id" value={item.id} />
+                                                    <button type="submit" class="text-red-600 hover:text-red-900">Löschen</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            {feedbackData.length === 0 && (
+                                <div class="p-12 text-center text-gray-500">
+                                    Noch kein Feedback vorhanden.
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    </div>
+</Layout>

@@ -2,6 +2,8 @@
 // src/pages/[citySlug]/[benefitSlug].astro
 
 import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+export const prerender = true;
 import { SmartCalculator } from '../../components/SmartCalculator.jsx';
 import ResultsSection from '../../components/ResultsSection.astro';
 
@@ -73,64 +75,42 @@ if (addressMatch) {
     }
 }
 
-import LocalBusinessSchema from '../../components/SEO/LocalBusinessSchema.astro';
-import SchemaOrg from '../../components/SEO/SeoSchema.astro';
+// Generate FAQ Data for Layout/Schema
+const isJobcenter = benefitInfo.slug === 'grundsicherung' || benefitInfo.slug === 'buergergeld';
+const authorityName = isJobcenter ? `Jobcenter ${cityInfo.stadt}` : (cityInfo.amt_name || "Wohngeldbehörde");
+const authorityEmail = cityInfo[benefitInfo.agency_key];
+
+const faqItems = [
+    { 
+        question: `Welche Stelle in ${cityInfo.stadt} ist für ${benefitInfo.name} zuständig?`, 
+        answer: `Zuständig ist das ${authorityName}. ${!isJobcenter && cityInfo.amt_adresse ? 'Die Adresse lautet: ' + cityInfo.amt_adresse : ''}` 
+    },
+    ...(authorityEmail ? [{
+        question: `Wie lautet die E-Mail Adresse für ${benefitInfo.name} in ${cityInfo.stadt}?`,
+        answer: `Sie erreichen die Stelle unter: ${authorityEmail}`
+    }] : []),
+    ...(benefitInfo.slug === 'wohngeld' ? [{ 
+        question: `Welche Mietstufe hat ${cityInfo.stadt}?`, 
+        answer: `${cityInfo.stadt} gehört zur Mietstufe ${cityInfo.mietstufe}.` 
+    }] : []),
+    {
+        question: `Wie lange dauert die Bearbeitung von ${benefitInfo.name} in ${cityInfo.stadt}?`,
+        answer: `Die Bearbeitungszeit in ${cityInfo.stadt} beträgt üblicherweise 3 bis 8 Wochen. Der Anspruch gilt rückwirkend ab Antragstellung.`
+    }
+];
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
-  
-  <LocalBusinessSchema
-    type="GovernmentOffice"
-    name={cityInfo.amt_name || `${benefitInfo.agency_type} ${cityInfo.stadt}`}
-    description={`Zuständige Stelle für ${benefitInfo.name} in ${cityInfo.stadt}`}
-    email={cityInfo[benefitInfo.agency_key]}
-    address={{
-        streetAddress: addressParts.streetAddress,
-        addressLocality: addressParts.addressLocality,
-        postalCode: addressParts.postalCode,
-    }}
-  />
+<Layout 
+  title={pageTitle} 
+  description={pageDescription}
+  type="city-service"
+  city={cityInfo.stadt}
+  serviceType={benefitInfo.name === 'Bürgergeld' ? 'Bürgergeld' : 'Wohngeld'}
+  faq={faqItems}
+>
 
   <fragment slot="head">
      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-     <SchemaOrg 
-        type="BreadcrumbList" 
-        data={{
-            items: [
-                { name: "Startseite", url: "/" },
-                { name: cityInfo.stadt, url: `/${citySlug}` },
-                { name: benefitInfo.name, url: `/${citySlug}/${benefitSlug}` }
-            ]
-        }}
-    />
-    
-    {/* Dynamic JSON-LD Generation */}
-    {(() => {
-        const isJobcenter = benefitInfo.slug === 'grundsicherung' || benefitInfo.slug === 'buergergeld';
-        const authorityName = isJobcenter ? `Jobcenter ${cityInfo.stadt}` : (cityInfo.amt_name || "Wohngeldbehörde");
-        const authorityEmail = cityInfo[benefitInfo.agency_key];
-        
-        const faqItems = [
-            { 
-                q: `Welche Stelle in ${cityInfo.stadt} ist für ${benefitInfo.name} zuständig?`, 
-                a: `Zuständig ist das ${authorityName}. ${!isJobcenter && cityInfo.amt_adresse ? 'Die Adresse lautet: ' + cityInfo.amt_adresse : ''}` 
-            },
-            ...(authorityEmail ? [{
-                q: `Wie lautet die E-Mail Adresse für ${benefitInfo.name} in ${cityInfo.stadt}?`,
-                a: `Sie erreichen die Stelle unter: ${authorityEmail}`
-            }] : []),
-            ...(benefitInfo.slug === 'wohngeld' ? [{ 
-                q: `Welche Mietstufe hat ${cityInfo.stadt}?`, 
-                a: `${cityInfo.stadt} gehört zur Mietstufe ${cityInfo.mietstufe}.` 
-            }] : []),
-            {
-                q: `Wie lange dauert die Bearbeitung von ${benefitInfo.name} in ${cityInfo.stadt}?`,
-                a: `Die Bearbeitungszeit in ${cityInfo.stadt} beträgt üblicherweise 3 bis 8 Wochen. Der Anspruch gilt rückwirkend ab Antragstellung.`
-            }
-        ];
-
-        return <SchemaOrg type="FAQPage" data={{ items: faqItems }} />;
-    })()}
   </fragment>
 
   <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
@@ -142,7 +122,7 @@ import SchemaOrg from '../../components/SEO/SeoSchema.astro';
     
         <header class="text-left space-y-6">
           <nav>
-            <a href={`/${citySlug}`} class="text-xs font-bold text-slate-500 uppercase flex items-center gap-2 hover:text-blue-600 transition-colors">
+            <a href={`/${citySlug}/`} class="text-xs font-bold text-slate-500 uppercase flex items-center gap-2 hover:text-blue-600 transition-colors">
               <i data-lucide="arrow-left" class="w-4 h-4"></i> Zurück zur Übersicht
             </a>
           </nav>
@@ -163,7 +143,7 @@ import SchemaOrg from '../../components/SEO/SeoSchema.astro';
         <div class="grid md:grid-cols-3 gap-8">
           
           <!-- Calculator Section (Left/Main) -->
-          <div id="calculator-section" class="md:col-span-2 relative">
+          <div id="calculator-section" class="md:col-span-2 relative space-y-8">
                <!-- White Card with Shadow -->
                <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-10 space-y-8 text-left relative overflow-hidden">
                   
@@ -183,6 +163,47 @@ import SchemaOrg from '../../components/SEO/SeoSchema.astro';
                     className="shadow-none border-none p-0 bg-transparent"
                   />
                </div>
+
+               {benefitInfo.slug === 'wohngeld' && (
+                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 md:p-10 space-y-6 text-left relative overflow-hidden">
+                     <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                            <i data-lucide="info" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-900">Wer hat Anspruch auf Wohngeld in {cityInfo.stadt}?</h2>
+                     </div>
+                     <p class="text-slate-600 leading-relaxed font-medium">
+                         Oft wird Wohngeld unterschätzt. Doch am Ende profitieren weit mehr Menschen davon, als viele denken. <strong class="text-blue-700 bg-blue-50 px-1 py-0.5 rounded">Im Durchschnitt liegt der Zuschuss bei rund 370 € im Monat.</strong> Besonders diese Gruppen sollten ihren Anspruch prüfen:
+                     </p>
+                     
+                     <div class="grid sm:grid-cols-2 gap-4 mt-6">
+                         <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-blue-200 transition-colors">
+                             <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                                <i data-lucide="users" class="w-5 h-5 text-indigo-500"></i> Rentner & Pensionäre
+                             </h3>
+                             <p class="text-sm text-slate-600">Etwa die Hälfte aller Wohngeld-Empfänger sind Rentner. Auch bei kleinen Renten (oder Witwenrenten) lohnt sich der Antrag oft.</p>
+                         </div>
+                         <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-blue-200 transition-colors">
+                             <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                                <i data-lucide="briefcase" class="w-5 h-5 text-emerald-500"></i> Geringverdiener
+                             </h3>
+                             <p class="text-sm text-slate-600">Auch wer Voll- oder Teilzeit arbeitet (sowie Kurzarbeiter), kann Wohngeld bekommen, wenn das Gehalt für die Miete knapp ist.</p>
+                         </div>
+                         <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-blue-200 transition-colors">
+                             <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                                <i data-lucide="graduation-cap" class="w-5 h-5 text-amber-500"></i> Azubis & Studenten
+                             </h3>
+                             <p class="text-sm text-slate-600">Wenn kein Anspruch (mehr) auf BAföG oder BAB besteht oder Sie mit Kindern studieren, greift häufig das Wohngeld.</p>
+                         </div>
+                         <div class="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-blue-200 transition-colors">
+                             <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                                <i data-lucide="home" class="w-5 h-5 text-rose-500"></i> Eigentümer
+                             </h3>
+                             <p class="text-sm text-slate-600">Als Eigentümer erhalten Sie einen "Lastenzuschuss" zu den Kreditraten oder allgemeinen Betriebskosten.</p>
+                         </div>
+                     </div>
+                 </div>
+               )}
           </div>
 
           <!-- RESULTS SECTION Sidebar -->

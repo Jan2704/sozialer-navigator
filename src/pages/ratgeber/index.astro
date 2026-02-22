@@ -1,0 +1,158 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const ratgeberEntries = (await getCollection('ratgeber')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const guides = [
+  {
+    title: "Wohngeld 2026",
+    desc: "Der große Leitfaden zur Wohngeld-Reform. Alles zu Mietstufen, CO2-Komponente und Antragstellung.",
+    url: "/wohngeld/",
+    icon: "home"
+  },
+  {
+    title: "Bürgergeld & Regelsätze",
+    desc: "Aktuelle Tabellen und Voraussetzungen für das Bürgergeld. Was steht Ihnen wirklich zu?",
+    url: "/buergergeld/",
+    icon: "wallet"
+  },
+  {
+    title: "Bescheid-Prüfung",
+    desc: "Wie Sie Widerspruch einlegen und falsche Berechnungen korrigieren lassen. Eine Anleitung.",
+    url: "/bescheid-check/",
+    icon: "file-check"
+  },
+  {
+    title: "Rechtslexikon",
+    desc: "Wichtige Begriffe von A bis Z einfach erklärt. Verstehen Sie das Amtsdeutsch.",
+    url: "/lexikon/",
+    icon: "book-open"
+  }
+];
+---
+
+<Layout title="Ratgeber & Hilfe | Sozialer Navigator" description="Expertenwissen zu Wohngeld, Bürgergeld und Sozialrecht. Verständlich erklärt und aktuell für 2026.">
+  <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-6 relative">
+      
+      <!-- Header -->
+      <div class="max-w-4xl mx-auto text-center mb-24">
+          <span class="text-[#c5a67c] text-xs font-bold uppercase tracking-[0.2em] mb-4 block animate-fade-in">Wissen schafft Recht</span>
+          <h1 class="text-5xl md:text-6xl font-serif text-[#0a1628] mb-8 leading-tight animate-slide-up">
+              Ihr digitaler <span class="italic text-[#c5a67c]">Rechtsbeistand.</span>
+          </h1>
+          <p class="text-xl text-slate-600 font-light leading-relaxed max-w-2xl mx-auto animate-slide-up delay-100">
+              Komplexe Gesetze verständlich übersetzt. Unsere Ratgeber geben Ihnen das Rüstzeug, um Ihre Ansprüche auf Augenhöhe durchzusetzen.
+          </p>
+      </div>
+
+      <!-- Grid -->
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 mb-32">
+          {guides.map((guide, i) => (
+              <a href={guide.url} class="group relative block p-12 bg-[#f8fafc] border border-slate-200 rounded-[2rem] hover:bg-[#0a1628] transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 overflow-hidden">
+                  
+                  <!-- Icon -->
+                  <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-[#0a1628] mb-8 shadow-sm group-hover:bg-[#c5a67c] group-hover:text-[#0a1628] transition-colors duration-500">
+                      <i data-lucide={guide.icon} class="w-8 h-8"></i>
+                  </div>
+
+                  <h3 class="text-3xl font-serif text-[#0a1628] mb-4 group-hover:text-white transition-colors duration-500">
+                      {guide.title}
+                  </h3>
+                  
+                  <p class="text-slate-600 group-hover:text-slate-300 font-light text-lg leading-relaxed transition-colors duration-500">
+                      {guide.desc}
+                  </p>
+
+                  <div class="mt-12 flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#0a1628] group-hover:text-[#c5a67c] transition-colors duration-500">
+                      <span>Zum Ratgeber</span>
+                      <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300"></i>
+                  </div>
+              </a>
+          ))}
+      </div>
+
+      <!-- Dynamic Articles Section -->
+      <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-16">
+              <span class="text-[#c5a67c] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">Pressespiegel</span>
+              <h2 class="text-3xl md:text-4xl font-serif text-[#0a1628]">Geprüfte Quellen & News</h2>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-8">
+              {ratgeberEntries.map((entry) => (
+                  <a href={entry.data.externalUrl || `/ratgeber/${entry.slug}/`} target={entry.data.externalUrl ? "_blank" : "_self"} class="group block bg-white border border-slate-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative">
+                      
+                      {entry.data.externalUrl && (
+                          <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#0a1628] shadow-sm z-10 flex items-center gap-1">
+                              {entry.data.source || 'Extern'}
+                              <i data-lucide="external-link" class="w-3 h-3"></i>
+                          </div>
+                      )}
+
+                      {entry.data.image && (
+                          <div class="h-48 overflow-hidden">
+                              <img src={entry.data.image} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                          </div>
+                      )}
+                      {!entry.data.image && (
+                          <div class="h-48 bg-slate-100 flex items-center justify-center text-slate-300">
+                              <i data-lucide="file-text" class="w-12 h-12"></i>
+                          </div>
+                      )}
+                      
+                      <div class="p-8">
+                          <div class="flex items-center gap-3 mb-4">
+                              <span class="px-3 py-1 bg-[#f0f9ff] text-[#0a1628] text-[10px] font-bold uppercase tracking-widest rounded-full">
+                                  {entry.data.tags ? entry.data.tags[0] : 'Artikel'}
+                              </span>
+                              <span class="text-slate-400 text-xs">{entry.data.pubDate.toLocaleDateString('de-DE')}</span>
+                          </div>
+                          
+                          <h3 class="font-serif text-xl text-[#0a1628] mb-3 group-hover:text-[#c5a67c] transition-colors line-clamp-2">
+                              {entry.data.title}
+                          </h3>
+                          <p class="text-slate-500 font-light text-sm line-clamp-3 leading-relaxed mb-6">
+                              {entry.data.description}
+                          </p>
+
+                          <span class="text-[#0a1628] text-xs font-bold uppercase tracking-widest group-hover:underline flex items-center gap-2">
+                              {entry.data.externalUrl ? `Weiter zu ${entry.data.source || 'Quelle'}` : 'Mehr lesen'}
+                              <i data-lucide={entry.data.externalUrl ? "external-link" : "arrow-right"} class="w-3 h-3"></i>
+                          </span>
+                      </div>
+                  </a>
+              ))}
+          </div>
+      </div>
+
+      <!-- Newsletter / CTA Abstract -->
+      <div class="max-w-4xl mx-auto mt-32 bg-[#0a1628] rounded-[2rem] p-12 md:p-16 text-center relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-[#c5a67c] rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+          
+          <h2 class="text-3xl font-serif text-white mb-6 relative z-10">Bleiben Sie informiert.</h2>
+          <p class="text-slate-300 font-light text-lg mb-8 relative z-10">
+              Gesetze ändern sich. Abonnieren Sie unseren Update-Service, um keine Fristen oder Erhöhungen zu verpassen.
+          </p>
+          
+          <form class="max-w-md mx-auto relative z-10 flex gap-2">
+              <input type="email" placeholder="Ihre E-Mail Adresse" class="w-full px-6 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:bg-white/20 outline-none transition-all" />
+              <button class="bg-[#c5a67c] text-[#0a1628] px-8 py-4 rounded-xl font-bold hover:bg-white transition-colors">
+                  <i data-lucide="send" class="w-5 h-5"></i>
+              </button>
+          </form>
+      </div>
+
+  </main>
+</Layout>
+
+<script>
+    if (window.lucide) {
+        window.lucide.createIcons();
+    }
+    document.addEventListener('astro:page-load', () => {
+        if (window.lucide) window.lucide.createIcons();
+    });
+</script>

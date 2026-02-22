@@ -18,6 +18,7 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
+        serif: ["Playfair Display", "serif"],
       },
       colors: {
         bg: {
@@ -32,6 +33,9 @@ const config = {
         },
         brand: {
           blue: "#1E40AF", // Institutional Blue
+          navy: "#0a1628",
+          gold: "#c5a67c",
+          "gold-light": "#e5cca5",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

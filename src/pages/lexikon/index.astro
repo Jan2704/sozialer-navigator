@@ -12,51 +12,40 @@ const sortedEntries = allEntries.sort((a, b) => a.data.title.localeCompare(b.dat
         <meta property="og:url" content="https://sozialer-navigator.de/lexikon" />
     </fragment>
   
-    <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
-        
-        <!-- Background Elements -->
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
-        <div class="fixed inset-0 z-0 select-none pointer-events-none">
-             <!-- Gradient Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/90 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#F8FAFC] via-transparent to-transparent"></div>
-        </div>
-
-        <div class="max-w-5xl mx-auto relative z-10 space-y-12">
+    <main class="min-h-screen bg-white pt-24 pb-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
             
-            <!-- Page Header -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200">
-                <div class="space-y-4">
-                    <h1 class="text-4xl font-bold tracking-tight text-slate-900">Lexikon</h1>
-                    <p class="text-lg text-slate-600 font-medium leading-relaxed">Begriffe einfach erklärt. Keine Bürokratiesprache.</p>
-                </div>
+            <div class="max-w-3xl mx-auto mb-16 text-center">
+                <span class="text-brand-gold font-bold tracking-widest uppercase text-xs mb-3 block">Fachbegriffe erklärt</span>
+                <h1 class="text-5xl md:text-6xl font-serif text-brand-navy mb-6 tracking-tight">Sozialrechtliches <br/> <span class="italic text-brand-gold">Lexikon</span></h1>
+                <p class="text-lg text-slate-600 font-light leading-relaxed">
+                    Verstehen Sie das "Behördendeutsch". Wir erklären wichtige Begriffe aus den Bereichen Bürgergeld, Wohngeld und Sozialrecht einfach und verständlich.
+                </p>
             </div>
 
-            <!-- Entries List -->
-            <div class="grid sm:grid-cols-2 gap-6">
-                {sortedEntries.map(entry => (
-                    <a href={`/lexikon/${entry.slug}`} class="block group relative">
-                        <!-- Card -->
-                        <div class="absolute inset-0 bg-white border border-slate-200 rounded-2xl transition-all duration-300 group-hover:shadow-xl group-hover:scale-[1.01]"></div>
-                        
-                        <div class="relative z-10 p-6 flex flex-col h-full justify-between">
-                            <div>
-                                 <h2 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2">
+            <div class="max-w-4xl mx-auto">
+                <!-- Search could go here in v2 -->
+                
+                <div class="grid gap-4">
+                    {sortedEntries.map((entry) => (
+                        <a href={`/lexikon/${entry.slug}/`} class="group block bg-white border border-slate-200 p-6 hover:border-brand-gold transition-all duration-300 shadow-sm hover:shadow-md">
+                            <div class="flex items-baseline justify-between">
+                                <h2 class="text-xl font-serif font-bold text-brand-navy group-hover:text-brand-gold transition-colors">
                                     {entry.data.title}
                                 </h2>
-                                <p class="text-sm text-slate-600 leading-relaxed line-clamp-2">
+                                <span class="text-slate-400 text-sm group-hover:text-brand-navy transition-colors opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 duration-300">
+                                    Begriff lesen &rarr;
+                                </span>
+                            </div>
+                            {entry.data.description && (
+                                <p class="text-slate-600 font-light mt-2 line-clamp-1">
                                     {entry.data.description}
                                 </p>
-                            </div>
-                            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-blue-600 transition-colors">
-                                Definition lesen 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 transform group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                            </div>
-                        </div>
-                    </a>
-                ))}
+                            )}
+                        </a>
+                    ))}
+                </div>
             </div>
-        </div>
 
     </main>
 

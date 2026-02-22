@@ -54,12 +54,24 @@
                 <!-- STEP 2: Contact Form -->
                 <div id="avgs-step-2" class="hidden p-6 sm:p-8">
                     <div class="text-center mb-6">
-                        <h3 class="text-xl font-bold leading-6 text-gray-900 mb-2">Kostenlose Prüfung anfordern</h3>
-                        <p class="text-sm text-gray-500">Ein zertifizierter Berater prüft Ihren Fall persönlich.</p>
+                        <h3 class="text-xl font-bold leading-6 text-gray-900 mb-2">Wir prüfen deinen Anspruch und helfen dir beim Antrag.</h3>
+                        <p class="text-sm text-slate-500">Ein zertifizierter Berater prüft Ihren Fall persönlich.</p>
                     </div>
 
                     <form id="avgs-form" class="space-y-4">
                         <input type="hidden" id="avgs-interest-input" name="interest" value="">
+                        <input type="hidden" id="avgs-partner-vertical" name="partner_vertical" value="">
+                        
+                        <!-- Partner Consent (Dynamic) -->
+                        <div id="partner-consent-container" class="hidden mb-4 p-3 bg-amber-50 border border-amber-100 rounded-lg">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" name="consent_partner_transfer" id="partner-consent-check" class="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                                <span class="text-xs text-slate-700 leading-snug">
+                                    <strong>Einwilligung zur Weiterleitung:</strong><br>
+                                    Ich stimme zu, dass meine Daten an einen qualifizierten Partner (Anwalt/Coach) zur kostenlosen Erstprüfung weitergegeben werden.
+                                </span>
+                            </label>
+                        </div>
                         
                         <div>
                             <label for="avgs-name" class="block text-xs font-medium text-gray-700 mb-1">Ihr Name</label>
@@ -74,6 +86,23 @@
                         <div>
                              <label for="avgs-phone" class="block text-xs font-medium text-gray-700 mb-1">Telefonnummer (für Rückfragen)</label>
                              <input type="tel" name="phone" id="avgs-phone" class="block w-full rounded-lg border-gray-300 bg-white text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2 px-3 border" placeholder="017... (Optional)">
+                        </div>
+
+                        <!-- AVGS Qualification Checkboxes -->
+                        <div id="avgs-qual-checks" class="hidden bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                             <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Ihre Situation (Bitte wählen)</p>
+                             <label class="flex items-start gap-2 cursor-pointer">
+                               <input type="checkbox" name="situation" value="arbeitslos" class="mt-0.5 w-3.5 h-3.5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                               <span class="text-xs text-slate-700 leading-snug">Ich bin arbeitslos gemeldet <span class="text-slate-400">(ALG I / Bürgergeld)</span></span>
+                             </label>
+                             <label class="flex items-start gap-2 cursor-pointer">
+                               <input type="checkbox" name="situation" value="bedroht" class="mt-0.5 w-3.5 h-3.5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                               <span class="text-xs text-slate-700 leading-snug">Ich bin von Arbeitslosigkeit bedroht</span>
+                             </label>
+                             <label class="flex items-start gap-2 cursor-pointer">
+                               <input type="checkbox" name="situation" value="gruendung" class="mt-0.5 w-3.5 h-3.5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                               <span class="text-xs text-slate-700 leading-snug">Ich plane eine Existenzgründung</span>
+                             </label>
                         </div>
 
                         <div class="pt-2">
@@ -112,8 +141,8 @@
 </div>
 
 <script>
-    import { supabase } from '../lib/supabase';
-
+    // LeadModal Logic - Now using Server-Side API
+    
     // Modal Logic
     const modal = document.getElementById('avgs-modal');
     const backdrop = document.getElementById('avgs-modal-backdrop');
@@ -126,13 +155,21 @@
     const step2 = document.getElementById('avgs-step-2');
     const step3 = document.getElementById('avgs-step-3');
     const interestInput = document.getElementById('avgs-interest-input');
+    const qualChecks = document.getElementById('avgs-qual-checks');
     
     // Dynamic Elements in Step 2
     const step2Title = step2.querySelector('h3');
     const step2Desc = step2.querySelector('p');
+    
+    // Dynamic Elements in Step 3
+    const step3Title = step3.querySelector('h3');
+    const step3Desc = step3.querySelector('p');
+
+    let currentModalType = 'avgs';
 
     // Open Modal Function (Global)
     window.openLeadModal = (type = 'avgs') => {
+        currentModalType = type;
         modal.classList.remove('hidden');
         // Animation
         setTimeout(() => {
@@ -147,21 +184,56 @@
             // Context: Application Help -> Skip Step 1
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
+            if(qualChecks) qualChecks.classList.add('hidden'); // Hide checks
             
             // Set Content
             if(step2Title) step2Title.textContent = "Experten-Hilfe anfordern";
             if(step2Desc) step2Desc.textContent = "Wir helfen Ihnen bei der Beantragung und Kommunikation mit der Behörde.";
-            interestInput.value = "Application_Help"; // Default interest
+            interestInput.value = "Application_Help"; 
             
         } else if (type === 'kiz') {
             // Context: Kinderzuschlag -> Skip Step 1
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
+            if(qualChecks) qualChecks.classList.add('hidden'); // Hide checks
             
             // Set Content
             if(step2Title) step2Title.textContent = "KiZ-Anspruch prüfen";
             if(step2Desc) step2Desc.textContent = "Wir helfen Ihnen bei der Beantragung von Kinderzuschlag.";
             interestInput.value = "KiZ_Check";
+
+        } else if (type === 'pdf-checklist') {
+            // Context: PDF Checklist -> Skip Step 1
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+            if(qualChecks) qualChecks.classList.add('hidden');
+            
+            // Set Content
+            if(step2Title) step2Title.textContent = "PDF-Paket kostenlos anfordern";
+            if(step2Desc) step2Desc.textContent = "Erhalten Sie die Checkliste und den rechtssicheren Antragstext sofort per E-Mail.";
+            interestInput.value = "PDF_Checklist";
+
+            if(step2Desc) step2Desc.textContent = "Erhalten Sie die Checkliste und den rechtssicheren Antragstext sofort per E-Mail.";
+            interestInput.value = "PDF_Checklist";
+
+        } else if (type === 'legal_help') {
+             // Context: Legal Partner -> Skip Step 1, Show Consent
+             step1.classList.add('hidden');
+             step2.classList.remove('hidden');
+             if(qualChecks) qualChecks.classList.add('hidden');
+             
+             // Set Content
+             if(step2Title) step2Title.textContent = "Kostenlose Ersteinschätzung vom Anwalt";
+             if(step2Desc) step2Desc.textContent = "Ein spezialisierter Sozialrechts-Anwalt prüft Ihren Fall unverbindlich.";
+             interestInput.value = "Legal_Review";
+             
+             // Set Partner Vertical
+             const pVertical = document.getElementById('avgs-partner-vertical');
+             if(pVertical) pVertical.value = 'legal';
+             
+             // Show Consent
+             const pConsent = document.getElementById('partner-consent-container');
+             if(pConsent) pConsent.classList.remove('hidden');
 
         } else {
             // Context: AVGS (Default) -> Show Step 1
@@ -169,9 +241,9 @@
             step2.classList.add('hidden');
             
             // Set Content (will be visible when moving to Step 2)
-            if(step2Title) step2Title.textContent = "Kostenlose Prüfung anfordern";
-            if(step2Desc) step2Desc.textContent = "Ein zertifizierter Berater prüft Ihren Fall persönlich.";
-            interestInput.value = ""; // Reset
+            if(step2Title) step2Title.textContent = "Kostenlos Anspruch prüfen & Budget sichern.";
+            if(step2Desc) step2Desc.textContent = "Ein Experte klärt mit Ihnen die Voraussetzungen für den Gutschein.";
+            interestInput.value = ""; 
         }
     };
     
@@ -199,6 +271,9 @@
             
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
+            
+            // SHOW CHECKS FOR AVGS
+            if(qualChecks) qualChecks.classList.remove('hidden');
         });
     });
     
@@ -206,6 +281,16 @@
     const form = document.getElementById('avgs-form');
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // Qualification Check (only if visible)
+        if (qualChecks && !qualChecks.classList.contains('hidden')) {
+             const checked = qualChecks.querySelectorAll('input[type="checkbox"]:checked');
+             if (checked.length === 0) {
+                 alert("Bitte wählen Sie mindestens eine Option zu Ihrer Situation.");
+                 return;
+             }
+        }
+        
         const btn = form.querySelector('button');
         const originalText = btn.innerHTML;
         btn.disabled = true;
@@ -221,39 +306,60 @@
              const firstName = nameParts[0];
              const lastName = nameParts.slice(1).join(' ') || '';
 
-             // Get City from DOM (Result Header)
+             // Get City from DOM
              const cityEl = document.getElementById('res-city-header');
              const city = (cityEl && cityEl.innerText !== '--') ? cityEl.innerText : 'Unbekannt';
-
-             // Supabase Insert
-             // Trying to support both schema styles (name vs first_name/last_name) by sending all
-             const { error } = await supabase
-                .from('leads')
-                .insert([
-                    { 
-                        first_name: firstName,
-                        last_name: lastName,
-                        // Fallback/Legacy fields just in case
-                        name: data.name,
-                        email: data.email,
-                        phone: data.phone || null,
-                        interest: data.interest || 'General',
-                        city: city 
-                    }
-                ]);
-
-             if (error) throw error;
              
+             // Append Checked Situations to Interest if avgs
+             let finalInterest = data.interest || 'General';
+             if (qualChecks && !qualChecks.classList.contains('hidden')) {
+                 const checked = Array.from(qualChecks.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
+                 if (checked.length > 0) {
+                     finalInterest += ` (Sit: ${checked.join(', ')})`;
+                 }
+             }
+
+             // USE SERVER-SIDE API
+             const response = await fetch('/api/leads/', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({
+                     first_name: firstName,
+                     last_name: lastName,
+                     email: data.email,
+                     phone: data.phone,
+                     interest: finalInterest,
+                     city: city,
+                     modal_type: currentModalType,
+                     source: 'sozialer-navigator',
+                     // Partner Fields
+                     partner_vertical: data.partner_vertical || null,
+                     consent_partner_transfer: data.consent_partner_transfer === 'on' // Checkbox value
+                 })
+             });
+
+             if (!response.ok) throw new Error('API request failed');
+             
+             // Success State Update
+             if (currentModalType === 'pdf-checklist') {
+                 if(step3Title) step3Title.textContent = "PDF-Paket versendet!";
+                 if(step3Desc) step3Desc.textContent = "Vielen Dank. Wir haben Ihnen die Unterlagen und die Checkliste per E-Mail gesendet.";
+             } else {
+                 if(step3Title) step3Title.textContent = "Anfrage erhalten!";
+                 if(step3Desc) step3Desc.textContent = "Vielen Dank. Ihre Anfrage ist eingegangen. Ein zuständiger Berater wird sich zeitnah bei Ihnen melden.";
+             }
+
              step2.classList.add('hidden');
              step3.classList.remove('hidden');
              
              if(window.confetti) window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
         } catch (err) {
-            console.error('Supabase Error:', err);
+            console.error('Submission Error:', err);
             btn.innerText = "Fehler";
-            // Show the actual error message to the user for debugging
-            alert(`Fehler beim Senden: ${err.message || JSON.stringify(err)}`);
+            alert(`Fehler beim Senden. Bitte versuche es später erneut.`);
             setTimeout(() => {
                 btn.innerHTML = originalText;
                 btn.disabled = false;

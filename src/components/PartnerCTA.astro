@@ -1,0 +1,86 @@
+---
+interface Props {
+  type: 'legal' | 'coaching';
+  title?: string;
+  description?: string;
+  buttonText?: string;
+}
+
+const { 
+  type = 'legal', 
+  title, 
+  description, 
+  buttonText 
+} = Astro.props;
+
+// Configuration based on Type
+const config = {
+  legal: {
+    icon: '⚖️',
+    defaultTitle: 'Bescheid prüfen lassen',
+    defaultDesc: 'Lassen Sie Ihren Bescheid von einem spezialisierten Anwalt prüfen. Erfolgschancen steigen drastisch.',
+    defaultBtn: 'Kostenlose Ersteinschätzung',
+    modalType: 'legal_help',
+    vertical: 'legal',
+    // Premium Law Firm Theme
+    containerClass: 'bg-[#FDFBF7] border-[#c5a67c]/30 shadow-lg',
+    iconBgClass: 'bg-[#0a1628] text-white',
+    titleClass: 'font-serif text-[#0a1628]',
+    btnClass: 'bg-[#c5a67c] hover:bg-[#b0946b] text-white shadow-md shadow-[#c5a67c]/20'
+  },
+  coaching: {
+    icon: '🚀',
+    defaultTitle: 'Karriere-Booster (AVGS)',
+    defaultDesc: 'Nutzen Sie Ihr staatliches Budget von 2.500€ für ein professionelles Gründer- oder Jobcoaching.',
+    defaultBtn: 'Gutschein sichern',
+    modalType: 'avgs',
+    vertical: 'coaching',
+    // Modern SaaS Theme
+    containerClass: 'bg-blue-50 border-blue-200',
+    iconBgClass: 'bg-blue-100 text-blue-600',
+    titleClass: 'font-sans text-slate-900',
+    btnClass: 'bg-blue-600 hover:bg-blue-700 text-white'
+  }
+};
+
+const current = config[type];
+const finalTitle = title || current.defaultTitle;
+const finalDesc = description || current.defaultDesc;
+const finalBtn = buttonText || current.defaultBtn;
+
+// Styles
+const containerClasses = current.containerClass;
+const btnClasses = current.btnClass;
+---
+
+<div class={`rounded-2xl border p-8 ${containerClasses} relative overflow-hidden group`}>
+    
+    <!-- Decorative Icon Background -->
+    <div class="absolute -right-6 -bottom-6 text-[8rem] opacity-5 select-none pointer-events-none grayscale">
+        {current.icon}
+    </div>
+
+    <div class="relative z-10">
+        <div class="flex items-center gap-4 mb-4">
+             <div class={`w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-sm ${current.iconBgClass}`}>
+                {current.icon}
+             </div>
+             <h3 class={`text-xl font-bold ${current.titleClass}`}>{finalTitle}</h3>
+        </div>
+        
+        <p class="text-sm text-slate-700 mb-6 leading-relaxed max-w-sm">
+            {finalDesc}
+        </p>
+
+        <button 
+            onclick={`window.openLeadModal('${current.modalType}')`}
+            class={`w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm transition-all transform hover:-translate-y-0.5 ${btnClasses}`}
+        >
+            {finalBtn}
+        </button>
+        
+        <p class="text-[10px] text-slate-500 mt-2.5">
+            {type === 'legal' ? 'Unverbindlich & Vertraulich.' : '100% Kostenfrei mit Gutschein.'}
+        </p>
+    </div>
+</div>

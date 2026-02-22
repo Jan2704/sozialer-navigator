@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+export const prerender = true;
 import SchemaOrg from '../../components/SEO/SeoSchema.astro';
 import CitySchemas from '../../components/CitySchemas.astro';
 import ResultsSection from '../../components/ResultsSection.astro';
@@ -95,7 +96,7 @@ const defaultCity = isCity ? {
     amt_email: info.amt_email || ""
 } : null;
 
-const canonicalUrl = isCity ? `https://sozialer-navigator.de/${info.slug}/wohngeld` : undefined;
+const canonicalUrl = isCity ? `https://sozialer-navigator.de/${info.slug}/wohngeld/` : undefined;
 ---
 
 <Layout title={pageTitle} description={pageDesc} canonical={canonicalUrl}>

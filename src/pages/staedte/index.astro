@@ -1,0 +1,109 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import cities from '../../data/cities_2026.json';
+
+export const prerender = true;
+
+// Sort cities alphabetically for better UX
+const sortedCities = [...cities].sort((a, b) => a.stadt.localeCompare(b.stadt));
+
+// Group cities by their first letter
+const groupedCities = sortedCities.reduce((acc, city) => {
+    const firstLetter = city.stadt.charAt(0).toUpperCase();
+    if (!acc[firstLetter]) {
+        acc[firstLetter] = [];
+    }
+    acc[firstLetter].push(city);
+    return acc;
+}, {});
+
+const letters = Object.keys(groupedCities).sort();
+
+const description = "Schnell und einfach prüfen, ob Ihnen Wohngeld oder Bürgergeld zusteht. Finden Sie alle verfügbaren Städte im Sozialen Navigator 2026.";
+---
+
+<Layout 
+    title="Alle Städte im Überblick | Sozialer Navigator"
+    description={description}
+    class="bg-surface-base"
+>
+    <!-- SEO Meta & Schema -->
+    <fragment slot="head">
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={new URL('/staedte/', Astro.site)} />
+    </fragment>
+
+    <main class="min-h-screen relative pt-32 pb-32">
+        <div class="max-w-5xl mx-auto px-6 relative z-10">
+            
+            <header class="mb-16">
+                 <div class="inline-flex items-center gap-3 mb-6">
+                    <div class="h-[1px] w-8 bg-brand-navy"></div>
+                    <span class="text-brand-navy text-xs font-bold uppercase tracking-[0.2em]">Städte-Verzeichnis</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-serif text-brand-navy mb-6">
+                    Alle verfügbaren Städte für Ihre Anspruchsprüfung.
+                </h1>
+                <p class="text-lg text-slate-600 font-light max-w-2xl leading-relaxed">
+                    Wählen Sie Ihre Stadt aus, um gezielt Informationen und Anlaufstellen (wie das lokale Jobcenter oder die Wohngeldbehörde) für Wohngeld und Bürgergeld zu finden.
+                </p>
+            </header>
+
+            <!-- Letter Navigation Jump Links -->
+            <div class="flex flex-wrap gap-2 mb-12 p-6 bg-white border border-slate-100 rounded-sm shadow-sm">
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-400 mr-2 flex items-center">Springe zu:</span>
+                {letters.map(letter => (
+                    <a href={`#letter-${letter}`} class="w-8 h-8 flex items-center justify-center text-sm font-medium text-brand-navy bg-slate-50 hover:bg-brand-gold hover:text-white transition-colors rounded-sm">
+                        {letter}
+                    </a>
+                ))}
+            </div>
+
+            <!-- Cities Grid grouped by Letter -->
+            <div class="space-y-16">
+                {letters.map(letter => (
+                    <div id={`letter-${letter}`} class="scroll-mt-32">
+                        <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-2">
+                             <h2 class="text-3xl font-serif text-brand-navy">{letter}</h2>
+                        </div>
+                        <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {groupedCities[letter].map(city => (
+                                <li>
+                                    <a href={`/${city.slug}/`} class="group block p-4 bg-white border border-slate-100 rounded-sm hover:border-brand-gold/30 hover:shadow-md transition-all">
+                                        <span class="text-brand-navy font-medium group-hover:text-brand-gold transition-colors block mb-1">{city.stadt}</span>
+                                        <span class="text-xs text-slate-400 flex items-center gap-1">
+                                            <i data-lucide="map-pin" class="w-3 h-3"></i> {city.plz}
+                                        </span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
+
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from 'gsap';
+    import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+    gsap.registerPlugin(ScrollToPlugin);
+
+    // Smooth scroll for anchor links
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('a[href^="#letter-"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                gsap.to(window, { duration: 0.5, scrollTo: { y: targetId, offsetY: 100 }, ease: "power2.out" });
+            });
+        });
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    });
+</script>

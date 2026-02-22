@@ -4,74 +4,209 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
 ---
 
 <Layout title="Anspruch gesichert | Sozialer Navigator">
-  <main class="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col items-center justify-center p-6 pt-32 relative overflow-hidden">
+  <main class="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 pt-32 relative overflow-hidden">
     
     <!-- Background Effects -->
-    <div class="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
+    <div class="fixed inset-0 z-0 select-none pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/90 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent"></div>
+    </div>
     <div class="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-100/50 blur-[120px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-3xl w-full relative z-10 text-center">
         
-        <div class="text-6xl mb-6 animate-bounce">🎉</div>
-        <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">Geschafft!</h1>
-        <p class="text-xl text-slate-600 font-medium mb-12">
-          Vielen Dank, <span id="display-name" class="text-blue-600 font-bold">...</span>. Deine Daten sind sicher hinterlegt.
+        <div class="mb-8 inline-flex items-center justify-center w-24 h-24 rounded-full bg-blue-100 text-blue-600 shadow-[0_0_40px_-5px_rgba(37,99,235,0.3)] animate-in fade-in zoom-in duration-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">Vielen Dank für dein Vertrauen!</h1>
+        <p class="text-xl text-slate-600 font-medium mb-12 max-w-2xl mx-auto">
+          Hallo <span id="display-name" class="text-blue-600 font-bold">...</span>, deine Zahlung war erfolgreich. Dein Antrag wurde soeben erstellt und fristwahrend versendet.
         </p>
 
-        <div class="bg-white border border-slate-200 p-8 rounded-3xl mb-12 inline-block min-w-[300px] shadow-xl">
-          <span class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-2">Dein monatlicher Vorteil</span>
-          <div id="display-summe" class="text-5xl font-black text-emerald-500 text-glow">0,00 €</div>
-        </div>
-
-        <div class="bg-blue-600 rounded-3xl p-8 md:p-10 text-left shadow-2xl shadow-blue-200 relative overflow-hidden group">
-             <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 opacity-100 group-hover:scale-105 transition-transform duration-700"></div>
-             <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+        <div class="bg-blue-600 rounded-[2.5rem] p-8 md:p-12 text-left shadow-2xl shadow-blue-600/30 relative overflow-hidden group mb-8">
+             <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 opacity-100 group-hover:scale-105 transition-transform duration-700"></div>
+             <div class="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none mix-blend-overlay"></div>
+             <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/30 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
 
              <div class="relative z-10">
-                  <h2 class="text-2xl font-black text-white mb-4">Wichtig: Sofortige Fristwahrung (§ 24 WoGG)</h2>
-                  <p class="text-blue-50 font-medium mb-6 leading-relaxed">
-                      Kopiere diesen Text und sende ihn heute per E-Mail an dein Wohngeldamt, um das Geld für <strong>{currentMonth} 2026</strong> zu sichern.
-                  </p>
-                  
-                  <div id="copy-box" class="bg-white/10 border border-white/20 rounded-xl p-6 font-mono text-sm text-blue-50 leading-relaxed overflow-x-auto selection:bg-blue-800 selection:text-white">
-                    Betreff: Formloser Antrag auf Wohngeld zur Fristwahrung<br/><br/>
-                    Sehr geehrte Damen und Herren,<br/><br/>
-                    hiermit beantrage ich für meinen Haushalt Wohngeld zur Fristwahrung nach § 24 WoGG für den Monat {currentMonth} 2026.<br/><br/>
-                    Mit freundlichen Grüßen,<br/>
-                    <span id="display-name-copy"></span>
+                  <h2 class="text-3xl font-black text-white mb-6 leading-tight flex items-center gap-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      Antrag erfolgreich versendet
+                  </h2>
+                  <div class="space-y-6 text-blue-50 font-medium text-lg leading-relaxed">
+                      <p>
+                          Wir haben deinen rechtsgültigen Antrag zur Fristungswahrung soeben <strong>automatisch an die zuständige Behörde</strong> gesendet.
+                      </p>
+                      
+                      <div class="bg-white/10 border border-white/10 rounded-2xl p-6 backdrop-blur-sm shadow-inner flex items-start gap-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200 shrink-0 mt-1"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                          <div>
+                              <h3 class="text-white font-bold mb-1">Prüfe dein Postfach</h3>
+                              <p class="text-sm text-blue-100 leading-snug">
+                                  Du erhältst in den nächsten 5 Minuten eine Bestätigungs-E-Mail von uns. Dort findest du auch deine <strong>Unterlagenliste als PDF</strong>. Bitte prüfe auch deinen Spam-Ordner.
+                              </p>
+                          </div>
+                      </div>
                   </div>
-                  
-                  <button onclick="copyToClipboard()" class="w-full mt-6 bg-white text-blue-600 py-4 px-6 rounded-xl font-bold uppercase tracking-widest hover:bg-blue-50 transition-colors shadow-lg flex items-center justify-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                      Text kopieren
-                  </button>
              </div>
         </div>
+
+        <!-- Review & Newsletter Section -->
+        <div class="bg-white rounded-[2.5rem] p-8 md:p-12 text-left shadow-xl border border-slate-100 mb-8 relative overflow-hidden transition-all duration-500" id="review-container">
+            <h3 class="text-2xl font-black text-slate-900 mb-2">Wie war deine Erfahrung?</h3>
+            <p class="text-slate-500 mb-8 font-medium">Dein Feedback hilft uns, den Sozialen Navigator für alle zu verbessern.</p>
+            
+            <form id="review-form" class="space-y-6">
+                <!-- Stars -->
+                <div>
+                    <div class="flex items-center gap-2 mb-2" id="star-rating">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <button type="button" class="star-btn text-slate-200 hover:text-yellow-400 transition-colors focus:outline-none transform hover:scale-110" data-value={star}>
+                                <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                            </button>
+                        ))}
+                    </div>
+                    <input type="hidden" id="rating-value" name="rating" required>
+                </div>
+
+                <!-- Textarea -->
+                <div>
+                    <textarea id="review-text" name="message" rows="3" placeholder="Was hat dir gut gefallen? Was können wir besser machen?" class="w-full rounded-xl border-slate-200 bg-slate-50 p-4 text-slate-700 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500 transition-colors shadow-sm"></textarea>
+                </div>
+
+                <!-- Email & Newsletter Checkbox -->
+                <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-5 space-y-4">
+                    <div>
+                        <label for="review-email" class="block text-sm font-bold text-slate-700 mb-1">Deine E-Mail-Adresse (optional)</label>
+                        <input type="email" id="review-email" name="email" placeholder="max@beispiel.de" class="w-full rounded-lg border-slate-200 bg-white p-3 text-slate-700 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500 transition-colors shadow-sm">
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <div class="flex items-center h-6">
+                            <input id="newsletter" name="newsletter" type="checkbox" class="w-5 h-5 rounded border-blue-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                        </div>
+                        <label for="newsletter" class="text-sm font-medium text-slate-700 cursor-pointer select-none">
+                            <span class="block text-blue-900 font-bold mb-0.5">Bleib informiert!</span>
+                            Melde dich für unseren kostenlosen Newsletter an und erhalte rechtliche Updates.
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" id="review-submit-btn" class="w-full bg-slate-900 text-white py-4 px-8 rounded-xl font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                    Bewertung absenden
+                </button>
+            </form>
+
+            <div id="review-success" class="hidden absolute inset-0 bg-white flex-col items-center justify-center text-center p-8 z-10 animate-in fade-in duration-500">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3 class="text-2xl font-black text-slate-900 mb-2">Vielen Dank!</h3>
+                <p class="text-slate-500 font-medium">Dein Feedback wurde erfolgreich übermittelt.</p>
+                <a href="/" class="mt-8 text-blue-600 font-bold hover:underline">Zurück zur Startseite</a>
+            </div>
+        </div>
+
+        <a href="/" class="inline-flex w-full bg-white border border-slate-200 text-slate-600 py-4 px-8 rounded-2xl font-bold uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-3 group/home mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover/home:-translate-x-1 transition-transform"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Zurück zur Startseite
+        </a>
 
     </div>
 
   </main>
 </Layout>
 
-<style>
-    .text-glow {
-        text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-    }
-</style>
+<script>
+  import { supabase } from '../lib/supabase';
 
-<script is:inline>
+  // Handle URL parameters
   const params = new URLSearchParams(window.location.search);
-  const name = params.get('name') || 'Nutzer';
-  const summe = parseFloat(params.get('summe') || 0).toFixed(2);
-
-  document.getElementById('display-name').innerText = name;
-  document.getElementById('display-name-copy').innerText = name;
-  document.getElementById('display-summe').innerText = summe.replace('.', ',') + ' €';
-
-  function copyToClipboard() {
-    const text = document.getElementById('copy-box').innerText;
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Der Antragstext wurde kopiert! Sende ihn jetzt an dein Amt.");
-    });
+  const name = params.get('name');
+  const nameEl = document.getElementById('display-name');
+  if (nameEl) {
+      if (name) {
+          nameEl.innerText = name;
+      } else {
+          nameEl.style.display = 'none';
+      }
   }
+
+  // Handle Star Rating Logic
+  const stars = document.querySelectorAll('.star-btn');
+  const ratingValue = document.getElementById('rating-value') as HTMLInputElement;
+
+  stars.forEach(star => {
+      star.addEventListener('click', () => {
+          const val = (star as HTMLElement).dataset.value;
+          if (ratingValue) ratingValue.value = val || "";
+          
+          stars.forEach((s, idx) => {
+              if (idx < parseInt(val || "0")) {
+                  s.classList.add('text-yellow-400');
+                  s.classList.remove('text-slate-200');
+              } else {
+                  s.classList.add('text-slate-200');
+                  s.classList.remove('text-yellow-400');
+              }
+          });
+      });
+  });
+
+  // Handle Form Submission
+  const form = document.getElementById('review-form');
+  const successView = document.getElementById('review-success');
+  const submitBtn = document.getElementById('review-submit-btn') as HTMLButtonElement;
+
+  form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (!ratingValue?.value) {
+          alert('Bitte wähle eine Sterne-Bewertung aus.');
+          return;
+      }
+
+      if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerText = "Sende...";
+      }
+
+      try {
+          const formData = new FormData(form as HTMLFormElement);
+          const data = Object.fromEntries(formData.entries());
+          
+          // Wir speichern das Feedback und vermerken in 'contact' die E-Mail + Newsletter Präferenz
+          const contactInfo = data.email 
+              ? `${data.email} | Newsletter: ${data.newsletter === 'on' ? 'Ja' : 'Nein'}`
+              : (data.newsletter === 'on' ? 'Newsletter: Ja (Keine E-Mail angegeben!)' : '');
+
+          const { error } = await supabase
+              .from('user_feedback')
+              .insert([{
+                  type: 'rating',
+                  message: data.message,
+                  rating: parseInt(data.rating as string),
+                  contact: contactInfo,
+                  url: '/erfolg (Kauf abgeschlossen)'
+              }]);
+
+          if (error) throw error;
+
+          // Feedback gesendet
+          successView?.classList.remove('hidden');
+          successView?.classList.add('flex');
+
+      } catch (err) {
+          console.error('Feedback Error:', err);
+          alert('Fehler beim Senden. Bitte versuche es später erneut.');
+      } finally {
+          if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerText = "Bewertung absenden";
+          }
+      }
+  });
 </script>

@@ -1,0 +1,140 @@
+---
+---
+---
+import cities from '../data/cities_2026.json';
+
+// Props could be optional if we want to pre-fill?
+---
+
+<div class="authority-search-container bg-slate-50 border border-slate-200 rounded-xl p-6">
+  <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
+    <span class="bg-blue-100 text-blue-600 w-8 h-8 flex items-center justify-center rounded-lg text-lg">🏛️</span>
+    Zuständige Behörde finden
+  </h3>
+
+  <div class="relative">
+      <input 
+        type="text" 
+        id="auth-search-input" 
+        placeholder="PLZ oder Stadt eingeben..." 
+        class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+      />
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+      
+      <!-- Results Dropdown -->
+      <div id="auth-search-results" class="hidden absolute top-full left-0 w-full bg-white border border-slate-200 shadow-xl rounded-b-lg mt-1 z-50 max-h-60 overflow-y-auto"></div>
+  </div>
+
+  <!-- Selected Result Card -->
+  <div id="auth-result-card" class="hidden mt-6 bg-white border border-blue-100 shadow-md rounded-xl p-5 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -mr-8 -mt-8"></div>
+      
+      <div class="relative z-10">
+          <h4 id="auth-name" class="font-bold text-lg text-slate-900 mb-1"></h4>
+          <p id="auth-address" class="text-slate-600 text-sm mb-4 flex items-start gap-2">
+            <span class="mt-0.5">📍</span>
+            <span></span>
+          </p>
+
+          <div class="grid gap-3">
+              <div class="bg-emerald-50 border border-emerald-100 rounded-lg p-3">
+                  <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">Wohngeldstelle</span>
+                  <a id="auth-email-amt" href="" class="text-emerald-700 font-medium hover:underline text-sm break-all flex items-center gap-2">
+                      ✉️ <span></span>
+                  </a>
+              </div>
+              <div class="bg-amber-50 border border-amber-100 rounded-lg p-3">
+                   <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Jobcenter</span>
+                  <a id="auth-email-jc" href="" class="text-amber-700 font-medium hover:underline text-sm break-all flex items-center gap-2">
+                      ✉️ <span></span>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ cities }}>
+    const input = document.getElementById('auth-search-input');
+    const resultsDiv = document.getElementById('auth-search-results');
+    const resultCard = document.getElementById('auth-result-card');
+    const authName = document.getElementById('auth-name');
+    const authAddress = document.getElementById('auth-address').querySelector('span:last-child');
+    const authEmailAmt = document.getElementById('auth-email-amt');
+    const authEmailJc = document.getElementById('auth-email-jc');
+
+    let debounceTimer;
+
+    input.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        const term = e.target.value.toLowerCase().trim();
+        
+        if (term.length < 2) {
+            resultsDiv.classList.add('hidden');
+            return;
+        }
+
+        debounceTimer = setTimeout(() => {
+            const matches = cities.filter(c => 
+                c.stadt.toLowerCase().includes(term) || 
+                c.plz.startsWith(term)
+            ).slice(0, 5); // Limit to 5
+
+            renderResults(matches);
+        }, 150);
+    });
+
+    function renderResults(matches) {
+        resultsDiv.innerHTML = '';
+        if (matches.length === 0) {
+            resultsDiv.classList.add('hidden');
+            return;
+        }
+
+        matches.forEach(city => {
+            const div = document.createElement('div');
+            div.className = 'px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-0 flex justify-between items-center';
+            div.innerHTML = `
+                <span class="font-medium text-slate-700">${city.stadt}</span>
+                <span class="text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded">${city.plz}</span>
+            `;
+            div.onclick = () => selectCity(city);
+            resultsDiv.appendChild(div);
+        });
+        resultsDiv.classList.remove('hidden');
+    }
+
+    function selectCity(city) {
+        input.value = `${city.plz} ${city.stadt}`;
+        resultsDiv.classList.add('hidden');
+        
+        // Populate Card
+        resultCard.classList.remove('hidden');
+        authName.textContent = city.amt_name || 'Zuständige Stelle';
+        authAddress.textContent = city.amt_adresse || 'Adresse nicht verfügbar';
+        
+        // Emails
+        if(city.amt_email) {
+            authEmailAmt.href = `mailto:${city.amt_email}`;
+            authEmailAmt.querySelector('span').textContent = city.amt_email;
+            authEmailAmt.parentElement.classList.remove('hidden');
+        } else {
+             authEmailAmt.parentElement.classList.add('hidden');
+        }
+
+        if(city.jobcenter_email) {
+            authEmailJc.href = `mailto:${city.jobcenter_email}`;
+            authEmailJc.querySelector('span').textContent = city.jobcenter_email;
+            authEmailJc.parentElement.classList.remove('hidden');
+        } else {
+             authEmailJc.parentElement.classList.add('hidden');
+        }
+    }
+    
+    // Hide results on click outside
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !resultsDiv.contains(e.target)) {
+            resultsDiv.classList.add('hidden');
+        }
+    });
+</script>

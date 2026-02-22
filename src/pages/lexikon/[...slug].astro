@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+export const prerender = true;
 import { slugify } from '../../utils/slugify';
 import { ArrowRight, BookOpen, Share2 } from 'lucide-react';
 
@@ -45,67 +46,66 @@ import SchemaOrg from '../../components/SEO/SeoSchema.astro';
                 ]
             }}
         />
+        {entry.data.faqs && (
+            <SchemaOrg 
+                type="FAQPage" 
+                data={{
+                    items: entry.data.faqs.map(faq => ({ q: faq.question, a: faq.answer }))
+                }}
+            />
+        )}
     </fragment>
 
-    <main class="min-h-screen bg-[#0F172A] text-slate-300 relative overflow-hidden font-sans">
+    <main class="min-h-screen bg-surface-muted font-sans pb-32">
         
-        <!-- Ambient Background Glow -->
-        <div class="absolute top-0 inset-x-0 h-[600px] bg-gradient-to-b from-blue-900/20 via-[#0F172A]/80 to-[#0F172A] pointer-events-none"></div>
-        <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none opacity-50 mix-blend-screen"></div>
+        <!-- Header Section (Dark Navy) -->
+        <div class="relative bg-brand-navy pt-32 pb-24 overflow-hidden">
+             <!-- Background Elements -->
+             <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
+             <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-gold rounded-full blur-[120px] opacity-10 pointer-events-none transform translate-x-1/3 -translate-y-1/3"></div>
 
-        <div class="max-w-6xl mx-auto relative z-10 px-6 pt-32 pb-24">
-            
-            <!-- Breadcrumb Navigation -->
-            <nav class="mb-12 flex items-center gap-3 text-sm font-medium text-slate-500">
-                <a href="/lexikon" class="hover:text-blue-400 transition-colors flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                    Lexikon
-                </a>
-                <span class="text-slate-700">/</span>
-                <span class="text-blue-400 truncate max-w-[200px]">{entry.data.title}</span>
-            </nav>
+             <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+                 
+                 <nav class="inline-flex items-center gap-2 text-sm font-medium text-slate-400 mb-8 bg-white/5 px-4 py-2 rounded-full border border-white/10 backdrop-blur-sm">
+                    <a href="/lexikon" class="hover:text-brand-gold transition-colors">Lexikon</a>
+                    <span class="text-slate-600">/</span>
+                    <span class="text-brand-gold truncate max-w-[200px]">{entry.data.title}</span>
+                </nav>
 
-            <div class="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mb-8 leading-tight">
+                    {entry.data.title}
+                </h1>
+
+                <div class="text-xl md:text-2xl text-slate-300 font-light leading-relaxed max-w-2xl mx-auto">
+                    {entry.data.description}
+                </div>
+             </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 -mt-12 relative z-20">
+            <div class="grid lg:grid-cols-[1fr_320px] gap-12 items-start">
                 
                 <!-- Main Content Column -->
-                <article class="min-w-0">
+                <article class="bg-white rounded-sm shadow-premium p-8 md:p-12 border border-slate-100">
                     
-                    <!-- Header Section -->
-                    <header class="mb-10 lg:mb-14">
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider mb-6 shadow-[0_0_15px_-3px_rgba(59,130,246,0.3)] backdrop-blur-md">
-                            <BookOpen className="w-3.5 h-3.5" />
-                            <span>Definition</span>
-                        </div>
-                        
-                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-8 drop-shadow-sm">
-                            {entry.data.title}
-                        </h1>
-                        
-                        <div class="text-xl sm:text-2xl text-slate-400 font-medium leading-relaxed border-l-4 border-blue-500/50 pl-6 py-1">
-                            {entry.data.description}
-                        </div>
-                    </header>
-
                     <!-- Content Body -->
-                    <div class="prose prose-lg prose-invert max-w-none 
-                        prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white 
-                        prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-b prose-h2:border-slate-800 prose-h2:pb-4
-                        prose-h3:text-2xl prose-h3:text-blue-100/90 markdown-content
-                        prose-p:text-slate-300 prose-p:leading-8
-                        prose-strong:text-white prose-strong:font-bold
-                        prose-a:text-blue-400 prose-a:font-semibold prose-a:no-underline hover:prose-a:text-blue-300 hover:prose-a:underline prose-a:transition-colors
-                        prose-li:text-slate-300 prose-li:marker:text-blue-500
-                        prose-blockquote:border-l-blue-500 prose-blockquote:bg-slate-800/30 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:text-slate-200 prose-blockquote:italic
-                        prose-code:text-blue-300 prose-code:bg-blue-900/30 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
+                    <div class="prose prose-lg prose-slate max-w-none 
+                        prose-headings:font-serif prose-headings:font-medium prose-headings:text-brand-navy
+                        prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 
+                        prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-light
+                        prose-strong:text-brand-navy prose-strong:font-semibold
+                        prose-a:text-brand-gold prose-a:no-underline hover:prose-a:text-brand-gold-light hover:prose-a:underline prose-a:transition-colors
+                        prose-li:text-slate-600 prose-li:marker:text-brand-gold
+                        prose-blockquote:border-l-brand-gold prose-blockquote:bg-surface-muted prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:not-italic prose-blockquote:text-brand-navy">
                         <Content />
                     </div>
 
                     <!-- Article Footer/Actions -->
-                    <div class="mt-16 pt-8 border-t border-slate-800/60 flex items-center justify-between">
-                        <p class="text-slate-500 text-sm">
-                            Zuletzt aktualisiert: <span class="text-slate-400">Heute</span>
+                    <div class="mt-16 pt-8 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-slate-400 text-sm italic font-serif">
+                            Stand: {new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long' })}
                         </p>
-                        <button class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-medium">
+                        <button class="inline-flex items-center gap-2 text-slate-500 hover:text-brand-navy transition-colors text-sm font-medium tracking-wide uppercase">
                             <Share2 className="w-4 h-4" />
                             Teilen
                         </button>
@@ -116,7 +116,7 @@ import SchemaOrg from '../../components/SEO/SeoSchema.astro';
                 <!-- Sidebar Column -->
                 <aside class="space-y-8 sticky top-32">
                     
-                    <!-- Topic Context Widget (AI Linking Strategy) -->
+                    <!-- Topic Context Widget -->
                     {(() => {
                         const t = entry.data.title.toLowerCase();
                         const s = entry.slug.toLowerCase();
@@ -124,79 +124,48 @@ import SchemaOrg from '../../components/SEO/SeoSchema.astro';
                         const isWohngeld = t.includes('wohngeld') || t.includes('miet') || s.includes('wohngeld');
                         const isSgbXii = t.includes('sgb xii') || t.includes('grundsicherung im alter') || t.includes('renten') || s.includes('sgb-xii');
 
-                        let targetLink = "/buergergeld";
+                        let targetLink = "/buergergeld/";
                         let targetName = "Bürgergeld";
-                        let targetColor = "indigo"; // Default Blue/Indigo
 
                         if (isWohngeld) {
-                            targetLink = "/wohngeld";
+                            targetLink = "/wohngeld/";
                             targetName = "Wohngeld";
-                            targetColor = "emerald";
                         } else if (isSgbXii) {
-                            targetLink = "/buergergeld-grundsicherung";
+                            targetLink = "/buergergeld-grundsicherung/";
                             targetName = "Grundsicherung";
-                            targetColor = "amber";
                         }
 
                         return (
-                            <div class="relative bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-2xl p-6 overflow-hidden">
-                                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-                                    <span class={`w-1 h-4 bg-${targetColor}-500 rounded-full`}></span>
-                                    Thematische Einordnung
+                            <div class="bg-white border border-slate-200 p-8 rounded-sm shadow-sm">
+                                <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-3">
+                                    <div class="h-[1px] w-8 bg-brand-gold"></div>
+                                    Kontext
                                 </h4>
-                                <p class="text-sm text-slate-300 mb-4">
-                                    Der Begriff <strong>{entry.data.title}</strong> ist ein zentraler Bestandteil des Themenbereichs {targetName}.
+                                <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                                    Der Begriff <strong class="text-brand-navy">{entry.data.title}</strong> gehört zum Themenbereich {targetName}.
                                 </p>
-                                <a href={targetLink} class={`flex items-center justify-between w-full p-3 rounded-xl bg-${targetColor}-500/10 border border-${targetColor}-500/20 hover:bg-${targetColor}-500/20 transition-all group`}>
-                                    <span class={`text-sm font-bold text-${targetColor}-400`}>Zum {targetName}-Leitfaden</span>
-                                    <ArrowRight className={`w-4 h-4 text-${targetColor}-400 group-hover:translate-x-1 transition-transform`} />
+                                <a href={targetLink} class="group flex items-center justify-between w-full p-4 bg-surface-muted hover:bg-brand-navy hover:text-white transition-all duration-300 border border-slate-100">
+                                    <span class="text-sm font-serif font-medium">Zum {targetName}-Ratgeber</span>
+                                    <ArrowRight className="w-4 h-4 text-brand-gold" />
                                 </a>
                             </div>
                         );
                     })()}
 
-                    <!-- Related Terms Widget -->
-                    {entry.data.relatedTerms && entry.data.relatedTerms.length > 0 && (
-                        <div class="group relative bg-slate-900/40 backdrop-blur-xl border border-slate-800/60 rounded-2xl p-6 overflow-hidden hover:border-blue-500/30 transition-all duration-500 shadow-lg shadow-black/20">
-                            <!-- Glow Effect -->
-                            <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-600/20 rounded-full blur-[50px] pointer-events-none group-hover:bg-blue-600/30 transition-all duration-500"></div>
-
-                            <h4 class="relative z-10 text-xs font-bold uppercase tracking-wider text-slate-400 mb-6 flex items-center gap-2">
-                                <span class="w-1 h-4 bg-blue-500 rounded-full"></span>
-                                Verwandte Begriffe
-                            </h4>
-                            
-                            <ul class="relative z-10 space-y-3">
-                                {entry.data.relatedTerms.map(term => (
-                                    <li>
-                                        <a href={`/lexikon/${slugify(term)}`} class="group/link flex items-center justify-between p-3 rounded-xl bg-slate-800/40 hover:bg-blue-600/10 border border-transparent hover:border-blue-500/20 transition-all duration-300">
-                                            <span class="text-sm font-medium text-slate-300 group-hover/link:text-blue-300 transition-colors">{term}</span>
-                                            <ArrowRight className="w-4 h-4 text-slate-600 group-hover/link:text-blue-400 transform group-hover/link:translate-x-1 transition-all" />
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
                     <!-- Expert Help Widget -->
-                    <div class="relative bg-gradient-to-br from-blue-900/20 to-slate-900/50 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-1 overflow-hidden">
-                        <div class="bg-slate-900/80 rounded-xl p-6 relative z-10 h-full flex flex-col items-start gap-4">
-                            
-                            <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    <div class="bg-brand-navy p-8 rounded-sm shadow-xl relative overflow-hidden text-center">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gold rounded-full blur-[40px] opacity-10 pointer-events-none"></div>
+                        
+                        <div class="relative z-10">
+                             <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-brand-gold mx-auto mb-6 border border-white/5">
+                                <BookOpen className="w-5 h-5" />
                             </div>
-
-                            <div>
-                                <h4 class="text-base font-bold text-white mb-2">Noch Fragen offen?</h4>
-                                <p class="text-sm text-slate-400 leading-relaxed">
-                                    Nicht sicher, ob das zutrifft? Unsere Experten helfen dir kostenlos weiter.
-                                </p>
-                            </div>
-
-                            <a href="mailto:hilfe@sozialer-navigator.de" class="w-full mt-2 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg shadow-blue-900/50 hover:shadow-blue-600/30">
-                                Kontakt aufnehmen
-                                <ArrowRight className="w-4 h-4" />
+                            <h4 class="text-xl font-serif text-white mb-2">Unklarheiten?</h4>
+                            <p class="text-white/60 text-sm leading-relaxed mb-8 font-light">
+                                Unsere Experten prüfen Ihren Fall individuell und rechtssicher.
+                            </p>
+                            <a href="mailto:hilfe@sozialer-navigator.de" class="inline-block w-full bg-brand-gold text-brand-navy hover:bg-white transition-colors py-3 px-6 text-sm font-bold uppercase tracking-widest">
+                                Kostenlos anfragen
                             </a>
                         </div>
                     </div>

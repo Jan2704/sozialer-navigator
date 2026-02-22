@@ -6,66 +6,68 @@ const description = 'Impressum und rechtliche Angaben zum Sozialen Navigator.';
 ---
 
 <Layout title={title} description={description}>
-  <main class="min-h-screen bg-[#0F172A] text-slate-300 pt-32 pb-24 px-6 relative overflow-hidden">
+  <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-6 relative">
     
     <div class="max-w-3xl mx-auto relative z-10">
+        <!-- Breadcrumb / Back -->
         <div class="mb-12">
-            <a href="/" class="no-underline text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <a href="/" class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-[#0a1628] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
                 Zurück zur Startseite
             </a>
         </div>
 
-        <h1 class="text-4xl font-bold text-white mb-12 tracking-tight">Impressum</h1>
+        <h1 class="text-4xl md:text-5xl font-serif text-[#0a1628] mb-16">Impressum</h1>
 
         <div class="space-y-12">
-            <section>
-                <h2 class="text-xl font-bold text-white mb-4">Angaben gemäß § 5 TMG</h2>
-                <div class="bg-[#1e293b]/50 border border-white/5 rounded-xl p-6">
-                    <p class="leading-relaxed">
-                      Jan Rall<br />
-                      Parkstraße 4<br />
-                      88326 Aulendorf
-                    </p>
+            <section class="border-b border-slate-100 pb-12">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-[#c5a67c] mb-6">Angaben gemäß § 5 TMG</h2>
+                <div class="text-xl text-[#0a1628] font-serif leading-relaxed">
+                  Jan Rall<br />
+                  Parkstraße 4<br />
+                  88326 Aulendorf
                 </div>
             </section>
 
-            <section>
-                 <h2 class="text-xl font-bold text-white mb-4">Kontakt</h2>
-                 <div class="bg-[#1e293b]/50 border border-white/5 rounded-xl p-6">
-                    <p>
-                      E-Mail: <a href="mailto:info@sozialer-navigator.de" class="text-blue-400 hover:text-blue-300">info@sozialer-navigator.de</a>
-                    </p>
-                 </div>
+            <section class="border-b border-slate-100 pb-12">
+                 <h2 class="text-xs font-bold uppercase tracking-widest text-[#c5a67c] mb-6">Kontakt</h2>
+                <p class="text-lg text-slate-600 font-light">
+                  E-Mail: <a href="mailto:info@sozialer-navigator.de" class="text-[#0a1628] font-medium border-b border-[#0a1628]/20 hover:border-[#0a1628] transition-colors">info@sozialer-navigator.de</a>
+                </p>
             </section>
 
-            <section>
-                <h2 class="text-xl font-bold text-white mb-4">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
-                <div class="bg-[#1e293b]/50 border border-white/5 rounded-xl p-6">
-                    <p class="leading-relaxed">
-                      Jan Rall<br />
-                      Parkstraße 4<br />
-                      88326 Aulendorf
-                    </p>
+            <section class="border-b border-slate-100 pb-12">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-[#c5a67c] mb-6">Redaktionell Verantwortlich</h2>
+                <div class="text-lg text-slate-600 font-light">
+                  Jan Rall<br />
+                  Parkstraße 4<br />
+                  88326 Aulendorf
                 </div>
             </section>
 
-            <section class="prose prose-invert prose-slate max-w-none">
-                <h2 class="text-xl font-bold text-white mb-4">Haftungsausschluss</h2>
+            <section class="prose prose-lg text-slate-600 font-light max-w-none prose-headings:font-serif prose-headings:text-[#0a1628] prose-a:text-[#0a1628]">
+                <h2 class="text-2xl mb-6">Haftungsausschluss</h2>
                 
-                <h3 class="text-lg font-semibold text-white mt-6 mb-2">Haftung für Inhalte</h3>
+                <h3 class="text-lg mt-8 mb-4 font-bold text-[#0a1628]">Haftung für Inhalte</h3>
                 <p>
                   Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
                 </p>
 
-                <h3 class="text-lg font-semibold text-white mt-6 mb-2">Haftung für Links</h3>
+                <h3 class="text-lg mt-8 mb-4 font-bold text-[#0a1628]">Haftung für Links</h3>
                 <p>
                   Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
                 </p>
 
-                <h3 class="text-lg font-semibold text-white mt-6 mb-2">Urheberrecht</h3>
+                <h3 class="text-lg mt-8 mb-4 font-bold text-[#0a1628]">Urheberrecht</h3>
                 <p>
                   Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+                </p>
+
+                <h3 class="text-lg mt-8 mb-4 font-bold text-[#0a1628]">Streitschlichtung</h3>
+                <p>
+                    Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-[#0a1628] underline">https://ec.europa.eu/consumers/odr/</a>.<br />
+                    Unsere E-Mail-Adresse finden Sie oben im Impressum.<br />
+                    Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
                 </p>
             </section>
         </div>
