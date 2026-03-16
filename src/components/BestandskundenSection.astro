@@ -1,0 +1,105 @@
+---
+// BestandskundenSection.astro
+---
+
+<div id="bestandskunden" class="w-full bg-surface-muted py-32 border-b border-t border-slate-200 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-6">
+        
+        <!-- Header -->
+        <div class="text-center mb-20 max-w-3xl mx-auto">
+             <span class="text-brand-navy text-xs font-bold uppercase tracking-[0.2em] mb-4 block inline-flex items-center gap-3">
+                 <div class="h-[1px] w-8 bg-brand-navy"></div>
+                 Bereits im Leistungsbezug?
+                 <div class="h-[1px] w-8 bg-brand-navy"></div>
+             </span>
+             <h2 class="text-4xl md:text-5xl font-serif text-brand-navy mb-6">
+                Machen Sie <span class="italic text-brand-gold">mehr</span> aus Ihrem Anspruch.
+             </h2>
+             <p class="text-slate-600 text-lg font-light leading-relaxed">
+                 Auch wenn Sie bereits Wohngeld oder Bürgergeld beziehen, lassen sich oft weitere Ansprüche geltend machen. Wir unterstützen Sie dabei effizient und rechtssicher.
+             </p>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid md:grid-cols-3 gap-8">
+             
+             <!-- Card 1: Bescheid prüfen -->
+             <a href="/bescheid-check/" class="group block relative bg-white p-10 border border-slate-200 hover:border-brand-navy/30 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-navy to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                 
+                 <div class="w-16 h-16 bg-surface-base flex items-center justify-center rounded-sm mb-8 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-300">
+                     <i data-lucide="file-search" class="w-8 h-8 text-brand-navy group-hover:text-white transition-colors"></i>
+                 </div>
+                 
+                 <h3 class="text-2xl font-serif text-brand-navy mb-4">Bescheid prüfen lassen</h3>
+                 <p class="text-slate-600 font-light leading-relaxed mb-8">
+                     Nahezu jeder zweite Bescheid ist fehlerhaft. Lassen Sie Experten prüfen, ob Ihnen rückwirkend mehr Geld zusteht.
+                 </p>
+                 
+                 <span class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-brand-navy group-hover:text-brand-gold transition-colors">
+                     zur Prüfung <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                 </span>
+             </a>
+
+             <!-- Card 2: AVGS -->
+             <a href="/avgs/" class="group block relative bg-white p-10 border border-slate-200 hover:border-brand-gold/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                 
+                 <div class="absolute top-4 right-4 bg-brand-gold/10 text-brand-gold text-xs font-bold px-3 py-1 rounded-full border border-brand-gold/20">
+                     100% Gefördert
+                 </div>
+
+                 <div class="w-16 h-16 bg-[#f4f1ea] flex items-center justify-center rounded-sm mb-8 group-hover:bg-brand-gold group-hover:text-brand-navy transition-colors duration-300">
+                     <i data-lucide="graduation-cap" class="w-8 h-8 text-brand-gold group-hover:text-brand-navy transition-colors"></i>
+                 </div>
+                 
+                 <h3 class="text-2xl font-serif text-brand-navy mb-4">Weiterbildung (AVGS)</h3>
+                 <p class="text-slate-600 font-light leading-relaxed mb-8">
+                     Sichern Sie sich ein amtlich gefördertes Coaching (Wert bis zu 2.500€) für Ihre berufliche Weiterentwicklung oder Selbstständigkeit.
+                 </p>
+                 
+                 <span class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-brand-navy group-hover:text-brand-gold transition-colors">
+                     Gutschein anfragen <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                 </span>
+             </a>
+
+             <!-- Card 3: Fristen / Mehrbedarf -->
+             <div class="group relative bg-brand-navy p-10 border border-brand-navy hover:shadow-2xl transition-all duration-300 text-white flex flex-col justify-between overflow-hidden">
+                 <!-- Background accent -->
+                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-brand-gold opacity-10 rounded-full blur-3xl group-hover:opacity-30 transition-opacity duration-700"></div>
+
+                 <div>
+                     <div class="w-16 h-16 border border-white/20 flex items-center justify-center rounded-sm mb-8 bg-white/5">
+                         <i data-lucide="bell-ring" class="w-8 h-8 text-brand-gold"></i>
+                     </div>
+                     
+                     <h3 class="text-2xl font-serif mb-4">WBA Fristen-Service</h3>
+                     <p class="text-slate-300 font-light leading-relaxed mb-8">
+                         Verpassen Sie nie wieder Ihren Weiterbewilligungsantrag. Tragen Sie das Ablaufdatum Ihres Bescheids ein und wir erinnern Sie rechtzeitig.
+                     </p>
+                 </div>
+                 
+                 <button onclick="window.openWbaModal?.()" class="w-full py-4 border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-navy transition-all font-bold tracking-widest uppercase text-sm flex items-center justify-center gap-2">
+                     Erinnerung einrichten <i data-lucide="clock" class="w-4 h-4"></i>
+                 </button>
+             </div>
+
+        </div>
+        
+        <!-- Mehrbedarf Teaser -->
+        <div class="mt-16 text-center">
+            <span class="text-slate-500 font-light italic">
+                Suchen Sie Informationen zu Mehrbedarfen (Zusatzkosten für Schwangerschaft, Warmwasser, etc.)? 
+                <a href="/lexikon/buergergeld" class="text-brand-navy hover:text-brand-gold underline decoration-1 underline-offset-4 transition-colors">Details im Lexikon</a>.
+            </span>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    import { lucide } from 'lucide';
+    if (typeof window !== 'undefined' && window.lucide) {
+        window.lucide.createIcons();
+    }
+</script>

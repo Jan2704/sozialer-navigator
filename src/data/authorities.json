@@ -1,6 +1,13 @@
 {
     "Berlin": {
         "type": "district",
+        "prefixes": [
+            "10",
+            "11",
+            "12",
+            "13",
+            "14"
+        ],
         "fallback": {
             "wohngeld": {
                 "name": "Landesverwaltungsamt Berlin",
@@ -20,16 +27,12 @@
                     "wohngeld": {
                         "name": "Amt für Soziales Spandau - Wohngeldstelle",
                         "address": "Carl-Schurz-Straße 2-6, 13597 Berlin",
-                        "email": "sozialamt@ba-spandau.berlin.de",
-                        "lat": 52.5350,
-                        "lng": 13.1970
+                        "email": "sozialamt@ba-spandau.berlin.de"
                     },
                     "jobcenter": {
                         "name": "Jobcenter Berlin Spandau",
                         "address": "Altonaer Str. 70/72, 13581 Berlin",
-                        "email": "jobcenter-berlin-spandau@jobcenter-ge.de",
-                        "lat": 52.5360,
-                        "lng": 13.1980
+                        "email": "jobcenter-berlin-spandau@jobcenter-ge.de"
                     }
                 },
                 "plz": [
@@ -51,16 +54,12 @@
                     "wohngeld": {
                         "name": "Amt für Soziales Mitte - Wohngeldstelle",
                         "address": "Kapweg 3, 13405 Berlin",
-                        "email": "wohngeld@ba-mitte.berlin.de",
-                        "lat": 52.5560,
-                        "lng": 13.3150
+                        "email": "wohngeld@ba-mitte.berlin.de"
                     },
                     "jobcenter": {
                         "name": "Jobcenter Berlin Mitte",
                         "address": "Seydelstraße 2-30, 10117 Berlin",
-                        "email": "jobcenter-berlin-mitte@jobcenter-ge.de",
-                        "lat": 52.5120,
-                        "lng": 13.4010
+                        "email": "jobcenter-berlin-mitte@jobcenter-ge.de"
                     }
                 },
                 "plz": [
@@ -88,44 +87,360 @@
             }
         ]
     },
-    "München": {
-        "type": "central",
-        "authority": {
-            "name": "Amt für Wohnen und Migration",
-            "address": "Werinherstraße 89, 81541 München",
-            "email": "wohngeld.soz@muenchen.de",
-            "lat": 48.1150,
-            "lng": 11.5950
-        }
-    },
     "Hamburg": {
         "type": "central",
-        "authority": {
-            "name": "Zentrales Wohngeldamt Hamburg",
-            "address": "Billstraße 80, 20539 Hamburg",
-            "email": "wohngeld@hamburg-mitte.de",
-            "lat": 53.5430,
-            "lng": 10.0450
+        "prefixes": [
+            "20",
+            "21",
+            "22"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Zentrales Wohngeldamt Hamburg",
+                "address": "Billstraße 80, 20539 Hamburg",
+                "email": "wohngeld@hamburg-mitte.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Hamburg",
+                "address": "Kurt-Schumacher-Allee 16, 20097 Hamburg",
+                "email": "jobcenter-hamburg@jobcenter-ge.de"
+            }
+        }
+    },
+    "München": {
+        "type": "central",
+        "prefixes": [
+            "80",
+            "81"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Wohnen und Migration",
+                "address": "Werinherstraße 89, 81541 München",
+                "email": "wohngeld.soz@muenchen.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter München",
+                "address": "Prielmayerstraße 8, 80335 München",
+                "email": "jobcenter-muenchen@jobcenter-ge.de"
+            }
         }
     },
     "Köln": {
         "type": "central",
-        "authority": {
-            "name": "Wohngeldstelle Köln",
-            "address": "Ottoplatz 1, 50679 Köln",
-            "email": "wohngeld@stadt-koeln.de",
-            "lat": 50.9380,
-            "lng": 6.9680
+        "prefixes": [
+            "50",
+            "51"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Wohngeldstelle Köln",
+                "address": "Ottoplatz 1, 50679 Köln",
+                "email": "wohngeld@stadt-koeln.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Köln",
+                "address": "Luxemburger Str. 121, 50939 Köln",
+                "email": "jobcenter-koeln@jobcenter-ge.de"
+            }
         }
     },
     "Frankfurt": {
         "type": "central",
-        "authority": {
-            "name": "Wohngeldbehörde Frankfurt",
-            "address": "Battonnstraße 12, 60311 Frankfurt am Main",
-            "email": "wohngeld@stadt-frankfurt.de",
-            "lat": 50.1130,
-            "lng": 8.6890
+        "prefixes": [
+            "60",
+            "659"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Wohngeldbehörde Frankfurt",
+                "address": "Battonnstraße 12, 60311 Frankfurt am Main",
+                "email": "wohngeld@stadt-frankfurt.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Frankfurt am Main",
+                "address": "Mainzer Landstraße 405, 60326 Frankfurt am Main",
+                "email": "jobcenter-frankfurt@jobcenter-ge.de"
+            }
+        }
+    },
+    "Stuttgart": {
+        "type": "central",
+        "prefixes": [
+            "70"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Sozialamt Stuttgart",
+                "address": "Torstraße 15, 70173 Stuttgart",
+                "email": "wohngeld.mittenord@stuttgart.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Stuttgart",
+                "address": "Rosesteinstraße 11, 70191 Stuttgart",
+                "email": "jobcenter@stuttgart.de"
+            }
+        }
+    },
+    "Düsseldorf": {
+        "type": "central",
+        "prefixes": [
+            "40"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Wohnungswesen Düsseldorf",
+                "address": "Brinckmannstraße 5, 40225 Düsseldorf",
+                "email": "wohngeld@duesseldorf.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Düsseldorf",
+                "address": "Luisenstraße 105, 40215 Düsseldorf",
+                "email": "Jobcenter-Duesseldorf@jobcenter-ge.de"
+            }
+        }
+    },
+    "Leipzig": {
+        "type": "central",
+        "prefixes": [
+            "04"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Sozialamt Leipzig - Wohngeldstelle",
+                "address": "Otto-Schill-Straße 2, 04109 Leipzig",
+                "email": "sozialamt@leipzig.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Leipzig",
+                "address": "Georg-Schumann-Straße 150, 04159 Leipzig",
+                "email": "jobcenter-leipzig@jobcenter-ge.de"
+            }
+        }
+    },
+    "Dortmund": {
+        "type": "central",
+        "prefixes": [
+            "441",
+            "442",
+            "443"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Wohnen Dortmund",
+                "address": "Südwall 2-4, 44122 Dortmund",
+                "email": "wohngeldstelle@stadtdo.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Dortmund",
+                "address": "Steinstraße 39, 44147 Dortmund",
+                "email": "jobcenter-dortmund@jobcenter-ge.de"
+            }
+        }
+    },
+    "Essen": {
+        "type": "central",
+        "prefixes": [
+            "45"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Soziales und Wohnen Essen",
+                "address": "Klinkestraße 29-31, 45136 Essen",
+                "email": "wohngeld@essen.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Essen",
+                "address": "Bernestraße 8, 45127 Essen",
+                "email": "jobcenter-essen@jobcenter-ge.de"
+            }
+        }
+    },
+    "Bremen": {
+        "type": "central",
+        "prefixes": [
+            "28"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Referat Wohngeld Bremen",
+                "address": "Contrescarpe 72/73, 28195 Bremen",
+                "email": "wohngeld@bau.bremen.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Bremen",
+                "address": "Doventorsteinweg 48-52, 28195 Bremen",
+                "email": "jobcenter-bremen@jobcenter-ge.de"
+            }
+        }
+    },
+    "Dresden": {
+        "type": "central",
+        "prefixes": [
+            "01"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Sozialamt Dresden - Wohngeld",
+                "address": "Junghansstraße 2, 01277 Dresden",
+                "email": "wohngeld@dresden.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Dresden",
+                "address": "Budapester Str. 30, 01069 Dresden",
+                "email": "jobcenter-dresden@jobcenter-ge.de"
+            }
+        }
+    },
+    "Hannover": {
+        "type": "central",
+        "prefixes": [
+            "30"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Fachbereich Soziales Hannover",
+                "address": "Hamburger Allee 25, 30161 Hannover",
+                "email": "wohngeld@hannover-stadt.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Region Hannover",
+                "address": "Vahrenwalder Straße 245, 30179 Hannover",
+                "email": "jobcenter-region-hannover@jobcenter-ge.de"
+            }
+        }
+    },
+    "Nürnberg": {
+        "type": "central",
+        "prefixes": [
+            "90"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Existenzsicherung Nürnberg",
+                "address": "Marienstraße 6, 90402 Nürnberg",
+                "email": "wohngeld@stadt-nuernberg.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Nürnberg",
+                "address": "Richard-Wagner-Platz 5, 90443 Nürnberg",
+                "email": "jobcenter-nuernberg@jobcenter-ge.de"
+            }
+        }
+    },
+    "Duisburg": {
+        "type": "central",
+        "prefixes": [
+            "470",
+            "471",
+            "472"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Soziales und Wohnen Duisburg",
+                "address": "Friedrich-Wilhelm-Straße 12–14, 47051 Duisburg",
+                "email": "wohngeld@stadt-duisburg.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Duisburg",
+                "address": "Wintgensstraße 29-33, 47058 Duisburg",
+                "email": "jobcenter-duisburg@jobcenter-ge.de"
+            }
+        }
+    },
+    "Bochum": {
+        "type": "central",
+        "prefixes": [
+            "447",
+            "448"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Soziales Bochum",
+                "address": "Viktoriastraße 14c, 44787 Bochum",
+                "email": "wohngeld@bochum.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Bochum",
+                "address": "Philippstraße 3, 44803 Bochum",
+                "email": "jobcenter-bochum@jobcenter-ge.de"
+            }
+        }
+    },
+    "Wuppertal": {
+        "type": "central",
+        "prefixes": [
+            "421",
+            "422",
+            "423"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Ressort Soziales Wuppertal",
+                "address": "Hofaue 89, 42103 Wuppertal",
+                "email": "wohngeld@stadt.wuppertal.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Wuppertal",
+                "address": "Bachstraße 2, 42275 Wuppertal",
+                "email": "poststelle@jobcenter.wuppertal.de"
+            }
+        }
+    },
+    "Bielefeld": {
+        "type": "central",
+        "prefixes": [
+            "336",
+            "337"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Sozialamt Bielefeld",
+                "address": "Niederwall 23, 33602 Bielefeld",
+                "email": "wohnungshilfen@bielefeld.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Arbeitplus Bielefeld",
+                "address": "Herforder Straße 67, 33602 Bielefeld",
+                "email": "jobcenter-bielefeld@jobcenter-ge.de"
+            }
+        }
+    },
+    "Bonn": {
+        "type": "central",
+        "prefixes": [
+            "531",
+            "532"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Amt für Soziales und Wohnen Bonn",
+                "address": "Berliner Platz 2, 53111 Bonn",
+                "email": "wohngeld@bonn.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Bonn",
+                "address": "Rockdorfer Straße 4-6, 53123 Bonn",
+                "email": "jobcenter-bonn@jobcenter-ge.de"
+            }
+        }
+    },
+    "Münster": {
+        "type": "central",
+        "prefixes": [
+            "481"
+        ],
+        "authorities": {
+            "wohngeld": {
+                "name": "Sozialamt Münster",
+                "address": "Hafenstraße 8, 48153 Münster",
+                "email": "wohngeld@stadt-muenster.de"
+            },
+            "jobcenter": {
+                "name": "Jobcenter Münster",
+                "address": "Stadthaus 2, Ludgeriplatz 4, 48151 Münster",
+                "email": "jobcenter-muenster@jobcenter-ge.de"
+            }
         }
     }
 }

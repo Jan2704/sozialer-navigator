@@ -29,14 +29,14 @@ export const POST: APIRoute = async ({ request, url }) => {
                             name: 'Antragsservice Sozialer Navigator',
                             description: `Erstellung und Versand an: ${authority}`,
                         },
-                        unit_amount: 999, // 9,99 €
+                        unit_amount: 599, // 5,99 €
                     },
                     quantity: 1,
                 },
             ],
             mode: 'payment',
             customer_email: email,
-            success_url: `${origin}/erfolg/?session_id={CHECKOUT_SESSION_ID}&name=${encodeURIComponent(firstName + ' ' + lastName)}&summe=9.99`,
+            success_url: `${origin}/erfolg/?session_id={CHECKOUT_SESSION_ID}&name=${encodeURIComponent(firstName + ' ' + lastName)}&summe=5.99`,
             cancel_url: `${origin}/abbruch/`,
             metadata: {
                 firstName: firstName,

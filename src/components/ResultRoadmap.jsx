@@ -84,7 +84,7 @@ export default function ResultRoadmap({ completedSteps = [] }) {
                         <div className="bg-white border border-slate-200/60 p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-[#0a1628]/30 transition-all duration-300 relative group-hover:-translate-y-1">
                             <h4 className="font-bold text-[#0a1628] text-lg mb-2 transition-colors">2. Unterlagen vorbereiten</h4>
                             <p className="text-sm text-slate-500 leading-relaxed font-medium mb-4">
-                                Reichen Sie das offizielle Formular und Nachweise (Mietvertrag, Einkommen) nach.
+                                Füllen Sie das zugesandte offizielle Formular aus und reichen Sie es mit den geforderten Nachweisen (z.B. Mietvertrag, Einkommen) ein.
                             </p>
                             {/* Arrow for Desktop */}
                             <div className="hidden md:block absolute top-1/2 -left-3 w-4 h-4 bg-white border-b border-l border-slate-200/60 transform rotate-45 -translate-y-1/2 group-hover:border-[#0a1628]/30 transition-colors"></div>

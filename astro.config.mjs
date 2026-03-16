@@ -1,3 +1,7 @@
+import fs from 'node:fs';
+import gracefulFs from 'graceful-fs';
+gracefulFs.gracefulify(fs);
+
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
@@ -8,6 +12,14 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   // ERSETZE DIES DURCH DEINE ECHTE DOMAIN
   site: 'https://www.sozialer-navigator.de',
+
+  redirects: {
+    '/buergergeld/[city]': '/[city]/grundsicherung/',
+    '/buergergeld-grundsicherung/[city]': '/[city]/grundsicherung/',
+    '/wohngeld/[city]': '/[city]/wohngeld/',
+    '/wohngeldrechner/[city]': '/[city]/wohngeld/'
+  },
+
   // output: 'hybrid', // DEPRECATED: Use 'static' or 'server'
   adapter: vercel(),
   output: 'server',
@@ -24,6 +36,9 @@ export default defineConfig({
       if (/\/wohngeldrechner\//.test(url)) {
         // Legacy Pages -> Low Priority
         priority = 0.2;
+      } else if (/\/staedte\/?$/.test(url)) {
+        // Our Main SEO Hub -> Very High Priority
+        priority = 0.85;
       } else if (/\/[a-z0-9-]+\/(wohngeld|grundsicherung|buergergeld)$/.test(url)) {
         // Canonical Action Pages (e.g. /berlin/wohngeld) -> Highest Priority
         priority = 0.9;

@@ -39,17 +39,90 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
   const [isLoading, setIsLoading] = useState(false);
   const [isFocused, setIsFocused] = useState("");
 
+  // Mapping of major German cities and their PLZ ranges
+  const MAJOR_CITY_PLZ_RANGES = [
+    { stadt: "Berlin", min: 10115, max: 14199, exclude: [14467, 14469, 14471, 14473, 14476, 14478, 14480, 14482] },
+    { stadt: "Hamburg", min: 20095, max: 22769 },
+    { stadt: "München", min: 80331, max: 81929 },
+    { stadt: "Köln", min: 50667, max: 51149 },
+    { stadt: "Frankfurt", min: 60311, max: 65936 },
+    { stadt: "Stuttgart", min: 70173, max: 70629 },
+    { stadt: "Düsseldorf", min: 40210, max: 40629 },
+    { stadt: "Leipzig", min: 4103, max: 4357 },
+    { stadt: "Dortmund", min: 44135, max: 44388 },
+    { stadt: "Essen", min: 45127, max: 45359 },
+    { stadt: "Bremen", min: 28195, max: 28779 },
+    { stadt: "Dresden", min: 1067, max: 1328 },
+    { stadt: "Hannover", min: 30159, max: 30659 },
+    { stadt: "Nürnberg", min: 90402, max: 90491 },
+    { stadt: "Duisburg", min: 47051, max: 47279 },
+    { stadt: "Bochum", min: 44787, max: 44894 },
+    { stadt: "Wuppertal", min: 42103, max: 42399 },
+    { stadt: "Bielefeld", min: 33602, max: 33739 },
+    { stadt: "Bonn", min: 53111, max: 53229 },
+    { stadt: "Münster", min: 48143, max: 48167 },
+    { stadt: "Mannheim", min: 68159, max: 68309 },
+    { stadt: "Karlsruhe", min: 76131, max: 76229 },
+    { stadt: "Augsburg", min: 86150, max: 86199 },
+    { stadt: "Wiesbaden", min: 65183, max: 65207 },
+    { stadt: "Gelsenkirchen", min: 45879, max: 45899 },
+    { stadt: "Mönchengladbach", min: 41061, max: 41239 },
+    { stadt: "Braunschweig", min: 38100, max: 38126 },
+    { stadt: "Chemnitz", min: 9111, max: 9247 },
+    { stadt: "Kiel", min: 24103, max: 24159 },
+    { stadt: "Aachen", min: 52062, max: 52080 },
+    { stadt: "Halle", min: 6108, max: 6132 },
+    { stadt: "Magdeburg", min: 39104, max: 39130 },
+    { stadt: "Freiburg", min: 79098, max: 79117 },
+    { stadt: "Krefeld", min: 47798, max: 47839 },
+    { stadt: "Lübeck", min: 23552, max: 23570 },
+    { stadt: "Oberhausen", min: 46045, max: 46149 },
+    { stadt: "Erfurt", min: 99084, max: 99099 },
+    { stadt: "Mainz", min: 55116, max: 55131 },
+    { stadt: "Rostock", min: 18055, max: 18147 },
+    { stadt: "Kassel", min: 34117, max: 34134 }
+  ];
+
   // Filter cities on input - PLZ ONLY
   useEffect(() => {
-    // Only search if input is purely numeric and at least 3 digits long
+    // Only search if input is purely numeric and at least 2 digits long
     const isSearchingPLZ = /^\d+$/.test(cityInput.trim());
 
-    if (cityInput.length >= 3 && isSearchingPLZ && !selectedCity) {
-      const filtered = wohngeldData.filter(
-        (c) => c.plz.startsWith(cityInput.trim())
-      ).slice(0, 10); // Show up to 10 matching PLZs
+    if (cityInput.length >= 2 && isSearchingPLZ && !selectedCity) {
+      const inputStr = cityInput.trim();
+      let filtered = wohngeldData.filter(
+        (c) => c.plz.startsWith(inputStr)
+      );
 
-      setSuggestions(filtered);
+      // If no exact match (or to include dynamic ranges), compute dynamic matches
+      if (inputStr.length === 5 && filtered.length === 0) {
+        const num = parseInt(inputStr, 10);
+        const cityMatch = MAJOR_CITY_PLZ_RANGES.find(p =>
+          num >= p.min && num <= p.max && (!p.exclude || !p.exclude.includes(num))
+        );
+
+        if (cityMatch) {
+          const baseCity = wohngeldData.find(c => c.stadt.includes(cityMatch.stadt));
+          if (baseCity) {
+            filtered = [{ ...baseCity, plz: inputStr }]; // Allow exact PLZ selection
+          }
+        }
+      } else if (inputStr.length < 5) {
+        // Pad for bounding box intersection check for partial inputs
+        const numLow = parseInt(inputStr.padEnd(5, '0'), 10);
+        const numHigh = parseInt(inputStr.padEnd(5, '9'), 10);
+
+        for (const p of MAJOR_CITY_PLZ_RANGES) {
+          if (Math.max(numLow, p.min) <= Math.min(numHigh, p.max)) {
+            const baseCity = wohngeldData.find(c => c.stadt.includes(p.stadt));
+            if (baseCity && !filtered.find(c => c.stadt.includes(p.stadt))) {
+              filtered.push({ ...baseCity, plz: inputStr + "..." });
+            }
+          }
+        }
+      }
+
+      setSuggestions(filtered.slice(0, 10)); // Show up to 10 matching PLZs
       setShowSuggestions(true);
     } else {
       setSuggestions([]);

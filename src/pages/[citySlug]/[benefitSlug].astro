@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 export const prerender = true;
 import { SmartCalculator } from '../../components/SmartCalculator.jsx';
 import ResultsSection from '../../components/ResultsSection.astro';
+import SchemaOrg from '../../components/SEO/SeoSchema.astro';
 
 // Daten importieren
 import cities from '../../data/cities_2026.json';
@@ -111,6 +112,20 @@ const faqItems = [
 
   <fragment slot="head">
      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+     <SchemaOrg 
+        type="GovernmentService" 
+        data={{
+            city: cityInfo.stadt,
+            url: `https://sozialer-navigator.de/${citySlug}/${benefitSlug}/`,
+            authorityName: authorityName,
+            address: addressParts.streetAddress,
+            zip: addressParts.postalCode
+        }}
+    />
+    <SchemaOrg 
+        type="FAQPage" 
+        data={{ items: faqItems.map(item => ({ q: item.question, a: item.answer })) }}
+    />
   </fragment>
 
   <main class="min-h-screen bg-[#F8FAFC] text-slate-900 pt-32 pb-24 px-6 relative overflow-hidden">
@@ -135,9 +150,24 @@ const faqItems = [
             {benefitInfo.name} <br/> 
             <span class="text-blue-600">für {cityInfo.stadt}</span>
           </h1>
-          <p class="text-slate-600 font-medium leading-relaxed text-lg max-w-2xl">
-            {benefitInfo.long_description}
-          </p>
+          <div class="text-slate-600 font-medium leading-relaxed text-lg max-w-2xl space-y-4">
+            <p>{benefitInfo.long_description}</p>
+            {benefitInfo.slug === 'wohngeld' && cityInfo.mietstufe >= 5 && (
+              <p class="text-blue-700 bg-blue-50/50 p-3 rounded-xl border border-blue-100/50 text-sm">
+                 <strong class="font-bold">Gut zu wissen für {cityInfo.stadt}:</strong> Da Ihre Stadt in die hohe <strong>Mietstufe {cityInfo.mietstufe}</strong> eingruppiert ist, fallen die Mieten hier überdurchschnittlich hoch aus. Der Gesetzgeber berücksichtigt dies, weshalb die Zuschuss-Grenzen beim Wohngeld in {cityInfo.stadt} deutlich höher liegen als in anderen Regionen. Ein Antrag lohnt sich hier besonders oft.
+              </p>
+            )}
+            {benefitInfo.slug === 'wohngeld' && cityInfo.mietstufe < 5 && (
+              <p class="text-slate-500 text-sm italic">
+                  Für {cityInfo.stadt} gilt aktuell die <strong>Mietstufe {cityInfo.mietstufe}</strong>. Diese Einstufung ist wichtig für die korrekte Berechnung der Höchstbeträge, die Ihnen {authorityName} bewilligen kann.
+              </p>
+            )}
+            {(benefitInfo.slug === 'grundsicherung' || benefitInfo.slug === 'buergergeld') && (
+              <p class="text-slate-500 text-sm">
+                  Für die Gewährung und Auszahlung der Grundsicherung ist das örtliche <strong>{authorityName}</strong> zuständig. Wichtig: Im ersten Jahr des Leistungsbezugs greift in {cityInfo.stadt} in der Regel eine Karenzzeit, sodass die vollen Mieten vorerst ohne strenge Angemessenheitsprüfung übernommen werden.
+              </p>
+            )}
+          </div>
         </header>
 
         <div class="grid md:grid-cols-3 gap-8">

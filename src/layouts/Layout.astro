@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import FeedbackWidget from '../components/FeedbackWidget.astro';
 import ChatWidget from '../components/ChatWidget.jsx';
 import Schema from '../components/seo/Schema.astro';
+import PrivacyBanner from '../components/ui/PrivacyBanner.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -88,5 +89,6 @@ const {
     <Footer />
     <FeedbackWidget />
     <ChatWidget client:load />
+    <PrivacyBanner />
   </body>
 </html>

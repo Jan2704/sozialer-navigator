@@ -8,10 +8,10 @@ import {
 import ResultRoadmap from './ResultRoadmap';
 import citiesData from '../data/cities_2026.json';
 import cityDistrictsData from '../data/city_districts.json';
+import authoritiesData from '../data/authorities.json';
 
 export default function AuthorityApp() {
     const [city, setCity] = useState('');
-    const [street, setStreet] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [hasSearched, setHasSearched] = useState(false);
     // Initialize authority as null; we'll find it via search logic
@@ -26,10 +26,10 @@ export default function AuthorityApp() {
     // Benefit Type State (Dynamic Label)
     const [benefitLabel, setBenefitLabel] = useState('Wohngeld'); // Default to Wohngeld until calc says otherwise
 
-    // Paid Form State
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
+        street: '',
         email: '',
         phone: '',
         agb: false,
@@ -40,6 +40,7 @@ export default function AuthorityApp() {
     const isFormValid =
         formData.firstName.length > 1 &&
         formData.lastName.length > 1 &&
+        formData.street.length > 4 &&
         formData.email.includes('@') &&
         formData.agb &&
         formData.accuracy &&
@@ -48,48 +49,98 @@ export default function AuthorityApp() {
 
 
     // Search Logic
-    const findAuthorityInDB = (searchTerm) => {
+    const findAuthorityInDB = (searchTerm, typeOverride = null) => {
         if (!searchTerm || searchTerm.length < 2) return null;
 
         const term = searchTerm.toLowerCase().trim();
+        const currentBenefit = typeOverride || (benefitLabel === 'Bürgergeld' ? 'jobcenter' : 'wohngeld');
 
-        // 1. Check Granular District Data (for Berlin, Hamburg, etc.)
-        // We iterate over keys in cityDistrictsData (e.g., "berlin", "hamburg")
-        for (const [cityKey, cityData] of Object.entries(cityDistrictsData)) {
-            // Check if term matches the city name or if the city name is part of the term
-            // OR if the input is a PLZ that belongs to this city
-            const isCityMatch = term.includes(cityKey);
+        // 1. Check authoritiesData (Detailed map for major cities)
+        // Order: Specific PLZ Distrcts -> PLZ Prefixes -> City Name
+        for (const [cityName, cityData] of Object.entries(authoritiesData)) {
+            const isCityMatch = term.includes(cityName.toLowerCase());
 
-            // Detailed PLZ check
-            let matchedDistrict = null;
-            if (cityData.districts) {
-                matchedDistrict = cityData.districts.find(d => d.plz.some(p => p.startsWith(term)));
+            // a) District check (Existing logic)
+            if (cityData.type === 'district') {
+                const matchedDistrict = cityData.districts?.find(d => d.plz?.some(p => p.startsWith(term)));
+                if (matchedDistrict?.authorities?.[currentBenefit]) {
+                    const auth = matchedDistrict.authorities[currentBenefit];
+                    return {
+                        name: auth.name,
+                        street: auth.address,
+                        zipCity: matchedDistrict.name + (matchedDistrict.plz?.[0] ? ` (${matchedDistrict.plz[0]})` : ''),
+                        email: auth.email || 'Nicht verfügbar'
+                    };
+                }
             }
 
-            if (matchedDistrict) {
-                return matchedDistrict;
-            }
+            // b) Prefix check (NEW: Universal for major cities)
+            const hasPrefixMatch = cityData.prefixes?.some(p => term.startsWith(p));
+            if (hasPrefixMatch || isCityMatch) {
+                if (cityData.authorities?.[currentBenefit]) {
+                    const auth = cityData.authorities[currentBenefit];
+                    return {
+                        name: auth.name,
+                        street: auth.address,
+                        zipCity: cityName + (term.length === 5 ? ` (${term})` : ''),
+                        email: auth.email || 'Nicht verfügbar'
+                    };
+                }
 
-            // If searched by City Name (e.g. "Berlin") but no specific PLZ, return Default/Fallback
-            if (isCityMatch) {
-                return cityData.default;
+                // Fallback for district cities
+                if (cityData.fallback?.[currentBenefit]) {
+                    const fallback = cityData.fallback[currentBenefit];
+                    return {
+                        name: fallback.name,
+                        street: fallback.address,
+                        zipCity: cityName,
+                        email: fallback.email || 'Nicht verfügbar'
+                    };
+                }
             }
         }
 
-        // 2. Standard Search (existing logic)
-        // Try to find by PLZ or City Name
-        const match = citiesData.find(c =>
-            c.stadt.toLowerCase().includes(term) ||
-            c.plz.startsWith(term)
-        );
+        // 2. Standard Search (cities_2026.json) - With prefix-based city fallback
+        // Try exact match first
+        let match = citiesData.find(c => {
+            const cityStadt = c.stadt.toLowerCase();
+            const normalizedCityPlz = c.plz.toString().padStart(5, '0');
+            return cityStadt === term || normalizedCityPlz === term;
+        });
+
+        // If no exact match, try fuzzy PLZ match (prefix)
+        if (!match && /^\d+$/.test(term)) {
+            // Find a city where the representative PLZ shares at least the first 3 digits
+            // This works well for identifying the city area for 70xxx, 40xxx, etc.
+            match = citiesData.find(c => {
+                const normalizedCityPlz = c.plz.toString().padStart(5, '0');
+                return normalizedCityPlz.startsWith(term.substring(0, 3));
+            });
+        }
+
+        // Final fallback for city names
+        if (!match) {
+            match = citiesData.find(c => c.stadt.toLowerCase().includes(term));
+        }
 
         if (match) {
+            const displayCity = (term.length === 5 && /^\d+$/.test(term)) ? `${term} ${match.stadt}` : (match.plz ? `${match.plz} ${match.stadt}` : match.stadt);
+
+            if (currentBenefit === 'jobcenter') {
+                return {
+                    name: `Jobcenter ${match.stadt}`,
+                    street: match.amt_adresse || `${match.stadt} Zentrum`,
+                    zipCity: displayCity,
+                    email: match.jobcenter_email || 'Nicht verfügbar',
+                    phone: ''
+                };
+            }
             return {
                 name: match.amt_name || `Wohngeldstelle ${match.stadt}`,
                 street: match.amt_adresse || `${match.stadt} Zentrum`,
-                zipCity: match.plz ? `${match.plz} ${match.stadt}` : match.stadt,
+                zipCity: displayCity,
                 email: match.amt_email || 'Nicht verfügbar',
-                phone: '' // Phone often not in JSON
+                phone: ''
             };
         }
         return null;
@@ -114,20 +165,27 @@ export default function AuthorityApp() {
             if (!detail || !detail.input) return;
 
             const { input, type } = detail;
-            const cityName = (typeof input.city === 'object' && input.city !== null) ? input.city.stadt : input.city;
+            const isCityObject = typeof input.city === 'object' && input.city !== null;
+            const cityName = isCityObject ? input.city.stadt : input.city;
+            const cityPlz = isCityObject ? input.city.plz : '';
 
-            // Set Benefit Label based on type
-            const label = type === 'wohngeld' ? 'Wohngeld' :
-                type === 'Grundsicherung im Alter' ? 'Grundsicherung' :
-                    type === 'BAföG-Prüfung' ? 'BAföG' :
+            // Set Benefit Label based on type (Case-insensitive mapping)
+            const typeLower = (type || '').toLowerCase();
+            const label = typeLower === 'wohngeld' ? 'Wohngeld' :
+                typeLower.includes('grundsicherung') ? 'Grundsicherung' :
+                    typeLower.includes('bafög') ? 'BAföG' :
                         'Bürgergeld';
             setBenefitLabel(label);
 
             setCity(cityName);
+            if (cityPlz) {
+                setZipCode(cityPlz);
+            }
 
-            // Initial Search based on city from calculation
-            if (cityName) {
-                const auth = findAuthorityInDB(cityName);
+            // Initial Search based on PLZ (preferred) or City from calculation
+            const searchTerm = cityPlz || cityName;
+            if (searchTerm) {
+                const auth = findAuthorityInDB(searchTerm);
                 if (auth) {
                     setAuthority(auth);
                     setHasSearched(true);
@@ -155,6 +213,14 @@ export default function AuthorityApp() {
 
         return () => window.removeEventListener('benefit-calculation-completed', handleCalculation);
     }, []);
+
+    // Re-run search when benefit selection changes to ensure correct authority type is shown
+    useEffect(() => {
+        if (hasSearched && zipCode) {
+            const auth = findAuthorityInDB(zipCode);
+            setAuthority(auth || null);
+        }
+    }, [benefitLabel]);
 
     // ... existing search logic ...
 
@@ -193,7 +259,6 @@ export default function AuthorityApp() {
             // Save state to localStorage for after-payment return
             localStorage.setItem('pendingApplicationUser', JSON.stringify({
                 ...formData,
-                street: street, // Add current street input
                 zipCode: zipCode, // Add current zip input
                 city: city // Add current city
             }));
@@ -334,18 +399,6 @@ export default function AuthorityApp() {
                                 <h3 className="font-serif text-3xl font-bold text-[#0a1628] mb-6">Welches Amt ist für Sie zuständig?</h3>
 
                                 <div className="space-y-4 mb-4">
-                                    {/* Street & Number */}
-                                    <div className="relative flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:border-[#0a1628] focus-within:ring-[#0a1628]/20 transition-all shadow-sm">
-                                        <div className="pl-4 text-slate-400"><MapPin className="w-5 h-5" /></div>
-                                        <input
-                                            type="text"
-                                            placeholder="Straße & Hausnummer"
-                                            className="w-full py-4 px-4 outline-none text-slate-900 placeholder:text-slate-400 font-medium"
-                                            value={street}
-                                            onChange={(e) => setStreet(e.target.value)}
-                                        />
-                                    </div>
-
                                     {/* PLZ & Search Button */}
                                     <div className="flex gap-3">
                                         <div className="relative flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:border-[#0a1628] focus-within:ring-[#0a1628]/20 transition-all shadow-sm flex-1">
@@ -386,10 +439,20 @@ export default function AuthorityApp() {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="flex flex-col items-center justify-center h-full text-slate-400 p-8 text-center animate-in fade-in zoom-in-95">
-                                            <AlertCircle className="w-8 h-8 mb-2 opacity-50 text-amber-500" />
-                                            <span className="text-sm font-bold text-slate-600">Kein Amt gefunden</span>
-                                            <span className="text-xs text-slate-500 mt-1">Bitte überprüfen Sie die Adresse.</span>
+                                        <div className="flex flex-col items-center justify-center h-full p-8 text-center animate-in fade-in zoom-in-95">
+                                            <div className="bg-amber-50 p-4 rounded-full mb-4">
+                                                <AlertCircle className="w-10 h-10 text-amber-600" />
+                                            </div>
+                                            <span className="text-lg font-serif font-bold text-[#0a1628]">Amt nicht gefunden</span>
+                                            <p className="text-sm text-slate-500 mt-2 max-w-[200px]">
+                                                Für diese PLZ konnte kein zuständiges Amt automatisch ermittelt werden.
+                                            </p>
+                                            <a
+                                                href="mailto:support@sozialer-navigator.de?subject=PLZ%20nicht%20gefunden"
+                                                className="mt-4 text-xs font-bold text-[#c5a67c] hover:underline"
+                                            >
+                                                Support kontaktieren
+                                            </a>
                                         </div>
                                     )
                                 ) : (
@@ -456,9 +519,9 @@ export default function AuthorityApp() {
 
                                         <ul className="space-y-4 mb-8">
                                             {[
-                                                'Sofortiger Versand in Ihrem Namen',
-                                                'Exakt an die zuständige Behörde',
-                                                'Juristischer Beweis (Sie in CC)',
+                                                'Bequemer Versand noch heute (ohne Papierkram)',
+                                                'Adressiert an die korrekte Behörden-Zweigstelle',
+                                                'Transparenter Nachweis (Sie erhalten die E-Mail in CC)',
                                                 'Inklusive Unterlagen-Checkliste PDF'
                                             ].map((item, i) => (
                                                 <li key={i} className="flex items-start gap-3 text-sm text-slate-200 font-medium">
@@ -472,7 +535,7 @@ export default function AuthorityApp() {
                                     <div className="mt-auto pt-6 border-t border-white/10 relative z-10">
                                         <div className="flex justify-between items-end mb-5">
                                             <div>
-                                                <span className="block text-3xl font-bold text-white">9,99 €</span>
+                                                <span className="block text-3xl font-bold text-white">5,99 €</span>
                                                 <span className="text-[10px] text-[#c5a67c] uppercase font-bold tracking-widest">EINMALIG · KEIN ABO</span>
                                             </div>
                                         </div>
@@ -557,8 +620,8 @@ export default function AuthorityApp() {
                                                     <li className="flex items-start gap-3 group">
                                                         <div className="mt-0.5 group-hover:scale-110 transition-transform"><CheckCircle className="w-5 h-5 text-emerald-500" strokeWidth={2.5} /></div>
                                                         <div>
-                                                            <p className="font-bold text-[#0a1628] text-sm">Versandnachweis per E-Mail</p>
-                                                            <p className="text-xs text-slate-500 leading-relaxed mt-0.5">Sie stehen unsichtbar in CC und erhalten sofort den juristischen Beweis.</p>
+                                                            <p className="font-bold text-[#0a1628] text-sm">Versandbestätigung per E-Mail</p>
+                                                            <p className="text-xs text-slate-500 leading-relaxed mt-0.5">Sie stehen transparent in CC und haben sofort den Nachweis über den Versand.</p>
                                                         </div>
                                                     </li>
                                                     <li className="flex items-start gap-3 bg-white p-3 rounded-xl border border-[#c5a67c]/30 shadow-sm relative overflow-hidden group">
@@ -610,111 +673,147 @@ export default function AuthorityApp() {
 
                                         {/* RIGHT COLUMN: The Form (The "How") */}
                                         <div className="lg:w-7/12 flex flex-col justify-between">
-                                            <div className="space-y-6">
-
-                                                {/* Explicit Benefit Selection */}
-                                                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                                    <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Was beantragen Sie?</label>
-                                                    <select
-                                                        value={benefitLabel}
-                                                        onChange={(e) => setBenefitLabel(e.target.value)}
-                                                        className="w-full rounded-xl border-2 border-slate-200 bg-white text-slate-900 focus:border-[#0a1628] focus:ring-0 p-4 font-bold text-lg cursor-pointer shadow-sm appearance-none transition-colors"
-                                                        style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230a1628%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.2rem top 50%', backgroundSize: '0.8rem auto' }}
+                                            {!authority ? (
+                                                <div className="bg-amber-50 border border-amber-200 rounded-3xl p-8 flex flex-col items-center justify-center text-center h-full space-y-6">
+                                                    <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center shadow-inner">
+                                                        <MapPin className="w-8 h-8" />
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="font-serif font-bold text-amber-900 text-2xl mb-2">Zuständiges Amt fehlt</h3>
+                                                        <p className="text-amber-700/80 mb-4">Damit wir Ihren Antrag rechtssicher versenden können, müssen wir zuerst ermitteln, welche Behörde für Ihren Wohnort zuständig ist.</p>
+                                                        <a
+                                                            href="mailto:support@sozialer-navigator.de?subject=PLZ%20nicht%20gefunden"
+                                                            className="text-sm font-bold text-amber-600 hover:underline block"
+                                                        >
+                                                            Hilfe vom Support anfordern
+                                                        </a>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => setView('main')}
+                                                        className="py-4 px-8 bg-[#0a1628] hover:bg-[#1e293b] text-white font-bold rounded-xl transition-all shadow-xl hover:shadow-[#0a1628]/20 flex items-center gap-2"
                                                     >
-                                                        <option value="Wohngeld">Wohngeld</option>
-                                                        <option value="Bürgergeld">Bürgergeld</option>
-                                                        <option value="Grundsicherung im Alter">Grundsicherung im Alter / bei Erwerbsminderung</option>
-                                                        <option value="Sozialleistungen Allgemein">Sonstige Sozialleistungen</option>
-                                                    </select>
-                                                    <p className="text-xs text-slate-500 mt-2 flex items-center gap-1.5"><Info className="w-3.5 h-3.5" /> Dieser Begriff wird offiziell im Antrag verwendet.</p>
+                                                        <MapPin className="w-5 h-5" /> Jetzt zuständiges Amt finden
+                                                    </button>
                                                 </div>
+                                            ) : (
+                                                <>
+                                                    <div className="space-y-6">
 
-                                                <div className="grid grid-cols-2 gap-5">
-                                                    <div>
-                                                        <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Vorname *</label>
-                                                        <input
-                                                            type="text" name="firstName" required
-                                                            value={formData.firstName} onChange={handleInputChange}
-                                                            className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
-                                                            placeholder="Max"
-                                                        />
+                                                        {/* Explicit Benefit Selection */}
+                                                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                                            <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Was beantragen Sie?</label>
+                                                            <select
+                                                                value={benefitLabel}
+                                                                onChange={(e) => setBenefitLabel(e.target.value)}
+                                                                className="w-full rounded-xl border-2 border-slate-200 bg-white text-slate-900 focus:border-[#0a1628] focus:ring-0 p-4 font-bold text-lg cursor-pointer shadow-sm appearance-none transition-colors"
+                                                                style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230a1628%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.2rem top 50%', backgroundSize: '0.8rem auto' }}
+                                                            >
+                                                                <option value="Wohngeld">Wohngeld</option>
+                                                                <option value="Bürgergeld">Bürgergeld</option>
+                                                                <option value="Grundsicherung im Alter">Grundsicherung im Alter / bei Erwerbsminderung</option>
+                                                                <option value="Sozialleistungen Allgemein">Sonstige Sozialleistungen</option>
+                                                            </select>
+                                                            <p className="text-xs text-slate-500 mt-2 flex items-center gap-1.5"><Info className="w-3.5 h-3.5" /> Dieser Begriff wird offiziell im Antrag verwendet.</p>
+                                                        </div>
+
+                                                        <div className="grid grid-cols-2 gap-5">
+                                                            <div>
+                                                                <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Vorname *</label>
+                                                                <input
+                                                                    type="text" name="firstName" required
+                                                                    value={formData.firstName} onChange={handleInputChange}
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
+                                                                    placeholder="Max"
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Nachname *</label>
+                                                                <input
+                                                                    type="text" name="lastName" required
+                                                                    value={formData.lastName} onChange={handleInputChange}
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
+                                                                    placeholder="Mustermann"
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Straße & Hausnummer *</label>
+                                                            <input
+                                                                type="text" name="street" required
+                                                                value={formData.street} onChange={handleInputChange}
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
+                                                                placeholder="Musterstr. 12"
+                                                            />
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">E-Mail Adresse *</label>
+                                                            <input
+                                                                type="email" name="email" required
+                                                                value={formData.email} onChange={handleInputChange}
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
+                                                                placeholder="email@beispiel.de"
+                                                            />
+                                                            <p className="text-xs text-slate-500 mt-2 ml-1 flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Dorthin senden wir alle Dokumente sicher zu.</p>
+                                                        </div>
+
+                                                        {/* Legal Checkboxes - Cleaned up */}
+                                                        <div className="space-y-4 pt-4 border-t border-slate-100">
+                                                            <label className="flex items-start gap-3 cursor-pointer group">
+                                                                <div className="relative flex items-center mt-0.5">
+                                                                    <input type="checkbox" name="agb" required checked={formData.agb} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
+                                                                </div>
+                                                                <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
+                                                                    Ich akzeptiere die <a href="/agb" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">AGB</a> und <a href="/datenschutz" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">Datenschutzerklärung</a>.
+                                                                </span>
+                                                            </label>
+
+                                                            <label className="flex items-start gap-3 cursor-pointer group">
+                                                                <div className="relative flex items-center mt-0.5">
+                                                                    <input type="checkbox" name="accuracy" required checked={formData.accuracy} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
+                                                                </div>
+                                                                <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
+                                                                    Die Empfängeradresse <strong>{authority?.name}</strong> ist korrekt für meinen Wohnort.
+                                                                </span>
+                                                            </label>
+
+                                                            <label className="flex items-start gap-3 cursor-pointer group">
+                                                                <div className="relative flex items-center mt-0.5">
+                                                                    <input type="checkbox" name="messenger" required checked={formData.messenger} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
+                                                                </div>
+                                                                <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
+                                                                    Ich verstehe, dass "Sozialer Navigator" als Bote agiert und keine Rechtsberatung anbietet.
+                                                                </span>
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Nachname *</label>
-                                                        <input
-                                                            type="text" name="lastName" required
-                                                            value={formData.lastName} onChange={handleInputChange}
-                                                            className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
-                                                            placeholder="Mustermann"
-                                                        />
+
+                                                    {/* Submit Area */}
+                                                    <div className="mt-10">
+                                                        <button
+                                                            onClick={handleConfirmSend}
+                                                            disabled={isPaidProcessing || !isFormValid}
+                                                            className="w-full py-5 px-6 bg-[#0a1628] hover:bg-[#1e293b] text-white font-bold text-lg rounded-xl transition-all shadow-xl hover:shadow-[#0a1628]/20 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
+                                                        >
+                                                            {isPaidProcessing ? (
+                                                                <>
+                                                                    <Loader2 className="w-6 h-6 animate-spin text-[#c5a67c]" />
+                                                                    Wird gesichert verschlüsselt...
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <ShieldCheck className="w-6 h-6 text-[#c5a67c] group-disabled:text-slate-400" />
+                                                                    <span>Zahlungspflichtig bestellen (5,99 €)</span>
+                                                                </>
+                                                            )}
+                                                        </button>
+                                                        <div className="flex items-center justify-center gap-2 mt-4 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                                            <ShieldCheck className="w-4 h-4" /> 256-Bit SSL Verschlüsselung
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                <div>
-                                                    <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">E-Mail Adresse *</label>
-                                                    <input
-                                                        type="email" name="email" required
-                                                        value={formData.email} onChange={handleInputChange}
-                                                        className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
-                                                        placeholder="email@beispiel.de"
-                                                    />
-                                                    <p className="text-xs text-slate-500 mt-2 ml-1 flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Dorthin senden wir alle Dokumente sicher zu.</p>
-                                                </div>
-
-                                                {/* Legal Checkboxes - Cleaned up */}
-                                                <div className="space-y-4 pt-4 border-t border-slate-100">
-                                                    <label className="flex items-start gap-3 cursor-pointer group">
-                                                        <div className="relative flex items-center mt-0.5">
-                                                            <input type="checkbox" name="agb" required checked={formData.agb} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
-                                                        </div>
-                                                        <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
-                                                            Ich akzeptiere die <a href="/agb" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">AGB</a> und <a href="/datenschutz" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">Datenschutzerklärung</a>.
-                                                        </span>
-                                                    </label>
-
-                                                    <label className="flex items-start gap-3 cursor-pointer group">
-                                                        <div className="relative flex items-center mt-0.5">
-                                                            <input type="checkbox" name="accuracy" required checked={formData.accuracy} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
-                                                        </div>
-                                                        <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
-                                                            Die Empfängeradresse <strong>{authority?.name}</strong> ist korrekt für meinen Wohnort.
-                                                        </span>
-                                                    </label>
-
-                                                    <label className="flex items-start gap-3 cursor-pointer group">
-                                                        <div className="relative flex items-center mt-0.5">
-                                                            <input type="checkbox" name="messenger" required checked={formData.messenger} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
-                                                        </div>
-                                                        <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
-                                                            Ich verstehe, dass "Sozialer Navigator" als Bote agiert und keine Rechtsberatung anbietet.
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            {/* Submit Area */}
-                                            <div className="mt-10">
-                                                <button
-                                                    onClick={handleConfirmSend}
-                                                    disabled={isPaidProcessing || !isFormValid}
-                                                    className="w-full py-5 px-6 bg-[#0a1628] hover:bg-[#1e293b] text-white font-bold text-lg rounded-xl transition-all shadow-xl hover:shadow-[#0a1628]/20 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
-                                                >
-                                                    {isPaidProcessing ? (
-                                                        <>
-                                                            <Loader2 className="w-6 h-6 animate-spin text-[#c5a67c]" />
-                                                            Wird gesichert verschlüsselt...
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <ShieldCheck className="w-6 h-6 text-[#c5a67c] group-disabled:text-slate-400" />
-                                                            <span>Zahlungspflichtig bestellen (9,99 €)</span>
-                                                        </>
-                                                    )}
-                                                </button>
-                                                <div className="flex items-center justify-center gap-2 mt-4 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                                                    <ShieldCheck className="w-4 h-4" /> 256-Bit SSL Verschlüsselung
-                                                </div>
-                                            </div>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -728,7 +827,6 @@ export default function AuthorityApp() {
             <p className="text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed mt-12 pb-8">
                 Wir unterstützen beim Versand und bei der Vorbereitung. Die Entscheidung über den Antrag trifft ausschließlich die zuständige Behörde.
             </p>
-
         </div>
     );
 }

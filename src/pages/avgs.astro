@@ -7,36 +7,39 @@ import Layout from '../layouts/Layout.astro';
   <main class="min-h-screen bg-bg-base text-text-primary">
     
     <!-- Top Banner / Hook -->
-    <div class="bg-brand-gold text-brand-navy py-3 px-4 text-center text-sm font-bold relative z-50">
-        💡 Wussten Sie schon? § 45 SGB III sichert Ihnen 2.500€ Förderung. <a href="#anspruch-pruefen" class="underline hover:no-underline ml-2">Jetzt sichern -></a>
+    <div class="mt-20 bg-brand-navy border-b border-brand-gold/20 text-white py-3 px-4 text-center text-xs tracking-widest uppercase font-bold relative z-50" style="background-color: #0a1628;">
+        <span class="text-brand-gold mr-2">💡 Wussten Sie schon?</span> § 45 SGB III sichert Ihnen 2.500€ Förderung. <a href="#anspruch-pruefen" class="text-brand-gold hover:text-white transition-colors underline decoration-brand-gold/30 underline-offset-4 hover:decoration-white ml-2">Jetzt sichern -></a>
     </div>
 
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 overflow-hidden bg-brand-navy text-white">
-        <!-- Background Elements -->
-        <div class="absolute inset-0 bg-[url('/images/pattern-grid.svg')] opacity-5"></div>
-        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-blue/20 blur-[120px] rounded-full pointer-events-none"></div>
-
+    <!-- Hero Section (Law Firm Style) -->
+    <section class="relative pt-24 pb-20 overflow-hidden text-white" style="background-color: #0a1628;">
+        <!-- Decorative Background Elements -->
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-gold/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+        
         <div class="container relative z-10">
-            <div class="max-w-3xl mx-auto text-center">
-                <div class="inline-block bg-white/10 border border-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-sm">
-                    Staatliche Förderung 2026
+            <div class="max-w-4xl mx-auto text-center">
+                
+                <div class="inline-flex items-center gap-3 mb-8">
+                    <div class="h-[1px] w-12 bg-brand-gold"></div>
+                    <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] font-sans">Staatliche Förderung 2026</span>
+                    <div class="h-[1px] w-12 bg-brand-gold"></div>
                 </div>
                 
-                <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+                <h1 class="text-white text-5xl md:text-7xl font-serif font-medium mb-8 leading-[1.1]">
                     Lassen Sie Ihr Budget <br/>
-                    <span class="text-brand-gold">nicht verfallen.</span>
+                    <span class="text-brand-gold italic">nicht verfallen.</span>
                 </h1>
                 
-                <p class="text-xl text-slate-300 font-medium mb-10 max-w-2xl mx-auto leading-relaxed">
-                    Sie haben einen gesetzlichen <strong class="text-white">Rechtsanspruch</strong> auf dieses Budget. Holen Sie sich, was Ihnen zusteht – bevor es andere tun.
+                <p class="text-lg md:text-xl text-slate-300 font-light mb-12 max-w-2xl mx-auto leading-relaxed border-l-2 border-brand-gold/50 pl-6 text-left md:text-center md:border-l-0 md:pl-0">
+                    Sie haben einen gesetzlichen <strong class="text-white font-medium">Rechtsanspruch</strong> auf dieses Weiterbildungsbudget. Holen Sie sich, was Ihnen zusteht – effizient, rechtssicher und 100% gefördert.
                 </p>
 
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="#anspruch-pruefen" class="w-full sm:w-auto bg-brand-gold hover:bg-brand-gold-light text-brand-navy font-bold py-4 px-8 rounded-xl shadow-lg shadow-brand-gold/20 transition-all transform hover:-translate-y-1">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <a href="#anspruch-pruefen" class="w-full sm:w-auto px-10 py-5 bg-brand-gold text-brand-navy hover:bg-white transition-all font-serif font-bold text-lg tracking-wide uppercase shadow-[0_0_20px_rgba(197,166,124,0.3)] text-center">
                         Jetzt Anspruch prüfen
                     </a>
-                    <a href="#wussten-sie-schon" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-medium py-4 px-8 rounded-xl backdrop-blur-sm transition-all">
+                    <a href="#wussten-sie-schon" class="w-full sm:w-auto px-10 py-5 border border-white/20 text-white hover:bg-white/10 transition-all font-serif font-bold text-lg tracking-wide uppercase text-center backdrop-blur-sm">
                         Wie funktioniert das?
                     </a>
                 </div>
@@ -55,65 +58,89 @@ import Layout from '../layouts/Layout.astro';
         </div>
     </section>
 
-    <!-- New "Hand aufs Herz" / Did You Know Section -->
-    <section id="wussten-sie-schon" class="py-20 bg-slate-50 border-b border-slate-200">
-        <div class="container max-w-4xl text-center">
-            <h2 class="text-3xl font-serif font-bold text-brand-navy mb-8">Hand aufs Herz: Wussten Sie, dass Ihnen dieses Geld zusteht?</h2>
-            <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-2 h-full bg-brand-blue"></div>
-                <p class="text-lg md:text-xl text-slate-700 leading-relaxed mb-6">
-                    <span class="text-4xl float-left mr-3 mb-0">❝</span>
-                    Jedes Jahr verfallen Millionen Euro an Fördergeldern, weil Arbeitssuchende ihre Rechte nicht kennen. <strong class="text-brand-navy">Das ist Geld, das eigentlich für Ihre Zukunft gedacht war.</strong>
+    <!-- New "Hand aufs Herz" / Did You Know Section (Law Firm Style) -->
+    <section id="wussten-sie-schon" class="py-32 bg-surface-muted border-b border-slate-200">
+        <div class="container max-w-4xl mx-auto text-center">
+            
+            <div class="inline-flex items-center gap-3 mb-8">
+                <span class="text-brand-navy text-xs font-bold uppercase tracking-[0.2em] font-sans">Hand aufs Herz</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-serif text-brand-navy mb-12">Wussten Sie, dass Ihnen <br/><span class="italic text-brand-gold">dieses Geld</span> zusteht?</h2>
+            
+            <div class="bg-white p-12 shadow-xl border-l-4 border-brand-navy relative group hover:border-brand-gold transition-colors duration-500 text-left">
+                <i data-lucide="quote" class="w-12 h-12 text-brand-gold mb-8 opacity-40"></i>
+                <p class="text-xl md:text-2xl font-serif text-brand-navy leading-relaxed mb-8 italic">
+                    "Jedes Jahr verfallen Millionen Euro an staatlichen Fördergeldern, weil Arbeitssuchende ihre Rechte schlichtweg nicht kennen. <strong class="font-bold underline decoration-brand-gold/50 underline-offset-4">Das ist Geld, das eigentlich für Ihre berufliche Zukunft vorgesehen war.</strong>"
                 </p>
-                <p class="text-lg text-slate-600 leading-relaxed">
-                    Die Agentur für Arbeit bietet dieses Budget an, um Sie schneller in Arbeit zu bringen. Es ist kein "Geschenk", sondern eine wirtschaftliche Investition in Sie. <br/>
-                    <span class="block mt-4 font-bold text-brand-navy">Lassen Sie dieses Potential nicht ungenutzt.</span>
-                </p>
+                
+                <div class="pl-6 border-l w-full border-slate-200">
+                    <p class="text-lg text-slate-600 font-light leading-relaxed">
+                        Die Agentur für Arbeit bietet dieses Budget an, um Sie schneller in den Arbeitsmarkt zu integrieren. Es handelt sich hierbei nicht um ein "Geschenk", sondern um eine fundierte wirtschaftliche Investition in Ihr Profil. Lassen Sie dieses Potential nicht ungenutzt.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Transparancy Section: Why is it free? -->
-    <section id="wie-es-funktioniert" class="py-24 bg-white">
-        <div class="container max-w-5xl">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
+    <section id="wie-es-funktioniert" class="py-32 bg-white">
+        <div class="container max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-20 items-center">
                 <div>
-                     <span class="text-brand-blue font-bold tracking-widest uppercase text-sm mb-2 block">Transparenz</span>
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-brand-navy mb-6">Wieso ist das Coaching für Sie kostenlos?</h2>
-                    <div class="space-y-6 text-slate-600 text-lg leading-relaxed">
+                     <div class="inline-flex items-center gap-3 mb-6">
+                         <div class="h-[1px] w-8 bg-brand-navy"></div>
+                         <span class="text-brand-navy text-xs font-bold uppercase tracking-[0.2em]">Kostenübernahme</span>
+                     </div>
+                    <h2 class="text-4xl md:text-5xl font-serif text-brand-navy mb-8 leading-tight">Wieso ist das Coaching für Sie kostenlos?</h2>
+                    
+                    <div class="space-y-6 text-slate-600 text-lg leading-relaxed font-light">
                         <p>
-                            Es klingt fast zu gut, um wahr zu sein: Ein hochwertiges Coaching im Wert von mehreren tausend Euro, für das Sie keinen Cent bezahlen müssen.
+                            Ein hochwertiges, systemisches Coaching im Wert von mehreren tausend Euro – und Sie zahlen keinen Cent. Für viele Klienten klingt das im ersten Moment unplausibel.
                         </p>
                         <p>
-                            <strong>Der Hintergrund ist simpel:</strong> Der Staat hat ein wirtschaftliches Interesse daran, dass Sie schnell wieder eine erfüllende Arbeit finden oder erfolgreich gründen. Arbeitslosigkeit kostet die Gesellschaft viel Geld.
+                            <strong>Der Hintergrund ist rein wirtschaftlich:</strong> Der Staat hat ein massives Interesse daran, dass Sie schnell wieder eine erfüllende Arbeit finden oder erfolgreich gründen. Langfristige Arbeitslosigkeit verursacht immense volkswirtschaftliche Kosten.
                         </p>
                         <p>
-                            Deshalb investieren die Agentur für Arbeit und das Jobcenter über den sogenannten <strong class="text-brand-navy">Aktivierungs- und Vermittlungsgutschein (AVGS)</strong> in Ihre Qualifizierung. Es ist eine Win-Win-Situation: Sie erhalten professionelle Unterstützung, und der Staat profitiert langfristig von Ihrem beruflichen Erfolg.
+                            Daher investieren Agentur für Arbeit und Jobcenter über den <strong class="font-medium text-brand-navy">Aktivierungs- und Vermittlungsgutschein (AVGS nach § 45 SGB III)</strong> präventiv in Ihre Qualifizierung. Es ist eine Win-Win-Situation.
                         </p>
                     </div>
                 </div>
+                
                 <div class="relative">
-                    <div class="absolute inset-0 bg-brand-gold/10 rounded-3xl transform rotate-3"></div>
-                    <div class="relative bg-slate-50 border border-slate-100 p-8 rounded-3xl shadow-xl">
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-2xl">💡</div>
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-gold/10 rounded-full blur-3xl"></div>
+                    <div class="relative bg-brand-navy p-10 border border-brand-navy shadow-2xl shadow-slate-200 text-white">
+                        <div class="flex items-start gap-6 mb-10 pb-6 border-b border-white/10">
+                            <div class="w-14 h-14 bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                                <i data-lucide="landmark" class="w-6 h-6 text-brand-gold"></i>
+                            </div>
                             <div>
-                                <h3 class="font-bold text-brand-navy text-lg">Das AVGS Prinzip</h3>
-                                <p class="text-slate-500 text-sm">Eine staatliche Investition in Ihr Potenzial.</p>
+                                <h3 class="font-serif text-2xl text-white mb-2">Das AVGS Prinzip</h3>
+                                <p class="text-slate-400 text-sm font-light leading-relaxed">Der rechtssichere Weg zur staatlichen Förderung Ihrer beruflichen Neuorientierung.</p>
                             </div>
                         </div>
-                        <ul class="space-y-4">
-                            <li class="flex items-center gap-3">
-                                <span class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs font-bold">✓</span>
-                                <span class="text-slate-700 font-medium">Kostenübernahme zu 100%</span>
+                        
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4">
+                                <div class="mt-1"><i data-lucide="check" class="w-5 h-5 text-brand-gold"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm tracking-wide mb-1">Kostenübernahme zu 100%</h4>
+                                    <p class="text-xs text-slate-400 font-light">Die Maßnahme wird vollständig über das Amt abgerechnet.</p>
+                                </div>
                             </li>
-                             <li class="flex items-center gap-3">
-                                <span class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs font-bold">✓</span>
-                                <span class="text-slate-700 font-medium">Freie Wahl des Anbieters</span>
+                             <li class="flex items-start gap-4">
+                               <div class="mt-1"><i data-lucide="check" class="w-5 h-5 text-brand-gold"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm tracking-wide mb-1">Freie Trägerwahl</h4>
+                                    <p class="text-xs text-slate-400 font-light">Sie entscheiden selbst, bei welchem zertifizierten Träger Sie den Gutschein einlösen.</p>
+                                </div>
                             </li>
-                             <li class="flex items-center gap-3">
-                                <span class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs font-bold">✓</span>
-                                <span class="text-slate-700 font-medium">Rechtsanspruch nach 6 Wochen (ALG I)</span>
+                             <li class="flex items-start gap-4">
+                               <div class="mt-1"><i data-lucide="check" class="w-5 h-5 text-brand-gold"></i></div>
+                                <div>
+                                   <h4 class="font-bold text-white text-sm tracking-wide mb-1">Gesetzlicher Rechtsanspruch</h4>
+                                    <p class="text-xs text-slate-400 font-light">Bereits nach 6 Wochen Arbeitslosigkeit (ALG I) muss der Gutschein gewährt werden.</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -122,179 +149,189 @@ import Layout from '../layouts/Layout.astro';
         </div>
     </section>
 
-    <!-- Eligibility Section -->
-    <section class="py-24 bg-slate-50 border-y border-slate-200">
-        <div class="container text-center max-w-4xl">
-             <span class="text-brand-blue font-bold tracking-widest uppercase text-sm mb-2 block">Voraussetzungen</span>
-            <h2 class="text-3xl md:text-4xl font-serif font-bold text-brand-navy mb-12">Wem steht das Budget zu?</h2>
+    <!-- Eligibility Section (Law Firm Style) -->
+    <section class="py-32 bg-surface-base border-t border-slate-200">
+        <div class="container max-w-6xl mx-auto">
+            <div class="text-center mb-20 max-w-3xl mx-auto">
+                 <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] mb-4 block">Voraussetzungen</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-brand-navy mb-8">Wem steht das Förder-Budget zu?</h2>
+                <div class="w-24 h-[1px] bg-brand-navy/10 mx-auto"></div>
+            </div>
             
-            <div class="grid md:grid-cols-3 gap-8 text-left">
+            <div class="grid md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-lg hover:shadow-xl transition-shadow relative overflow-hidden group">
-                    <div class="absolute top-0 left-0 w-2 h-full bg-brand-gold group-hover:w-full group-hover:opacity-5 transition-all duration-500"></div>
-                    <div class="mb-6 w-14 h-14 bg-brand-navy/5 text-brand-navy rounded-2xl flex items-center justify-center text-2xl">
-                        📋
+                <div class="group bg-white p-10 border border-slate-200 hover:border-brand-gold/30 hover:shadow-2xl transition-all duration-500 relative">
+                    <div class="w-14 h-14 bg-[#f4f1ea] flex items-center justify-center text-brand-gold mb-8 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-500">
+                        <i data-lucide="briefcase" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-brand-navy mb-3">Arbeitssuchend</h3>
-                    <p class="text-slate-600 leading-relaxed">
-                        Sie beziehen <strong>Bürgergeld</strong> oder <strong>Arbeitslosengeld I</strong>? Dann haben Sie sehr gute Chancen auf eine Förderung.
+                    <h3 class="text-2xl font-serif text-brand-navy mb-4">Arbeitssuchend gemeldet</h3>
+                    <p class="text-slate-600 font-light leading-relaxed mb-6">
+                        Sie beziehen aktuell <strong>Bürgergeld</strong> oder <strong>Arbeitslosengeld I</strong>? Das sind die idealen Voraussetzungen, um den AVGS-Gutschein genehmigt zu bekommen.
                     </p>
+                    <div class="h-[1px] w-12 bg-brand-gold origin-left group-hover:w-full transition-all duration-500"></div>
                 </div>
 
                  <!-- Card 2 -->
-                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-lg hover:shadow-xl transition-shadow relative overflow-hidden group">
-                    <div class="absolute top-0 left-0 w-2 h-full bg-brand-gold group-hover:w-full group-hover:opacity-5 transition-all duration-500"></div>
-                    <div class="mb-6 w-14 h-14 bg-brand-navy/5 text-brand-navy rounded-2xl flex items-center justify-center text-2xl">
-                        ⚠️
+                <div class="group bg-white p-10 border border-slate-200 hover:border-brand-gold/30 hover:shadow-2xl transition-all duration-500 relative">
+                    <div class="w-14 h-14 bg-[#f4f1ea] flex items-center justify-center text-brand-gold mb-8 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-500">
+                         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-brand-navy mb-3">Job in Gefahr?</h3>
-                    <p class="text-slate-600 leading-relaxed">
-                        Ihr Arbeitsvertrag läuft aus oder Ihnen wurde bereits gekündigt? Handeln Sie jetzt proaktiv.
+                    <h3 class="text-2xl font-serif text-brand-navy mb-4">Drohende Arbeitslosigkeit</h3>
+                    <p class="text-slate-600 font-light leading-relaxed mb-6">
+                        Ihr Arbeitsvertrag ist befristet oder Ihnen wurde betriebsbedingt gekündigt? Profitieren Sie bereits in der Freistellung von geförderter Neuorientierung.
                     </p>
+                    <div class="h-[1px] w-12 bg-brand-gold origin-left group-hover:w-full transition-all duration-500"></div>
                 </div>
 
                  <!-- Card 3 -->
-                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-lg hover:shadow-xl transition-shadow relative overflow-hidden group">
-                    <div class="absolute top-0 left-0 w-2 h-full bg-brand-gold group-hover:w-full group-hover:opacity-5 transition-all duration-500"></div>
-                    <div class="mb-6 w-14 h-14 bg-brand-navy/5 text-brand-navy rounded-2xl flex items-center justify-center text-2xl">
-                        🎓
+                <div class="group bg-white p-10 border border-slate-200 hover:border-brand-gold/30 hover:shadow-2xl transition-all duration-500 relative">
+                    <div class="w-14 h-14 bg-[#f4f1ea] flex items-center justify-center text-brand-gold mb-8 group-hover:bg-brand-navy group-hover:text-white transition-colors duration-500">
+                         <i data-lucide="graduation-cap" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-brand-navy mb-3">Hochschulabsolventen</h3>
-                    <p class="text-slate-600 leading-relaxed">
-                         Gerade fertig studiert und auf der Suche nach dem passenden Einstieg? Das Coaching hilft bei der Orientierung.
+                    <h3 class="text-2xl font-serif text-brand-navy mb-4">Studienabsolventen</h3>
+                    <p class="text-slate-600 font-light leading-relaxed mb-6">
+                        Frisch von der Hochschule und der Einstieg in den Markt ist schwierig? Coaching unterstützt Akademiker gezielt beim erfolgreichen Berufsstart.
                     </p>
+                    <div class="h-[1px] w-12 bg-brand-gold origin-left group-hover:w-full transition-all duration-500"></div>
                 </div>
             </div>
-             <p class="mt-8 text-slate-500 text-sm">
-                * Die endgültige Entscheidung über die Vergabe des Gutscheins (AVGS) liegt bei Ihrem Sachbearbeiter. Wir unterstützen Sie bei der Argumentation.
+            
+            <p class="mt-12 text-slate-500 text-xs text-center font-light uppercase tracking-widest max-w-2xl mx-auto">
+                * Die finale Entscheidung über die Kostenübernahme (AVGS) obliegt dem zuständigen Leistungsträger. Wir bereiten Sie auf das Antragsgespräch vor.
             </p>
         </div>
     </section>
 
-    <!-- Services / Value Proposition -->
-    <section class="py-24 bg-white">
-        <div class="container">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                 <div class="inline-block bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
-                    Beliebteste Förderung 2026
+    <!-- Services / Value Proposition (Law Firm Style) -->
+    <section class="py-32 bg-white">
+        <div class="container max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-10 mb-20">
+                <div class="max-w-xl">
+                    <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] mb-4 block">Beratungsleistungen</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-brand-navy mb-6">Inhalte & Mehrwert des Coachings</h2>
+                    <div class="w-16 h-[1px] bg-brand-gold"></div>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-serif font-bold text-brand-navy mb-6">Was bringt Ihnen das Coaching?</h2>
-                <p class="text-lg text-slate-600">Nutzen Sie die Zeit sinnvoll. Statt hunderte Bewerbungen ins Leere zu schicken, erarbeiten Sie mit einem Profi eine Strategie, die funktioniert.</p>
+                <div class="max-w-md text-slate-600 font-light leading-relaxed pb-2">
+                    Nutzen Sie geförderte Zeit strategisch. Gemeinsam erarbeiten wir tiefgehende Lösungen für Ihre berufliche Existenz.
+                </div>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="flex gap-4 p-6 hover:bg-slate-50 rounded-2xl transition-colors">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xl">1</div>
-                    <div>
-                        <h3 class="font-bold text-brand-navy text-lg mb-2">Verdeckter Stellenmarkt</h3>
-                        <p class="text-slate-600">Viele Jobs werden nie öffentlich ausgeschrieben. Wir zeigen Ihnen, wie Sie diese finden.</p>
-                    </div>
+                
+                <div class="p-8 border border-slate-100 hover:border-brand-navy/30 hover:shadow-2xl transition-all duration-300 group">
+                    <div class="text-brand-gold font-serif text-3xl mb-6">01.</div>
+                    <h3 class="font-bold text-brand-navy text-xl mb-3">Verdeckter Stellenmarkt</h3>
+                    <p class="text-slate-600 font-light leading-relaxed">Über 70% der Premium-Stellen werden niemals öffentlich ausgeschrieben. Wir instruieren Sie im Networking und in Initiativstrategien.</p>
                 </div>
-                 <div class="flex gap-4 p-6 hover:bg-slate-50 rounded-2xl transition-colors">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xl">2</div>
-                    <div>
-                        <h3 class="font-bold text-brand-navy text-lg mb-2">Bewerbungs-Optimierung</h3>
-                        <p class="text-slate-600">Lebenslauf und Anschreiben, die Personalern sofort ins Auge fallen. Modern und professionell.</p>
-                    </div>
+                
+                 <div class="p-8 border border-slate-100 hover:border-brand-navy/30 hover:shadow-2xl transition-all duration-300 group">
+                    <div class="text-brand-gold font-serif text-3xl mb-6">02.</div>
+                    <h3 class="font-bold text-brand-navy text-xl mb-3">Bewerbungs-Optimierung</h3>
+                    <p class="text-slate-600 font-light leading-relaxed">Modernisierung Ihrer Vita und Erstellung von Argumentationslinien, die Personalentscheider auf Top-Level sofort überzeugen.</p>
                 </div>
-                 <div class="flex gap-4 p-6 hover:bg-slate-50 rounded-2xl transition-colors">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xl">3</div>
-                    <div>
-                        <h3 class="font-bold text-brand-navy text-lg mb-2">Gründungsberatung</h3>
-                        <p class="text-slate-600">Sie wollen Ihr eigener Chef sein? Wir helfen beim Businessplan und dem Gründungszuschuss.</p>
-                    </div>
+                
+                 <div class="p-8 bg-surface-muted hover:border-brand-gold/30 hover:shadow-2xl border border-transparent transition-all duration-300 group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full blur-2xl"></div>
+                    <div class="text-brand-navy font-serif text-3xl mb-6">03.</div>
+                    <h3 class="font-bold text-brand-navy text-xl mb-3">Gründungsberatung</h3>
+                    <p class="text-slate-600 font-light leading-relaxed">Validierung Ihrer Geschäftsidee. Begleitung bei der Erstellung des Businessplans zur Beantragung des Gründungszuschusses.</p>
                 </div>
-                 <div class="flex gap-4 p-6 hover:bg-slate-50 rounded-2xl transition-colors">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xl">4</div>
-                    <div>
-                        <h3 class="font-bold text-brand-navy text-lg mb-2">Interview-Training</h3>
-                        <p class="text-slate-600">Souverän im Vorstellungsgespräch auftreten. Wir üben schwierige Fragen und Gehaltsverhandlungen.</p>
-                    </div>
+                
+                 <div class="p-8 border border-slate-100 hover:border-brand-navy/30 hover:shadow-2xl transition-all duration-300 group">
+                    <div class="text-brand-gold font-serif text-3xl mb-6">04.</div>
+                    <h3 class="font-bold text-brand-navy text-xl mb-3">Interview-Training</h3>
+                    <p class="text-slate-600 font-light leading-relaxed">Praktisches Training für kritische Fragen und Assessment-Center. Ausarbeitung taktischer Gehaltsverhandlungsstrategien.</p>
                 </div>
-                 <div class="flex gap-4 p-6 hover:bg-slate-50 rounded-2xl transition-colors">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xl">5</div>
-                    <div>
-                        <h3 class="font-bold text-brand-navy text-lg mb-2">Stärkenanalyse</h3>
-                        <p class="text-slate-600">Was können Sie wirklich gut? Wo wollen Sie hin? Finden Sie Klarheit für Ihren Weg.</p>
-                    </div>
+                
+                 <div class="p-8 border border-slate-100 hover:border-brand-navy/30 hover:shadow-2xl transition-all duration-300 group">
+                    <div class="text-brand-gold font-serif text-3xl mb-6">05.</div>
+                    <h3 class="font-bold text-brand-navy text-xl mb-3">Kompetenzbilanzierung</h3>
+                    <p class="text-slate-600 font-light leading-relaxed">Analytische Auswertung Ihrer tatsächlichen Stärken und Identifikation verborgener Potenziale für den Quereinstieg.</p>
                 </div>
-                 <div class="flex gap-4 p-6 hover:bg-slate-50 rounded-2xl transition-colors">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xl">6</div>
-                    <div>
-                        <h3 class="font-bold text-brand-navy text-lg mb-2">Selbstvertrauen</h3>
-                        <p class="text-slate-600">Arbeitslosigkeit nagt am Selbstwert. Wir bauen Sie wieder auf, damit Sie strahlend auftreten.</p>
-                    </div>
+                
+                 <div class="p-8 border border-slate-100 hover:border-brand-navy/30 hover:shadow-2xl transition-all duration-300 group">
+                    <div class="text-brand-gold font-serif text-3xl mb-6">06.</div>
+                    <h3 class="font-bold text-brand-navy text-xl mb-3">Mindset & Resilienz</h3>
+                    <p class="text-slate-600 font-light leading-relaxed">Arbeitslosigkeit ist eine psychologische Belastung. Wir stabilisieren Ihren Selbstwert für ein souveränes Auftreten am Markt.</p>
                 </div>
+                
             </div>
         </div>
     </section>
 
-    <!-- Lead Form Section -->
-    <section id="anspruch-pruefen" class="py-24 bg-brand-navy text-white relative overflow-hidden">
+    <!-- Lead Form Section (Law Firm Style) -->
+    <section id="anspruch-pruefen" class="py-32 bg-brand-navy text-white relative overflow-hidden border-t border-brand-gold/20">
         <!-- Decoration -->
-        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-gold/10 rounded-full blur-[120px] pointer-events-none -mr-40 -mt-40"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-blue/10 rounded-full blur-[100px] pointer-events-none -ml-40 -mb-40"></div>
         
-        <div class="container max-w-4xl relative z-10">
-            <div class="bg-white text-slate-900 rounded-[2.5rem] shadow-2xl p-8 md:p-12">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-brand-navy mb-4">Anspruch unverbindlich prüfen</h2>
-                    <p class="text-slate-600 text-lg">Füllen Sie das Formular aus. Wir melden uns innerhalb von 24 Stunden für eine kostenlose Ersteinschätzung.</p>
+        <div class="container max-w-4xl mx-auto relative z-10">
+            <div class="bg-surface-base text-brand-navy rounded-sm shadow-2xl p-8 md:p-14 border-t-4 border-brand-gold">
+                <div class="text-center mb-12">
+                    <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] mb-4 block">Ersteinschätzung</span>
+                    <h2 class="text-3xl md:text-5xl font-serif text-brand-navy mb-4">Anspruch unverbindlich prüfen</h2>
+                    <div class="w-16 h-[1px] bg-brand-gold mx-auto mb-6"></div>
+                    <p class="text-slate-600 text-lg font-light">
+                        Füllen Sie das Formular aus. Wir melden uns innerhalb von 24 Stunden für eine diskrete und kostenlose Ersteinschätzung.
+                    </p>
                 </div>
 
-                <form id="avgs-lead-form" class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label for="v-name" class="text-sm font-bold text-slate-700 uppercase tracking-wide">Vorname</label>
-                            <input type="text" id="v-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all" />
+                <form id="avgs-lead-form" class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label for="v-name" class="text-xs font-bold text-brand-navy uppercase tracking-widest">Vorname</label>
+                            <input type="text" id="v-name" required class="w-full bg-white border border-slate-300 rounded-sm px-5 py-4 text-brand-navy outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all shadow-sm" />
                         </div>
-                        <div class="space-y-2">
-                             <label for="n-name" class="text-sm font-bold text-slate-700 uppercase tracking-wide">Nachname</label>
-                            <input type="text" id="n-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all" />
+                        <div class="space-y-3">
+                             <label for="n-name" class="text-xs font-bold text-brand-navy uppercase tracking-widest">Nachname</label>
+                            <input type="text" id="n-name" required class="w-full bg-white border border-slate-300 rounded-sm px-5 py-4 text-brand-navy outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all shadow-sm" />
                         </div>
                     </div>
 
-                    <div class="space-y-2">
-                         <label for="e-mail" class="text-sm font-bold text-slate-700 uppercase tracking-wide">E-Mail Adresse</label>
-                        <input type="email" id="e-mail" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all" />
+                    <div class="space-y-3">
+                         <label for="e-mail" class="text-xs font-bold text-brand-navy uppercase tracking-widest">E-Mail Adresse</label>
+                        <input type="email" id="e-mail" required class="w-full bg-white border border-slate-300 rounded-sm px-5 py-4 text-brand-navy outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all shadow-sm" />
                     </div>
-                     <div class="space-y-2">
-                         <label for="tel" class="text-sm font-bold text-slate-700 uppercase tracking-wide">Telefonnummer <span class="text-slate-400 font-normal normal-case">(für Rückfragen)</span></label>
-                        <input type="tel" id="tel" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all" />
+                     <div class="space-y-3">
+                         <label for="tel" class="text-xs font-bold text-brand-navy uppercase tracking-widest">Telefonnummer <span class="text-slate-400 font-light normal-case tracking-normal">(für Rückfragen)</span></label>
+                        <input type="tel" id="tel" class="w-full bg-white border border-slate-300 rounded-sm px-5 py-4 text-brand-navy outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all shadow-sm" />
                     </div>
 
-                    <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 space-y-4">
-                        <p class="text-sm font-bold text-brand-blue uppercase tracking-widest mb-2">Ihre aktuelle Situation</p>
+                    <div class="bg-surface-muted p-8 border border-slate-200 space-y-5 rounded-sm">
+                        <p class="text-xs font-bold text-brand-navy uppercase tracking-widest mb-4">Ihre aktuelle Situation</p>
                         
-                        <label class="flex items-center gap-3 cursor-pointer group p-3 bg-white border border-blue-100 rounded-xl hover:border-blue-300 transition-all shadow-sm">
-                            <input type="checkbox" name="situation" value="arbeitslos" class="w-5 h-5 text-brand-blue rounded border-gray-300 focus:ring-brand-blue">
+                        <label class="flex items-center gap-4 cursor-pointer group p-4 bg-white border border-slate-200 hover:border-brand-gold/50 transition-all shadow-sm">
+                            <input type="checkbox" name="situation" value="arbeitslos" class="w-5 h-5 text-brand-gold rounded-sm border-slate-300 focus:ring-brand-gold">
                             <span class="text-slate-700 font-medium group-hover:text-brand-navy">Ich beziehe ALG I oder Bürgergeld</span>
                         </label>
                         
-                        <label class="flex items-center gap-3 cursor-pointer group p-3 bg-white border border-blue-100 rounded-xl hover:border-blue-300 transition-all shadow-sm">
-                            <input type="checkbox" name="situation" value="bedroht" class="w-5 h-5 text-brand-blue rounded border-gray-300 focus:ring-brand-blue">
+                        <label class="flex items-center gap-4 cursor-pointer group p-4 bg-white border border-slate-200 hover:border-brand-gold/50 transition-all shadow-sm">
+                            <input type="checkbox" name="situation" value="bedroht" class="w-5 h-5 text-brand-gold rounded-sm border-slate-300 focus:ring-brand-gold">
                              <span class="text-slate-700 font-medium group-hover:text-brand-navy">Arbeitslosigkeit droht (Kündigung/Befristung)</span>
                         </label>
 
-                         <label class="flex items-center gap-3 cursor-pointer group p-3 bg-white border border-blue-100 rounded-xl hover:border-blue-300 transition-all shadow-sm">
-                            <input type="checkbox" name="situation" value="gruendung" class="w-5 h-5 text-brand-blue rounded border-gray-300 focus:ring-brand-blue">
+                         <label class="flex items-center gap-4 cursor-pointer group p-4 bg-white border border-slate-200 hover:border-brand-gold/50 transition-all shadow-sm">
+                            <input type="checkbox" name="situation" value="gruendung" class="w-5 h-5 text-brand-gold rounded-sm border-slate-300 focus:ring-brand-gold">
                              <span class="text-slate-700 font-medium group-hover:text-brand-navy">Ich möchte mich selbstständig machen</span>
                         </label>
                     </div>
 
-                    <button type="submit" id="submit-btn" class="w-full bg-brand-gold hover:bg-brand-gold-light text-brand-navy font-bold text-lg py-5 rounded-xl shadow-xl shadow-brand-gold/20 transition-all transform hover:-translate-y-1">
+                    <button type="submit" id="submit-btn" class="w-full bg-brand-gold hover:bg-white text-brand-navy font-bold text-sm tracking-widest uppercase py-6 shadow-xl border border-transparent hover:border-brand-gold transition-all duration-300">
                         Kostenlose Prüfung anfordern
                     </button>
-                    <p class="text-xs text-center text-slate-400">Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu.</p>
+                    <p class="text-xs text-center text-slate-500 font-light">Die Datenübertragung erfolgt verschlüsselt. Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu.</p>
                 </form>
 
-                 <div id="success-message" class="hidden text-center py-12">
-                    <div class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                 <div id="success-message" class="hidden text-center py-16">
+                    <div class="w-20 h-20 bg-brand-gold/10 border border-brand-gold flex items-center justify-center mx-auto mb-8">
+                        <i data-lucide="check" class="w-10 h-10 text-brand-gold"></i>
                     </div>
-                    <h3 class="text-3xl font-serif font-bold text-brand-navy mb-4">Vielen Dank!</h3>
-                    <p class="text-lg text-slate-600 font-medium mb-10 max-w-sm mx-auto">Wir haben Ihre Anfrage erhalten und werden uns schnellstmöglich bei Ihnen melden.</p>
-                    <a href="/" class="inline-flex items-center text-brand-blue font-bold hover:underline">
-                        ← Zurück zur Startseite
+                    <h3 class="text-4xl font-serif text-brand-navy mb-4">Mandat angefragt</h3>
+                    <p class="text-lg text-slate-600 font-light mb-10 max-w-sm mx-auto">
+                        Wir haben Ihre Daten sicher empfangen. Ein Experte wird Ihre Situation prüfen und sich in Kürze bei Ihnen melden.
+                    </p>
+                    <a href="/" class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-brand-navy hover:text-brand-gold transition-colors">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Zurück zur Startseite
                     </a>
                 </div>
 
@@ -304,6 +341,13 @@ import Layout from '../layouts/Layout.astro';
 
   </main>
 </Layout>
+
+<script>
+    import { lucide } from 'lucide';
+    if (typeof window !== 'undefined' && window.lucide) {
+        window.lucide.createIcons();
+    }
+</script>
 
 <script>
   // Simple Form Handling Logic

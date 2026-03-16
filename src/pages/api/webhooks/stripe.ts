@@ -3,10 +3,18 @@ import type { APIRoute } from "astro";
 import Stripe from 'stripe';
 import { sendEmail } from "../../../lib/email";
 import { generateApplicationPdf } from "../../../lib/pdfGenerator";
+import { createClient } from '@supabase/supabase-js';
 
-// Initialize Stripe
+// Initialize Configs
 const STRIPE_SECRET_KEY = import.meta.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY;
 const STRIPE_WEBHOOK_SECRET = import.meta.env.STRIPE_WEBHOOK_SECRET || process.env.STRIPE_WEBHOOK_SECRET;
+const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL || process.env.PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || process.env.PUBLIC_SUPABASE_ANON_KEY;
+
+// Initialize Supabase Client (Make sure these exist, otherwise fallback or error)
+const supabase = (SUPABASE_URL && SUPABASE_ANON_KEY)
+    ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
 
 export const POST: APIRoute = async ({ request }) => {
     if (!STRIPE_SECRET_KEY || !STRIPE_WEBHOOK_SECRET) {
@@ -72,9 +80,42 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
         return;
     }
 
-    console.log(`Payment successful for ${firstName} ${lastName}. Formloser Antrag for ${authority}. Sending emails...`);
+    console.log(`Payment successful for ${firstName} ${lastName}. Formloser Antrag for ${authority}.`);
 
-    // 1. Generate PDF (Server-Side)
+    // --- 0. IDEMPOTENCY & SUPABASE TRACKING SETUP ---
+    // If Supabase is available, we use it to track the process.
+    if (supabase) {
+        // Step A: Check Idempotency (has this session already been processed?)
+        const { data: existingApp } = await supabase
+            .from('paid_applications')
+            .select('id, status')
+            .eq('stripe_session_id', session.id)
+            .single();
+
+        if (existingApp && ['COMPLETED', 'PDF_GENERATED', 'PAID'].includes(existingApp.status)) {
+            console.log(`Webhook already processed for session ${session.id} (Status: ${existingApp.status}). Skipping.`);
+            return; // Idempotent success
+        }
+
+        // Step B: Create initial tracked application
+        const { error: insertError } = await supabase
+            .from('paid_applications')
+            .insert([{
+                stripe_session_id: session.id,
+                customer_name: `${firstName} ${lastName}`,
+                customer_email: customerEmail,
+                authority_name: authority,
+                benefit_label: benefitLabel,
+                status: 'PAID'
+            }]);
+
+        if (insertError) {
+            console.error('Failed to create tracking row in Supabase:', insertError);
+            // We proceed with the flow even if DB tracking fails, to not block the customer's PDF
+        }
+    }
+
+    // --- 1. GENERATE PDF ---
     let pdfBuffer: Buffer | null = null;
     let pdfGenerationError = null;
 
@@ -94,9 +135,24 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
             date: new Date()
         });
         console.log('PDF generated successfully server-side.');
+
+        if (supabase) {
+            await supabase.from('paid_applications').update({
+                status: 'PDF_GENERATED',
+                pdf_generated_at: new Date().toISOString()
+            }).eq('stripe_session_id', session.id);
+        }
+
     } catch (err: any) {
         console.error('Failed to generate PDF:', err);
         pdfGenerationError = err.message || 'Unknown PDF generation error';
+
+        if (supabase) {
+            await supabase.from('paid_applications').update({
+                status: 'FAILED',
+                error_log: `PDF Gen Error: ${pdfGenerationError}`
+            }).eq('stripe_session_id', session.id);
+        }
         // We will continue and alert Admin, but let's try to send what we have to the user.
     }
 
@@ -215,6 +271,23 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     });
 
     console.log('Webhook flow completed.');
+
+    // --- Final Tracking Status Update ---
+    if (supabase) {
+        if (!pdfGenerationError && authoritySent) {
+            await supabase.from('paid_applications').update({
+                status: 'COMPLETED',
+                completed_at: new Date().toISOString()
+            }).eq('stripe_session_id', session.id);
+        } else {
+            // If manual action is required, update error log
+            const errorMsg = pdfGenerationError || (!authoritySent ? 'Failed to send to authority email.' : 'Unknown Error');
+            await supabase.from('paid_applications').update({
+                status: 'FAILED',
+                error_log: errorMsg
+            }).eq('stripe_session_id', session.id);
+        }
+    }
 }
 
 async function sendAdminAlert(session: any, error: any) {
