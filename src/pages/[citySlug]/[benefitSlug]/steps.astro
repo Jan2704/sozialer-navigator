@@ -33,7 +33,10 @@ const mailSubject = encodeURIComponent(`Fristwahrung: Antrag auf ${benefitInfo.n
 const mailBody = encodeURIComponent(`Sehr geehrte Damen und Herren,\n\nhiermit beantrage ich formlos ${benefitInfo.name} für den Monat Januar 2026 zur Fristwahrung gemäß ${benefitInfo.legal_basis}.\n\nName: [Ihr Name]\nAnschrift: [Ihre Adresse in ${cityInfo.stadt}]\n\nBitte bestätigen Sie mir den Eingang dieser E-Mail.\n\nMit freundlichen Grüßen`);
 ---
 
-<Layout title={`Nächste Schritte: ${benefitInfo.name} in ${cityInfo.stadt}`}>
+<Layout 
+  title={`Nächste Schritte: ${benefitInfo.name} in ${cityInfo.stadt}`}
+  description={`Nächste Schritte für Ihren Antrag auf ${benefitInfo.name} in ${cityInfo.stadt}. Handlungsplan und Vorlagen zur Fristwahrung.`}
+>
   <main class="container reveal" style="padding: 80px 24px;">
     
     <header style="margin-bottom: 60px; text-align: center;">

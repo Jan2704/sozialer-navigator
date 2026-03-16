@@ -2,7 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Stripe from 'stripe';
 import { sendEmail } from "../../../lib/email";
-import { generateApplicationPdf } from "../../../lib/pdfGenerator";
+import { generateApplicationPdf } from "../../../lib/pdf-generator";
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize Configs

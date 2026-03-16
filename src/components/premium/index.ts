@@ -1,3 +1,3 @@
-export * from "./ProCard"
-export * from "./ProButton"
-export * from "./ProInput"
+export * from "./pro-card"
+export * from "./pro-button"
+export * from "./pro-input"

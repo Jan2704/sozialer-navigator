@@ -18,7 +18,7 @@ const { Content } = await entry.render();
 import SchemaOrg from '../../components/seo/seo-schema.astro';
 ---
 
-<Layout title={`${entry.data.title} | Lexikon`} activePage="lexikon">
+<Layout title={`${entry.data.title} | Lexikon`} description={entry.data.description} activePage="lexikon">
   
     <fragment slot="head">
         <meta property="og:type" content="article" />

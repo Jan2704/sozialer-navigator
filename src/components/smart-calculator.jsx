@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { calculateBestOption } from "../logic/calculator-2026.js";
-import { wohngeldData } from "../data/wohngeldData.js";
+import { wohngeldData } from "../data/wohngeld-data.js";
 import { cn } from "../lib/utils";
 import {
   Search,

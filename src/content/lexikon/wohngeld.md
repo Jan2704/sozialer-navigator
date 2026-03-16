@@ -26,7 +26,7 @@ Voraussetzung ist, dass Sie **keine** Transferleistungen (wie Bürgergeld, Grund
 Die Berechnung erfolgt nach einer komplexen Formel (WoGG), basierend auf:
 1.  **Anzahl der Haushaltsmitglieder**: Berücksichtigt werden alle Personen, die dauerhaft im Haushalt leben.
 2.  **Gesamteinkommen**: Das Bruttoeinkommen aller Mitglieder abzüglich pauschaler Abzüge (Werbungskosten, Steuern, Sozialversicherung).
-3.  **Höhe der Miete**: Es gilt eine Obergrenze, die von der Mietenstufe der Gemeinde abhängt.
+3.  **Höhe der Miete**: Es gilt eine Obergrenze, die von der Mietstufe der Gemeinde abhängt.
 4.  **Mietstufe**: Jede Gemeinde in Deutschland ist einer Stufe von 1 (günstig) bis 7 (teuer) zugeordnet.
 
 ## Unterschied zum Bürgergeld

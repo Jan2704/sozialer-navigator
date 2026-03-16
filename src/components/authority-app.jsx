@@ -5,7 +5,7 @@ import {
     FileCheck, ArrowRight, Loader2, Building2,
     Euro, Clock, Info, Download, AlertCircle, Printer
 } from 'lucide-react';
-import ResultRoadmap from './ResultRoadmap';
+import ResultRoadmap from './result-roadmap';
 import citiesData from '../data/cities_2026.json';
 import cityDistrictsData from '../data/city_districts.json';
 import authoritiesData from '../data/authorities.json';

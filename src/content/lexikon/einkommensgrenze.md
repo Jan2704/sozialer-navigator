@@ -8,7 +8,7 @@ description: "Wie viel darf ich verdienen, um noch Wohngeld zu bekommen? Erklär
 Nein, beim Wohngeld gibt es **keine starre Einkommensgrenze** wie "bis 2.000 €". Die Grenze ist **dynamisch** und hängt von drei Faktoren ab:
 
 1.  **Anzahl der Haushaltsmitglieder**: Je mehr Personen, desto höher darf das Einkommen sein.
-2.  **Mietenstufe der Stadt**: In teuren Städten (z.B. München, Stufe 7) sind die Grenzen höher als auf dem Land (Stufe 1).
+2.  **Mietstufe der Stadt**: In teuren Städten (z.B. München, Stufe 7) sind die Grenzen höher als auf dem Land (Stufe 1).
 3.  **Höhe der Miete**: Wer eine (angemessen) teure Miete zahlt, hat einen höheren Bedarf.
 
 ## Faustformel (Orientierung 2026)
