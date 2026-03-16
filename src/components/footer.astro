@@ -67,7 +67,7 @@ const currentYear = new Date().getFullYear();
       <!-- Navigation Column 3: Legal -->
       <div class="flex flex-col gap-6">
         <span class="text-xs font-bold uppercase tracking-widest text-white/90">
-          Kanzlei
+          Navigator
         </span>
         <div class="flex flex-col gap-3">
           <a href="/ueber-uns/" class="text-sm text-slate-400 hover:text-[#c5a67c] transition-colors">Über uns</a>
@@ -81,9 +81,14 @@ const currentYear = new Date().getFullYear();
 
     <!-- Bottom Bar -->
     <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
-      <p class="text-xs text-slate-500 font-medium">
-        &copy; {currentYear} Sozialer Navigator. Alle Rechte vorbehalten.
-      </p>
+      <div class="flex flex-col gap-2">
+        <p class="text-xs text-slate-500 font-medium">
+          &copy; {currentYear} Sozialer Navigator. Alle Rechte vorbehalten.
+        </p>
+        <p class="text-[10px] text-slate-600 leading-relaxed max-w-2xl">
+          Hinweis: Der Sozialer Navigator bietet eine automatisierte, unverbindliche Ersteinschätzung auf Basis offizieller Berechnungsgrundlagen. Unsere Auswertungen dienen der Information und stellen keine Rechtsberatung im Sinne des Rechtsdienstleistungsgesetzes (RDG) dar.
+        </p>
+      </div>
     </div>
 
   </div>

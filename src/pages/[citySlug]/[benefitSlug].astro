@@ -11,6 +11,7 @@ import SchemaOrg from '../../components/seo/seo-schema.astro';
 // Daten importieren
 import cities from '../../data/cities_2026.json';
 import benefits from '../../data/benefits.json';
+import { cityInsights } from '../../data/city-insights.js';
 
 // DIESE FUNKTION IST DER MOTOR:
 // Sie sagt Astro: "Generiere für jede Stadt aus der cities.json 
@@ -42,6 +43,7 @@ export async function getStaticPaths() {
 // Hier holen wir uns die Daten für die aktuell aufgerufene Seite
 const { cityInfo, benefitInfo } = Astro.props;
 const { citySlug, benefitSlug } = Astro.params;
+const insights = cityInsights[citySlug];
 
 // SEO-Titel generieren
 // SEO-Titel generieren (Bevorzuge Daten aus JSON, Fallback auf generiertes Muster)
@@ -184,6 +186,13 @@ const faqItems = [
                       </p>
                   </div>
                   
+                  {insights && (
+                    <div class="bg-blue-50/50 border-l-4 border-blue-600 p-6 mb-4 rounded-r-2xl">
+                       <h4 class="text-blue-900 font-bold mb-1 text-sm">Wichtig für {cityInfo.stadt}:</h4>
+                       <p class="text-blue-800 text-xs italic">{insights.market_situation}</p>
+                    </div>
+                  )}
+
                   <SmartCalculator 
                     client:load
                     benefitSlug={benefitSlug} 

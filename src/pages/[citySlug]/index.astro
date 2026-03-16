@@ -3,6 +3,7 @@ import Layout from '../../layouts/layout.astro';
 import cities from '../../data/cities_2026.json';
 import SchemaOrg from '../../components/seo/seo-schema.astro';
 import Faq from '../../components/faq.astro';
+import { cityInsights } from '../../data/city-insights.js';
 
 export const prerender = true;
 
@@ -14,6 +15,7 @@ export async function getStaticPaths() {
 }
 
 const { city } = Astro.props;
+const insights = cityInsights[city.slug];
 
 const cityFaqs = [
   {
@@ -149,21 +151,30 @@ const faqSchemaItems = cityFaqs.map(item => ({ q: item.question, a: item.answer 
             </a>
          </div>
 
-         <!-- LOCAL SEO CONTENT HUB -->
-         <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12 mb-12">
-              <div class="mb-10">
-                  <span class="text-blue-600 text-xs font-bold uppercase tracking-[0.2em] mb-3 block">Lokaler Ratgeber</span>
-                  <h2 class="text-2xl md:text-3xl font-serif text-slate-900 mb-4">
-                      Ihr Wegweiser für Sozialleistungen in {city.stadt} ({city.plz})
-                  </h2>
-                  <div class="w-16 h-[2px] bg-blue-600"></div>
-              </div>
+          <!-- LOCAL SEO CONTENT HUB -->
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12 mb-12">
+               <div class="mb-10">
+                   <span class="text-blue-600 text-xs font-bold uppercase tracking-[0.2em] mb-3 block">Lokaler Ratgeber</span>
+                   <h2 class="text-2xl md:text-3xl font-serif text-slate-900 mb-4">
+                       Ihr Wegweiser für Sozialleistungen in {city.stadt} ({city.plz})
+                   </h2>
+                   <div class="w-16 h-[2px] bg-blue-600"></div>
+               </div>
 
-              <div class="prose prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-relaxed">
-                  
-                  <p>
-                      Die Beantragung von staatlichen Hilfen zur Sicherung des Lebensunterhalts kann komplex sein – besonders aufgrund der starken regionalen Unterschiede. Wenn Sie in <strong>{city.stadt}</strong> leben und Unterstützung bei Ihren Wohn- oder Lebenshaltungskosten benötigen, stehen Ihnen grundsätzlich zwei Wege offen: Das Wohngeld als reiner Mietzuschuss oder das Bürgergeld (ehemals Hartz IV) als vollumfängliche Grundsicherung.
-                  </p>
+               <div class="prose prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-relaxed">
+                   
+                   {insights && (
+                     <div class="bg-blue-50/50 border-l-4 border-blue-600 p-6 mb-8 rounded-r-2xl">
+                        <h4 class="text-blue-900 font-bold mb-2">Marktsituation in {city.stadt}:</h4>
+                        <p class="text-blue-800 text-sm italic mb-4">{insights.market_situation}</p>
+                        <h4 class="text-blue-900 font-bold mb-2">Expertentipp:</h4>
+                        <p class="text-blue-800 text-sm italic">{insights.wohngeld_tip}</p>
+                     </div>
+                   )}
+
+                   <p>
+                       Die Beantragung von staatlichen Hilfen zur Sicherung des Lebensunterhalts kann komplex sein – besonders aufgrund der starken regionalen Unterschiede. Wenn Sie in <strong>{city.stadt}</strong> leben und Unterstützung bei Ihren Wohn- oder Lebenshaltungskosten benötigen, stehen Ihnen grundsätzlich zwei Wege offen: Das Wohngeld als reiner Mietzuschuss oder das Bürgergeld (ehemals Hartz IV) als vollumfängliche Grundsicherung.
+                   </p>
 
                   <h3>Die Bedeutung der Mietstufe in {city.stadt}</h3>
                   <p>
