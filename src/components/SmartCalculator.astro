@@ -1,7 +1,0 @@
----
-import { SmartCalculator } from './SmartCalculator.jsx';
-const { benefitSlug, cityInfo, benefitInfo } = Astro.props;
-const regelsatz = benefitInfo.calc_constants.regelsatz_single || 563;
----
-
-<SmartCalculator client:load benefitSlug={benefitSlug} cityInfo={cityInfo} regelsatz={regelsatz} />

@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../../layouts/layout.astro';
 import { getCollection } from 'astro:content';
 export const prerender = true;
 import { slugify } from '../../utils/slugify';
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
-import SchemaOrg from '../../components/SEO/SeoSchema.astro';
+import SchemaOrg from '../../components/seo/seo-schema.astro';
 ---
 
 <Layout title={`${entry.data.title} | Lexikon`} activePage="lexikon">

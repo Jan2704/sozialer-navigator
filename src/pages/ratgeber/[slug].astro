@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 export const prerender = true;
-import Layout from '../../layouts/Layout.astro';
-import SchemaOrg from '../../components/SEO/SeoSchema.astro';
+import Layout from '../../layouts/layout.astro';
+import SchemaOrg from '../../components/seo/seo-schema.astro';
 
 export async function getStaticPaths() {
   const guideEntries = await getCollection('ratgeber');
