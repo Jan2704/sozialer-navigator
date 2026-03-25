@@ -1,8 +1,5 @@
 {
     "redirects": [
-        { "source": "/ratgeber/urlaub-ortsabwesenheit-buergergeld(?:/)?", "destination": "/buergergeld/", "permanent": true },
-        { "source": "/ratgeber/buergergeld-erstantrag-dauer(?:/)?", "destination": "/buergergeld/", "permanent": true },
-        { "source": "/ratgeber/buergergeld-und-minijob(?:/)?", "destination": "/buergergeld/", "permanent": true },
         { "source": "/ratgeber/wohngeld-trotz-buergergeld(?:/)?", "destination": "/ratgeber/buergergeld-oder-wohngeld/", "permanent": true },
         { "source": "/ratgeber/erstausstattung-fuer-die-wohnung(?:/)?", "destination": "/buergergeld/", "permanent": true },
         { "source": "/ratgeber/kontoauszuege-jobcenter-schwaerzen(?:/)?", "destination": "/buergergeld/", "permanent": true },
