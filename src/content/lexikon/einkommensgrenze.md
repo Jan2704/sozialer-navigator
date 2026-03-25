@@ -1,6 +1,6 @@
 ---
-title: "Einkommensgrenze beim Wohngeld"
-description: "Wie viel darf ich verdienen, um noch Wohngeld zu bekommen? Erklärung der dynamischen Einkommensgrenzen 2026."
+title: "Wohngeld Einkommensgrenze 2026 Deutschland"
+description: "Wie hoch ist die Einkommensgrenze beim Wohngeld 2026 in Deutschland? ✔️ Single & Familien ✔️ Freibeträge & dynamische Grenzen übersichtlich erklärt."
 ---
 
 # Gibt es eine fest Einkommensgrenze?
