@@ -5,6 +5,7 @@ import {
     FileCheck, ArrowRight, Loader2, Building2,
     Euro, Clock, Info, Download, AlertCircle, Printer
 } from 'lucide-react';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import ResultRoadmap from './result-roadmap';
 import citiesData from '../data/cities_2026.json';
 import cityDistrictsData from '../data/city_districts.json';
@@ -36,6 +37,27 @@ export default function AuthorityApp() {
         accuracy: false,
         messenger: false
     });
+
+    // Assistant State
+    const [assistantStep, setAssistantStep] = useState(1);
+    const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+    const [assistantData, setAssistantData] = useState({
+        firstName: '',
+        lastName: '',
+        birthDate: '',
+        street: '',
+        zipCity: '',
+        phone: '',
+        email: '',
+        iban: '',
+        kontoinhaber: '',
+        transferBenefit: 'no',
+        isOwner: 'no',
+        hasCar: 'no',
+        hasSavings: 'no'
+    });
+
+    const [isContactFilled, setIsContactFilled] = useState(false);
 
     const isFormValid =
         formData.firstName.length > 1 &&
@@ -191,6 +213,27 @@ export default function AuthorityApp() {
                     setHasSearched(true);
                 }
             }
+
+            // Auto-populate assistant data from calculation with smart inferences
+            setAssistantData(prev => ({
+                ...prev,
+                firstName: input.firstName || prev.firstName || '',
+                lastName: input.lastName || prev.lastName || '',
+                birthDate: input.birthDate || prev.birthDate || '',
+                street: input.street || prev.street || '',
+                zipCity: cityPlz ? `${cityPlz} ${cityName}` : cityName,
+                phone: input.phone || prev.phone || '',
+                email: input.email || prev.email || '',
+                iban: input.iban || prev.iban || '',
+                kontoinhaber: input.kontoinhaber || `${input.firstName || ''} ${input.lastName || ''}`.trim() || prev.kontoinhaber || '',
+                transferBenefit: label === 'Wohngeld' ? 'no' : prev.transferBenefit,
+                hasSavings: label === 'Bürgergeld' ? 'no' : prev.hasSavings,
+                isOwner: input.isOwner || prev.isOwner || 'no'
+            }));
+
+            // Immediately transition to the new 'pdf-ready' review dashboard
+            setIsContactFilled(!!(input.firstName && input.lastName && input.email));
+            setView('pdf-ready');
         };
 
         window.addEventListener('benefit-calculation-completed', handleCalculation);
@@ -313,6 +356,249 @@ export default function AuthorityApp() {
             localStorage.removeItem('pendingBenefitLabel');
         }
     }, []);
+
+    const handleStartAssistant = () => {
+        setAssistantData(prev => ({
+            ...prev,
+            firstName: prev.firstName || formData.firstName || '',
+            lastName: prev.lastName || formData.lastName || '',
+            email: prev.email || formData.email || '',
+            phone: prev.phone || formData.phone || '',
+            kontoinhaber: prev.kontoinhaber || `${prev.firstName || formData.firstName || ''} ${prev.lastName || formData.lastName || ''}`.trim()
+        }));
+        setView('assistant');
+        setAssistantStep(1);
+    };
+
+    const handleAssistantNext = () => {
+        setAssistantStep(prev => Math.min(prev + 1, 5));
+    };
+
+    const handleAssistantBack = () => {
+        setAssistantStep(prev => Math.max(prev - 1, 1));
+    };
+
+    const handleGeneratePdf = async () => {
+        setIsGeneratingPdf(true);
+        try {
+            const isWohngeld = benefitLabel.toLowerCase().includes('wohngeld') || benefitLabel.toLowerCase().includes('lastenzuschuss');
+            // Fetch template
+            const templatePath = isWohngeld ? '/forms/TEST_Wohngeld.pdf' : '/forms/Hauptantrag_Buergergeld.pdf';
+            const response = await fetch(templatePath);
+            if (!response.ok) {
+                throw new Error('PDF-Vorlage nicht gefunden.');
+            }
+            const arrayBuffer = await response.arrayBuffer();
+            const pdfDoc = await PDFDocument.load(arrayBuffer);
+            const form = pdfDoc.getForm();
+
+            // Fill basic details
+            try {
+                if (isWohngeld) {
+                    form.getTextField('Vorname').setText(assistantData.firstName);
+                    form.getTextField('Nachname').setText(assistantData.lastName);
+                    form.getTextField('Strasse_Hausnummer').setText(assistantData.street);
+                    form.getTextField('PLZ_Ort').setText(assistantData.zipCity);
+                } else {
+                    form.getTextField('txtfPersonVorname').setText(assistantData.firstName);
+                    form.getTextField('txtfPersonNachname').setText(assistantData.lastName);
+                    form.getTextField('txtfPersonStr').setText(assistantData.street);
+                    
+                    // PLZ & Ort split
+                    const zipMatch = assistantData.zipCity.match(/^(\d{5})\s*(.*)$/);
+                    if (zipMatch) {
+                        form.getTextField('txtfPersonPlz').setText(zipMatch[1]);
+                        form.getTextField('txtfPersonOrt').setText(zipMatch[2]);
+                    } else {
+                        form.getTextField('txtfPersonOrt').setText(assistantData.zipCity);
+                    }
+                    
+                    // Attempt birthdate if field exists
+                    try {
+                        form.getTextField('txtfPersonGebDat').setText(assistantData.birthDate);
+                    } catch(e) {}
+                }
+            } catch (fieldErr) {
+                console.warn("Field filling warning:", fieldErr);
+            }
+
+            // TAXFIX-FEATURE: Cover page
+            const coverPage = pdfDoc.insertPage(0);
+            const { width, height } = coverPage.getSize();
+            const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+            const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+            // Draw cover page
+            coverPage.drawRectangle({
+                x: 0,
+                y: height - 100,
+                width: width,
+                height: 100,
+                color: rgb(13/255, 148/255, 136/255), // brand.blue Teal
+            });
+
+            coverPage.drawText("AMTLY DIGITALER ASSISTENT", {
+                x: 40,
+                y: height - 45,
+                size: 10,
+                font: fontBold,
+                color: rgb(1, 1, 1),
+            });
+
+            coverPage.drawText(`Offizieller Antrag auf ${benefitLabel}`, {
+                x: 40,
+                y: height - 75,
+                size: 20,
+                font: fontBold,
+                color: rgb(1, 1, 1),
+            });
+
+            coverPage.drawText("1. Angaben zum Antragsteller", {
+                x: 40,
+                y: height - 140,
+                size: 14,
+                font: fontBold,
+                color: rgb(15/255, 23/255, 42/255),
+            });
+
+            let yPos = height - 165;
+            const drawField = (label, value) => {
+                coverPage.drawText(label, { x: 40, y: yPos, size: 10, font: fontBold, color: rgb(71/255, 85/255, 105/255) });
+                coverPage.drawText(value || 'Keine Angabe', { x: 220, y: yPos, size: 10, font: fontRegular, color: rgb(15/255, 23/255, 42/255) });
+                yPos -= 20;
+            };
+
+            drawField("Name, Vorname:", `${assistantData.lastName}, ${assistantData.firstName}`);
+            drawField("Geburtsdatum:", assistantData.birthDate);
+            drawField("Anschrift:", `${assistantData.street}, ${assistantData.zipCity}`);
+            drawField("E-Mail / Telefon:", `${assistantData.email} / ${assistantData.phone || '-'}`);
+            
+            if (assistantData.iban) {
+                drawField("Bankverbindung:", `IBAN: ${assistantData.iban}`);
+                drawField("Kontoinhaber:", assistantData.kontoinhaber || `${assistantData.firstName} ${assistantData.lastName}`);
+            }
+
+            yPos -= 10;
+            coverPage.drawText("2. Vorläufige Anspruchsberechnung (Amtly)", {
+                x: 40,
+                y: yPos,
+                size: 14,
+                font: fontBold,
+                color: rgb(15/255, 23/255, 42/255),
+            });
+            yPos -= 25;
+
+            const savedState = window.lastCalculationResult;
+            if (savedState && savedState.input) {
+                drawField("Voraussichtlicher Anspruch:", `${Math.round(savedState.amount)} € / Monat`);
+                drawField("Mietstufe der Stadt:", `${savedState.input.city?.mietstufe || 'N/A'}`);
+                drawField("Haushaltsgröße:", `${savedState.input.persons} Person(en) (${savedState.input.kids} Kind/er)`);
+                drawField("Monatliches Brutto:", `${savedState.input.income} €`);
+                drawField("Warmmiete:", `${savedState.input.rent} € Kalt + ${savedState.input.heating} € Heizung`);
+            } else {
+                drawField("Voraussichtlicher Anspruch:", "Berechnung abgeschlossen (siehe Folgeseiten)");
+            }
+
+            yPos -= 10;
+            coverPage.drawText("3. Zusatzangaben", {
+                x: 40,
+                y: yPos,
+                size: 14,
+                font: fontBold,
+                color: rgb(15/255, 23/255, 42/255),
+            });
+            yPos -= 25;
+
+            if (isWohngeld) {
+                drawField("Andere Sozialleistungen?", assistantData.transferBenefit === 'yes' ? 'Ja' : 'Nein');
+                drawField("Wohneigentum vorhanden?", assistantData.isOwner === 'yes' ? 'Ja (Lastenzuschuss)' : 'Nein (Mietzuschuss)');
+            } else {
+                drawField("Ersparnisse > 40.000 €?", assistantData.hasSavings === 'yes' ? 'Ja' : 'Nein');
+                drawField("PKW / Auto vorhanden?", assistantData.hasCar === 'yes' ? 'Ja' : 'Nein');
+            }
+
+            coverPage.drawRectangle({
+                x: 40,
+                y: 50,
+                width: width - 80,
+                height: 70,
+                color: rgb(248/255, 250/255, 252/255),
+                borderColor: rgb(226/255, 232/255, 240/255),
+                borderWidth: 1,
+            });
+
+            coverPage.drawText("HINWEIS FÜR DEN SACHBEARBEITER:", {
+                x: 55,
+                y: 100,
+                size: 8,
+                font: fontBold,
+                color: rgb(100/255, 116/255, 139/255),
+            });
+
+            coverPage.drawText("Dieses Deckblatt dient zur schnelleren Vorab-Einschätzung des Falls.", {
+                x: 55,
+                y: 85,
+                size: 9,
+                font: fontRegular,
+                color: rgb(71/255, 85/255, 105/255),
+            });
+            coverPage.drawText("Die rechtlich bindenden Daten entnehmen Sie bitte den nachfolgenden Antragsformularen.", {
+                x: 55,
+                y: 70,
+                size: 9,
+                font: fontRegular,
+                color: rgb(71/255, 85/255, 105/255),
+            });
+
+            form.flatten();
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Antrag_${benefitLabel.replace(/\s+/g, '_')}_${assistantData.lastName}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            setView('assistant-success');
+            
+            if (!completedSteps.includes(1)) {
+                setCompletedSteps(prev => [...prev, 1]);
+            }
+            
+            if (window.confetti) {
+                window.confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            }
+
+        } catch (err) {
+            console.error("PDF generation failed:", err);
+            alert("Beim Erstellen des PDFs ist ein Fehler aufgetreten: " + err.message);
+        } finally {
+            setIsGeneratingPdf(false);
+        }
+    };
+
+    const handleEmailAuthority = () => {
+        if (!authority || !authority.email || authority.email === 'Nicht verfügbar') {
+            alert("Leider liegt uns für Ihr zuständiges Amt keine E-Mail-Adresse vor. Bitte drucken Sie das PDF aus.");
+            return;
+        }
+
+        const subject = encodeURIComponent(`Antrag auf ${benefitLabel} - ${assistantData.firstName} ${assistantData.lastName}`);
+        const body = encodeURIComponent(
+            `Sehr geehrte Damen und Herren,\n\n` +
+            `hiermit stelle ich, ${assistantData.firstName} ${assistantData.lastName} (geb. am ${assistantData.birthDate}), einen formellen Antrag auf ${benefitLabel} ab dem aktuellen Monat.\n\n` +
+            `Im Anhang dieser E-Mail finden Sie meinen ausgefüllten und generierten Antrag (PDF) sowie das Berechnungsblatt.\n\n` +
+            `Bitte bestätigen Sie mir den Erhalt dieser E-Mail und des Antrags.\n\n` +
+            `Mit freundlichen Grüßen,\n` +
+            `${assistantData.firstName} ${assistantData.lastName}`
+        );
+
+        window.location.href = `mailto:${authority.email}?subject=${subject}&body=${body}`;
+    };
 
     return (
         <div className="w-full space-y-8">
@@ -475,27 +761,27 @@ export default function AuthorityApp() {
                         {/* View State: Normal Main View */}
                         {view === 'main' && (
                             <>
-                                {/* Option 1: Self Service / Free PDF */}
+                                {/* Option 1: Self Service / Free PDF (Assistent) */}
                                 <div className="bg-white border border-slate-200 rounded-[2rem] p-8 flex flex-col shadow-lg shadow-slate-200/20 hover:border-slate-300 transition-all relative">
                                     <div className="mb-6">
                                         <div className="flex justify-between items-start mb-4">
-                                            <h3 className="font-bold text-[#0a1628] text-xl">Antrag selbst vorbereiten</h3>
-                                            <Mail className="w-6 h-6 text-slate-300" />
+                                            <h3 className="font-bold text-[#0D9488] text-xl">Antrag kostenfrei ausfüllen</h3>
+                                            <Mail className="w-6 h-6 text-[#0D9488]/40" />
                                         </div>
                                         <p className="text-slate-500 leading-relaxed text-sm">
-                                            Wir senden Ihnen das rechtssichere Blanko-Muster und die Checkliste kostenlos per E-Mail zu. Sie drucken das PDF aus und versenden es eigenständig per Anschreiben oder Post ans Amt.
+                                            Beantworten Sie ein paar einfache Fragen am Handy. Wir erstellen Ihnen ein vollständig ausgefülltes, offizielles Antrags-PDF zum direkten Einreichen – 100% kostenfrei.
                                         </p>
                                     </div>
 
                                     <div className="mt-auto pt-6 border-t border-slate-100">
                                         <button
-                                            onClick={handleRequestPdf}
-                                            className="w-full py-4 px-4 bg-white border border-slate-200 text-[#0a1628] font-bold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 shadow-sm"
+                                            onClick={handleStartAssistant}
+                                            className="w-full py-4 px-4 bg-[#0D9488] hover:bg-teal-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md shadow-teal-500/10 cursor-pointer"
                                         >
                                             <Download className="w-4 h-4" />
-                                            Kostenloses PDF anfordern
+                                            Jetzt kostenlos ausfüllen
                                         </button>
-                                        <p className="text-center text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-4">Kostenfrei · Sofort per E-Mail</p>
+                                        <p className="text-center text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-4">Kostenlos · Ohne Registrierung</p>
                                     </div>
                                 </div>
 
@@ -815,6 +1101,643 @@ export default function AuthorityApp() {
                                                 </>
                                             )}
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* View State: PDF Ready Review Dashboard */}
+                        {view === 'pdf-ready' && (
+                            <div className="col-span-1 md:col-span-3 bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative animate-in fade-in zoom-in-95 duration-300 text-left">
+                                <div className="max-w-6xl mx-auto">
+                                    <div className="text-center mb-10">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-700 text-[10px] font-bold uppercase tracking-widest mb-4">
+                                            Antrag ausgefüllt & startklar
+                                        </div>
+                                        <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#0a1628] mb-3">
+                                            {!isContactFilled ? 'Antrags-PDF kostenfrei freischalten' : 'Ihr Antrag ist bereit zum Absenden!'}
+                                        </h2>
+                                        <p className="text-slate-500 max-w-2xl mx-auto">
+                                            {!isContactFilled 
+                                                ? `Wir haben die Berechnung für ${benefitLabel} durchgeführt. Tragen Sie jetzt noch kurz Ihren Namen und Ihre E-Mail-Adresse ein, um das fertig ausgefüllte PDF freizuschalten.`
+                                                : `Wir haben Ihren Antrag auf ${benefitLabel} basierend auf Ihren Angaben vollständig ausgefüllt. Bitte überprüfen Sie Ihre Daten kurz und laden Sie das fertige PDF herunter.`
+                                            }
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+                                        {/* Main Panel: Review Data */}
+                                        <div className="flex-1 space-y-6">
+                                            {!isContactFilled ? (
+                                                /* Capture Contact Form */
+                                                <div className="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 md:p-8 space-y-6 shadow-inner animate-in fade-in duration-300">
+                                                    <h3 className="font-serif text-xl font-bold text-[#0a1628] border-b border-slate-200 pb-3 flex items-center gap-2">
+                                                        <User className="w-5 h-5 text-teal-600" />
+                                                        <span>Wer soll den Antrag erhalten? (Empfängerdaten)</span>
+                                                    </h3>
+
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                                        <div>
+                                                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 ml-1">Vorname *</label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="z.B. Erika"
+                                                                value={assistantData.firstName}
+                                                                onChange={(e) => setAssistantData(prev => ({ ...prev, firstName: e.target.value }))}
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 ml-1">Nachname *</label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="z.B. Mustermann"
+                                                                value={assistantData.lastName}
+                                                                onChange={(e) => setAssistantData(prev => ({ ...prev, lastName: e.target.value }))}
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 ml-1">E-Mail-Adresse *</label>
+                                                            <input
+                                                                type="email"
+                                                                placeholder="erika@beispiel.de"
+                                                                value={assistantData.email}
+                                                                onChange={(e) => setAssistantData(prev => ({ ...prev, email: e.target.value }))}
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 ml-1">Telefonnummer (Optional)</label>
+                                                            <input
+                                                                type="tel"
+                                                                placeholder="z.B. 0176 1234567"
+                                                                value={assistantData.phone}
+                                                                onChange={(e) => setAssistantData(prev => ({ ...prev, phone: e.target.value }))}
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="pt-2">
+                                                        <button
+                                                            type="button"
+                                                            disabled={!assistantData.firstName || !assistantData.lastName || !assistantData.email.includes('@')}
+                                                            onClick={() => setIsContactFilled(true)}
+                                                            className="w-full py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl shadow-xl shadow-teal-600/20 hover:-translate-y-0.5 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        >
+                                                            Antrags-PDF freischalten & vorbereiten <ArrowRight className="w-5 h-5" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                /* Data Review Summary and Download Button */
+                                                <>
+                                                    <div className="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 md:p-8 space-y-6 shadow-inner animate-in fade-in duration-300">
+                                                        <h3 className="font-serif text-xl font-bold text-[#0a1628] border-b border-slate-200 pb-3 flex items-center gap-2">
+                                                            <User className="w-5 h-5 text-teal-600" />
+                                                            <span>Persönliche Angaben & Auszahlung</span>
+                                                        </h3>
+
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm text-left">
+                                                            <div>
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Name, Vorname</span>
+                                                                <span className="font-semibold text-slate-800">{assistantData.firstName} {assistantData.lastName}</span>
+                                                            </div>
+                                                            <div>
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Wohnort</span>
+                                                                <span className="font-semibold text-slate-800">{assistantData.zipCity}</span>
+                                                            </div>
+                                                            <div>
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">E-Mail-Adresse</span>
+                                                                <span className="font-semibold text-slate-800">{assistantData.email}</span>
+                                                            </div>
+                                                            <div>
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Telefonnummer</span>
+                                                                <span className="font-semibold text-slate-800">{assistantData.phone || '-'}</span>
+                                                            </div>
+                                                            <div className="sm:col-span-2 pt-2 border-t border-slate-200/50">
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider text-teal-600 block mb-1">Bankverbindung & Hausanschrift (Datenschutz-Schutz)</span>
+                                                                <p className="text-slate-500 text-xs mt-1 leading-relaxed font-medium">
+                                                                    Aus Gründen des Datenschutzes haben wir Ihre <strong>Bankverbindung (IBAN)</strong>, Ihr <strong>Geburtsdatum</strong> sowie Ihre <strong>genaue Straße & Hausnummer</strong> online <strong>nicht</strong> abgefragt.
+                                                                </p>
+                                                                <p className="text-slate-400 text-[10px] mt-1 leading-relaxed">
+                                                                    Sie können diese wenigen Angaben nach dem Herunterladen des PDFs ganz einfach handschriftlich oder direkt digital im Formular eintragen.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="pt-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleGeneratePdf}
+                                                            disabled={isGeneratingPdf}
+                                                            className="w-full py-5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl shadow-xl shadow-teal-600/20 hover:-translate-y-0.5 active:scale-[0.99] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-lg"
+                                                        >
+                                                            {isGeneratingPdf ? (
+                                                                <>Wird generiert... <Loader2 className="w-6 h-6 animate-spin" /></>
+                                                            ) : (
+                                                                <>Vorausgefülltes PDF jetzt kostenlos herunterladen <Download className="w-6 h-6" /></>
+                                                            )}
+                                                        </button>
+                                                        
+                                                        <div className="flex items-center justify-center gap-3 mt-4 text-xs font-semibold text-slate-400 select-none">
+                                                            <Lock className="w-4 h-4 text-teal-600" />
+                                                            <span>Zero-Knowledge: Die PDF-Befüllung erfolgt zu 100 % sicher auf Ihrem Gerät</span>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
+
+                                            {/* Authority box inside the ready view */}
+                                            {authority && (
+                                                <div className="bg-teal-50/40 border border-teal-500/10 rounded-3xl p-6 flex flex-col sm:flex-row gap-5 items-start">
+                                                    <div className="p-3 bg-white border border-teal-100 rounded-2xl text-teal-600 shadow-sm shrink-0">
+                                                        <Building2 className="w-6 h-6" />
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-bold text-slate-800 text-sm">Empfänger (Zuständige Stelle)</h4>
+                                                        <p className="text-slate-600 text-xs mt-1 leading-relaxed font-medium">
+                                                            <strong>{authority.name}</strong><br />
+                                                            {authority.street}<br />
+                                                            {authority.zipCity}
+                                                        </p>
+                                                        {authority.email && authority.email !== 'Nicht verfügbar' && (
+                                                            <div className="mt-3 text-xs flex items-center gap-2">
+                                                                <span className="text-slate-400 font-bold uppercase tracking-wider text-[9px]">E-Mail für Anträge:</span>
+                                                                <span className="font-semibold text-slate-700 font-mono select-all bg-white px-2 py-0.5 rounded border border-teal-100/50">{authority.email}</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Right Sidebar: Live Preview Document */}
+                                        <div className="w-full lg:w-[320px] shrink-0 bg-slate-50 border border-slate-200/60 rounded-3xl p-5 flex flex-col shadow-inner select-none relative overflow-hidden min-h-[380px]">
+                                            <div className="absolute inset-0 bg-grid-slate-200/[0.4] bg-[bottom_1px_center] opacity-30 pointer-events-none"></div>
+                                            
+                                            <div className="flex justify-between items-center pb-3 border-b border-slate-200 mb-4 relative z-10">
+                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileCheck className="w-4 h-4 text-teal-600" /> LIVE-VORSCHAU</span>
+                                                <span className="text-[9px] bg-teal-600/10 text-teal-700 px-2 py-0.5 rounded-full font-bold uppercase">Entwurf</span>
+                                            </div>
+                                            
+                                            <div className="bg-white border border-slate-200 shadow-lg rounded-xl p-5 flex-1 flex flex-col justify-between text-[8px] leading-normal text-slate-700 font-sans relative z-10 max-h-[360px] overflow-y-auto font-mono">
+                                                <div>
+                                                    <div className="text-slate-400 border-b border-slate-100 pb-1 mb-2 font-medium text-left">
+                                                        Abs.: {assistantData.firstName || '[Vorname]'} {assistantData.lastName || '[Nachname]'}, {assistantData.street || '[Straße]'}, {assistantData.zipCity || '[Ort]'}
+                                                    </div>
+                                                    
+                                                    <div className="mb-4 text-left">
+                                                        <p className="font-bold text-slate-900">{authority?.name || 'Zuständige Behörde'}</p>
+                                                        <p className="text-slate-500 leading-tight">{authority?.street || '[Straße]'}<br />{authority?.zipCity || '[Ort]'}</p>
+                                                    </div>
+                                                    
+                                                    <p className="font-bold text-[9px] text-slate-900 mb-2 text-left">Antrag auf {benefitLabel}</p>
+                                                    
+                                                    <div className="space-y-1 text-slate-600 leading-snug text-left">
+                                                        <p>Sehr geehrte Damen und Herren,</p>
+                                                        <p>
+                                                            hiermit beantrage ich, <strong>{assistantData.lastName || '[Nachname]'}, {assistantData.firstName || '[Vorname]'}</strong>
+                                                            {assistantData.birthDate ? ` (geb. am ${assistantData.birthDate})` : ''}, wohnhaft in <strong>{assistantData.street || '[Straße]'}, {assistantData.zipCity || '[Ort]'}</strong>,
+                                                            die Leistung {benefitLabel} ab dem aktuellen Kalendermonat.
+                                                        </p>
+                                                        
+                                                        {window.lastCalculationResult ? (
+                                                            <p>Nach vorläufiger Berechnung beträgt mein ermittelter monatlicher Anspruch <strong>{Math.round(window.lastCalculationResult.amount)} €</strong>.</p>
+                                                        ) : null}
+                                                        
+                                                        {assistantData.iban && (
+                                                            <p className="pt-1">Bitte überweisen Sie die Zahlungen auf das Konto: <strong>{assistantData.iban}</strong> (Inhaber: {assistantData.kontoinhaber}).</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="pt-4 border-t border-slate-100 flex justify-between items-end text-slate-400 text-left">
+                                                    <div>Ort, Datum: {new Date().toLocaleDateString('de-DE')}</div>
+                                                    <div className="border-t border-dashed border-slate-300 w-20 text-center pt-0.5 font-bold">Unterschrift</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* View State: Assistant Questionnaire */}
+                        {view === 'assistant' && (
+                            <div className="col-span-1 md:col-span-2 bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative animate-in fade-in zoom-in-95 duration-300 text-left">
+                                <button
+                                    onClick={() => setView('main')}
+                                    className="absolute top-6 left-6 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-2 font-medium cursor-pointer"
+                                >
+                                    ← Zurück
+                                </button>
+                                
+                                <div className="max-w-4xl mx-auto">
+                                    <div className="text-center mb-8 mt-4">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-600 text-[10px] font-bold uppercase tracking-widest mb-4">
+                                             Digitaler Antrags-Assistent ({benefitLabel})
+                                        </div>
+                                        <h2 className="text-3xl font-serif font-bold text-[#0F172A] mb-2">Offiziellen Antrag ausfüllen</h2>
+                                        <p className="text-slate-500">Ihre Daten werden zu 100% lokal verarbeitet und nicht gespeichert.</p>
+                                    </div>
+                                    
+                                    <div className="mb-10">
+                                         <div className="flex justify-between text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">
+                                             <span>Schritt {assistantStep} von 5</span>
+                                             <span>{Math.round((assistantStep / 5) * 100)}% abgeschlossen</span>
+                                         </div>
+                                         <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                             <div 
+                                                 className="bg-teal-600 h-full transition-all duration-500 rounded-full"
+                                                 style={{ width: `${(assistantStep / 5) * 100}%` }}
+                                             ></div>
+                                         </div>
+                                    </div>
+                                    
+                                    <div className="flex flex-col lg:flex-row gap-10 items-stretch">
+                                         <div className="flex-1 space-y-6">
+                                             {assistantStep === 1 && (
+                                                 <div className="space-y-4 animate-in fade-in duration-300">
+                                                      <h3 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">1. Persönliche Details</h3>
+                                                      <div className="grid grid-cols-2 gap-4">
+                                                           <div>
+                                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Vorname *</label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    required
+                                                                    value={assistantData.firstName}
+                                                                    onChange={e => setAssistantData({...assistantData, firstName: e.target.value})}
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    placeholder="z.B. Max"
+                                                                />
+                                                           </div>
+                                                           <div>
+                                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Nachname *</label>
+                                                                <input 
+                                                                    type="text" 
+                                                                    required
+                                                                    value={assistantData.lastName}
+                                                                    onChange={e => setAssistantData({...assistantData, lastName: e.target.value})}
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    placeholder="z.B. Mustermann"
+                                                                />
+                                                           </div>
+                                                      </div>
+                                                      <div>
+                                                           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Geburtsdatum *</label>
+                                                           <input 
+                                                                type="text" 
+                                                                required
+                                                                value={assistantData.birthDate}
+                                                                onChange={e => setAssistantData({...assistantData, birthDate: e.target.value})}
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                placeholder="TT.MM.JJJJ (z.B. 15.08.1985)"
+                                                           />
+                                                      </div>
+                                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                           <div>
+                                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">E-Mail-Adresse *</label>
+                                                                <input 
+                                                                    type="email" 
+                                                                    required
+                                                                    value={assistantData.email}
+                                                                    onChange={e => setAssistantData({...assistantData, email: e.target.value})}
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    placeholder="ihre@email.de"
+                                                                />
+                                                           </div>
+                                                           <div>
+                                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Telefonnummer</label>
+                                                                <input 
+                                                                    type="tel" 
+                                                                    value={assistantData.phone}
+                                                                    onChange={e => setAssistantData({...assistantData, phone: e.target.value})}
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    placeholder="0176..."
+                                                                />
+                                                           </div>
+                                                      </div>
+                                                 </div>
+                                             )}
+                                             
+                                             {assistantStep === 2 && (
+                                                 <div className="space-y-4 animate-in fade-in duration-300">
+                                                      <h3 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">2. Anschrift</h3>
+                                                      <div>
+                                                           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Straße & Hausnummer *</label>
+                                                           <input 
+                                                                type="text" 
+                                                                required
+                                                                value={assistantData.street}
+                                                                onChange={e => setAssistantData({...assistantData, street: e.target.value})}
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                placeholder="z.B. Hauptstraße 12"
+                                                           />
+                                                      </div>
+                                                      <div>
+                                                           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">PLZ & Ort *</label>
+                                                           <input 
+                                                                type="text" 
+                                                                required
+                                                                value={assistantData.zipCity}
+                                                                onChange={e => setAssistantData({...assistantData, zipCity: e.target.value})}
+                                                                className="w-full rounded-xl border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all font-medium"
+                                                                placeholder="PLZ Ort"
+                                                           />
+                                                      </div>
+                                                 </div>
+                                             )}
+                                             
+                                             {assistantStep === 3 && (
+                                                 <div className="space-y-4 animate-in fade-in duration-300">
+                                                      <h3 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">3. Bankverbindung (Optional)</h3>
+                                                      <p className="text-xs text-slate-500 leading-relaxed mb-4">Geben Sie Ihre IBAN an, damit die zuständige Behörde Zuschüsse direkt auf Ihr Konto überweisen kann.</p>
+                                                      <div>
+                                                           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Kontoinhaber</label>
+                                                           <input 
+                                                                type="text" 
+                                                                value={assistantData.kontoinhaber}
+                                                                onChange={e => setAssistantData({...assistantData, kontoinhaber: e.target.value})}
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                placeholder={assistantData.firstName ? `${assistantData.firstName} ${assistantData.lastName}` : "Name des Inhabers"}
+                                                           />
+                                                      </div>
+                                                      <div>
+                                                           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">IBAN (Optional)</label>
+                                                           <input 
+                                                                type="text" 
+                                                                value={assistantData.iban}
+                                                                onChange={e => setAssistantData({...assistantData, iban: e.target.value})}
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                placeholder="DE..."
+                                                           />
+                                                      </div>
+                                                 </div>
+                                             )}
+                                             
+                                             {assistantStep === 4 && (
+                                                 <div className="space-y-6 animate-in fade-in duration-300">
+                                                      <h3 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">4. Zusatzangaben</h3>
+                                                      
+                                                      {benefitLabel.toLowerCase().includes('wohngeld') ? (
+                                                          <>
+                                                              <div className="space-y-3 text-left">
+                                                                   <label className="block text-sm font-bold text-slate-800">Empfangen Sie oder ein Haushaltsmitglied bereits andere Sozialleistungen (z. B. Bürgergeld, Grundsicherung)?</label>
+                                                                   <div className="flex gap-4">
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, transferBenefit: 'yes'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.transferBenefit === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Ja
+                                                                       </button>
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, transferBenefit: 'no'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.transferBenefit === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Nein
+                                                                       </button>
+                                                                   </div>
+                                                              </div>
+                                                              <div className="space-y-3 text-left">
+                                                                   <label className="block text-sm font-bold text-slate-800">Wohnen Sie in einer Eigentumswohnung oder einem eigenen Haus?</label>
+                                                                   <div className="flex gap-4">
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, isOwner: 'yes'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.isOwner === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Ja (Lastenzuschuss)
+                                                                       </button>
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, isOwner: 'no'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.isOwner === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Nein (Mietzuschuss)
+                                                                       </button>
+                                                                   </div>
+                                                              </div>
+                                                          </>
+                                                      ) : (
+                                                          <>
+                                                              <div className="space-y-3 text-left">
+                                                                   <label className="block text-sm font-bold text-slate-800">Besitzen Sie oder ein Haushaltsmitglied ein Auto / KFZ?</label>
+                                                                   <div className="flex gap-4">
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, hasCar: 'yes'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasCar === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Ja
+                                                                       </button>
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, hasCar: 'no'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasCar === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Nein
+                                                                       </button>
+                                                                   </div>
+                                                              </div>
+                                                              <div className="space-y-3 text-left">
+                                                                   <label className="block text-sm font-bold text-slate-800">Besitzen Sie verwertbares Vermögen (Ersparnisse, Depots) über 40.000 €?</label>
+                                                                   <div className="flex gap-4">
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, hasSavings: 'yes'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasSavings === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Ja
+                                                                       </button>
+                                                                       <button 
+                                                                           type="button"
+                                                                           onClick={() => setAssistantData({...assistantData, hasSavings: 'no'})}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasSavings === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                       >
+                                                                           Nein
+                                                                       </button>
+                                                                   </div>
+                                                              </div>
+                                                          </>
+                                                      )}
+                                                 </div>
+                                             )}
+                                             
+                                             {assistantStep === 5 && (
+                                                 <div className="space-y-6 animate-in fade-in duration-300">
+                                                      <h3 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">5. Vorschau & Generierung</h3>
+                                                      <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex gap-3">
+                                                           <ShieldCheck className="w-6 h-6 text-[#0D9488] shrink-0 mt-0.5" />
+                                                           <div className="text-xs text-emerald-800 font-medium leading-relaxed">
+                                                                <strong>Zero-Knowledge Verschlüsselung:</strong> Ihre Daten werden zu 100% lokal auf Ihrem Gerät verarbeitet und niemals an unsere Server gesendet. Die PDF-Erstellung geschieht direkt in Ihrem Browser.
+                                                           </div>
+                                                      </div>
+                                                      <p className="text-sm text-slate-600 leading-relaxed">Bitte prüfen Sie Ihre Angaben in der Live-Vorschau rechts. Wenn alles korrekt ist, können Sie Ihren offiziellen Antrag jetzt kostenfrei generieren.</p>
+                                                 </div>
+                                             )}
+                                             
+                                             <div className="pt-6 border-t border-slate-100 flex gap-4 mt-8">
+                                                 {assistantStep > 1 && (
+                                                     <button 
+                                                         type="button"
+                                                         onClick={handleAssistantBack}
+                                                         className="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors cursor-pointer"
+                                                     >
+                                                         Zurück
+                                                     </button>
+                                                 )}
+                                                 
+                                                 {assistantStep < 5 ? (
+                                                     <button 
+                                                         type="button"
+                                                         onClick={handleAssistantNext}
+                                                         disabled={
+                                                             (assistantStep === 1 && (!assistantData.firstName || !assistantData.lastName || !assistantData.birthDate || !assistantData.email)) ||
+                                                             (assistantStep === 2 && (!assistantData.street || !assistantData.zipCity))
+                                                         }
+                                                         className="flex-1 py-3.5 bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                                                     >
+                                                         Weiter <ArrowRight className="w-4 h-4" />
+                                                     </button>
+                                                 ) : (
+                                                     <button 
+                                                         type="button"
+                                                         onClick={handleGeneratePdf}
+                                                         disabled={isGeneratingPdf}
+                                                         className="flex-1 py-3.5 bg-[#0D9488] hover:bg-teal-700 text-white font-bold rounded-xl shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                                     >
+                                                         {isGeneratingPdf ? (
+                                                             <>Wird generiert... <Loader2 className="w-5 h-5 animate-spin" /></>
+                                                         ) : (
+                                                             <>Antrag jetzt kostenlos generieren <Download className="w-5 h-5" /></>
+                                                         )}
+                                                     </button>
+                                                 )}
+                                             </div>
+                                         </div>
+                                         
+                                         <div className="w-full lg:w-[320px] shrink-0 bg-slate-50 border border-slate-200/60 rounded-3xl p-5 flex flex-col shadow-inner select-none relative overflow-hidden min-h-[380px]">
+                                              <div className="absolute inset-0 bg-grid-slate-200/[0.4] bg-[bottom_1px_center] opacity-30 pointer-events-none"></div>
+                                              
+                                              <div className="flex justify-between items-center pb-3 border-b border-slate-200 mb-4 relative z-10">
+                                                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileCheck className="w-4 h-4 text-[#0D9488]" /> LIVE-VORSCHAU</span>
+                                                   <span className="text-[9px] bg-teal-600/10 text-teal-700 px-2 py-0.5 rounded-full font-bold uppercase">Entwurf</span>
+                                              </div>
+                                              
+                                              <div className="bg-white border border-slate-200 shadow-lg rounded-xl p-5 flex-1 flex flex-col justify-between text-[8px] leading-normal text-slate-700 font-sans relative z-10 max-h-[320px] overflow-y-auto font-mono">
+                                                   <div>
+                                                       <div className="text-slate-400 border-b border-slate-100 pb-1 mb-2 font-medium">
+                                                           {assistantData.firstName || assistantData.lastName ? (
+                                                               <>Abs.: {assistantData.firstName} {assistantData.lastName}, {assistantData.street || '[Straße]'}, {assistantData.zipCity || '[Ort]'}</>
+                                                           ) : (
+                                                               <>Absender (Wird ausgefüllt...)</>
+                                                           )}
+                                                       </div>
+                                                       
+                                                       <div className="mb-4">
+                                                           <p className="font-bold text-slate-900">{authority?.name || 'Zuständige Behörde'}</p>
+                                                           <p className="text-slate-500 leading-tight">{authority?.street || '[Straße]'}<br />{authority?.zipCity || '[Ort]'}</p>
+                                                       </div>
+                                                       
+                                                       <p className="font-bold text-[9px] text-slate-900 mb-2">Antrag auf {benefitLabel}</p>
+                                                       
+                                                       <div className="space-y-1 text-slate-600">
+                                                           <p>Sehr geehrte Damen und Herren,</p>
+                                                           <p>
+                                                               hiermit beantrage ich, <strong>{assistantData.lastName || '[Name]'}, {assistantData.firstName || '[Vorname]'}</strong>
+                                                               {assistantData.birthDate ? ` (geb. am ${assistantData.birthDate})` : ''}, wohnhaft in <strong>{assistantData.street || '[Straße]'}, {assistantData.zipCity || '[Ort]'}</strong>,
+                                                               die Leistung {benefitLabel} ab dem aktuellen Kalendermonat.
+                                                           </p>
+                                                           
+                                                           {window.lastCalculationResult ? (
+                                                               <p>Nach vorläufiger Berechnung beträgt mein ermittelter monatlicher Anspruch <strong>{Math.round(window.lastCalculationResult.amount)} €</strong>.</p>
+                                                           ) : null}
+                                                           
+                                                           {assistantData.iban && (
+                                                               <p className="pt-1">Bitte überweisen Sie die Zahlungen auf das Konto: <strong>{assistantData.iban}</strong> (Inhaber: {assistantData.kontoinhaber || `${assistantData.firstName} ${assistantData.lastName}`}).</p>
+                                                           )}
+                                                       </div>
+                                                   </div>
+                                                   
+                                                   <div className="pt-4 border-t border-slate-100 flex justify-between items-end text-slate-400">
+                                                       <div>Ort, Datum: {new Date().toLocaleDateString('de-DE')}</div>
+                                                       <div className="border-t border-dashed border-slate-300 w-20 text-center pt-0.5 font-bold">Unterschrift</div>
+                                                   </div>
+                                              </div>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'assistant-success' && (
+                            <div className="col-span-1 md:col-span-2 bg-white border border-teal-500/30 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-teal-500/10 text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 text-left text-left">
+                                <div className="absolute inset-0 bg-gradient-to-b from-[#f8fafc] to-white pointer-events-none"></div>
+                                <div className="relative z-10 flex flex-col items-center">
+
+                                    <div className="w-20 h-20 bg-[#0D9488] text-white rounded-full flex items-center justify-center mb-8 shadow-xl border-4 border-white ring-1 ring-slate-100 animate-bounce" style={{ animationDuration: '3s' }}>
+                                        <CheckCircle className="w-10 h-10" />
+                                    </div>
+                                    <h2 className="text-4xl font-serif font-bold text-[#0F172A] mb-4 text-center">Ihr Antrag ist fertig!</h2>
+                                    <p className="text-teal-600 mb-8 font-bold uppercase tracking-widest text-xs text-center">PDF-Dokument erfolgreich generiert</p>
+
+                                    <div className="mb-10 w-full max-w-md mx-auto bg-slate-50 border border-slate-200/60 rounded-2xl p-6 text-left space-y-4 shadow-inner">
+                                        <div className="flex items-start gap-3">
+                                            <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-teal-600 shadow-sm shrink-0"><Building2 className="w-5 h-5" /></div>
+                                            <div>
+                                                <h4 className="font-bold text-slate-800 text-sm">Empfänger (Zuständiges Amt)</h4>
+                                                <p className="text-slate-600 text-xs mt-0.5 leading-relaxed font-medium">
+                                                    <strong>{authority?.name || 'Zuständige Stelle'}</strong><br />
+                                                    {authority?.street}<br />
+                                                    {authority?.zipCity}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        {authority?.email && authority.email !== 'Nicht verfügbar' && (
+                                            <div className="flex items-center gap-3 pt-3 border-t border-slate-200/60 text-xs">
+                                                <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-[#0D9488] shadow-sm shrink-0"><Mail className="w-5 h-5" /></div>
+                                                <div>
+                                                    <span className="block text-slate-400 font-bold uppercase tracking-wider text-[9px]">E-Mail für Anträge</span>
+                                                    <span className="font-medium text-slate-700 select-all font-mono">{authority.email}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full max-w-lg mb-10">
+                                        {authority?.email && authority.email !== 'Nicht verfügbar' ? (
+                                            <button
+                                                onClick={handleEmailAuthority}
+                                                className="px-6 py-4 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-500 transition-all shadow-lg hover:shadow-xl w-full flex justify-center items-center gap-2 group cursor-pointer"
+                                            >
+                                                <Send className="w-5 h-5" />
+                                                <span>Antrag per E-Mail an das Amt senden</span>
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => window.print()}
+                                                className="px-6 py-4 bg-[#0F172A] text-white rounded-xl font-bold hover:bg-[#1E293B] transition-all shadow-lg hover:shadow-xl w-full flex justify-center items-center gap-2 group cursor-pointer"
+                                            >
+                                                <Printer className="w-5 h-5 text-[#c5a67c]" />
+                                                <span>Antrag ausdrucken & postalisch senden</span>
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <div className="bg-[#f8fafc] border-l-4 border-teal-500 p-6 w-full max-w-lg text-left shadow-sm rounded-r-xl">
+                                        <h4 className="font-bold text-[#0F172A] mb-2 flex items-center gap-2 font-serif text-sm">
+                                            <Info className="w-4 h-4 text-teal-600" /> Wie geht es jetzt weiter?
+                                        </h4>
+                                        <ol className="text-slate-600 text-xs space-y-2 list-decimal list-inside font-medium leading-relaxed">
+                                             <li><strong>PDF anhängen:</strong> Falls Sie oben auf "Per E-Mail senden" geklickt haben, öffnet sich Ihr Mail-Programm. Vergessen Sie nicht, das heruntergeladene PDF-Dokument an diese Mail anzuhängen!</li>
+                                             <li><strong>Ausdrucken & Unterschreiben:</strong> Das Amt benötigt aus rechtlichen Gründen oft eine Unterschrift. Drucken Sie das PDF bei Gelegenheit aus, unterschreiben Sie es und reichen Sie es nach.</li>
+                                             <li><strong>Unterlagen vorbereiten:</strong> Suchen Sie nun Ihre Nachweise (Mietvertrag, Einkommensbelege) zusammen. Das Amt wird sich bezüglich dieser Unterlagen in Kürze bei Ihnen melden.</li>
+                                        </ol>
                                     </div>
                                 </div>
                             </div>

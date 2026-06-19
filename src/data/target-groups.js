@@ -99,7 +99,7 @@ export const targetGroups = [
         icon: "heart-handshake",
         benefits: [
             { title: "Alleinerziehenden-Mehrbedarf", desc: "Ab gewissen Einkommensgrenzen gibt es Freibeträge für Alleinerziehende." },
-            { title: "Kinderzuschlag", desc: "Prüfen Sie unbedingt auch den Kinderzuschlag (bis 292€ pro Kind) zusätzlich zum Wohngeld." },
+            { title: "Kinderzuschlag", desc: "Prüfen Sie unbedingt auch den Kinderzuschlag (bis 297€ pro Kind) zusätzlich zum Wohngeld." },
             { title: "Bildung & Teilhabe", desc: "Mit Wohngeld gibt es automatisch Anspruch auf das Bildungspaket (Schulessen, Ausflüge etc.)." }
         ],
         faq: [

@@ -1,0 +1,275 @@
+---
+// src/pages/kindergeld/index.astro - Kindergeld Landing Page (Combined Check Strategy)
+import { wohngeldData } from '../../data/wohngeld-data.js';
+import { SmartCalculator } from '../../components/smart-calculator.jsx';
+import ResultsSection from '../../components/results-section.astro';
+import Layout from '../../layouts/layout.astro';
+import Faq from '../../components/faq.astro';
+import WbaReminderModal from '../../components/wba-reminder-modal.astro';
+
+import '../../styles/global.css';
+
+export const prerender = true;
+
+const title = "Kindergeld Rechner 2026 | Höhe prüfen + Zusatzansprüche checken";
+const description = "Berechnen Sie Ihr Kindergeld für 2026 (259 € pro Kind) und prüfen Sie automatisch, ob Ihnen zusätzlich Kinderzuschlag oder Wohngeld zusteht. Anonym & kostenlos.";
+
+const kindergeldFaqs = [
+  {
+    question: "Wie hoch ist das Kindergeld 2026?",
+    answer: "Das Kindergeld beträgt einheitlich 259 € pro Monat für jedes Kind (Stand 2026), unabhängig vom Einkommen der Eltern oder der Anzahl der Kinder."
+  },
+  {
+    question: "Bekomme ich neben dem Kindergeld noch weiteres Geld für meine Kinder?",
+    answer: "Ja, viele Familien haben Anspruch auf den Kinderzuschlag (bis zu 297 € pro Kind/Monat) oder Wohngeld. Unser kombinierter Rechner prüft diese Zusatzleistungen automatisch im Hintergrund."
+  },
+  {
+    question: "Was ist der Unterschied zwischen Kindergeld und Kinderzuschlag?",
+    answer: "Kindergeld erhält jede Familie. Der Kinderzuschlag (KiZ) ist eine bedürftigkeitsabhängige Zusatzleistung für Familien mit kleinerem bis mittlerem Einkommen. Er soll verhindern, dass Familien Bürgergeld beantragen müssen."
+  },
+  {
+    question: "Wie und wo beantrage ich Kindergeld?",
+    answer: "Kindergeld wird schriftlich oder online bei der zuständigen Familienkasse der Bundesagentur für Arbeit beantragt. // TODO: Faktencheck zu genauen Fristen und Portalen nötig"
+  },
+  {
+    question: "Zählt Kindergeld als Einkommen bei der Wohngeld-Berechnung?",
+    answer: "Nein, das Kindergeld zählt grundsätzlich nicht als Einkommen bei der Wohngeld-Berechnung. Es wird bei der Einkommensermittlung außen vor gelassen. Kinder erhöhen aber die Haushaltsgröße, was die anerkannte Mietobergrenze und die Einkommensgrenze erhöht — das kann den Wohngeldanspruch positiv beeinflussen."
+  }
+];
+---
+
+<Layout 
+    title={title}
+    description={description}
+    hideNav={false}
+    class="bg-surface-base"
+    faq={kindergeldFaqs}
+>
+    <!-- SEO Meta & Schema -->
+    <fragment slot="head">
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="/apple-touch-icon.png" />
+        <meta property="og:url" content="https://sozialer-navigator.de/kindergeld/" />
+
+        <script is:inline src="/scripts/lucide.min.js"></script>
+        
+        <script>
+            import { gsap } from 'gsap';
+            import { ScrollTrigger } from 'gsap/ScrollTrigger';
+            import Chart from 'chart.js/auto';
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            window.Chart = Chart;
+            window.gsap = gsap;
+            window.ScrollTrigger = ScrollTrigger;
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+            
+            document.addEventListener('astro:page-load', () => {
+                if (window.lucide) window.lucide.createIcons();
+            });
+        </script>
+        
+        <style>
+            /* View Transitions */
+            .view-section { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
+            .view-section.active { display: block; opacity: 1; }
+        </style>
+    </fragment>
+
+    <main class="min-h-screen relative pt-0 pb-32">
+
+        <!-- VIEW 1: LANDING PAGE -->
+        <section id="view-home" class="view-section active w-full relative z-10">
+             
+            <!-- HERO SECTION (Fintech Style) -->
+            <div class="relative w-full min-h-[90vh] flex items-center overflow-hidden bg-slate-50">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-teal-200/20 rounded-full blur-[120px] pointer-events-none"></div>
+                <div class="absolute top-12 right-1/4 w-[400px] h-[400px] bg-sky-100/30 rounded-full blur-[100px] pointer-events-none"></div>
+                
+                <!-- Content Container -->
+                <div class="relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 md:gap-16 items-center pt-20 pb-20"> 
+                    
+                    <!-- Text Content Left -->
+                    <div class="lg:col-span-6">
+                        <div class="text-left animate-slide-up">
+                            <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-teal-500/10 border border-teal-500/20 backdrop-blur-sm">
+                                <span class="flex h-2 w-2 rounded-full bg-teal-500 animate-pulse"></span>
+                                <span class="text-teal-700 text-xs font-semibold tracking-wide uppercase">Familien-Check 2026</span>
+                            </div>
+                            <h1 class="font-sans font-bold tracking-tight mb-6 text-slate-900 text-5xl md:text-6xl leading-[1.1]">
+                                Mehr als nur Kindergeld: Finden Sie heraus, was Ihrer Familie zusteht.
+                            </h1>
+                            <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8 max-w-lg font-light">
+                                Berechnen Sie Ihr Kindergeld 2026 (259 € pro Kind) und lassen Sie im selben Schritt prüfen, ob Sie zusätzlich Anspruch auf Kinderzuschlag (bis zu 297 €/Kind) oder Wohngeld haben.
+                            </p>
+                            <div class="flex flex-col gap-3 mb-10">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 text-teal-600"></i>
+                                    <span class="text-slate-700 text-sm">Automatische Kombi-Prüfung (Kindergeld, Kinderzuschlag, Wohngeld, Bürgergeld)</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 text-teal-600"></i>
+                                    <span class="text-slate-700 text-sm">Prüfung auf Zusatz-Befreiungen (Ersparnis bei Kita-Gebühren & Schulbedarf)</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 text-teal-600"></i>
+                                    <span class="text-slate-700 text-sm">100% anonyme Ersteinschätzung – keine Datenspeicherung</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-center gap-4">
+                                <a href="#calculator" onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'}); return false;" class="w-full sm:w-auto px-8 py-4 bg-teal-600 text-white hover:bg-teal-500 transition-all font-bold text-sm tracking-wide rounded-lg shadow-lg text-center flex items-center justify-center gap-2">
+                                    Jetzt Kombi-Check anonym starten
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: A Beautiful Mockup -->
+                    <div class="lg:col-span-6 relative flex justify-center items-center">
+                        <div class="absolute w-[400px] h-[400px] bg-gradient-to-tr from-teal-500/20 to-sky-400/20 rounded-full blur-3xl"></div>
+                        
+                        <div class="relative w-full max-w-[340px] bg-white rounded-[40px] shadow-2xl border-8 border-slate-900 overflow-hidden aspect-[9/18.5]">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-900 rounded-b-2xl z-30 flex items-center justify-center">
+                                <span class="w-12 h-1 bg-slate-800 rounded-full"></span>
+                            </div>
+                            
+                            <div class="h-full bg-slate-50 pt-10 pb-6 px-4 flex flex-col justify-between text-left font-sans">
+                                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-teal-600 to-sky-500 flex items-center justify-center text-white text-[10px] font-bold">
+                                            A
+                                        </div>
+                                        <div>
+                                            <h4 class="text-[11px] font-bold text-slate-800 leading-none">Amtly</h4>
+                                            <span class="text-[8px] text-teal-600 font-medium">Assistent aktiv</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-[8px] bg-slate-200/60 px-2 py-0.5 rounded-full text-slate-500 font-medium">100% anonym</span>
+                                </div>
+                                
+                                <div class="flex-1 py-4 space-y-3 overflow-y-auto text-[10px] leading-relaxed">
+                                    <div class="flex gap-2 max-w-[85%]">
+                                        <div class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[10px] text-slate-600 font-bold shrink-0 mt-0.5">🤖</div>
+                                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100/50 text-slate-700">
+                                            Hallo! Geben Sie an, wie viele Kinder in Ihrem Haushalt leben.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-end w-full">
+                                        <div class="bg-teal-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] shadow-md shadow-teal-500/10 font-medium">
+                                            Ich habe 2 Kinder.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex gap-2 max-w-[85%]">
+                                        <div class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[10px] text-slate-600 font-bold shrink-0 mt-0.5">🤖</div>
+                                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100/50 text-slate-700">
+                                            Super, das ergibt 518 € Kindergeld. Ich prüfe parallel Ihren Anspruch auf Kinderzuschlag.
+                                        </div>
+                                    </div>
+      
+                                    <div class="bg-gradient-to-tr from-teal-500 to-emerald-400 text-white p-3.5 rounded-2xl shadow-lg shadow-teal-500/20 text-center animate-pulse">
+                                        <div class="text-[8px] uppercase tracking-wider font-bold opacity-90">Berechneter Anspruch</div>
+                                        <div class="text-base font-extrabold">518 € Kindergeld + 594 € KiZ</div>
+                                        <div class="text-[8px] opacity-80 mt-1">Zusätzlicher Kinderzuschlag wahrscheinlich!</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="pt-3 border-t border-slate-100 flex items-center gap-2">
+                                    <div class="flex-1 bg-white border border-slate-200 rounded-full px-3 py-2 text-[9px] text-slate-400 flex items-center justify-between">
+                                        <span>Antwort eingeben...</span>
+                                        <i data-lucide="send" class="w-3 h-3 text-slate-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALCULATOR SECTION -->
+            <section id="calculator" class="w-full bg-slate-50 py-24 border-y border-slate-200 relative overflow-hidden">
+                <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40"></div>
+                
+                <div class="relative z-10 max-w-3xl mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="text-blue-600 text-sm font-bold uppercase tracking-wider mb-3 block">Universal-Check</span>
+                        <h2 class="text-3xl md:text-4xl font-sans font-bold text-slate-900 mb-4">Berechnen Sie Ihre Ansprüche</h2>
+                        <p class="text-slate-600 text-base max-w-lg mx-auto font-light leading-relaxed">
+                            Anonym und DSGVO-konform. Tragen Sie Ihre Daten ein, um Ihre unverbindliche Ersteinschätzung zu erhalten.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-8 md:p-12 rounded-[32px] border border-slate-200/60 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] text-left relative">
+                        <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl"></div>
+                        <SmartCalculator client:load />
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEO CONTENT HUB -->
+            <div class="w-full bg-surface-base py-24 border-t border-slate-200 relative">
+                <div class="max-w-4xl mx-auto px-6">
+                    <div class="text-center mb-16">
+                         <span class="text-brand-blue text-sm font-bold uppercase tracking-wider mb-4 block">Hintergrundwissen</span>
+                         <h2 class="text-3xl md:text-4xl font-sans font-bold text-slate-900 mb-6">Ratgeber Kindergeld & Zusatzleistungen</h2>
+                         <div class="w-16 h-1 bg-brand-blue/20 rounded-full mx-auto"></div>
+                    </div>
+
+                    <div class="prose prose-slate max-w-none prose-h3:font-sans prose-h3:font-bold prose-h3:text-2xl prose-h3:text-slate-900 prose-h3:mt-10 prose-p:text-slate-600 prose-p:font-light prose-p:leading-relaxed">
+                            
+                            <h3>Kindergeld 2026: Die Basis-Förderung für jede Familie</h3>
+                            <p>
+                                Das Kindergeld sichert die grundlegende Versorgung von Kindern in Deutschland ab. Es wird einkommensunabhängig an die Erziehungsberechtigten ausgezahlt. Im Jahr 2026 beträgt der Kindergeldsatz einheitlich <strong>259 Euro pro Monat und Kind</strong>. Diese staatliche Unterstützung wird grundsätzlich bis zum 18. Geburtstag des Kindes gezahlt. Befindet sich das Kind danach in einer Erstausbildung oder im Studium, kann der Anspruch bis zum vollendeten 25. Lebensjahr verlängert werden.
+                            </p>
+
+                            <h3>Warum Sie Kindergeld nie isoliert betrachten sollten</h3>
+                            <p>
+                                Kindergeld ist für viele Familien nur das Fundament. Zahllose Berechnungen zeigen, dass Familien mit geringerem oder mittlerem Einkommen häufig Anspruch auf weitere finanzielle Hilfen haben, diese jedoch aus Unkenntnis nicht abrufen. Unser Navigator führt deshalb bei der Berechnung stets eine vollautomatische Kombi-Prüfung durch. Er vergleicht Ihren Bedarf mit dem Kindergeldgesetz (BKGG) und dem Wohngeldgesetz (WoGG) und ermittelt, ob Ihnen zusätzliche Zuschüsse zustehen.
+                            </p>
+
+                            <h3>Der Kinderzuschlag (KiZ): Bis zu 297 Euro extra pro Kind</h3>
+                            <p>
+                                Der <strong>Kinderzuschlag</strong> ist eine zusätzliche finanzielle Unterstützung für erwerbstätige Eltern, die zwar ihren eigenen Lebensunterhalt bestreiten können, deren Einkommen jedoch nicht oder nur knapp reicht, um den gesamten Bedarf der Familie zu decken. Der Kinderzuschlag beträgt im Jahr 2026 bis zu <strong>297 Euro pro Kind und Monat</strong>. Er wird zusätzlich zum Kindergeld ausgezahlt. Um den Kinderzuschlag zu erhalten, müssen Sie ein Mindesteinkommen von 900 Euro brutto für Paare bzw. 600 Euro brutto für Alleinerziehende vorweisen.
+                            </p>
+
+                            <h3>Das Bildungspaket (BuT) & Kita-Befreiung: Die versteckten Boni</h3>
+                            <p>
+                                Wer Wohngeld oder Kinderzuschlag bezieht, sichert sich automatisch wertvolle Nachteilsausgleiche und Kostenbefreiungen. Dazu gehört der gesetzliche Anspruch auf das <strong>Bildungs- und Teilhabepaket (BuT)</strong>. Dies beinhaltet unter anderem ein jährliches Schulbedarfsgeld von insgesamt <strong>195 Euro</strong> pro Schulkind für Hefte, Stifte und Schulranzen sowie die volle Kostenübernahme für gemeinsames Schulessen und Schulausflüge. Zudem sind Bezieher von Kinderzuschlag oder Wohngeld komplett von den regulären Kita-Gebühren befreit.
+                            </p>
+                            
+                            <p class="text-xs text-slate-500 mt-12 pt-4 border-t border-slate-100">
+                                Interne Verweise: Besuchen Sie auch unseren allgemeinen <a href="/">Förder-Check</a> oder lesen Sie mehr zur <a href="/grundsicherung-im-alter/">Grundsicherung im Alter</a>. 
+                                <!-- TODO: Link aktivieren, sobald /kinderzuschlag/ Seite existiert -->
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ SECTION -->
+                <div id="view-faq">
+                    <Faq items={kindergeldFaqs} />
+                </div>
+
+            </section>
+
+            <!-- VIEW 2: RESULTS (Dynamic Switch) -->
+            <ResultsSection />
+
+        </main>
+
+        <script is:inline define:vars={{ cityData: wohngeldData }}>
+            window.cityData = cityData;
+        </script>
+        
+        <WbaReminderModal />
+</Layout>

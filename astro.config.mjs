@@ -13,12 +13,6 @@ export default defineConfig({
   // ERSETZE DIES DURCH DEINE ECHTE DOMAIN
   site: 'https://www.sozialer-navigator.de',
 
-  redirects: {
-    '/buergergeld/[city]': '/[city]/grundsicherung/',
-    '/buergergeld-grundsicherung/[city]': '/[city]/grundsicherung/',
-    '/wohngeld/[city]': '/[city]/wohngeld/',
-    '/wohngeldrechner/[city]': '/[city]/wohngeld/'
-  },
 
   // output: 'hybrid', // DEPRECATED: Use 'static' or 'server'
   adapter: vercel(),
@@ -62,6 +56,19 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        ignored: [
+          '**/.astro/**',
+          '**/.vercel/**',
+          '**/dist/**',
+          '**/*.pdf',
+          '**/*.zip',
+          '**/*.exe',
+          '**/supabase/**'
+        ]
+      }
+    }
   },
 
   prefetch: {

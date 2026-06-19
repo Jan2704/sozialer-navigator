@@ -16,11 +16,12 @@ const faqs = items || defaultFaqs;
   <div class="max-w-4xl mx-auto px-6">
     
     <div class="text-center mb-20">
-      <span class="text-[#c5a67c] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">
-        Häufige Fragen
-      </span>
-      <h2 class="text-4xl md:text-5xl font-serif text-[#0a1628] mb-6">Wir haben Antworten.</h2>
-      <div class="w-24 h-[1px] bg-[#0a1628]/10 mx-auto"></div>
+      <!-- Modern Badge -->
+      <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-[#0EA5E9]/5 border border-[#0EA5E9]/15 backdrop-blur-sm">
+          <span class="flex h-2 w-2 rounded-full bg-[#0EA5E9] animate-pulse"></span>
+          <span class="text-[#0EA5E9] text-xs font-black tracking-widest uppercase">Häufige Fragen</span>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-sans font-black text-slate-900 mb-6">Wir haben Antworten.</h2>
     </div>
 
     <div class="space-y-4">
@@ -28,16 +29,16 @@ const faqs = items || defaultFaqs;
         <div class="group border-b border-slate-200 bg-white overflow-hidden transition-all duration-500 hover:bg-slate-50">
           <details class="group flex flex-col">
             <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-              <span class="font-serif text-xl text-[#0a1628] group-hover:text-[#c5a67c] transition-colors">
+              <span class="font-sans text-lg md:text-xl font-black text-slate-900 group-hover:text-[#0EA5E9] transition-colors">
                 {faq.question}
               </span>
-              <span class="ml-4 flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-slate-200 text-slate-400 transition-all duration-300 group-open:bg-[#0a1628] group-open:border-[#0a1628] group-open:text-[#c5a67c] group-open:rotate-180">
+              <span class="ml-4 flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-slate-200 text-slate-400 transition-all duration-300 group-open:bg-[#0EA5E9] group-open:border-[#0EA5E9] group-open:text-white group-open:rotate-180">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m6 9 6 6 6-6"/>
                 </svg>
               </span>
             </summary>
-            <div class="px-6 pb-8 text-slate-600 font-light leading-relaxed animate-accordion-down max-w-3xl">
+            <div class="px-6 pb-8 text-slate-600 font-light leading-relaxed animate-accordion-down max-w-3xl text-sm md:text-base">
               {faq.answer}
             </div>
           </details>
@@ -65,3 +66,4 @@ const faqs = items || defaultFaqs;
     100%  {opacity: 1; transform: translateY(0)}
   }
 </style>
+

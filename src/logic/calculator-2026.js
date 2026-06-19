@@ -68,7 +68,17 @@ function getQmLimit(persons) {
     return QM_LIMITS[5] + (persons - 5) * EXTRA_PERSON_QM;
 }
 
-function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, status = 'employee' }) {
+function getHeizkostenPauschale(persons) {
+    const p = Math.max(1, persons);
+    if (p === 1) return 110.40;
+    if (p === 2) return 142.60;
+    if (p === 3) return 170.20;
+    if (p === 4) return 197.80;
+    if (p === 5) return 225.40;
+    return 225.40 + (p - 5) * 27.60;
+}
+
+export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, status = 'employee', hasDisability = false }) {
     let inc = parseFloat(income) || 0;
     const rnt = parseFloat(rent) || 0;
     const heat = parseFloat(heating) || 0;
@@ -108,6 +118,11 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
     if (numAdults === 1 && numKids > 0) {
         // Flat 36% of 563 for simplicity (correct varies by kid age/number)
         mehrbedarf += 563 * 0.36;
+    }
+
+    // Schwerbehinderung Mehrbedarf (17% of Regelsatz)
+    if (hasDisability) {
+        mehrbedarf += 563 * 0.17;
     }
 
     // C. Shelter (KdU)
@@ -193,6 +208,11 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
 
     let countableIncome = Math.max(0, estimatedNetto - exp - maint - freeAmount);
 
+    // In Bürgergeld, Kindergeld (259€ per child in 2026) counts as income of the child
+    if (numKids > 0) {
+        countableIncome += numKids * 259;
+    }
+
     // --- 3. Result ---
     const claimAmount = Math.max(0, totalNeed - countableIncome);
 
@@ -217,7 +237,7 @@ function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rent
     };
 }
 
-function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe = 1, expenses = 0, maintenance = 0, quadratmeter = 0, status = 'employee' }) {
+export function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe = 1, expenses = 0, maintenance = 0, quadratmeter = 0, status = 'employee', hasDisability = false, disabilityGdb = 0, hasCareDependent = false, careDependentGrad = '' }) {
     // 1. Inputs
     let Y = parseFloat(income) || 0; // Gesamteinkommen (monatlich, steuerpflichtig)
     const M_actual = parseFloat(rent) || 0; // Kaltmiete
@@ -244,8 +264,41 @@ function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe
         allowance += 110;
     }
 
-    // First deduct specific expenses and allowances from Brutto
-    let intermediateY = Math.max(0, Y - exp - maint - allowance);
+    // b) Kinderabzugsbetrag (Child Allowance)
+    // Source: 100€ per month per child (1200€ / Year)
+    if (numKids > 0) {
+        allowance += numKids * 100;
+    }
+
+    // c) Schwerbehinderung Allowance (§ 17 WoGG)
+    // Source: 1800€ / Year => 150€ / Month
+    let isDisabilityAllowanceEligible = false;
+    const gdbVal = parseFloat(disabilityGdb) || 0;
+    const isCareDependent = !!hasCareDependent && ["PG 1", "PG 2", "PG 3", "PG 4", "PG 5"].includes(careDependentGrad);
+
+    if (hasDisability && gdbVal === 100) {
+        isDisabilityAllowanceEligible = true;
+    } else if (hasDisability && gdbVal >= 50 && isCareDependent) {
+        isDisabilityAllowanceEligible = true;
+    } else if (isCareDependent && ["PG 4", "PG 5"].includes(careDependentGrad)) {
+        isDisabilityAllowanceEligible = true;
+    } else if (isCareDependent && ["PG 2", "PG 3"].includes(careDependentGrad)) {
+        // Administrative shortcut: GdB >= 50 is assumed under care grad 2/3
+        isDisabilityAllowanceEligible = true;
+    }
+
+    if (isDisabilityAllowanceEligible) {
+        allowance += 150;
+    }
+
+    // d) Werbungskostenpauschale for employees (1230€/Year => 102.50€/Month)
+    let werbungskosten = 0;
+    if (status === 'employee' || status === 'trainee') {
+        werbungskosten = 102.50;
+    }
+
+    // First deduct specific expenses, advertising costs, and allowances from Brutto
+    let intermediateY = Math.max(0, Y - exp - maint - allowance - werbungskosten);
 
     // Then apply global pauschal deduction (WoGG Pauschalabzüge: 10% per tax/health/pension)
     let pauschale = 0.7; // Standard: 30% Abzug für Steuer, KV/PV, RV
@@ -267,23 +320,20 @@ function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe
     // ALREADY INCLUDES the Climate Component and Heating Component adjustments to the Limit.
     // ("inkl. Heiz- und Klimakomponente" in user's source).
     // Therefore, we do NOT add them to the Limit here.
-    const M_limit_total = getRentLimit(persons, mietstufe);
+    const M_limit_total = getRentLimit(numPersons, mietstufe);
 
     // 3. Recognized Rent (M)
-    // The Heating Component is an addition to the Rent (Zuschuss), not just the Limit.
-    // Logic: (ColdRent + HeatingComponent) capped at TotalLimit
-    // Heating Component: 1.20€ per recognized sqm (Verified User Source)
-    const heatingAddOn = HEIZKOSTEN_KOMPONENTE * recognizedSqm;
+    // Heizkostenkomponente (flat rate per person size)
+    const heatingAddOn = getHeizkostenPauschale(numPersons);
 
-    // Climate Component is typically a Limit raiser (already in table),
-    // but does it add to rent?
-    // "Klimakomponente... erhöht den Höchstbetrag". It does NOT add to the rent directly.
-    // If table includes it, we are good.
+    // The Kaltmiete limit is the total limit minus the heating component
+    const M_limit_kalt = M_limit_total - heatingAddOn;
 
-    const M_with_heating = M_actual + heatingAddOn;
+    // Actual cold rent (Bruttokaltmiete) capped at the Kaltmiete limit (which includes Klimakomponente)
+    const M_kalt = Math.min(M_actual, M_limit_kalt);
 
-    // Final M used in formula
-    const M = Math.round(Math.min(M_with_heating, M_limit_total));
+    // Final recognized rent M used in formula (capped cold rent + flat-rate heating component)
+    const M = Math.round(M_kalt + heatingAddOn);
 
 
     // 3. Coefficients
@@ -319,13 +369,14 @@ function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mietstufe
             formulaComponents: { M, Y, z1, z2, z3 },
             limit: Math.round(M_limit_total),
             climateComponent: 0, // Included in Table Limit
-            heatingComponent: Math.round(heatingAddOn)
+            heatingComponent: Math.round(heatingAddOn),
+            allowance: Math.round(allowance)
         }
     };
 }
 
 
-export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, city = null, quadratmeter = 0, status = 'employee' }) {
+export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, city = null, quadratmeter = 0, status = 'employee', hasDisability = false }) {
     // Determine Mietstufe from City Object if available, else 1
     const mietstufe = city ? city.mietstufe : 1;
 
@@ -334,12 +385,12 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
 
     // 1. Exact Wohngeld
     const wgResult = calculateExactWohngeld({
-        income, rent, persons, kids, mietstufe, expenses, maintenance, quadratmeter, status
+        income, rent, persons, kids, mietstufe, expenses, maintenance, quadratmeter, status, hasDisability
     });
 
     // 2. Bürgergeld / Grundsicherung (Based on Status)
     let bgResult = calculateBuergergeld({
-        income, rent, heating, regelsatz, rentLimit: limit, persons, kids, expenses, maintenance, status
+        income, rent, heating, regelsatz, rentLimit: limit, persons, kids, expenses, maintenance, status, hasDisability
     });
 
     // SPECIAL STATUS LOGIC

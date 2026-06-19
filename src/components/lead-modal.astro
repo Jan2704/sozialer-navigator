@@ -202,6 +202,17 @@
             if(step2Desc) step2Desc.textContent = "Wir helfen Ihnen bei der Beantragung von Kinderzuschlag.";
             interestInput.value = "KiZ_Check";
 
+        } else if (type === 'elterngeld') {
+            // Context: Elterngeld -> Skip Step 1
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+            if(qualChecks) qualChecks.classList.add('hidden'); // Hide checks
+            
+            // Set Content
+            if(step2Title) step2Title.textContent = "Elterngeld-Hilfe anfordern";
+            if(step2Desc) step2Desc.textContent = "Wir unterstützen Sie bei der Beantragung und Optimierung Ihres Elterngelds.";
+            interestInput.value = "Elterngeld_Help";
+
         } else if (type === 'pdf-checklist') {
             // Context: PDF Checklist -> Skip Step 1
             step1.classList.add('hidden');
@@ -210,9 +221,6 @@
             
             // Set Content
             if(step2Title) step2Title.textContent = "PDF-Paket kostenlos anfordern";
-            if(step2Desc) step2Desc.textContent = "Erhalten Sie die Checkliste und den rechtssicheren Antragstext sofort per E-Mail.";
-            interestInput.value = "PDF_Checklist";
-
             if(step2Desc) step2Desc.textContent = "Erhalten Sie die Checkliste und den rechtssicheren Antragstext sofort per E-Mail.";
             interestInput.value = "PDF_Checklist";
 
@@ -234,6 +242,17 @@
              // Show Consent
              const pConsent = document.getElementById('partner-consent-container');
              if(pConsent) pConsent.classList.remove('hidden');
+
+        } else if (type === 'pflege') {
+             // Context: Pflegegeld / Pflegesachleistung -> Skip Step 1
+             step1.classList.add('hidden');
+             step2.classList.remove('hidden');
+             if(qualChecks) qualChecks.classList.add('hidden');
+             
+             // Set Content
+             if(step2Title) step2Title.textContent = "Pflege-Hilfe anfordern";
+             if(step2Desc) step2Desc.textContent = "Wir unterstützen Sie kostenlos bei der Beantragung des Pflegegrads und aller Pflegeleistungen.";
+             interestInput.value = "Pflege_Help";
 
         } else {
             // Context: AVGS (Default) -> Show Step 1

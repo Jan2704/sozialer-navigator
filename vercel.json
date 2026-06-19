@@ -1,11 +1,21 @@
 {
     "redirects": [
+        { "source": "/bescheid-check(?:/)?", "destination": "/?action=legal_help", "permanent": true },
         { "source": "/ratgeber/wohngeld-trotz-buergergeld(?:/)?", "destination": "/ratgeber/buergergeld-oder-wohngeld/", "permanent": true },
-        { "source": "/ratgeber/erstausstattung-fuer-die-wohnung(?:/)?", "destination": "/buergergeld/", "permanent": true },
-        { "source": "/ratgeber/kontoauszuege-jobcenter-schwaerzen(?:/)?", "destination": "/buergergeld/", "permanent": true },
-        { "source": "/wohngeld/student(?:/)?", "destination": "/wohngeld/", "permanent": true },
-        { "source": "/ratgeber/buergergeld-fuer-studenten-und-azubis(?:/)?", "destination": "/buergergeld/", "permanent": true },
-        { "source": "/ratgeber/buergergeld-fuer-selbststaendige(?:/)?", "destination": "/buergergeld/", "permanent": true }
+        { "source": "/ratgeber/erstausstattung-fuer-die-wohnung(?:/)?", "destination": "/", "permanent": true },
+        { "source": "/ratgeber/kontoauszuege-jobcenter-schwaerzen(?:/)?", "destination": "/", "permanent": true },
+        { "source": "/wohngeld/student(?:/)?", "destination": "/", "permanent": true },
+        { "source": "/ratgeber/buergergeld-fuer-studenten-und-azubis(?:/)?", "destination": "/", "permanent": true },
+        { "source": "/ratgeber/buergergeld-fuer-selbststaendige(?:/)?", "destination": "/", "permanent": true },
+        { "source": "/wohngeld", "destination": "/", "permanent": true },
+        { "source": "/buergergeld", "destination": "/", "permanent": true },
+        { "source": "/buergergeld-grundsicherung", "destination": "/", "permanent": true },
+        { "source": "/staedte", "destination": "/", "permanent": true },
+        { "source": "/wohngeld/:path*", "destination": "/", "permanent": true },
+        { "source": "/wohngeldrechner/:path*", "destination": "/", "permanent": true },
+        { "source": "/buergergeld/:path*", "destination": "/", "permanent": true },
+        { "source": "/buergergeld-grundsicherung/:path*", "destination": "/", "permanent": true },
+        { "source": "/:citySlug(?!avgs|bildung-und-teilhabe|ueber-uns|impressum|datenschutz|agb|danke|erfolg|abbruch|pdf-paket|admin|api|lexikon|ratgeber|_astro|favicon\\.png|apple-touch-icon\\.png|logo\\.png|og-image\\.jpg|grid-pattern\\.svg|robots\\.txt|sitemap.*|scripts|images|downloads|forms)[^/]+/:path*", "destination": "/", "permanent": true }
     ],
     "headers": [
         {

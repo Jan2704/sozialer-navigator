@@ -1,37 +1,32 @@
-@import "@fontsource/inter/300.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource-variable/playfair-display";
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 @import "tailwindcss";
 
 @theme {
-  /* Foundation (Dark Mode Depth) */
-  --color-brand-navy: #0a1628;
-  --color-brand-navy-light: #1e293b;
+  /* Foundation */
+  --color-brand-blue: #0D9488;     /* Modern Teal */
+  --color-brand-indigo: #0EA5E9;   /* Sky Blue */
+  --color-brand-emerald: #14B8A6;  /* Mint/Teal accent */
+  --color-brand-navy: #0F172A;     /* Dark Slate/Navy */
+  --color-brand-gold: #c5a67c;     /* Premium Gold accent */
   
-  /* Accent (The Gold Standard) */
-  --color-brand-gold: #c5a67c;
-  --color-brand-gold-light: #e5cca5;
-  
-  /* Surface (Light Mode Structure) */
-  --color-surface-base: #FDFDFD;
+  /* Surface */
+  --color-surface-base: #F8FAFC;
   --color-surface-card: #FFFFFF;
-  --color-surface-muted: #f7f8fa;
+  --color-surface-muted: #F8FAFC;
 
   /* Functional */
-  --color-text-primary: #0a1628;
+  --color-text-primary: #0F172A;
   --color-text-secondary: #475569;
-  --color-border-subtle: #E2E8F0;
+  --color-border-subtle: #F1F5F9;
 
   /* Typography */
-  --font-serif: "Playfair Display Variable", serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
 
   /* Radii */
-  --radius-card: 16px;
-  --radius-btn: 2px;
+  --radius-card: 28px;
+  --radius-btn: 14px;
 }
 
 @layer base {
@@ -56,70 +51,95 @@
 
   /* Typography Hierarchy */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     color: var(--color-brand-navy);
-    line-height: 1.2;
-  }
-
-  h1 {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 600;
+    line-height: 1.25;
     letter-spacing: -0.02em;
   }
 
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 800;
+  }
+
   h2 {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
   }
 }
 
 @layer components {
-  /* Glassmorphism (Dark) */
+  /* Glassmorphism (Light) */
   .glass-panel {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
   }
 
-  /* Electric Border */
-  .border-gold-glow {
-    border: 1px solid var(--color-brand-gold);
-    box-shadow: 0 0 15px rgba(197, 166, 124, 0.2);
+  /* Vibrant Border */
+  .border-glow {
+    border: 1px solid rgba(13, 148, 136, 0.2);
+    box-shadow: 0 0 30px rgba(13, 148, 136, 0.08);
   }
 
   /* Premium Shadow */
   .shadow-premium {
-    box-shadow: 0 20px 40px -10px rgba(10, 22, 40, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.04);
   }
 
   /* Buttons */
-  .btn-gold {
-    @apply bg-brand-gold text-brand-navy font-serif font-bold uppercase tracking-wider px-8 py-3 transition-colors hover:bg-white;
+  .btn-primary {
+    @apply bg-brand-blue text-white font-sans font-bold tracking-wide px-8 py-4.5 transition-all duration-300 hover:bg-brand-indigo hover:shadow-lg hover:shadow-brand-indigo/20 hover:-translate-y-0.5 active:translate-y-0;
     border-radius: var(--radius-btn);
   }
 
   .btn-outline {
-    @apply border border-white/20 text-white font-serif font-medium tracking-wider px-6 py-3 transition-colors hover:bg-white/10;
+    @apply border-2 border-slate-200 text-slate-700 bg-white font-sans font-bold tracking-wide px-8 py-4.5 transition-all duration-300 hover:border-brand-blue hover:text-brand-blue hover:shadow-md hover:shadow-brand-blue/5;
     border-radius: var(--radius-btn);
   }
 
   /* Inputs */
   .input-premium {
-    @apply w-full bg-white border border-slate-200 px-4 py-3 text-brand-navy transition-all outline-none rounded-lg;
+    @apply w-full bg-slate-50/50 border-2 border-slate-200/80 px-4 py-4 text-slate-900 transition-all outline-none rounded-xl font-semibold placeholder:font-normal placeholder:text-slate-400 focus:bg-white;
   }
   
   .input-premium:focus {
-    @apply border-brand-gold ring-1 ring-brand-gold/20;
+    @apply border-brand-blue ring-4 ring-brand-blue/10;
   }
 }
 
 @layer utilities {
   .animate-slide-up {
-    animation: slideUp 0.8s ease-out forwards;
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-float-soft {
+    animation: floatSoft 6s ease-in-out infinite;
+  }
+
+  .animate-float-soft-reverse {
+    animation: floatSoftReverse 6s ease-in-out infinite;
   }
   
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes floatSoft {
+    0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+    50% { transform: translateY(-12px) rotate(1deg); }
+  }
+
+  @keyframes floatSoftReverse {
+    0%, 100% { transform: translateY(0px) rotate(1deg); }
+    50% { transform: translateY(12px) rotate(-1.5deg); }
+  }
+
+  /* Dot Grid Pattern */
+  .dot-grid {
+    background-image: radial-gradient(rgba(15, 23, 42, 0.07) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
   }
 }

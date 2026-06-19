@@ -32,11 +32,13 @@ const config = {
           muted: "#64748B",
         },
         brand: {
-          blue: "#1E40AF", // Institutional Blue
-          navy: "#0a1628",
-          gold: "#c5a67c",
-          "gold-light": "#e5cca5",
+          blue: "#0D9488", // Modern Teal
+          indigo: "#0EA5E9", // Sky Blue
+          emerald: "#14B8A6", // Mint/Teal accent
+          navy: "#0F172A", // Dark Slate/Navy
+          gold: "#0D9488", // Map old gold to modern Teal
         },
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

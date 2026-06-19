@@ -1,0 +1,286 @@
+---
+// src/pages/grundsicherung-im-alter/index.astro - Grundsicherung im Alter Landing Page
+import { wohngeldData } from '../../data/wohngeld-data.js';
+import { SmartCalculator } from '../../components/smart-calculator.jsx';
+import ResultsSection from '../../components/results-section.astro';
+import Layout from '../../layouts/layout.astro';
+import Faq from '../../components/faq.astro';
+import WbaReminderModal from '../../components/wba-reminder-modal.astro';
+
+import '../../styles/global.css';
+
+export const prerender = true;
+
+const title = "Grundsicherungsrechner 2026 | Anspruch kostenlos & anonym prüfen";
+const description = "Prüfen Sie Ihren Anspruch auf Grundsicherung im Alter & bei Erwerbsminderung nach SGB XII. Kostenlos, anonym und mit Sofort-Ergebnis.";
+
+const grundsicherungFaqs = [
+  {
+    question: "Wie hoch ist die Grundsicherung im Alter 2026?",
+    answer: "Die Höhe der Grundsicherung setzt sich aus dem persönlichen Regelsatz (für Alleinstehende 563 € im Jahr 2026) und den tatsächlichen, angemessenen Kosten für Unterkunft und Heizung zusammen. Eigenes Einkommen (z.B. eine kleine gesetzliche Rente) wird auf den Bedarf angerechnet, sodass das Sozialamt die verbleibende Differenz aufstockt."
+  },
+  {
+    question: "Wird mein Vermögen angerechnet?",
+    answer: "Ja, Grundsicherung ist eine bedürftigkeitsgeprüfte Leistung. Es gilt jedoch ein Schonvermögen (Freibetrag) von 10.000 € pro volljähriger Person im Haushalt. Ein selbstgenutztes Haus oder eine angemessene Eigentumswohnung zählen in der Regel zum geschützten Schonvermögen und müssen nicht verwertet werden."
+  },
+  {
+    question: "Müssen meine Kinder für mich aufkommen (Unterhalt)?",
+    answer: "Grundsätzlich nein. Kinder werden vom Sozialamt erst ab einem jährlichen Bruttoeinkommen von über 100.000 € pro Kind zur Unterhaltszahlung herangezogen (sogenannter Unterhaltsrückgriff). Liegt das Einkommen jedes einzelnen Kindes unter 100.000 €, bleibt das Einkommen der Kinder völlig unberücksichtigt."
+  },
+  {
+    question: "Müssen meine Kinder die volle Differenz zahlen, wenn die Grenze überschritten wird?",
+    answer: "Nein, selbst wenn das Einkommen eines Kindes die Grenze von 100.000 € brutto im Jahr überschreitet, müssen sie in der Regel nicht die gesamte Differenz der Grundsicherung zahlen. Gesetzlich wird vermutet, dass bei Überschreiten dieser Grenze ein pauschaler Unterhaltsbeitrag von 34,31 € pro Monat (Stand 2026) an das Sozialamt zu leisten ist, sofern das tatsächliche Einkommen nicht zu einer wesentlich höheren Pflicht führt."
+  },
+  {
+    question: "Was ist der Unterschied zwischen der Grundsicherung im Alter und der normalen Rente?",
+    answer: "Die gesetzliche Rente ist eine beitragsfinanzierte Versicherungsleistung – sie steht Ihnen unabhängig von Ihrem Vermögen oder der Höhe Ihres Bedarfs zu. Die Grundsicherung im Alter nach SGB XII ist dagegen eine steuerfinanzierte Sozialleistung zur Existenzsicherung. Sie stockt eine zu geringe Rente auf, wenn Einkommen und Vermögen nicht ausreichen."
+  }
+];
+---
+
+<Layout 
+    title={title}
+    description={description}
+    hideNav={false}
+    class="bg-surface-base"
+    faq={grundsicherungFaqs}
+>
+    <!-- SEO Meta & Schema -->
+    <fragment slot="head">
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="/apple-touch-icon.png" />
+        <meta property="og:url" content="https://sozialer-navigator.de/grundsicherung-im-alter/" />
+
+        <script is:inline src="/scripts/lucide.min.js"></script>
+        
+        <script>
+            import { gsap } from 'gsap';
+            import { ScrollTrigger } from 'gsap/ScrollTrigger';
+            import Chart from 'chart.js/auto';
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            window.Chart = Chart;
+            window.gsap = gsap;
+            window.ScrollTrigger = ScrollTrigger;
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+            
+            document.addEventListener('astro:page-load', () => {
+                if (window.lucide) window.lucide.createIcons();
+            });
+        </script>
+        
+        <style>
+            /* View Transitions */
+            .view-section { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
+            .view-section.active { display: block; opacity: 1; }
+        </style>
+    </fragment>
+
+    <main class="min-h-screen relative pt-0 pb-32">
+
+        <!-- VIEW 1: LANDING PAGE -->
+        <section id="view-home" class="view-section active w-full relative z-10">
+             
+            <!-- HERO SECTION (Fintech Style) -->
+            <div class="relative w-full min-h-[90vh] flex items-center overflow-hidden bg-slate-50">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-teal-200/20 rounded-full blur-[120px] pointer-events-none"></div>
+                <div class="absolute top-12 right-1/4 w-[400px] h-[400px] bg-sky-100/30 rounded-full blur-[100px] pointer-events-none"></div>
+                
+                <!-- Content Container -->
+                <div class="relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 md:gap-16 items-center pt-20 pb-20"> 
+                    
+                    <!-- Text Content Left -->
+                    <div class="lg:col-span-6">
+                        <div class="text-left animate-slide-up">
+                            <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-teal-500/10 border border-teal-500/20 backdrop-blur-sm">
+                                <span class="flex h-2 w-2 rounded-full bg-teal-500 animate-pulse"></span>
+                                <span class="text-teal-700 text-xs font-semibold tracking-wide uppercase">Zuschuss-Check 2026</span>
+                            </div>
+                            <h1 class="font-sans font-bold tracking-tight mb-6 text-slate-900 text-5xl md:text-6xl leading-[1.1]">
+                                Wir berechnen Ihre <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-sky-500">Grundsicherung im Alter</span> in 2 Minuten.
+                            </h1>
+                            <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8 max-w-lg font-light">
+                                Finden Sie mit dem Amtly Universal-Check heraus, ob Ihnen Grundsicherung im Alter zur Aufstockung zusteht. Kostenlos, 100% anonym und unverbindlich.
+                            </p>
+                            <div class="flex flex-col gap-3 mb-10">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 text-teal-600"></i>
+                                    <span class="text-slate-700 text-sm">Unverbindliche Ersteinschätzung Ihrer Ansprüche</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 text-teal-600"></i>
+                                    <span class="text-slate-700 text-sm">Berücksichtigt Regelsätze (563 €) & Schonvermögen (10.000 €)</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="check-circle-2" class="w-5 h-5 text-teal-600"></i>
+                                    <span class="text-slate-700 text-sm">100% DSGVO-konforme clientseitige Verarbeitung</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-center gap-4">
+                                <a href="#calculator" onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'}); return false;" class="w-full sm:w-auto px-8 py-4 bg-teal-600 text-white hover:bg-teal-500 transition-all font-bold text-sm tracking-wide rounded-lg shadow-lg text-center flex items-center justify-center gap-2">
+                                    Jetzt Anspruch anonym prüfen
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: A Beautiful Modern Mockup (Smartphone style) -->
+                    <div class="lg:col-span-6 relative flex justify-center items-center">
+                        <div class="absolute w-[400px] h-[400px] bg-gradient-to-tr from-teal-500/20 to-sky-400/20 rounded-full blur-3xl"></div>
+                        
+                        <div class="relative w-full max-w-[340px] bg-white rounded-[40px] shadow-2xl border-8 border-slate-900 overflow-hidden aspect-[9/18.5]">
+                            <!-- Speaker / Notch -->
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-900 rounded-b-2xl z-30 flex items-center justify-center">
+                                <span class="w-12 h-1 bg-slate-800 rounded-full"></span>
+                            </div>
+                            
+                            <!-- Screen Content -->
+                            <div class="h-full bg-slate-50 pt-10 pb-6 px-4 flex flex-col justify-between text-left font-sans">
+                                <!-- App Header -->
+                                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-teal-600 to-sky-500 flex items-center justify-center text-white text-[10px] font-bold">
+                                            A
+                                        </div>
+                                        <div>
+                                            <h4 class="text-[11px] font-bold text-slate-800 leading-none">Amtly</h4>
+                                            <span class="text-[8px] text-teal-600 font-medium">Assistent aktiv</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-[8px] bg-slate-200/60 px-2 py-0.5 rounded-full text-slate-500 font-medium">100% anonym</span>
+                                </div>
+                                
+                                <!-- Chat Area -->
+                                <div class="flex-1 py-4 space-y-3 overflow-y-auto text-[10px] leading-relaxed">
+                                    <div class="flex gap-2 max-w-[85%]">
+                                        <div class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[10px] text-slate-600 font-bold shrink-0 mt-0.5">🤖</div>
+                                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100/50 text-slate-700">
+                                            Hallo! Ich helfe Ihnen beim Grundsicherungs-Check. Sind Sie bereits im Ruhestand?
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-end w-full">
+                                        <div class="bg-teal-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] shadow-md shadow-teal-500/10 font-medium">
+                                            Ja, ich bin 68 und Rentner.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex gap-2 max-w-[85%]">
+                                        <div class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[10px] text-slate-600 font-bold shrink-0 mt-0.5">🤖</div>
+                                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100/50 text-slate-700">
+                                            Verstanden. Wie hoch ist Ihre monatliche gesetzliche Rente?
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-end w-full">
+                                        <div class="bg-teal-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] shadow-md shadow-teal-500/10 font-medium">
+                                            520 € netto.
+                                        </div>
+                                    </div>
+      
+                                    <div class="bg-gradient-to-tr from-teal-500 to-emerald-400 text-white p-3.5 rounded-2xl shadow-lg shadow-teal-500/20 text-center animate-pulse">
+                                        <div class="text-[8px] uppercase tracking-wider font-bold opacity-90">Berechneter Anspruch</div>
+                                        <div class="text-base font-extrabold">ca. 480,00 € / mtl.</div>
+                                        <div class="text-[8px] opacity-80 mt-1">Grundsicherungs-Aufstockung wahrscheinlich!</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Chat Input Mock -->
+                                <div class="pt-3 border-t border-slate-100 flex items-center gap-2">
+                                    <div class="flex-1 bg-white border border-slate-200 rounded-full px-3 py-2 text-[9px] text-slate-400 flex items-center justify-between">
+                                        <span>Antwort eingeben...</span>
+                                        <i data-lucide="send" class="w-3 h-3 text-slate-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALCULATOR SECTION -->
+            <section id="calculator" class="w-full bg-slate-50 py-24 border-y border-slate-200 relative overflow-hidden">
+                <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40"></div>
+                
+                <div class="relative z-10 max-w-3xl mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="text-blue-600 text-sm font-bold uppercase tracking-wider mb-3 block">Anspruchs-Rechner</span>
+                        <h2 class="text-3xl md:text-4xl font-sans font-bold text-slate-900 mb-4">Berechnen Sie Ihren Anspruch</h2>
+                        <p class="text-slate-600 text-base max-w-lg mx-auto font-light leading-relaxed">
+                            Anonym und DSGVO-konform. Tragen Sie Ihre Daten ein, um Ihre unverbindliche Ersteinschätzung zu erhalten.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-8 md:p-12 rounded-[32px] border border-slate-200/60 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] text-left relative">
+                        <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl"></div>
+                        <SmartCalculator client:load />
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEO CONTENT HUB -->
+            <div class="w-full bg-surface-base py-24 border-t border-slate-200 relative">
+                <div class="max-w-4xl mx-auto px-6">
+                    <div class="text-center mb-16">
+                         <span class="text-brand-blue text-sm font-bold uppercase tracking-wider mb-4 block">Hintergrundwissen</span>
+                         <h2 class="text-3xl md:text-4xl font-sans font-bold text-slate-900 mb-6">Ratgeber Grundsicherung im Alter</h2>
+                         <div class="w-16 h-1 bg-brand-blue/20 rounded-full mx-auto"></div>
+                    </div>
+
+                    <div class="prose prose-slate max-w-none prose-h3:font-sans prose-h3:font-bold prose-h3:text-2xl prose-h3:text-slate-900 prose-h3:mt-10 prose-p:text-slate-600 prose-p:font-light prose-p:leading-relaxed">
+                            
+                            <h3>Was ist die Grundsicherung im Alter?</h3>
+                            <p>
+                                Die <strong>Grundsicherung im Alter und bei Erwerbsminderung</strong> ist eine Sozialleistung nach dem Vierten Kapitel des Zwölften Buches Sozialgesetzbuch (SGB XII). Sie sichert den notwendigen Lebensunterhalt für Personen ab, die die Altersgrenze für die reguläre Altersrente erreicht haben oder ab 18 Jahren dauerhaft voll erwerbsgemindert sind und ihren Lebensunterhalt nicht aus eigenem Einkommen und Vermögen bestreiten können. Die Leistung stellt eine unverbindliche Ersteinschätzung dar und stockt beispielsweise kleine gesetzliche Renten auf das gesetzliche Existenzminimum auf.
+                            </p>
+
+                            <h3>Wer hat Anspruch auf Grundsicherung?</h3>
+                            <p>
+                                Einen Anspruch haben Personen, die die Altersgrenze für die Regelheimgrenze erreicht haben (je nach Geburtsjahrgang liegt diese Grenze im Jahr 2026 zwischen 65 und 67 Jahren) oder die das 18. Lebensjahr vollendet haben und dauerhaft voll erwerbsgemindert im Sinne der gesetzlichen Rentenversicherung sind. Voraussetzung ist, dass der persönliche Bedarf (bestehend aus Regelsatz und Wohnkosten) nicht durch eigenes Einkommen (z. B. Rente, Wohngeld) oder Vermögen gedeckt werden kann.
+                            </p>
+
+                            <h3>Unterschied zwischen Rente und Grundsicherung</h3>
+                            <p>
+                                Die gesetzliche Rente ist eine Versicherungsleistung, die auf Grundlage Ihrer eingezahlten Beiträge über das Erwerbsleben berechnet wird. Die Grundsicherung ist dagegen eine steuerfinanzierte, bedürftigkeitsgeprüfte Sozialleistung. Reicht Ihre beitragsbasierte Rente nicht aus, stockt das Sozialamt diese mit der Grundsicherung auf. Im Gegensatz zur Rente wird bei der Grundsicherung Ihr gesamtes Einkommen und Vermögen (unter Berücksichtigung von Freibeträgen) angerechnet.
+                            </p>
+
+                            <h3>Schonvermögen: Wie viel Vermögen darf ich behalten?</h3>
+                            <p>
+                                Da die Grundsicherung bedarfsabhängig ist, müssen Sie vorrangig Ihr eigenes Vermögen einsetzen. Allerdings schützt das Gesetz kleinere Ersparnisse für Notfälle. Im Jahr 2026 gilt ein <strong>Schonvermögen von 10.000 Euro</strong> für jede volljährige leistungsberechtigte Person im Haushalt. Ehegatten oder Lebenspartner, die zusammenleben, haben somit ein gemeinsames Schonvermögen von 20.000 Euro. Angemessener Hausrat sowie eine angemessene selbstgenutzte Immobilie (Haus oder Eigentumswohnung) bleiben ebenfalls geschützt und müssen nicht verkauft werden.
+                            </p>
+
+                            <h3>Müssen Kinder für die Grundsicherung aufkommen?</h3>
+                            <p>
+                                Eine der größten Sorgen älterer Menschen ist, dass das Sozialamt sich das Geld von den Kindern zurückholt (Unterhaltsrückgriff). Hier gibt es eine klare Grenze: Ein Unterhaltsrückgriff auf die Kinder findet erst ab einem jährlichen Bruttoeinkommen von **100.000 Euro** pro Kind statt. Verdienen Ihre Kinder jeweils weniger als diesen Betrag, fordert das Sozialamt keinen Unterhalt. Selbst wenn ein Kind mehr als 100.000 Euro im Jahr verdient, wird in der Praxis in der Regel ein geringer pauschalierter monatlicher Unterhaltsbeitrag von 34,31 Euro angesetzt, sofern das tatsächliche Einkommen nicht wesentliche höhere Zahlungen erfordert.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ SECTION -->
+                <div id="view-faq">
+                    <Faq items={grundsicherungFaqs} />
+                </div>
+
+            </section>
+
+            <!-- VIEW 2: RESULTS (Dynamic Switch) -->
+            <ResultsSection />
+
+        </main>
+
+        <script is:inline define:vars={{ cityData: wohngeldData }}>
+            window.cityData = cityData;
+        </script>
+        
+        <WbaReminderModal />
+</Layout>

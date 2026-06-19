@@ -543,7 +543,7 @@ export function initializeCalculator(config) {
                 leads.push({ icon: 'briefcase', title: 'Bürgergeld beantragen', desc: 'Sichern Sie Ihren Lebensunterhalt. Hier finden Sie alle Infos zum Antrag beim Jobcenter.', link: 'https://www.arbeitsagentur.de/arbeitslos-arbeit-finden/buergergeld', cta: 'Zum Antrag', recommended: true });
             }
             if (kidsCount > 0 && inc > 0) {
-                leads.push({ icon: 'baby', title: 'Kinder-Zuschuss (KiZ)', desc: 'Zusätzlich zum Wohngeld stehen Ihnen bis zu 292€ pro Kind zu. Prüfen Sie jetzt Ihren Anspruch.', link: 'https://www.arbeitsagentur.de/familie-und-kinder/kinderzuschlag-anspruch-hoehe-dauer', cta: 'Anspruch prüfen', recommended: true });
+                leads.push({ icon: 'baby', title: 'Kinder-Zuschuss (KiZ)', desc: 'Zusätzlich zum Wohngeld stehen Ihnen bis zu 297€ pro Kind zu. Prüfen Sie jetzt Ihren Anspruch.', link: 'https://www.arbeitsagentur.de/familie-und-kinder/kinderzuschlag-anspruch-hoehe-dauer', cta: 'Anspruch prüfen', recommended: true });
             }
             leads.push({ icon: 'graduation-cap', title: '🎓 Karriere-Boost (AVGS)', desc: 'Wir prüfen Ihren Anspruch auf 100% geförderte Coachings im Wert von 2.500€ – staatlich finanziert über den AVGS-Gutschein.', link: '#lead-generation-form', cta: 'Kostenlos prüfen', recommended: true, preselect: 'avgs' });
             leads.push({ icon: 'file-warning', title: 'Hilfe bei Ablehnung', desc: 'Antrag abgelehnt oder falsch berechnet? Wir prüfen Ihren Bescheid kostenlos und legen Widerspruch ein.', link: '#lead-generation-form', cta: 'Bescheid prüfen', recommended: false, preselect: 'ablehnung' });

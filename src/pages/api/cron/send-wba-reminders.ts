@@ -86,7 +86,7 @@ export const POST: APIRoute = async ({ request }) => {
                             <p>in ca. 2 Wochen läuft Ihr aktueller Leistungsbescheid ab. Haben Sie Ihren Weiterbewilligungsantrag bereits gestellt?</p>
                             <p>Falls nicht, ist dies die letzte Erinnerung. Ein verspäteter Antrag führt fast immer zu einer Lücke in den Zahlungen am Ersten des kommenden Monats.</p>
                             <p>Sobald Sie Ihren <strong>neuen</strong> Bescheid erhalten haben, können Sie diesen direkt bei uns von Experten auf Fehler prüfen lassen (fast 50% aller Bescheide sind fehlerhaft!).</p>
-                            <p><a href="https://sozialer-navigator.de/bescheid-check" style="background-color: #c5a67c; color: #0a1628; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 2px; display: inline-block;">Neuen Bescheid prüfen lassen</a></p>
+                            <p><a href="https://sozialer-navigator.de/?action=legal_help" style="background-color: #c5a67c; color: #0a1628; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 2px; display: inline-block;">Neuen Bescheid prüfen lassen</a></p>
                             <br/>
                             <p>Mit freundlichen Grüßen,<br/>Ihr Team vom Sozialen Navigator</p>
                         </div>
