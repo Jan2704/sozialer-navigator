@@ -22,7 +22,7 @@
         { "source": "/wohngeldrechner/:path*", "destination": "/", "permanent": true },
         { "source": "/buergergeld/:path*", "destination": "/", "permanent": true },
         { "source": "/buergergeld-grundsicherung/:path*", "destination": "/", "permanent": true },
-        { "source": "/:citySlug(?!avgs|bildung-und-teilhabe|ueber-uns|impressum|datenschutz|agb|danke|erfolg|abbruch|pdf-paket|admin|api|lexikon|ratgeber|_astro|favicon\\.png|apple-touch-icon\\.png|logo\\.png|og-image\\.jpg|grid-pattern\\.svg|robots\\.txt|sitemap.*|scripts|images|downloads|forms)[^/]+/:path*", "destination": "/", "permanent": true }
+        { "source": "/:citySlug((?!avgs|bildung-und-teilhabe|ueber-uns|impressum|datenschutz|agb|danke|erfolg|abbruch|pdf-paket|admin|api|lexikon|ratgeber|_astro|favicon|apple-touch-icon|logo|og-image|grid-pattern|robots|sitemap|scripts|images|downloads|forms)[^/]+)/:path*", "destination": "/", "permanent": true }
     ],
     "headers": [
         {

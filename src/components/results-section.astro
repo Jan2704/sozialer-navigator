@@ -62,68 +62,148 @@ import PartnerCTA from './partner-cta.astro';
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <!-- Hero Card (Amount) - Span 3 -->
-        <div class="col-span-1 md:col-span-3 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-8 md:p-10 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[340px] shadow-2xl relative group">
+        <div id="dashboard-hero-claim" class="col-span-1 md:col-span-3 bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] shadow-xl shadow-slate-100/50 relative overflow-hidden flex flex-col justify-between min-h-[340px] group">
             <!-- Subtle glow background element -->
-            <div class="absolute -top-20 -right-20 w-72 h-72 bg-brand-blue/20 rounded-full blur-[100px] pointer-events-none group-hover:bg-brand-indigo/30 transition-all duration-500"></div>
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none"></div>
+            <div class="absolute -top-20 -right-20 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none group-hover:bg-sky-500/10 transition-all duration-500"></div>
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#f8fafc_1px,transparent_1px),linear-gradient(to_bottom,#f8fafc_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-30 pointer-events-none"></div>
             
-            <div class="relative z-10">
-                <div class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/20 text-teal-400 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-                    Berechnung abgeschlossen
-                </div>
-                
-                <h3 class="text-slate-400 font-semibold text-xs mb-3 uppercase tracking-widest">Ihre voraussichtliche Gesamtunterstützung pro Monat</h3>
-                
-                <!-- DEFAULT CONTENT -->
-                <div id="res-hero-default" class="mb-4">
-                    <div class="flex items-baseline gap-2 mb-2">
-                         <span id="res-amount-hero" class="font-sans text-7xl md:text-8xl font-black text-white tracking-tighter drop-shadow-md bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-200">0€</span>
-                         <span class="text-lg text-slate-400 font-bold">/ Monat</span>
-                    </div>
-                </div>
-
-                <!-- HIDDEN PARTNER CTA -->
-                <div id="res-partner-cta" class="hidden my-4">
-                     <div class="flex flex-col gap-4">
-                        <span class="text-4xl md:text-5xl font-black text-slate-600 line-through decoration-red-500 decoration-4 mb-2">0€</span>
-                        <PartnerCTA 
-                            type="legal" 
-                            title="Kostenlose Experten-Prüfung"
-                            description="Unser Rechner hat keinen direkten Anspruch ermittelt. Rechenfehler der Ämter bei Freibeträgen sind jedoch extrem häufig. Wir empfehlen eine anwaltliche Prüfung."
-                            buttonText="Kostenlose Überprüfung starten"
+            <div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">
+                <!-- Left Side: SVG Gauge -->
+                <div id="gauge-container" class="col-span-1 md:col-span-5 flex flex-col items-center justify-center relative">
+                    <svg class="w-full max-w-[240px] h-auto overflow-visible" viewBox="0 0 240 140">
+                        <defs>
+                            <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#10B981" />
+                                <stop offset="50%" stop-color="#0EA5E9" />
+                                <stop offset="100%" stop-color="#6366F1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Background track -->
+                        <path d="M 30 120 A 90 90 0 0 1 210 120" fill="none" stroke="#F1F5F9" stroke-width="16" stroke-linecap="round" />
+                        <!-- Progress track -->
+                        <path 
+                            id="gauge-progress-path"
+                            d="M 30 120 A 90 90 0 0 1 210 120" 
+                            fill="none" 
+                            stroke="url(#gauge-gradient)" 
+                            stroke-width="16" 
+                            stroke-linecap="round" 
+                            stroke-dasharray="283" 
+                            stroke-dashoffset="283" 
+                            class="transition-all duration-300 ease-out"
                         />
-                     </div>
-                </div>
-
-                <div class="flex items-center gap-2 mt-4">
-                    <div class="bg-teal-500/10 text-teal-400 p-2 rounded-lg border border-teal-500/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </svg>
+                    <!-- Floating text inside gauge -->
+                    <div class="absolute bottom-4 flex flex-col items-center justify-center text-center">
+                        <span id="res-amount-hero" class="font-sans text-5xl md:text-6xl font-black text-slate-900 tracking-tighter">0€</span>
+                        <span class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">/ Monat</span>
                     </div>
-                    <span id="res-type-hero" class="text-white font-bold text-lg tracking-wide">
-                        Wohngeld-Zuschuss
-                    </span>
                 </div>
 
-                <!-- Breakdown Grid Container -->
-                <div id="res-breakdown-subtext" class="mt-8 pt-8 border-t border-slate-800 hidden relative z-10 text-left">
+                <!-- Right Side: Legend & Info -->
+                <div id="legend-container" class="col-span-1 md:col-span-7 text-left flex flex-col justify-center">
+                    <div class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/20 text-teal-600 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 w-fit shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+                        Berechnung abgeschlossen
+                    </div>
+                    
+                    <h3 class="text-slate-900 font-extrabold text-2xl mb-3 tracking-tight">Ihre berechnete Gesamtunterstützung</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-5">
+                        Für Ihren Haushalt wurden folgende Ansprüche ermittelt:
+                    </p>
+
+                    <!-- Legend List -->
+                    <div id="gauge-legend-list" class="space-y-2.5 w-full">
+                        <!-- Injected dynamically -->
+                    </div>
+                </div>
+
+                <!-- BAföG Container (replaces both gauge & legend in DOM if active) -->
+                <div id="bafoeg-container" class="col-span-1 md:col-span-12 flex-col items-start gap-4 hidden">
+                    <div class="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-600 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 w-fit shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                        Vorrangige Leistung
+                    </div>
+                    <h3 class="text-slate-900 font-extrabold text-3xl mb-2 tracking-tight">BAföG-Prüfung vorrangig</h3>
+                    <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-4 max-w-3xl">
+                        Auszubildende und Studierende haben in der Regel keinen Anspruch auf Bürgergeld oder reguläres Wohngeld, da BAföG oder BAB vorrangig beantragt werden müssen. In einigen Fällen (z.B. Ausschluss vom BAföG dem Grunde nach) kann dennoch ein Anspruch auf Wohngeld bestehen.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 items-center mt-2 w-full sm:w-auto">
+                        <button onclick="window.openLeadModal('pdf-checklist')" class="w-full sm:w-auto group relative inline-flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] text-xs uppercase tracking-wider">
+                            <span>Checkliste: BAföG & Wohngeld</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </button>
+                        <a href="https://www.bafoeg-digital.de/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-4 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold uppercase tracking-wider rounded-xl transition-all text-center">
+                            Direkt zu BAföG Digital ➔
+                        </a>
+                    </div>
                 </div>
             </div>
-            
-            <div class="mt-8 pt-6 border-t border-slate-800 relative z-10">
-                <p class="text-[11px] text-slate-500 font-medium flex gap-2 items-start leading-relaxed">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 mt-0.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    <span>*Dies ist eine unverbindliche Ersteinschätzung. <span id="res-context-text"></span></span>
+
+            <div class="mt-8 pt-6 border-t border-slate-100 relative z-10 w-full">
+                <p class="text-[11px] text-slate-400 font-medium flex gap-2 items-start leading-relaxed text-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 mt-0.5 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <span>*Dies ist eine unverbindliche Ersteinschätzung basierend auf Ihren Angaben. <span id="res-context-text"></span></span>
                 </p>
             </div>
         </div>
 
+        <!-- Reassurance Card (0 €) - Span 3 -->
+        <div id="dashboard-hero-zero" class="col-span-1 md:col-span-3 bg-white border border-slate-100 p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-100/50 relative overflow-hidden flex flex-col justify-between min-h-[340px] group hidden">
+            <!-- Background grid decoration -->
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#f8fafc_1px,transparent_1px),linear-gradient(to_bottom,#f8fafc_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-40 pointer-events-none"></div>
+            <div class="absolute -top-24 -right-24 w-80 h-80 bg-rose-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-3xl text-left w-full">
+                <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 text-slate-500 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
+                    Prüfung empfohlen
+                </div>
+                
+                <h3 class="text-slate-900 font-extrabold text-2xl md:text-3xl mb-4 tracking-tight">Kein direkter Anspruch ermittelt</h3>
+                <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6">
+                    Unser Online-Rechner hat auf Basis Ihrer Standardangaben keinen direkten Anspruch ermittelt. 
+                    <strong>Allerdings sind fast 50% aller behördlichen Bescheide fehlerhaft</strong> und viele Rechner erfassen komplexe Sondersituationen (wie erhöhte Freibeträge, Mehrbedarfe oder chronische Erkrankungen) nicht vollständig. Wir empfehlen eine kostenfreie Überprüfung.
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div class="flex gap-3 items-start p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                        <span class="text-emerald-500 mt-0.5 shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </span>
+                        <div>
+                            <h5 class="text-xs font-bold text-slate-800">Hohe Fehlerquote</h5>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Ämter rechnen oft Kaltmieten oder Freibeträge fälschlicherweise zu niedrig an.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 items-start p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                        <span class="text-emerald-500 mt-0.5 shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </span>
+                        <div>
+                            <h5 class="text-xs font-bold text-slate-800">Freibeträge & Mehrbedarfe</h5>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Besondere Lebenssituationen werden im vereinfachten Rechner nicht abgebildet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto">
+                    <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="w-full sm:w-auto px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-lg text-center">
+                        Bescheid kostenlos prüfen lassen
+                    </a>
+                    <a href="#" onclick="window.openLeadModal('pdf-checklist'); return false;" class="w-full sm:w-auto px-6 py-4 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 text-xs font-bold uppercase tracking-wider rounded-xl transition-all text-center">
+                        Checkliste für Einspruch laden
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- Bescheid-Prüfung Banner (Cleverer Hinweis) -->
-        <div class="col-span-1 md:col-span-3 mt-8 p-6 bg-slate-50 border border-slate-200/80 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 text-left relative overflow-hidden">
+        <div id="bescheid-pruefung-banner" class="col-span-1 md:col-span-3 mt-8 p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-xl shadow-slate-100/50 flex flex-col md:flex-row items-center justify-between gap-6 text-left relative overflow-hidden">
             <!-- Subtle Glow -->
             <div class="absolute -right-20 -top-20 w-48 h-48 bg-[#0EA5E9]/5 rounded-full blur-2xl pointer-events-none"></div>
             <div class="flex items-start gap-4 relative z-10 max-w-3xl">
-                <span class="text-[#0EA5E9] mt-1 bg-white border border-slate-100 p-2.5 rounded-xl shrink-0 shadow-sm">
+                <span class="text-[#0EA5E9] mt-1 bg-white border border-slate-100 p-2.5 rounded-2xl shrink-0 shadow-sm">
                     <!-- FileText Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M9 15h6"/></svg>
                 </span>
@@ -134,15 +214,15 @@ import PartnerCTA from './partner-cta.astro';
                     </p>
                 </div>
             </div>
-            <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="shrink-0 w-full md:w-auto px-6 py-3 bg-[#0EA5E9] hover:bg-[#38bdf8] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-lg text-center relative z-10 border border-transparent">
+            <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="shrink-0 w-full md:w-auto px-6 py-3.5 bg-[#0EA5E9] hover:bg-[#38bdf8] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-lg text-center relative z-10 border border-transparent">
                 Bescheid kostenlos prüfen
             </a>
         </div>
 
         <!-- Authority Finder & Application - Span 3 (Full Width) -->
-          <div class="col-span-1 md:col-span-3 mt-8">
-              <AuthorityApp client:load />
-          </div>
+        <div id="authority-finder-container" class="col-span-1 md:col-span-3 mt-8">
+            <AuthorityApp client:load />
+        </div>
 
           <!-- DYNAMIC OPPORTUNITIES GRID - Span 3 -->
           <div class="col-span-1 md:col-span-3 mt-12 hidden" id="opportunities-section">
@@ -455,164 +535,125 @@ import PartnerCTA from './partner-cta.astro';
         // Switch View Immediately
         window.showView('results');
 
-        // Hero Values
+        // Hero Elements and Toggles
         const amountEl = document.getElementById('res-amount-hero');
         const typeEl = document.getElementById('res-type-hero');
         const titleHeader = document.getElementById('res-title-header');
         const contextText = document.getElementById('res-context-text');
-        const breakdownEl = document.getElementById('res-breakdown-subtext');
+        
+        const heroClaimEl = document.getElementById('dashboard-hero-claim');
+        const heroZeroEl = document.getElementById('dashboard-hero-zero');
+        const bescheidBanner = document.getElementById('bescheid-pruefung-banner');
+        const authorityFinder = document.getElementById('authority-finder-container');
+        const gaugeContainer = document.getElementById('gauge-container');
+        const legendContainer = document.getElementById('legend-container');
+        const bafoegContainer = document.getElementById('bafoeg-container');
+        const gaugeProgressPath = document.getElementById('gauge-progress-path');
+        const legendListEl = document.getElementById('gauge-legend-list');
 
-        if(amountEl && typeEl) {
-             // Animate Counter to totalAmount
-             let start = 0;
-             const end = Math.round(totalAmount);
-             const duration = 1000;
-             const startTime = performance.now();
+        const isBafoeg = (type === 'BAföG-Prüfung');
 
-             const animate = (currentTime) => {
-                 const elapsed = currentTime - startTime;
-                 const progress = Math.min(elapsed / duration, 1);
-                 
-                 // EaseOutQuart
-                 const ease = 1 - Math.pow(1 - progress, 4);
-                 
-                 const currentVal = Math.floor(start + (end - start) * ease);
-                 amountEl.textContent = `${currentVal}€`;
-
-                 if (progress < 1) {
-                     requestAnimationFrame(animate);
-                 } else {
-                     amountEl.textContent = `${end}€`;
-                 }
-             };
-             requestAnimationFrame(animate);
-
-             // Corrected Badge Logic: base on totalAmount and count of probable benefits with amount > 0
-             if (totalAmount > 0) {
-                 if (probableWithAmount.length === 1) {
-                     typeEl.textContent = probableWithAmount[0].name;
-                 } else {
-                     typeEl.textContent = "Kombinierte Gesamtleistungen";
-                 }
-                 // Dynamic Breakdown Subtext (Stunning Grid Layout)
-              if (breakdownEl) {
-                  if (totalAmount > 0 && probableWithAmount.length > 0) {
-                      // Sort probable benefits by amount descending
-                      const sortedProbable = [...probableWithAmount].sort((a, b) => (b.amount || 0) - (a.amount || 0));
-                      
-                      // Format helper
-                      const f = (val) => `${Math.round(val).toLocaleString('de-DE')} €`;
-                      
-                      let gridHtml = `
-                          <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 select-none">Ihre berechneten Ansprüche im Detail:</h4>
-                          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      `;
-                      
-                      sortedProbable.forEach(b => {
-                          const catName = b.category || 'Zuschuss';
-                          const amt = b.amount > 0 ? `+ ${f(b.amount)}` : 'Prüfung';
-                          const unit = b.amount > 0 ? '/ Monat' : '';
-                          
-                          gridHtml += `
-                              <div class="bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 hover:bg-white/[0.04]">
-                                  <div>
-                                      <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block mb-1.5 select-none">${catName}</span>
-                                      <span class="text-sm font-bold text-white block leading-snug">${b.name}</span>
-                                  </div>
-                                  <div class="flex items-baseline gap-1 mt-5">
-                                      <span class="text-xl font-black text-teal-400 tracking-tight">${amt}</span>
-                                      <span class="text-[10px] text-slate-500 font-bold select-none">${unit}</span>
-                                  </div>
-                              </div>
-                          `;
-                      });
-                      
-                      gridHtml += `</div>`;
-                      
-                      breakdownEl.innerHTML = gridHtml;
-                      breakdownEl.classList.remove('hidden');
-                  } else {
-                      breakdownEl.innerHTML = '';
-                      breakdownEl.classList.add('hidden');
-                  }
-              }
-             } else {
-                 typeEl.textContent = "Kein direkter Anspruch";
-                 breakdownEl.innerHTML = '';
-                 breakdownEl.classList.add('hidden');
-             }
-
-             // Special Styling for BAföG
-             if (type === 'BAföG-Prüfung') {
-                 amountEl.textContent = "BAföG?";
-                 amountEl.classList.remove('text-7xl', 'md:text-8xl');
-                 amountEl.classList.add('text-5xl', 'md:text-6xl');
-                 if (breakdownEl) breakdownEl.classList.add('hidden');
-                 
-                 // Inject BAföG specific help
-                 amountEl.parentElement.innerHTML = `
-                    <div class="flex flex-col items-start gap-4">
-                        <span class="text-4xl md:text-5xl font-black text-brand-blue">BAföG vorrangig!</span>
-                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800">
-                            <strong>Hinweis für Studierende/Azubis:</strong><br>
-                            Sie haben meist keinen Anspruch auf Bürgergeld, da BAföG/BAB vorrangig ist. Wohngeld ist nur im Ausnahmefall möglich (z.B. "dem Grunde nach" kein BAföG).
-                        </div>
-                        <button onclick="window.openLeadModal('pdf-checklist')" class="group relative inline-flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02]">
-                            <span>Checkliste: BAföG & Wohngeld</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        </button>
-                    </div>
-                 `;
-             }
-
-             const cityName = (typeof input.city === 'object' && input.city !== null) ? input.city.stadt : input.city;
-             
-             if(titleHeader) {
-                 titleHeader.innerHTML = cityName 
-                     ? `Anspruchs-Ergebnis für <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo font-extrabold">${cityName}</span>`
-                     : `Ihre persönliche <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo font-extrabold">Auswertung</span>`;
-             }
-             
-             if(contextText) {
-                 contextText.textContent = `Basierend auf Ihren Angaben für ${cityName || 'Ihren Wohnort'}.`;
-             }
+        // Toggle layouts based on result state
+        if (isBafoeg) {
+            if (heroClaimEl) heroClaimEl.classList.remove('hidden');
+            if (heroZeroEl) heroZeroEl.classList.add('hidden');
+            if (gaugeContainer) gaugeContainer.classList.add('hidden');
+            if (legendContainer) legendContainer.classList.add('hidden');
+            if (bafoegContainer) bafoegContainer.classList.remove('hidden');
+            
+            if (bescheidBanner) bescheidBanner.classList.add('hidden');
+            if (authorityFinder) authorityFinder.classList.add('hidden');
+        } else if (totalAmount === 0) {
+            if (heroClaimEl) heroClaimEl.classList.add('hidden');
+            if (heroZeroEl) heroZeroEl.classList.remove('hidden');
+            if (bescheidBanner) bescheidBanner.classList.add('hidden');
+            if (authorityFinder) authorityFinder.classList.add('hidden');
+        } else {
+            if (heroClaimEl) heroClaimEl.classList.remove('hidden');
+            if (heroZeroEl) heroZeroEl.classList.add('hidden');
+            if (gaugeContainer) gaugeContainer.classList.remove('hidden');
+            if (legendContainer) legendContainer.classList.remove('hidden');
+            if (bafoegContainer) bafoegContainer.classList.add('hidden');
+            
+            if (bescheidBanner) bescheidBanner.classList.remove('hidden');
+            if (authorityFinder) authorityFinder.classList.remove('hidden');
         }
 
-        // ZERO RESULT HANDLER (Lead Magnet)
-        try {
-            const partnerCtaContainer = document.getElementById('res-partner-cta');
-            const defaultHeroContent = document.getElementById('res-hero-default');
+        if (!isBafoeg && totalAmount > 0) {
+            // Animate Counter & Gauge Path
+            if (amountEl) {
+                let start = 0;
+                const end = Math.round(totalAmount);
+                const duration = 1000;
+                const startTime = performance.now();
 
-            if (totalAmount === 0) {
-                 if(amountEl && typeEl) {
-                     amountEl.textContent = "0€";
-                     typeEl.innerHTML = `
-                        <span class="text-slate-400">Kein Anspruch erkannt</span>
-                     `;
-                     
-                     // Change "Anspruch berechnet" badge to Warning/Info
-                     const badge = document.querySelector('.bg-teal-500\\/10');
-                     if(badge) {
-                          badge.className = "inline-flex items-center gap-2 bg-slate-800 text-slate-400 border border-slate-700 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm";
-                          badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-500 animate-pulse"></span> Ergebnis unsicher?`;
-                     }
+                const animate = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // EaseOutQuart
+                    const ease = 1 - Math.pow(1 - progress, 4);
+                    
+                    const currentVal = Math.floor(start + (end - start) * ease);
+                    amountEl.textContent = `${currentVal}€`;
 
-                     if (partnerCtaContainer) partnerCtaContainer.classList.remove('hidden');
-                     if (defaultHeroContent) defaultHeroContent.classList.add('hidden');
-                 }
-            } else {
-                 if (partnerCtaContainer) partnerCtaContainer.classList.add('hidden');
-                 if (defaultHeroContent) defaultHeroContent.classList.remove('hidden');
-                 
-                 // Reset Badge
-                 const badge = document.querySelector('.bg-slate-800');
-                 if(badge) {
-                      badge.className = "inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/20 text-teal-400 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm";
-                      badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span> Berechnung abgeschlossen`;
-                 }
+                    // Animate gauge stroke-dashoffset (max scale at 1000 €)
+                    const currentProgress = Math.min(currentVal / 1000, 1);
+                    const offset = 283 - (283 * currentProgress);
+                    if (gaugeProgressPath) {
+                        gaugeProgressPath.style.strokeDashoffset = offset;
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        amountEl.textContent = `${end}€`;
+                        if (gaugeProgressPath) {
+                            gaugeProgressPath.style.strokeDashoffset = 283 - (283 * Math.min(end / 1000, 1));
+                        }
+                    }
+                };
+                requestAnimationFrame(animate);
             }
-        } catch (recErr) {
-            console.warn("Recommendations Error:", recErr);
+
+            // Render Legend List
+            if (legendListEl) {
+                const sortedProbable = [...probableWithAmount].sort((a, b) => (b.amount || 0) - (a.amount || 0));
+                
+                legendListEl.innerHTML = sortedProbable.map(b => {
+                    let dotColorClass = 'bg-rose-500'; // Fallback
+                    if (b.id === 'wohngeld' || b.id === 'lastenzuschuss') {
+                        dotColorClass = 'bg-emerald-500'; // Emerald Green
+                    } else if (b.id === 'kinderzuschlag') {
+                        dotColorClass = 'bg-sky-500'; // Sky Blue
+                    } else if (b.id === 'buergergeld') {
+                        dotColorClass = 'bg-amber-500'; // Amber-Yellow
+                    }
+                    
+                    return `
+                        <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-2xl w-full">
+                            <div class="flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full ${dotColorClass} shrink-0"></span>
+                                <span class="font-bold text-slate-800 text-sm leading-snug">${b.name}</span>
+                            </div>
+                            <span class="font-black text-slate-900 text-sm whitespace-nowrap">${Math.round(b.amount)} € / Monat</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Header Title & Context text
+        const cityName = (typeof input.city === 'object' && input.city !== null) ? input.city.stadt : input.city;
+        
+        if (titleHeader) {
+            titleHeader.innerHTML = cityName 
+                ? `Anspruchs-Ergebnis für <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo font-extrabold">${cityName}</span>`
+                : `Ihre persönliche <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo font-extrabold">Auswertung</span>`;
+        }
+        
+        if (contextText) {
+            contextText.textContent = `Basierend auf Ihren Angaben für ${cityName || 'Ihren Wohnort'}.`;
         }
 
         // Confetti (Immediate Reward)
