@@ -1,0 +1,18 @@
+{
+  "rbs_1": 563,
+  "rbs_2": 506,
+  "rbs_3": 451,
+  "rbs_4": 471,
+  "rbs_5": 390,
+  "rbs_6": 357,
+  "single_parent_percent": 0.36,
+  "pregnancy_percent": 0.17,
+  "freibetrag_min": 100,
+  "freibetrag_step1_limit": 538,
+  "freibetrag_step1_percent": 0.20,
+  "freibetrag_step2_limit": 1000,
+  "freibetrag_step2_percent": 0.30,
+  "freibetrag_step3_limit": 1200,
+  "freibetrag_step3_percent": 0.10,
+  "application_link": "https://www.arbeitsagentur.de/arbeitslos-arbeit-finden/buergergeld/buergergeld-beantragen"
+}

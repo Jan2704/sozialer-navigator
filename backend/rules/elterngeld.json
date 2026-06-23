@@ -1,0 +1,7 @@
+{
+  "min_amount": 300.00,
+  "max_amount": 1800.00,
+  "standard_percentage": 0.65,
+  "age_limit_months": 14,
+  "application_link": "https://www.familienportal.de/familienportal/familienleistungen/elterngeld"
+}
