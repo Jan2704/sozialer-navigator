@@ -3,7 +3,7 @@ import Layout from '../layouts/layout.astro';
 const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
 ---
 
-<Layout title="Anspruch gesichert | Sozialer Navigator" description="Zahlung erfolgreich. Ihr Antrag wurde fristwahrend versendet. Was Sie jetzt als Nächstes tun müssen.">
+<Layout title="Antrag versendet | Sozialer Navigator" description="Dein Antrag wurde kostenlos und fristwahrend an die zuständige Behörde versendet. Was du jetzt als Nächstes tun musst.">
   <main class="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 pt-32 relative overflow-hidden">
     
     <!-- Background Effects -->
@@ -19,9 +19,9 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
         <div class="mb-8 inline-flex items-center justify-center w-24 h-24 rounded-full bg-blue-100 text-blue-600 shadow-[0_0_40px_-5px_rgba(37,99,235,0.3)] animate-in fade-in zoom-in duration-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">Vielen Dank für dein Vertrauen!</h1>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">Geschafft!</h1>
         <p class="text-xl text-slate-600 font-medium mb-12 max-w-2xl mx-auto">
-          Hallo <span id="display-name" class="text-blue-600 font-bold">...</span>, deine Zahlung war erfolgreich. Dein Antrag wurde soeben erstellt und fristwahrend versendet.
+          Hallo <span id="display-name" class="text-blue-600 font-bold">...</span>, dein Antrag wurde soeben kostenlos erstellt und fristwahrend versendet.
         </p>
 
         <div class="bg-blue-600 rounded-[2.5rem] p-8 md:p-12 text-left shadow-2xl shadow-blue-600/30 relative overflow-hidden group mb-8">
@@ -36,15 +36,15 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
                   </h2>
                   <div class="space-y-6 text-blue-50 font-medium text-lg leading-relaxed">
                       <p>
-                          Wir haben deinen rechtsgültigen Antrag zur Fristungswahrung soeben <strong>automatisch an die zuständige Behörde</strong> gesendet.
+                          Wir haben deinen formlosen Antrag zur Fristwahrung soeben <strong>automatisch an die zuständige Behörde</strong> gesendet – kostenlos, ohne versteckte Gebühren.
                       </p>
-                      
+
                       <div class="bg-white/10 border border-white/10 rounded-2xl p-6 backdrop-blur-sm shadow-inner flex items-start gap-4">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200 shrink-0 mt-1"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                           <div>
                               <h3 class="text-white font-bold mb-1">Prüfe dein Postfach</h3>
                               <p class="text-sm text-blue-100 leading-snug">
-                                  Du erhältst in den nächsten 5 Minuten eine Bestätigungs-E-Mail von uns. Dort findest du auch deine <strong>Unterlagenliste als PDF</strong>. Bitte prüfe auch deinen Spam-Ordner.
+                                  Du erhältst in den nächsten 5 Minuten eine Bestätigungs-E-Mail von uns mit einer <strong>Kopie deines Antrags als PDF</strong>. Bitte prüfe auch deinen Spam-Ordner.
                               </p>
                           </div>
                       </div>
@@ -190,7 +190,7 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
                   message: data.message,
                   rating: parseInt(data.rating as string),
                   contact: contactInfo,
-                  url: '/erfolg (Kauf abgeschlossen)'
+                  url: '/erfolg (Antrag versendet)'
               }]);
 
           if (error) throw error;

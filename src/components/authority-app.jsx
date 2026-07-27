@@ -19,7 +19,7 @@ export default function AuthorityApp() {
     const [authority, setAuthority] = useState(null);
     const [loading, setLoading] = useState(false);
     const [view, setView] = useState('main'); // 'main', 'confirm', 'success'
-    const [isPaidProcessing, setIsPaidProcessing] = useState(false);
+    const [isSending, setIsSending] = useState(false);
 
     // Roadmap State
     const [completedSteps, setCompletedSteps] = useState([]);
@@ -31,6 +31,7 @@ export default function AuthorityApp() {
         firstName: '',
         lastName: '',
         street: '',
+        zipCity: '',
         email: '',
         phone: '',
         agb: false,
@@ -63,6 +64,7 @@ export default function AuthorityApp() {
         formData.firstName.length > 1 &&
         formData.lastName.length > 1 &&
         formData.street.length > 4 &&
+        formData.zipCity.length > 3 &&
         formData.email.includes('@') &&
         formData.agb &&
         formData.accuracy &&
@@ -243,17 +245,6 @@ export default function AuthorityApp() {
             handleCalculation({ detail: window.lastCalculationResult });
         }
 
-        // 2. Check for Stripe Success Return (?session_id=...)
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('session_id')) {
-            setView('success');
-            if (!completedSteps.includes(1)) {
-                setCompletedSteps(prev => [...prev, 1]);
-            }
-            // Optional: Clear URL param to avoid re-triggering on refresh (cleaner UX)
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-
         return () => window.removeEventListener('benefit-calculation-completed', handleCalculation);
     }, []);
 
@@ -296,26 +287,19 @@ export default function AuthorityApp() {
     const handleConfirmSend = async () => {
         if (!isFormValid) return;
 
-        setIsPaidProcessing(true);
+        setIsSending(true);
 
         try {
-            // Save state to localStorage for after-payment return
-            localStorage.setItem('pendingApplicationUser', JSON.stringify({
-                ...formData,
-                zipCode: zipCode, // Add current zip input
-                city: city // Add current city
-            }));
-            localStorage.setItem('pendingApplicationAuthority', JSON.stringify(authority));
-            localStorage.setItem('pendingBenefitLabel', benefitLabel);
-
-            // Call Backend to create Stripe Session
-            const response = await fetch(`/api/checkout/`, {
+            const response = await fetch(`/api/send-application/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: formData.email,
                     firstName: formData.firstName,
                     lastName: formData.lastName,
+                    street: formData.street,
+                    zipCity: formData.zipCity,
+                    benefitLabel: benefitLabel,
                     authority: authority?.name || 'Unknown',
                     authorityEmail: authority?.email || '',
                 })
@@ -323,39 +307,22 @@ export default function AuthorityApp() {
 
             const data = await response.json();
 
-            if (response.ok && data.url) {
-                // Redirect to Stripe
-                window.location.href = data.url;
+            if (response.ok && data.success) {
+                if (!completedSteps.includes(1)) {
+                    setCompletedSteps(prev => [...prev, 1]);
+                }
+                window.location.href = `/erfolg/?name=${encodeURIComponent(formData.firstName + ' ' + formData.lastName)}`;
             } else {
-                console.error("Stripe Error:", data);
-                alert("Fehler beim Starten der Zahlung: " + (data.error || 'Unbekannt'));
-                setIsPaidProcessing(false);
+                console.error("Send Error:", data);
+                alert("Fehler beim Versenden des Antrags: " + (data.error || 'Unbekannt'));
+                setIsSending(false);
             }
         } catch (error) {
             console.error("Network Error:", error);
             alert("Verbindungsfehler. Ist das Backend gestartet?");
-            setIsPaidProcessing(false);
+            setIsSending(false);
         }
     };
-
-    // --- Post-Payment Logic ---
-    useEffect(() => {
-        // Check for Stripe Success Return (?session_id=...)
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('session_id')) {
-            setView('success');
-            if (!completedSteps.includes(1)) {
-                setCompletedSteps(prev => [...prev, 1]);
-            }
-            // Clean URL
-            window.history.replaceState({}, document.title, window.location.pathname);
-
-            // Clean up old pending storage just in case
-            localStorage.removeItem('pendingApplicationUser');
-            localStorage.removeItem('pendingApplicationAuthority');
-            localStorage.removeItem('pendingBenefitLabel');
-        }
-    }, []);
 
     const handleStartAssistant = () => {
         setAssistantData(prev => ({
@@ -603,62 +570,7 @@ export default function AuthorityApp() {
     return (
         <div className="w-full space-y-8">
 
-            {/* VIEW: SUCCESS */}
-            {view === 'success' ? (
-                <div className="bg-white border border-[#c5a67c]/30 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-[#0a1628]/10 text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#f8fafc] to-white pointer-events-none"></div>
-                    <div className="relative z-10 flex flex-col items-center">
-
-                        {/* 1. Immediate Success Visual */}
-                        <div className="w-20 h-20 bg-[#0a1628] text-[#c5a67c] rounded-full flex items-center justify-center mb-8 shadow-xl border-4 border-white ring-1 ring-slate-100">
-                            <ShieldCheck className="w-10 h-10" />
-                        </div>
-                        <h2 className="text-4xl font-serif font-bold text-[#0a1628] mb-4">Vielen Dank.</h2>
-                        <p className="text-[#c5a67c] mb-8 font-bold uppercase tracking-widest text-xs">Bestellung erfolgreich abgeschlossen</p>
-
-
-                        {/* 2. Dynamic Processing Status (Integrated) */}
-                        <div className="mb-10 w-full max-w-md mx-auto">
-                            <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4 flex flex-col items-center justify-center gap-2">
-                                <div className="flex items-center gap-3">
-                                    <CheckCircle className="w-5 h-5 text-emerald-600" />
-                                    <span className="text-sm text-emerald-900 font-bold">
-                                        Zahlung bestätigt – Vorgang läuft!
-                                    </span>
-                                </div>
-                                <p className="text-xs text-emerald-700/80 text-center mt-2 px-4">
-                                    Ihr Antrag wird soeben in unserem System rechtssicher aufbereitet und geht binnen weniger Minuten an die Behörde raus.
-                                    Sie erhalten gleich den Versandaufschrieb sowie die Kopie des Antrags per Mail.
-                                </p>
-                            </div>
-                        </div>
-
-
-                        {/* 3. Action Buttons */}
-                        <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full max-w-lg mb-10">
-                            {/* Checklist Button - Always active */}
-                            <button
-                                onClick={() => document.getElementById('result-roadmap')?.scrollIntoView({ behavior: 'smooth' })}
-                                className="px-6 py-4 bg-[#0a1628] text-white rounded-xl font-bold hover:bg-[#1e293b] transition-all shadow-lg hover:shadow-xl w-full flex justify-center items-center gap-2 group"
-                            >
-                                <FileCheck className="w-5 h-5 text-[#c5a67c]" />
-                                <span>Ihre weiteren Schritte ansehen (Checkliste)</span>
-                            </button>
-                        </div>
-
-                        <div className="bg-[#f8fafc] border-l-4 border-[#c5a67c] p-6 w-full max-w-lg text-left shadow-sm rounded-r-xl">
-                            <h4 className="font-bold text-[#0a1628] mb-2 flex items-center gap-2 font-serif">
-                                <Info className="w-4 h-4 text-[#c5a67c]" /> Nächste Schritte
-                            </h4>
-                            <p className="text-slate-600 text-sm">
-                                Die Behörde ist nun gesetzlich verpflichtet, Ihren Antrag zu bearbeiten (§ 16 SGB I).
-                                Nutzen Sie die Zeit bis zur Rückmeldung, um Ihre Unterlagen zu sortieren.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                <>
+            <>
                     {/* Context Header */}
                     <div className="bg-[#f8fafc] border border-slate-200/60 p-6 rounded-2xl flex items-start gap-4 shadow-sm">
                         <div className="p-2bg-white rounded-xl border border-slate-100 shadow-sm shrink-0">
@@ -821,8 +733,8 @@ export default function AuthorityApp() {
                                     <div className="mt-auto pt-6 border-t border-white/10 relative z-10">
                                         <div className="flex justify-between items-end mb-5">
                                             <div>
-                                                <span className="block text-3xl font-bold text-white">5,99 €</span>
-                                                <span className="text-[10px] text-[#c5a67c] uppercase font-bold tracking-widest">EINMALIG · KEIN ABO</span>
+                                                <span className="block text-3xl font-bold text-white">Kostenlos</span>
+                                                <span className="text-[10px] text-[#c5a67c] uppercase font-bold tracking-widest">OHNE VERSTECKTE KOSTEN</span>
                                             </div>
                                         </div>
 
@@ -1034,6 +946,16 @@ export default function AuthorityApp() {
                                                         </div>
 
                                                         <div>
+                                                            <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">PLZ & Ort *</label>
+                                                            <input
+                                                                type="text" name="zipCity" required
+                                                                value={formData.zipCity} onChange={handleInputChange}
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#0a1628] focus:ring-0 p-3.5 shadow-sm transition-colors"
+                                                                placeholder="12345 Musterstadt"
+                                                            />
+                                                        </div>
+
+                                                        <div>
                                                             <label className="block text-xs font-bold text-slate-700 mb-1.5 ml-1">E-Mail Adresse *</label>
                                                             <input
                                                                 type="email" name="email" required
@@ -1079,18 +1001,18 @@ export default function AuthorityApp() {
                                                     <div className="mt-10">
                                                         <button
                                                             onClick={handleConfirmSend}
-                                                            disabled={isPaidProcessing || !isFormValid}
+                                                            disabled={isSending || !isFormValid}
                                                             className="w-full py-5 px-6 bg-[#0a1628] hover:bg-[#1e293b] text-white font-bold text-lg rounded-xl transition-all shadow-xl hover:shadow-[#0a1628]/20 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
                                                         >
-                                                            {isPaidProcessing ? (
+                                                            {isSending ? (
                                                                 <>
                                                                     <Loader2 className="w-6 h-6 animate-spin text-[#c5a67c]" />
-                                                                    Wird gesichert verschlüsselt...
+                                                                    Wird versendet...
                                                                 </>
                                                             ) : (
                                                                 <>
                                                                     <ShieldCheck className="w-6 h-6 text-[#c5a67c] group-disabled:text-slate-400" />
-                                                                    <span>Zahlungspflichtig bestellen (5,99 €)</span>
+                                                                    <span>Antrag jetzt kostenlos versenden</span>
                                                                 </>
                                                             )}
                                                         </button>
@@ -1744,7 +1666,6 @@ export default function AuthorityApp() {
                         )}
                     </div>
                 </>
-            )}
 
             {/* Footer Disclaimer */}
             <p className="text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed mt-12 pb-8">

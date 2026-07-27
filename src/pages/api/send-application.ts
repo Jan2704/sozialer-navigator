@@ -1,24 +1,32 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import { sendEmail } from "../../lib/email";
+import { generateApplicationPdf } from "../../lib/pdf-generator";
 
 export const POST: APIRoute = async ({ request }) => {
     try {
-        const formData = await request.formData();
-        const userEmail = formData.get('userEmail') as string;
-        const authorityEmail = formData.get('authorityEmail') as string;
-        const pdfBlob = formData.get('pdf') as Blob;
-        const firstName = formData.get('firstName') as string;
-        const lastName = formData.get('lastName') as string;
+        const data = await request.json();
+        const { email, firstName, lastName, street, zipCity, benefitLabel, authority, authorityEmail } = data;
 
-        if (!userEmail || !authorityEmail || !pdfBlob) {
-            return new Response(JSON.stringify({ error: 'Fehlende Daten (Email oder PDF).' }), { status: 400 });
+        if (!email || !firstName || !lastName || !authorityEmail) {
+            return new Response(JSON.stringify({ error: 'Fehlende Daten (Name, E-Mail oder Behörde).' }), { status: 400 });
         }
 
-        const pdfBuffer = await pdfBlob.arrayBuffer();
-        const pdfBase64 = Buffer.from(pdfBuffer);
+        const pdfBuffer = await generateApplicationPdf({
+            firstName,
+            lastName,
+            email,
+            street: street || '',
+            zipCity: zipCity || '',
+            benefitLabel: benefitLabel || 'Sozialleistungen',
+            authority: {
+                name: authority || 'Zuständige Behörde',
+                street: '',
+                zipCity: ''
+            },
+            date: new Date()
+        });
 
-        // 1. Send to Authority (Official Application)
         // SAFE TEST MODE: Ultimate local kill-switch to prevent accidental live emails
         let targetAuthorityEmail = authorityEmail;
         if (process.env.TEST_AUTHORITY_EMAIL) {
@@ -29,36 +37,84 @@ export const POST: APIRoute = async ({ request }) => {
             targetAuthorityEmail = 'info@sozialer-navigator.de';
         }
 
-        const authorityResult = await sendEmail({
-            to: targetAuthorityEmail,
-            cc: userEmail, // User in CC for legal proof
-            subject: `WICHTIG: Formloser Antrag auf Sozialleistungen - ${lastName}, ${firstName}`,
+        let authoritySent = false;
+        if (targetAuthorityEmail && targetAuthorityEmail.includes('@')) {
+            try {
+                await sendEmail({
+                    to: targetAuthorityEmail,
+                    cc: email, // User in CC for legal proof
+                    subject: `WICHTIG: Formloser Antrag auf Sozialleistungen - ${lastName}, ${firstName}`,
+                    html: `
+                        <p>Sehr geehrte Damen und Herren,</p>
+                        <p>anbei erhalten Sie meinen formlosen Antrag auf Sozialleistungen zur Fristwahrung.</p>
+                        <p>Bitte bestätigen Sie mir den Eingang dieses Antrags und den Zeitpunkt des Eingangs.</p>
+                        <br>
+                        <p>Mit freundlichen Grüßen,</p>
+                        <p>${firstName} ${lastName}</p>
+                        <br>
+                        <hr>
+                        <p style="font-size: 10px; color: #666;">
+                            Dieser Antrag wurde zur Fristwahrung über den unabhängigen Service Sozialer Navigator (www.sozialer-navigator.de) erstellt und versendet.<br>
+                            Zeitstempel des Versands: ${new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })}
+                        </p>
+                    `,
+                    attachments: [{
+                        filename: `Antrag_Sozialleistungen_${lastName}_${firstName}.pdf`,
+                        content: pdfBuffer,
+                    }],
+                });
+                authoritySent = true;
+            } catch (err: any) {
+                console.error(`Failed to send email to authority (${authorityEmail}):`, err);
+            }
+        }
+
+        // Confirmation copy to the applicant
+        await sendEmail({
+            to: email,
+            subject: 'Ihr Antrag beim Sozialen Navigator wurde versendet',
             html: `
-                <p>Sehr geehrte Damen und Herren,</p>
-                <p>anbei erhalten Sie meinen formlosen Antrag auf Sozialleistungen zur Fristwahrung.</p>
-                <p>Bitte bestätigen Sie mir den Eingang dieses Antrags und den Zeitpunkt des Eingangs.</p>
+                <h1>Vielen Dank, ${firstName}!</h1>
+                <p>Ihr Antrag für <strong>${authority}</strong> lautet auf: ${benefitLabel || 'Sozialleistungen'}.</p>
+                <p>Anbei finden Sie eine Kopie des Antrags, den wir in Ihrem Namen an die Behörde gesendet haben.</p>
                 <br>
+                <p><strong>Ihre übermittelten Daten:</strong></p>
+                <ul>
+                    <li>Behörde: ${authority}</li>
+                    <li>E-Mail der Behörde: ${authorityEmail} (Versandziel)</li>
+                    <li>Ihre Adresse: ${street || ''}, ${zipCity || ''}</li>
+                </ul>
                 <p>Mit freundlichen Grüßen,</p>
-                <p>${firstName} ${lastName}</p>
-                <br>
-                <hr>
-                <p style="font-size: 10px; color: #666;">
-                    Dieser Antrag wurde über den Sozialen Navigator (www.sozialer-navigator.de) erstellt und versendet.<br>
-                    Zeitstempel des Versands: ${new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })}
-                </p>
+                <p>Das Team vom Sozialen Navigator</p>
             `,
-            attachments: [
-                {
-                    filename: `Antrag_Sozialleistungen_${lastName}_${firstName}.pdf`,
-                    content: pdfBase64,
-                },
-            ],
+            attachments: [{
+                filename: `Ihr_Antrag_${lastName}_${firstName}.pdf`,
+                content: pdfBuffer,
+            }],
         });
 
-        // Log sucess for potential audit trail (console for now, DB later maybe)
-        console.log(`Application sent. ID: ${authorityResult.id} | User: ${userEmail} | Auth: ${authorityEmail}`);
+        // Audit trail to admin
+        await sendEmail({
+            to: 'info@sozialer-navigator.de',
+            subject: `[${authoritySent ? 'ERFOLGREICH' : 'MANUELL'}] Neuer kostenloser Antrag: ${benefitLabel || 'Sozialleistungen'} - ${firstName} ${lastName}`,
+            html: `
+                <ul>
+                    <li><strong>Kunde:</strong> ${firstName} ${lastName}</li>
+                    <li><strong>Email:</strong> ${email}</li>
+                    <li><strong>Leistung:</strong> ${benefitLabel || 'Sozialleistungen'}</li>
+                    <li><strong>Amt:</strong> ${authority}</li>
+                    <li><strong>Amt Email:</strong> <a href="mailto:${authorityEmail}">${authorityEmail}</a></li>
+                    <li><strong>Kunden-Adresse:</strong> ${street || ''}, ${zipCity || ''}</li>
+                </ul>
+                <p>An Amt gesendet: ${authoritySent ? 'JA' : 'NEIN (bitte manuell nachholen)'}</p>
+            `,
+            attachments: [{
+                filename: `Kopie_Antrag_${lastName}_${firstName}.pdf`,
+                content: pdfBuffer,
+            }],
+        });
 
-        return new Response(JSON.stringify({ success: true, id: authorityResult.id }), { status: 200 });
+        return new Response(JSON.stringify({ success: true }), { status: 200 });
 
     } catch (error: any) {
         console.error('API Error (Send Application):', error);
