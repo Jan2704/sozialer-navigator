@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     MapPin, Mail, Send, CheckCircle, ShieldCheck,
     FileCheck, ArrowRight, Loader2, Building2,
-    Euro, Clock, Info, Download, AlertCircle, Printer
+    Euro, Clock, Info, Download, AlertCircle, Printer, User, Lock
 } from 'lucide-react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import ResultRoadmap from './result-roadmap';
@@ -1168,6 +1168,24 @@ export default function AuthorityApp() {
                                                             <Lock className="w-4 h-4 text-teal-600" />
                                                             <span>Zero-Knowledge: Die PDF-Befüllung erfolgt zu 100 % sicher auf Ihrem Gerät</span>
                                                         </div>
+
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setFormData(prev => ({
+                                                                    ...prev,
+                                                                    firstName: assistantData.firstName || prev.firstName,
+                                                                    lastName: assistantData.lastName || prev.lastName,
+                                                                    email: assistantData.email || prev.email,
+                                                                    street: assistantData.street || prev.street,
+                                                                    zipCity: assistantData.zipCity || prev.zipCity,
+                                                                }));
+                                                                setView('main');
+                                                            }}
+                                                            className="w-full mt-3 py-3 text-sm font-bold text-teal-700 hover:text-teal-800 hover:underline transition-colors cursor-pointer"
+                                                        >
+                                                            Lieber automatisch für mich ans Amt versenden lassen ➔
+                                                        </button>
                                                     </div>
                                                 </>
                                             )}
