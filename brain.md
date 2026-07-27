@@ -1,8 +1,8 @@
 # 🧠 The Brain: Sozialer Navigator (Project Intelligence)
 
-> **Status**: Active Development
-> **Last Updated**: 2026-02-09
-> **Focus**: Jobcenter Search, Wohngeldbehörde Search & Lead Nurturing
+> **Status**: Active Development (Kostenloser Antrags-Flow & Render Backend Stabilisierung)
+> **Last Updated**: 2026-07-27
+> **Focus**: Kostenloser Antragsversand, Rendert-Backend Stabilität, Multi-KI Handoff
 
 ## 1. 🎯 Top Priority Missions
 What we are working on *right now*.
