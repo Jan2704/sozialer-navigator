@@ -1,7 +1,5 @@
 ---
 import LeadModal from './lead-modal.astro';
-import AuthorityApp from './authority-app.jsx';
-import PartnerCTA from './partner-cta.astro';
 ---
 
 <section id="view-results" class="view-section max-w-6xl mx-auto hidden opacity-0 transition-opacity duration-500 pt-32 pb-24 px-6 relative z-20">
@@ -14,7 +12,7 @@ import PartnerCTA from './partner-cta.astro';
              </button>
              <div>
                   <h2 class="font-sans text-3xl md:text-4xl font-bold text-slate-900 tracking-tight" id="res-title-header">Ihre persönliche Auswertung</h2>
-                  <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider mt-1.5">Unverbindliche Ersteinschätzung</p>
+                  <p class="text-slate-500 text-sm font-medium mt-1.5" id="res-context-text">Unverbindliche Ersteinschätzung</p>
              </div>
          </div>
          <div class="flex gap-3">
@@ -61,184 +59,8 @@ import PartnerCTA from './partner-cta.astro';
     <!-- Bento Grid (Zyntra Style) -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <!-- Hero Card (Amount) - Span 3 -->
-        <div id="dashboard-hero-claim" class="col-span-1 md:col-span-3 bg-white border border-slate-100 p-8 md:p-10 rounded-[2.5rem] shadow-xl shadow-slate-100/50 relative overflow-hidden flex flex-col justify-between min-h-[340px] group">
-            <!-- Subtle glow background element -->
-            <div class="absolute -top-20 -right-20 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none group-hover:bg-sky-500/10 transition-all duration-500"></div>
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#f8fafc_1px,transparent_1px),linear-gradient(to_bottom,#f8fafc_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-30 pointer-events-none"></div>
-            
-            <div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">
-                <!-- Left Side: SVG Gauge -->
-                <div id="gauge-container" class="col-span-1 md:col-span-5 flex flex-col items-center justify-center relative">
-                    <svg class="w-full max-w-[240px] h-auto overflow-visible" viewBox="0 0 240 140">
-                        <defs>
-                            <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#10B981" />
-                                <stop offset="50%" stop-color="#0EA5E9" />
-                                <stop offset="100%" stop-color="#6366F1" />
-                            </linearGradient>
-                        </defs>
-                        <!-- Background track -->
-                        <path d="M 30 120 A 90 90 0 0 1 210 120" fill="none" stroke="#F1F5F9" stroke-width="16" stroke-linecap="round" />
-                        <!-- Progress track -->
-                        <path 
-                            id="gauge-progress-path"
-                            d="M 30 120 A 90 90 0 0 1 210 120" 
-                            fill="none" 
-                            stroke="url(#gauge-gradient)" 
-                            stroke-width="16" 
-                            stroke-linecap="round" 
-                            stroke-dasharray="283" 
-                            stroke-dashoffset="283" 
-                            class="transition-all duration-300 ease-out"
-                        />
-                    </svg>
-                    <!-- Floating text inside gauge -->
-                    <div class="absolute bottom-4 flex flex-col items-center justify-center text-center">
-                        <span id="res-amount-hero" class="font-sans text-5xl md:text-6xl font-black text-slate-900 tracking-tighter">0€</span>
-                        <span class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">/ Monat</span>
-                    </div>
-                </div>
-
-                <!-- Right Side: Legend & Info -->
-                <div id="legend-container" class="col-span-1 md:col-span-7 text-left flex flex-col justify-center">
-                    <div class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/20 text-teal-600 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 w-fit shadow-sm">
-                        <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-                        Berechnung abgeschlossen
-                    </div>
-                    
-                    <h3 class="text-slate-900 font-extrabold text-2xl mb-3 tracking-tight">Ihre berechnete Gesamtunterstützung</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-5">
-                        Für Ihren Haushalt wurden folgende Ansprüche ermittelt:
-                    </p>
-
-                    <!-- Legend List -->
-                    <div id="gauge-legend-list" class="space-y-2.5 w-full">
-                        <!-- Injected dynamically -->
-                    </div>
-                </div>
-
-                <!-- BAföG Container (replaces both gauge & legend in DOM if active) -->
-                <div id="bafoeg-container" class="col-span-1 md:col-span-12 flex-col items-start gap-4 hidden">
-                    <div class="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-600 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 w-fit shadow-sm">
-                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                        Vorrangige Leistung
-                    </div>
-                    <h3 class="text-slate-900 font-extrabold text-3xl mb-2 tracking-tight">BAföG-Prüfung vorrangig</h3>
-                    <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-4 max-w-3xl">
-                        Auszubildende und Studierende haben in der Regel keinen Anspruch auf Bürgergeld oder reguläres Wohngeld, da BAföG oder BAB vorrangig beantragt werden müssen. In einigen Fällen (z.B. Ausschluss vom BAföG dem Grunde nach) kann dennoch ein Anspruch auf Wohngeld bestehen.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 items-center mt-2 w-full sm:w-auto">
-                        <button onclick="window.openLeadModal('pdf-checklist')" class="w-full sm:w-auto group relative inline-flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-4 rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] text-xs uppercase tracking-wider">
-                            <span>Checkliste: BAföG & Wohngeld</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        </button>
-                        <a href="https://www.bafoeg-digital.de/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-4 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold uppercase tracking-wider rounded-xl transition-all text-center">
-                            Direkt zu BAföG Digital ➔
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-8 pt-6 border-t border-slate-100 relative z-10 w-full">
-                <p class="text-[11px] text-slate-400 font-medium flex gap-2 items-start leading-relaxed text-left">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 mt-0.5 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    <span>*Dies ist eine unverbindliche Ersteinschätzung basierend auf Ihren Angaben. <span id="res-context-text"></span></span>
-                </p>
-            </div>
-        </div>
-
-        <!-- Reassurance Card (0 €) - Span 3 -->
-        <div id="dashboard-hero-zero" class="col-span-1 md:col-span-3 bg-white border border-slate-100 p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-slate-100/50 relative overflow-hidden flex flex-col justify-between min-h-[340px] group hidden">
-            <!-- Background grid decoration -->
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#f8fafc_1px,transparent_1px),linear-gradient(to_bottom,#f8fafc_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-40 pointer-events-none"></div>
-            <div class="absolute -top-24 -right-24 w-80 h-80 bg-rose-500/5 rounded-full blur-[100px] pointer-events-none"></div>
-            
-            <div class="relative z-10 max-w-3xl text-left w-full">
-                <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 text-slate-500 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-slate-400 animate-pulse"></span>
-                    Prüfung empfohlen
-                </div>
-                
-                <h3 class="text-slate-900 font-extrabold text-2xl md:text-3xl mb-4 tracking-tight">Kein direkter Anspruch ermittelt</h3>
-                <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6">
-                    Unser Online-Rechner hat auf Basis Ihrer Standardangaben keinen direkten Anspruch ermittelt. 
-                    <strong>Allerdings sind fast 50% aller behördlichen Bescheide fehlerhaft</strong> und viele Rechner erfassen komplexe Sondersituationen (wie erhöhte Freibeträge, Mehrbedarfe oder chronische Erkrankungen) nicht vollständig. Wir empfehlen eine kostenfreie Überprüfung.
-                </p>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                    <div class="flex gap-3 items-start p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-                        <span class="text-emerald-500 mt-0.5 shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        </span>
-                        <div>
-                            <h5 class="text-xs font-bold text-slate-800">Hohe Fehlerquote</h5>
-                            <p class="text-[11px] text-slate-500 mt-0.5">Ämter rechnen oft Kaltmieten oder Freibeträge fälschlicherweise zu niedrig an.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-3 items-start p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-                        <span class="text-emerald-500 mt-0.5 shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        </span>
-                        <div>
-                            <h5 class="text-xs font-bold text-slate-800">Freibeträge & Mehrbedarfe</h5>
-                            <p class="text-[11px] text-slate-500 mt-0.5">Besondere Lebenssituationen werden im vereinfachten Rechner nicht abgebildet.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto">
-                    <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="w-full sm:w-auto px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-lg text-center">
-                        Bescheid kostenlos prüfen lassen
-                    </a>
-                    <a href="#" onclick="window.openLeadModal('pdf-checklist'); return false;" class="w-full sm:w-auto px-6 py-4 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 text-xs font-bold uppercase tracking-wider rounded-xl transition-all text-center">
-                        Checkliste für Einspruch laden
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bescheid-Prüfung Banner (Cleverer Hinweis) -->
-        <div id="bescheid-pruefung-banner" class="col-span-1 md:col-span-3 mt-8 p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-xl shadow-slate-100/50 flex flex-col md:flex-row items-center justify-between gap-6 text-left relative overflow-hidden">
-            <!-- Subtle Glow -->
-            <div class="absolute -right-20 -top-20 w-48 h-48 bg-[#0EA5E9]/5 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="flex items-start gap-4 relative z-10 max-w-3xl">
-                <span class="text-[#0EA5E9] mt-1 bg-white border border-slate-100 p-2.5 rounded-2xl shrink-0 shadow-sm">
-                    <!-- FileText Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M9 15h6"/></svg>
-                </span>
-                <div>
-                    <h4 class="text-base font-black text-slate-900">Bescheid bereits erhalten? Jetzt kostenlos prüfen lassen.</h4>
-                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                        Fast jeder zweite behördliche Bescheid ist fehlerhaft. Unabhängige Fachanwälte prüfen Ihren aktuellen Bescheid rückwirkend auf Rechenfehler, falsche Kaltmieten-Grenzen oder nicht berücksichtigte Mehrbedarfe – komplett kostenfrei für Sie.
-                    </p>
-                </div>
-            </div>
-            <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="shrink-0 w-full md:w-auto px-6 py-3.5 bg-[#0EA5E9] hover:bg-[#38bdf8] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-lg text-center relative z-10 border border-transparent">
-                Bescheid kostenlos prüfen
-            </a>
-        </div>
-
-        <!-- Authority Finder & Application - Span 3 (Full Width) -->
-        <div id="authority-finder-container" class="col-span-1 md:col-span-3 mt-8">
-            <AuthorityApp client:load />
-        </div>
-
-          <!-- DYNAMIC OPPORTUNITIES GRID - Span 3 -->
-          <div class="col-span-1 md:col-span-3 mt-12 hidden" id="opportunities-section">
-              <h3 class="font-sans text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
-                  <span class="bg-slate-50 border border-slate-200/80 text-[#0EA5E9] w-10 h-10 rounded-xl flex items-center justify-center shadow-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
-                  </span>
-                  Spar- & Optimierungspotenziale
-              </h3>
-              <div id="opportunities-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <!-- Injected dynamically by script -->
-              </div>
-          </div>
-
           <!-- UNIVERSAL BENEFITS CHECK RESULTS - Span 3 -->
-         <div class="col-span-1 md:col-span-3 mt-16 hidden" id="universal-benefits-section">
+         <div class="col-span-1 md:col-span-3 mt-6 hidden" id="universal-benefits-section">
              <h3 class="font-sans text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
                  <span class="bg-slate-50 border border-slate-200/80 text-[#0EA5E9] w-10 h-10 rounded-xl flex items-center justify-center shadow-sm">
                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -297,7 +119,7 @@ import PartnerCTA from './partner-cta.astro';
         window.lastCalculationResult = event.detail;
 
         const { detail: result } = event;
-        const { input, amount, type, details, results } = result;
+        const { input, results } = result;
 
         // 1. Offline Fallback Banner handling
         const offlineBanner = document.getElementById('offline-fallback-banner');
@@ -323,45 +145,6 @@ import PartnerCTA from './partner-cta.astro';
                 alertBanner.classList.add('hidden');
             }
         }
-
-        // 3. Dynamic Opportunities Grid handling
-        const opportunitiesSection = document.getElementById('opportunities-section');
-        const opportunitiesGrid = document.getElementById('opportunities-grid');
-        const opps = result.opportunities || [];
-
-        if (opportunitiesSection && opportunitiesGrid) {
-            if (opps.length > 0) {
-                opportunitiesSection.classList.remove('hidden');
-                opportunitiesGrid.innerHTML = opps.map(opp => {
-                    return `
-                        <div class="bg-white border border-slate-200/60 p-6 rounded-3xl flex flex-col justify-between shadow-premium hover:shadow-xl hover:border-teal-500/30 transition-all duration-300 text-left group">
-                            <div>
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center font-bold text-lg select-none group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
-                                        ${opp.icon || '💡'}
-                                    </div>
-                                    <h4 class="text-base font-bold text-slate-900 group-hover:text-teal-600 transition-colors duration-300">${opp.title}</h4>
-                                </div>
-                                <p class="text-xs text-slate-500 leading-relaxed">${opp.text}</p>
-                            </div>
-                            <div class="mt-6">
-                                <a href="${opp.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-full px-5 py-3 bg-slate-900 hover:bg-teal-600 hover:scale-[1.01] active:scale-[0.99] text-white text-xs font-bold rounded-xl transition-all duration-300 shadow-sm hover:shadow-md">
-                                    ${opp.action || 'Jetzt prüfen'}
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } else {
-                opportunitiesSection.classList.add('hidden');
-                opportunitiesGrid.innerHTML = '';
-            }
-        }
-
-        // Calculate total monthly support amount for probable claims
-        const probableBenefits = (results || []).filter(r => r.eligible === 'probable');
-        const probableWithAmount = probableBenefits.filter(r => (r.amount || 0) > 0);
-        const totalAmount = probableWithAmount.reduce((sum, r) => sum + (r.amount || 0), 0);
 
         // Render Grouped Benefits List
         const universalSection = document.getElementById('universal-benefits-section');
@@ -407,120 +190,120 @@ import PartnerCTA from './partner-cta.astro';
                     <div class="space-y-5">
                         <div class="border-b border-slate-100 pb-3 text-left">
                             <div class="flex items-center gap-2 mb-1">
-                                <span class="w-2.5 h-2.5 rounded-full ${grp.dotClass}"></span>
-                                <h4 class="font-sans font-bold text-[#0F172A] text-xl">${grp.title}</h4>
+                                <span class="w-2.5 h-2.5 rounded-full \${grp.dotClass}"></span>
+                                <h4 class="font-sans font-bold text-[#0F172A] text-xl">\${grp.title}</h4>
                             </div>
-                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">${grp.desc}</p>
+                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">\${grp.desc}</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            ${groupBenefits.map(benefit => {
-                                const amountText = benefit.amount > 0 ? `${benefit.amount} € / Monat` : (benefit.id === 'kinderzuschlag' ? 'bis zu 297 € / Kind' : (benefit.id === 'but' ? '195 € / Schuljahr' : 'Prüfung empfohlen'));
+                            \${groupBenefits.map(benefit => {
+                                const amountText = benefit.amount > 0 ? \`\${benefit.amount} € / Monat\` : (benefit.id === 'kinderzuschlag' ? 'bis zu 297 € / Kind' : (benefit.id === 'but' ? '195 € / Schuljahr' : 'Prüfung empfohlen'));
                                 
                                 let ctaHtml = '';
                                 if (grp.key !== 'none') {
                                     switch (benefit.id) {
                                         case 'wohngeld':
-                                            ctaHtml = `<a href="/pdf-paket?type=Wohngeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = \`<a href="/pdf-paket?type=Wohngeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>\`;
                                             break;
                                         case 'lastenzuschuss':
-                                            ctaHtml = `<a href="/pdf-paket?type=Lastenzuschuss" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = \`<a href="/pdf-paket?type=Lastenzuschuss" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>\`;
                                             break;
                                         case 'buergergeld':
-                                            ctaHtml = `<a href="/pdf-paket?type=Bürgergeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = \`<a href="/pdf-paket?type=Bürgergeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>\`;
                                             break;
                                         case 'grundsicherung_alter':
-                                            ctaHtml = `<a href="/pdf-paket?type=Grundsicherung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = \`<a href="/pdf-paket?type=Grundsicherung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>\`;
                                             break;
                                         case 'erstausstattung':
-                                            ctaHtml = `<a href="/pdf-paket?type=Erstausstattung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Antrag generieren ➔</a>`;
+                                            ctaHtml = \`<a href="/pdf-paket?type=Erstausstattung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Antrag generieren ➔</a>\`;
                                             break;
                                         case 'kindergeld':
-                                            ctaHtml = `<a href="https://www.arbeitsagentur.de/familie-und-kinder/kindergeld-beantragen" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Direkt beantragen (Arbeitsagentur) ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.arbeitsagentur.de/familie-und-kinder/kindergeld-beantragen" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Direkt beantragen (Arbeitsagentur) ➔</a>\`;
                                             break;
                                         case 'kinderzuschlag':
-                                            ctaHtml = `<a href="#" onclick="window.openLeadModal('kiz'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Kostenlose Prüfung anfordern ➔</a>`;
+                                            ctaHtml = \`<a href="#" onclick="window.openLeadModal('kiz'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Kostenlose Prüfung anfordern ➔</a>\`;
                                             break;
                                         case 'elterngeld':
-                                            ctaHtml = `<a href="#" onclick="window.openLeadModal('elterngeld'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Elterngeld-Hilfe starten ➔</a>`;
+                                            ctaHtml = \`<a href="#" onclick="window.openLeadModal('elterngeld'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Elterngeld-Hilfe starten ➔</a>\`;
                                             break;
                                         case 'gez_exempt':
-                                            ctaHtml = `<a href="https://www.rundfunkbeitrag.de/buergerinnen_und_buerger/formulare/befreiung_oder_ermaessigung/index_ger.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Befreiung beantragen (GEZ Online) ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.rundfunkbeitrag.de/buergerinnen_und_buerger/formulare/befreiung_oder_ermaessigung/index_ger.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Befreiung beantragen (GEZ Online) ➔</a>\`;
                                             break;
                                         case 'bafoeg':
-                                            ctaHtml = `<a href="https://www.bafoeg-digital.de/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">BAföG-Digital starten ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.bafoeg-digital.de/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">BAföG-Digital starten ➔</a>\`;
                                             break;
                                         case 'bab':
-                                            ctaHtml = `<a href="https://www.arbeitsagentur.de/bildung/ausbildung/berufsausbildungsbeihilfe-beantragen" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">BAB beantragen (Arbeitsagentur) ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.arbeitsagentur.de/bildung/ausbildung/berufsausbildungsbeihilfe-beantragen" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">BAB beantragen (Arbeitsagentur) ➔</a>\`;
                                             break;
                                         case 'telekom_social':
-                                            ctaHtml = `<a href="https://www.telekom.de/hilfe/vertrag-meine-daten/meine-daten/sozialtarif" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Telekom Sozialtarif ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.telekom.de/hilfe/vertrag-meine-daten/meine-daten/sozialtarif" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Telekom Sozialtarif ➔</a>\`;
                                             break;
                                         case 'unterhaltsvorschuss':
-                                            ctaHtml = `<a href="https://www.bmfsfj.de/bmfsfj/themen/familie/familienleistungen/unterhaltsvorschuss/unterhaltsvorschuss-73558" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Unterhaltsvorschuss-Info ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.bmfsfj.de/bmfsfj/themen/familie/familienleistungen/unterhaltsvorschuss/unterhaltsvorschuss-73558" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Unterhaltsvorschuss-Info ➔</a>\`;
                                             break;
                                         case 'but':
-                                            ctaHtml = `<a href="/bildung-und-teilhabe" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Details zu Bildung & Teilhabe ➔</a>`;
+                                            ctaHtml = \`<a href="/bildung-und-teilhabe" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Details zu Bildung & Teilhabe ➔</a>\`;
                                             break;
                                         case 'bildungsgutschein':
-                                            ctaHtml = `<a href="https://www.arbeitsagentur.de/karriere-und-weiterbildung/foerderung-weiterbildung/bildungsgutschein" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Infos zu Bildungsgutschein ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.arbeitsagentur.de/karriere-und-weiterbildung/foerderung-weiterbildung/bildungsgutschein" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Infos zu Bildungsgutschein ➔</a>\`;
                                             break;
                                         case 'hinterbliebenenrente':
-                                            ctaHtml = `<a href="https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Hinterbliebenenrente/hinterbliebenenrente_node.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Hinterbliebenenrente beantragen ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Hinterbliebenenrente/hinterbliebenenrente_node.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Hinterbliebenenrente beantragen ➔</a>\`;
                                             break;
                                         case 'kita_exempt':
-                                            ctaHtml = `<a href="https://www.arbeitsagentur.de/familie-und-kinder/kinderzuschlag-verstehen/kita-gebuehren-sparen" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Infos zur Gebührenbefreiung ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.arbeitsagentur.de/familie-und-kinder/kinderzuschlag-verstehen/kita-gebuehren-sparen" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Infos zur Gebührenbefreiung ➔</a>\`;
                                             break;
                                         case 'kurzarbeitergeld':
-                                            ctaHtml = `<a href="https://www.arbeitsagentur.de/unternehmen/finanziell/kurzarbeitergeld-uebersicht" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Kurzarbeitergeld-Info ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.arbeitsagentur.de/unternehmen/finanziell/kurzarbeitergeld-uebersicht" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Kurzarbeitergeld-Info ➔</a>\`;
                                             break;
                                         case 'bay_familiengeld':
-                                            ctaHtml = `<a href="https://www.zbfs.bayern.de/familie/familiengeld/index.php" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">ZBFS Familiengeld Portal ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.zbfs.bayern.de/familie/familiengeld/index.php" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">ZBFS Familiengeld Portal ➔</a>\`;
                                             break;
                                         case 'krippengeld':
                                             if (benefit.type?.includes('Hessen')) {
-                                                ctaHtml = `<a href="https://soziales.hessen.de/familie/kinderbetreuung" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Kita-Gebühren Hessen ➔</a>`;
+                                                ctaHtml = \`<a href="https://soziales.hessen.de/familie/kinderbetreuung" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Kita-Gebühren Hessen ➔</a>\`;
                                             } else {
-                                                ctaHtml = `<a href="https://www.zbfs.bayern.de/familie/krippengeld/index.php" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">ZBFS Krippengeld Portal ➔</a>`;
+                                                ctaHtml = \`<a href="https://www.zbfs.bayern.de/familie/krippengeld/index.php" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">ZBFS Krippengeld Portal ➔</a>\`;
                                             }
                                             break;
                                         case 'eingliederungszuschuss':
-                                            ctaHtml = `<a href="https://www.arbeitsagentur.de/unternehmen/finanziell/eingliederungszuschuss" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Infos für Arbeitgeber ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.arbeitsagentur.de/unternehmen/finanziell/eingliederungszuschuss" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Infos für Arbeitgeber ➔</a>\`;
                                             break;
                                         case 'schwerbehinderung':
-                                            ctaHtml = `<a href="https://www.einfach-teilhaben.de/DE/AS/Schwerbehindertenausweis/schwerbehindertenausweis_node.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Schwerbehinderten-Ausweis Infos ➔</a>`;
+                                            ctaHtml = \`<a href="https://www.einfach-teilhaben.de/DE/AS/Schwerbehindertenausweis/schwerbehindertenausweis_node.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Schwerbehinderten-Ausweis Infos ➔</a>\`;
                                             break;
                                         default:
                                             if (benefit.category === 'Pflege') {
-                                                ctaHtml = `<a href="#" onclick="window.openLeadModal('pflege'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Hilfe bei Kassenantrag ➔</a>`;
+                                                ctaHtml = \`<a href="#" onclick="window.openLeadModal('pflege'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Hilfe bei Kassenantrag ➔</a>\`;
                                             } else {
-                                                ctaHtml = `<a href="#" onclick="window.openLeadModal('pdf-checklist'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all mt-4 w-full md:w-auto">Checkliste anfordern ➔</a>`;
+                                                ctaHtml = \`<a href="#" onclick="window.openLeadModal('pdf-checklist'); return false;" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all mt-4 w-full md:w-auto">Checkliste anfordern ➔</a>\`;
                                             }
                                             break;
                                     }
                                 }
 
-                                const catBadgeHtml = benefit.category ? `<span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-1">${benefit.category}</span>` : '';
+                                const catBadgeHtml = benefit.category ? \`<span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-1">\${benefit.category}</span>\` : '';
 
-                                return `
-                                    <div class="relative bg-white border ${grp.cardBorderClass} rounded-2xl p-6 flex flex-col justify-between text-left">
+                                return \`
+                                    <div class="relative bg-white border \${grp.cardBorderClass} rounded-2xl p-6 flex flex-col justify-between text-left">
                                         <div>
                                             <div class="flex items-center justify-between gap-4 mb-3">
                                                 <div>
-                                                    ${catBadgeHtml}
-                                                    <h5 class="font-sans font-bold text-slate-900 text-lg">${benefit.name}</h5>
+                                                    \${catBadgeHtml}
+                                                    <h5 class="font-sans font-bold text-slate-900 text-lg">\${benefit.name}</h5>
                                                 </div>
-                                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-widest ${grp.badgeClass} shrink-0">
-                                                    <span class="w-1.5 h-1.5 rounded-full ${grp.dotClass}"></span>
-                                                    ${benefit.amount > 0 ? amountText : (grp.key === 'none' ? 'Kein Anspruch' : 'Prüfung empfohlen')}
+                                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-widest \${grp.badgeClass} shrink-0">
+                                                    <span class="w-1.5 h-1.5 rounded-full \${grp.dotClass}"></span>
+                                                    \${benefit.amount > 0 ? amountText : (grp.key === 'none' ? 'Kein Anspruch' : 'Prüfung empfohlen')}
                                                 </span>
                                             </div>
-                                            <p class="text-slate-500 text-sm leading-relaxed mb-4">${benefit.reasoning}</p>
+                                            <p class="text-slate-500 text-sm leading-relaxed mb-4">\${benefit.reasoning}</p>
                                         </div>
                                         <div>
-                                            ${ctaHtml}
+                                            \${ctaHtml}
                                         </div>
                                     </div>
-                                `;
+                                \`;
                             }).join('')}
                         </div>
                     </div>
@@ -535,125 +318,20 @@ import PartnerCTA from './partner-cta.astro';
         // Switch View Immediately
         window.showView('results');
 
-        // Hero Elements and Toggles
-        const amountEl = document.getElementById('res-amount-hero');
-        const typeEl = document.getElementById('res-type-hero');
         const titleHeader = document.getElementById('res-title-header');
         const contextText = document.getElementById('res-context-text');
-        
-        const heroClaimEl = document.getElementById('dashboard-hero-claim');
-        const heroZeroEl = document.getElementById('dashboard-hero-zero');
-        const bescheidBanner = document.getElementById('bescheid-pruefung-banner');
-        const authorityFinder = document.getElementById('authority-finder-container');
-        const gaugeContainer = document.getElementById('gauge-container');
-        const legendContainer = document.getElementById('legend-container');
-        const bafoegContainer = document.getElementById('bafoeg-container');
-        const gaugeProgressPath = document.getElementById('gauge-progress-path');
-        const legendListEl = document.getElementById('gauge-legend-list');
-
-        const isBafoeg = (type === 'BAföG-Prüfung');
-
-        // Toggle layouts based on result state
-        if (isBafoeg) {
-            if (heroClaimEl) heroClaimEl.classList.remove('hidden');
-            if (heroZeroEl) heroZeroEl.classList.add('hidden');
-            if (gaugeContainer) gaugeContainer.classList.add('hidden');
-            if (legendContainer) legendContainer.classList.add('hidden');
-            if (bafoegContainer) bafoegContainer.classList.remove('hidden');
-            
-            if (bescheidBanner) bescheidBanner.classList.add('hidden');
-            if (authorityFinder) authorityFinder.classList.add('hidden');
-        } else if (totalAmount === 0) {
-            if (heroClaimEl) heroClaimEl.classList.add('hidden');
-            if (heroZeroEl) heroZeroEl.classList.remove('hidden');
-            if (bescheidBanner) bescheidBanner.classList.add('hidden');
-            if (authorityFinder) authorityFinder.classList.add('hidden');
-        } else {
-            if (heroClaimEl) heroClaimEl.classList.remove('hidden');
-            if (heroZeroEl) heroZeroEl.classList.add('hidden');
-            if (gaugeContainer) gaugeContainer.classList.remove('hidden');
-            if (legendContainer) legendContainer.classList.remove('hidden');
-            if (bafoegContainer) bafoegContainer.classList.add('hidden');
-            
-            if (bescheidBanner) bescheidBanner.classList.remove('hidden');
-            if (authorityFinder) authorityFinder.classList.remove('hidden');
-        }
-
-        if (!isBafoeg && totalAmount > 0) {
-            // Animate Counter & Gauge Path
-            if (amountEl) {
-                let start = 0;
-                const end = Math.round(totalAmount);
-                const duration = 1000;
-                const startTime = performance.now();
-
-                const animate = (currentTime) => {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    
-                    // EaseOutQuart
-                    const ease = 1 - Math.pow(1 - progress, 4);
-                    
-                    const currentVal = Math.floor(start + (end - start) * ease);
-                    amountEl.textContent = `${currentVal}€`;
-
-                    // Animate gauge stroke-dashoffset (max scale at 1000 €)
-                    const currentProgress = Math.min(currentVal / 1000, 1);
-                    const offset = 283 - (283 * currentProgress);
-                    if (gaugeProgressPath) {
-                        gaugeProgressPath.style.strokeDashoffset = offset;
-                    }
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        amountEl.textContent = `${end}€`;
-                        if (gaugeProgressPath) {
-                            gaugeProgressPath.style.strokeDashoffset = 283 - (283 * Math.min(end / 1000, 1));
-                        }
-                    }
-                };
-                requestAnimationFrame(animate);
-            }
-
-            // Render Legend List
-            if (legendListEl) {
-                const sortedProbable = [...probableWithAmount].sort((a, b) => (b.amount || 0) - (a.amount || 0));
-                
-                legendListEl.innerHTML = sortedProbable.map(b => {
-                    let dotColorClass = 'bg-rose-500'; // Fallback
-                    if (b.id === 'wohngeld' || b.id === 'lastenzuschuss') {
-                        dotColorClass = 'bg-emerald-500'; // Emerald Green
-                    } else if (b.id === 'kinderzuschlag') {
-                        dotColorClass = 'bg-sky-500'; // Sky Blue
-                    } else if (b.id === 'buergergeld') {
-                        dotColorClass = 'bg-amber-500'; // Amber-Yellow
-                    }
-                    
-                    return `
-                        <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-2xl w-full">
-                            <div class="flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full ${dotColorClass} shrink-0"></span>
-                                <span class="font-bold text-slate-800 text-sm leading-snug">${b.name}</span>
-                            </div>
-                            <span class="font-black text-slate-900 text-sm whitespace-nowrap">${Math.round(b.amount)} € / Monat</span>
-                        </div>
-                    `;
-                }).join('');
-            }
-        }
 
         // Header Title & Context text
         const cityName = (typeof input.city === 'object' && input.city !== null) ? input.city.stadt : input.city;
         
         if (titleHeader) {
             titleHeader.innerHTML = cityName 
-                ? `Anspruchs-Ergebnis für <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo font-extrabold">${cityName}</span>`
+                ? `Anspruchs-Ergebnis für <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo font-extrabold">\${cityName}</span>`
                 : `Ihre persönliche <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-indigo font-extrabold">Auswertung</span>`;
         }
         
         if (contextText) {
-            contextText.textContent = `Basierend auf Ihren Angaben für ${cityName || 'Ihren Wohnort'}.`;
+            contextText.textContent = `Unverbindliche Ersteinschätzung basierend auf Ihren Angaben für \${cityName || 'Ihren Wohnort'}.`;
         }
 
         // Confetti (Immediate Reward)
