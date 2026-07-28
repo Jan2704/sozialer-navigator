@@ -10,7 +10,8 @@ import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  // ERSETZE DIES DURCH DEINE ECHTE DOMAIN
+  // Single source of truth for the canonical domain — all canonical URLs, OG tags,
+  // and schema.org @id/url fields derive from this at build time. Update only here.
   site: 'https://www.sozialer-navigator.de',
 
 

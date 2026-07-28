@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { evaluateAllBenefits } from "../logic/benefit-engine.js";
 import { wohngeldData } from "../data/wohngeld-data.js";
 import { cn } from "../lib/utils";
+import ErrorBoundary from "./error-boundary.jsx";
 import {
   Search,
   X,
@@ -25,7 +26,15 @@ function InfoTooltip({ text }) {
   );
 }
 
-export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, className, defaultCity, theme = 'light' }) {
+export function SmartCalculator(props) {
+  return (
+    <ErrorBoundary>
+      <SmartCalculatorInner {...props} />
+    </ErrorBoundary>
+  );
+}
+
+function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, className, defaultCity, theme = 'light' }) {
   const isDark = theme === 'dark';
 
   // Wizard Step State (1, 2, 3, or 4)
@@ -373,6 +382,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
     });
 
     const payload = {
+      zip_code: selectedCity ? selectedCity.plz : "10115",
+      city_tier: selectedCity ? selectedCity.mietstufe : null,
       rent_cold: rentCold,
       rent_utility: rentUtility,
       rent_heating: rentHeating,
@@ -380,13 +391,16 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       members: members
     };
 
-    // Timers for cold start message and API Timeout
+    // Timers for cold start message and API Timeout.
+    // The timeout must comfortably exceed the documented cold-start window below —
+    // otherwise every cold start gets aborted mid-flight and silently falls back
+    // to the (less precise) offline engine instead of ever reaching the live one.
     const loadingTimer = setTimeout(() => {
-      setLoadingMessage("Die Live-Berechnung läuft... Hinweis: Beim ersten Aufruf kann der Serverstart (Render.com Cold Start) bis zu 30 Sekunden dauern.");
+      setLoadingMessage("Fast geschafft — der Server wacht gerade auf (das passiert nur beim allerersten Aufruf des Tages). Normalerweise dauert das noch ein paar Sekunden.");
     }, 3000);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 40000);
 
     try {
       const isLocal = window.location.hostname.includes('localhost') || window.location.hostname === '127.0.0.1';
@@ -545,12 +559,12 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
   // Styles definition
   const iconClass = "text-slate-400";
-  const inputDarkClass = "bg-slate-900 border-slate-800 text-white placeholder:text-slate-500 focus:ring-teal-500/50 focus:border-teal-500/50";
+  const inputDarkClass = "bg-slate-900 border-slate-800 text-white placeholder:text-slate-500 focus:ring-brand-blue/50 focus:border-brand-blue/50";
   const labelDarkClass = "text-slate-300";
 
-  const inputClass = "w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 transition-all outline-none focus:bg-white focus:border-teal-600 focus:ring-4 focus:ring-teal-600/10 hover:border-slate-300 font-medium";
+  const inputClass = "w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 transition-all outline-none focus:bg-white focus:border-brand-indigo focus:ring-4 focus:ring-brand-indigo/10 hover:border-slate-300 font-medium";
   const labelClass = "block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 ml-1";
-  const buttonClass = "w-full bg-teal-600 hover:bg-teal-700 text-white font-sans font-bold py-5 rounded-xl shadow-lg shadow-teal-600/20 hover:-translate-y-0.5 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-base tracking-wide border-none cursor-pointer";
+  const buttonClass = "w-full bg-brand-indigo hover:bg-brand-indigo text-white font-sans font-bold py-5 rounded-xl shadow-lg shadow-brand-indigo/20 hover:-translate-y-0.5 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-base tracking-wide border-none cursor-pointer";
   const secondaryBtnClass = "px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all flex items-center justify-center gap-2 border-none cursor-pointer";
 
   return (
@@ -565,9 +579,9 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors border-2",
                   step === s
-                    ? "bg-teal-600 border-teal-600 text-white shadow-lg shadow-teal-600/20"
+                    ? "bg-brand-indigo border-brand-indigo text-white shadow-lg shadow-brand-indigo/20"
                     : step > s
-                    ? "bg-teal-600 border-teal-600 text-white"
+                    ? "bg-brand-indigo border-brand-indigo text-white"
                     : isDark
                     ? "bg-slate-900 border-slate-800 text-slate-500"
                     : "bg-slate-50 border-slate-200 text-slate-400"
@@ -594,7 +608,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 className={cn(
                   "flex-1 h-0.5 mx-2 md:mx-4 transition-colors",
                   step > s
-                    ? "bg-teal-600"
+                    ? "bg-brand-indigo"
                     : isDark
                     ? "bg-slate-800"
                     : "bg-slate-100"
@@ -608,7 +622,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       {/* Dünner horizontaler Fortschrittsbalken */}
       <div className={cn("w-full h-1 bg-slate-100 rounded-full mb-8 overflow-hidden", isDark && "bg-slate-800")}>
         <div 
-          className="h-full bg-teal-600 transition-all duration-300 ease-out" 
+          className="h-full bg-brand-indigo transition-all duration-300 ease-out" 
           style={{ width: `${step * 25}%` }}
         />
       </div>
@@ -662,7 +676,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 <input
                   type="checkbox"
                   id="kurzarbeit"
-                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                   checked={isKurzarbeit}
                   onChange={(e) => setIsKurzarbeit(e.target.checked)}
                 />
@@ -691,8 +705,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             )}
 
             {(status === "student" || status === "trainee") && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Studien- & Ausbildungsdetails</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Studien- & Ausbildungsdetails</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -733,7 +747,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     <input
                       type="checkbox"
                       id="lives-parents"
-                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                       checked={livesWithParents}
                       onChange={(e) => setLivesWithParents(e.target.checked)}
                     />
@@ -746,7 +760,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     <input
                       type="checkbox"
                       id="bafoeg-self-insured"
-                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                       checked={bafoegSelfInsured}
                       onChange={(e) => setBafoegSelfInsured(e.target.checked)}
                     />
@@ -759,8 +773,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             )}
 
             {status === "pensioner" && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Renten- & Beitragsdetails</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Renten- & Beitragsdetails</h4>
                 <div>
                   <label className={cn(labelClass, isDark && labelDarkClass)}>Grundrentenzeiten (Versicherungsjahre)</label>
                   <div className="relative">
@@ -827,25 +841,25 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     <div
                       key={`${city.plz}-${city.stadt}`}
                       onClick={() => handleCitySelect(city)}
-                      className={cn("px-5 py-3 cursor-pointer text-sm font-medium flex justify-between items-center border-b last:border-none transition-colors", isDark ? "hover:bg-slate-800 text-slate-300 border-slate-800" : "hover:bg-teal-50 text-slate-700 border-slate-50")}
+                      className={cn("px-5 py-3 cursor-pointer text-sm font-medium flex justify-between items-center border-b last:border-none transition-colors", isDark ? "hover:bg-slate-800 text-slate-300 border-slate-800" : "hover:bg-brand-blue/10 text-slate-700 border-slate-50")}
                     >
                       <div className="flex items-center gap-3">
-                        <span className={cn("font-bold text-lg", isDark ? "text-white" : "text-teal-600")}>{city.plz}</span>
+                        <span className={cn("font-bold text-lg", isDark ? "text-white" : "text-brand-indigo")}>{city.plz}</span>
                         <span className={isDark ? "text-slate-400 font-medium" : "text-slate-700 font-medium"}>{city.stadt}</span>
                       </div>
-                      <span className={cn("text-[10px] px-2 py-1 rounded-md uppercase tracking-wider font-bold", isDark ? "bg-slate-800 text-teal-600" : "bg-teal-600/10 text-teal-600")}>Mietstufe {city.mietstufe}</span>
+                      <span className={cn("text-[10px] px-2 py-1 rounded-md uppercase tracking-wider font-bold", isDark ? "bg-slate-800 text-brand-indigo" : "bg-brand-indigo/10 text-brand-indigo")}>Mietstufe {city.mietstufe}</span>
                     </div>
                   ))}
                 </div>
               )}
 
               {selectedCity && (
-                <div className={cn("rounded-2xl p-5 mt-4 flex items-center justify-between border-2 animate-in slide-in-from-top-2 duration-300", isDark ? "bg-teal-600/10 border-teal-600/20" : "bg-teal-50/50 border-teal-600/10")}>
+                <div className={cn("rounded-2xl p-5 mt-4 flex items-center justify-between border-2 animate-in slide-in-from-top-2 duration-300", isDark ? "bg-brand-indigo/10 border-brand-indigo/20" : "bg-brand-blue/50 border-brand-indigo/10")}>
                   <div>
-                    <p className="text-[10px] font-bold text-teal-600 uppercase tracking-wider mb-1">Gewählter Wohnort</p>
+                    <p className="text-[10px] font-bold text-brand-indigo uppercase tracking-wider mb-1">Gewählter Wohnort</p>
                     <h4 className={cn("font-bold text-lg", isDark ? "text-white" : "text-slate-900")}>{selectedCity.plz} {selectedCity.stadt}</h4>
                   </div>
-                  <div className={cn("px-4 py-2 rounded-xl shadow-sm text-xs font-bold text-teal-600 border transition-colors", isDark ? "bg-slate-900 border-teal-600/20" : "bg-white border-teal-600/10 hover:border-teal-600/30")}>
+                  <div className={cn("px-4 py-2 rounded-xl shadow-sm text-xs font-bold text-brand-indigo border transition-colors", isDark ? "bg-slate-900 border-brand-indigo/20" : "bg-white border-brand-indigo/10 hover:border-brand-indigo/30")}>
                     Mietstufe {selectedCity.mietstufe}
                   </div>
                 </div>
@@ -929,8 +943,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
             {/* Eigentum Inputs */}
             {housingType === "Eigentum" && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Eigenheim-Kosten (Optional)</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Eigenheim-Kosten (Optional)</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -1021,8 +1035,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             </div>
 
             {parseInt(kids) > 0 && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Kinder-Details</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Kinder-Details</h4>
                 
                 <div className="space-y-4">
                   {kidsAgesList.map((ageVal, idx) => {
@@ -1113,7 +1127,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                       <input
                         type="checkbox"
                         id="single-parent"
-                        className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                        className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                         checked={isSingleParent}
                         onChange={(e) => setIsSingleParent(e.target.checked)}
                       />
@@ -1150,7 +1164,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 <input
                   type="checkbox"
                   id="pregnant-newborn"
-                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                   checked={isPregnantOrNewborn}
                   onChange={(e) => setIsPregnantOrNewborn(e.target.checked)}
                 />
@@ -1261,7 +1275,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             <button
               type="submit"
               disabled={!isStepValid(4) || isLoading}
-              className={cn(buttonClass, "flex-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-teal-500/20")}
+              className={cn(buttonClass, "flex-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-brand-blue/20")}
             >
               {isLoading ? "Wird berechnet..." : "Ansprüche prüfen & Ergebnisse anzeigen"}
             </button>
@@ -1271,7 +1285,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         {step === 4 && (
           <div className="space-y-2 mt-2">
             <p className="text-center text-[11px] text-slate-400">
-              Dauert nur 1 Sekunde – alle Berechnungen laufen lokal in deinem Browser.
+              Dauert normalerweise nur 1–2 Sekunden. Deine Daten werden verschlüsselt übertragen und nie an Dritte verkauft.
             </p>
             {loadingMessage && (
               <p className="text-center text-xs text-amber-600 dark:text-amber-400 font-semibold animate-pulse max-w-md mx-auto leading-relaxed">

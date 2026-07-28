@@ -24,14 +24,14 @@ import SchemaOrg from '../../components/seo/seo-schema.astro';
         <meta property="og:type" content="article" />
         <meta property="og:title" content={entry.data.title} />
         <meta property="og:description" content={entry.data.description} />
-        <meta property="og:url" content={`https://sozialer-navigator.de/lexikon/${entry.slug}`} />
+        <meta property="og:url" content={new URL(`/lexikon/${entry.slug}`, Astro.site)} />
 
-        <SchemaOrg 
-            type="TechnicalArticle" 
+        <SchemaOrg
+            type="TechnicalArticle"
             data={{
                 title: entry.data.title,
                 description: entry.data.description,
-                url: `https://sozialer-navigator.de/lexikon/${entry.slug}`,
+                url: new URL(`/lexikon/${entry.slug}`, Astro.site).href,
                 datePublished: "2025-10-01", // Fallback launch date
                 dateModified: entry.data.lastUpdated ? entry.data.lastUpdated.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
             }} 
@@ -124,14 +124,14 @@ import SchemaOrg from '../../components/seo/seo-schema.astro';
                         const isWohngeld = t.includes('wohngeld') || t.includes('miet') || s.includes('wohngeld');
                         const isSgbXii = t.includes('sgb xii') || t.includes('grundsicherung im alter') || t.includes('renten') || s.includes('sgb-xii');
 
-                        let targetLink = "/buergergeld/";
+                        let targetLink = "/#calculator";
                         let targetName = "Bürgergeld";
 
                         if (isWohngeld) {
-                            targetLink = "/wohngeld/";
+                            targetLink = "/#calculator";
                             targetName = "Wohngeld";
                         } else if (isSgbXii) {
-                            targetLink = "/buergergeld-grundsicherung/";
+                            targetLink = "/grundsicherung-im-alter/";
                             targetName = "Grundsicherung";
                         }
 

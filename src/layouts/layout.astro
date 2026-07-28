@@ -18,17 +18,21 @@ interface Props {
   city?: string; // For Local SEO
   serviceType?: "Wohngeld" | "Bürgergeld" | "WBS";
   faq?: { question: string; answer: string }[];
+  publishDate?: Date;
+  author?: string;
 }
 
-const { 
-  title, 
-  description = "Verschenken Sie kein Geld! Prüfen Sie in 2 Minuten kostenlos und anonym Ihren Anspruch auf Wohngeld oder Bürgergeld 2026.", 
-  hideNav = false, 
+const {
+  title,
+  description = "Verschenken Sie kein Geld! Prüfen Sie in 2 Minuten kostenlos und anonym Ihren Anspruch auf Wohngeld oder Bürgergeld 2026.",
+  hideNav = false,
   canonical,
   type = "website",
   city,
   serviceType,
-  faq
+  faq,
+  publishDate,
+  author
 } = Astro.props;
 ---
 <!doctype html>
@@ -60,7 +64,7 @@ const {
     <!-- Lucide Icons -->
     <!-- Lucide Icons removed: using react-lucide or inline SVGs for privacy -->
     
-    <Schema 
+    <Schema
       type={type}
       title={title}
       description={description}
@@ -68,6 +72,8 @@ const {
       city={city}
       serviceType={serviceType}
       faq={faq}
+      publishDate={publishDate}
+      author={author}
     />
 
     <style is:global>
@@ -88,7 +94,7 @@ const {
     </div>
     <Footer />
     <FeedbackWidget />
-    <ChatWidget client:load />
+    <ChatWidget client:idle />
     <PrivacyBanner />
   </body>
 </html>

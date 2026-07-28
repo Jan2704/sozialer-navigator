@@ -2,6 +2,16 @@ import { Resend } from 'resend';
 
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
 
+// Escapes user-supplied text before interpolating it into an HTML email body.
+export function escapeHtml(value: unknown): string {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 export async function sendEmail({ to, subject, html, attachments, cc, bcc }: {
     to: string | string[];
     subject: string;

@@ -9,15 +9,15 @@ import Layout from '../layouts/layout.astro';
     <meta property="og:title" content="Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen" />
     <meta property="og:description" content="Prüfen Sie Ihren Anspruch auf das Bildungspaket (Bildung und Teilhabe). Sichern Sie sich Zuschüsse für Schulessen, Ausflüge und mehr für Ihre Kinder." />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://sozialer-navigator.de/bildung-und-teilhabe" />
+    <meta property="og:url" content={new URL('/bildung-und-teilhabe', Astro.site)} />
     <meta property="og:image" content="https://images.unsplash.com/photo-1509023464722-18d996393ca8?auto=format&fit=crop&w=1200&q=80" />
-    
-    <SchemaOrg 
-        type="TechnicalArticle" 
+
+    <SchemaOrg
+        type="TechnicalArticle"
         data={{
             title: "Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen",
             description: "Prüfen Sie Ihren Anspruch auf das Bildungspaket (Bildung und Teilhabe). Sichern Sie sich Zuschüsse für Schulessen, Ausflüge und mehr für Ihre Kinder.",
-            url: "https://sozialer-navigator.de/bildung-und-teilhabe",
+            url: new URL('/bildung-und-teilhabe', Astro.site).href,
             image: "https://images.unsplash.com/photo-1509023464722-18d996393ca8?auto=format&fit=crop&w=1200&q=80",
             datePublished: "2025-10-01",
             dateModified: new Date().toISOString().split('T')[0]

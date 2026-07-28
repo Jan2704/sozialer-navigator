@@ -4,9 +4,8 @@ export const prerender = false;
 
 import Layout from '../../layouts/layout.astro';
 import { createClient } from '@supabase/supabase-js';
+import { isAdminAuthConfigured, checkAdminPassword, issueSessionCookie, hasValidSessionCookie } from '../../lib/admin-auth';
 
-// Configuration
-const ADMIN_PASSWORD = "navigator-secret"; // Simple password for now
 const SERVICE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 const SITE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
 
@@ -14,44 +13,27 @@ let isAuthenticated = false;
 let feedbackData = [];
 let error = "";
 
-// 1. Check Authentication (via Form POST or Cookie)
-if (Astro.request.method === "POST") {
-  try {
+if (!isAdminAuthConfigured()) {
+    error = "ADMIN_DASHBOARD_PASSWORD ist nicht konfiguriert. Zugriff gesperrt.";
+}
+
+// 1. Login attempt via POST
+if (isAdminAuthConfigured() && Astro.request.method === "POST") {
     const data = await Astro.request.formData();
     const password = data.get("password");
-    const action = data.get("action");
-
-    if (password === ADMIN_PASSWORD) {
-      isAuthenticated = true;
-      // Set a simple cookie to stay logged in for this session (optional, simpler to just re-post)
-      // For this simple version, we require password on every reload or use hidden input
-    } else if (action === 'delete' || action === 'toggle') {
-        // If performing action, we assume already authenticated if we want to be strict,
-        // but for this simple "single file" approach, we might need to pass the password again.
-        // Let's rely on the cookie for actions?
-        // Simpler: Just use a cookie for the session.
-    } else {
-        error = "Falsches Passwort";
+    if (data.has("password")) {
+        if (checkAdminPassword(password)) {
+            isAuthenticated = true;
+            issueSessionCookie(Astro.cookies);
+        } else {
+            error = "Falsches Passwort";
+        }
     }
-  } catch (e) {
-    error = "Fehler beim Login";
-  }
 }
 
-// 2. Cookie Auth Check
-const cookieAuth = Astro.cookies.get("admin_auth");
-if (cookieAuth && cookieAuth.value === ADMIN_PASSWORD) {
+// 2. Existing session cookie
+if (isAdminAuthConfigured() && hasValidSessionCookie(Astro.cookies)) {
     isAuthenticated = true;
-}
-
-// 3. Login/Set Cookie
-if (Astro.request.method === "POST") {
-     const data = await Astro.request.formData();
-     const password = data.get("password");
-     if (password === ADMIN_PASSWORD) {
-        isAuthenticated = true;
-        Astro.cookies.set("admin_auth", ADMIN_PASSWORD, { path: '/admin', maxAge: 60 * 60 * 24 }); // 1 day
-     }
 }
 
 // 4. Handle Actions (Delete/Resolved) if authenticated

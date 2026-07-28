@@ -26,18 +26,10 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
     faq={defaultFaqs}
 >
 
-    <!-- SEO Meta & Schema -->
+    <!-- Page-specific structured data. Organization/Website schema already comes from Layout, don't duplicate it here. -->
     <fragment slot="head">
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Wohngeld & Bürgergeld Rechner 2026 | Kostenlos Anspruch prüfen" />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content="/apple-touch-icon.png" />
-        <meta property="og:url" content="https://sozialer-navigator.de/" />
-
-        <SchemaOrg type="Organization" />
-        <SchemaOrg type="Website" />
         <SchemaOrg type="SoftwareApplication" />
-        
+
         <script>
             import { gsap } from 'gsap';
             import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -93,8 +85,8 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
             <div class="absolute inset-0 opacity-40 pointer-events-none" style="background-image: radial-gradient(rgba(15, 23, 42, 0.07) 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
             
             <!-- Glowing background elements -->
-            <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#0EA5E9]/8 rounded-full blur-[140px] pointer-events-none"></div>
-            <div class="absolute bottom-12 left-1/4 w-[400px] h-[400px] bg-[#0D9488]/8 rounded-full blur-[120px] pointer-events-none"></div>
+            <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#5B8467]/8 rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute bottom-12 left-1/4 w-[400px] h-[400px] bg-[#D9622B]/8 rounded-full blur-[120px] pointer-events-none"></div>
             
             <!-- Content Container -->
             <div class="relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 md:gap-16 items-center pt-28 pb-20"> 
@@ -105,19 +97,19 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
 
                         <!-- Badge + Social Proof Row -->
                         <div class="flex flex-wrap items-center gap-3 mb-5">
-                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0EA5E9]/5 border border-[#0EA5E9]/15 backdrop-blur-sm">
-                                <span class="flex h-2 w-2 rounded-full bg-[#0EA5E9] animate-pulse"></span>
-                                <span class="text-[#0EA5E9] text-xs font-black tracking-widest uppercase">Förder-Check 2026</span>
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#5B8467]/5 border border-[#5B8467]/15 backdrop-blur-sm">
+                                <span class="flex h-2 w-2 rounded-full bg-[#5B8467] animate-pulse"></span>
+                                <span class="text-[#5B8467] text-xs font-black tracking-widest uppercase">Förder-Check 2026</span>
                             </div>
                             <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                                <i data-lucide="users" class="w-3.5 h-3.5 text-[#0D9488] flex-shrink-0"></i>
+                                <i data-lucide="users" class="w-3.5 h-3.5 text-[#D9622B] flex-shrink-0"></i>
                                 <span><span id="social-counter" class="font-black text-slate-800">18.423</span> Haushalte haben bereits geprüft</span>
                             </div>
                         </div>
 
                         <!-- Loss-Framing Headline -->
                         <h1 class="hero-title font-sans font-black tracking-tight mb-5 text-slate-900 text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.05]">
-                            Verschenkst du jeden Monat <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5E9] to-[#0D9488]">Geld vom Staat?</span>
+                            Verschenkst du jeden Monat <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#5B8467] to-[#D9622B]">Geld vom Staat?</span>
                         </h1>
 
                         <!-- Subline -->
@@ -137,9 +129,9 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                                 <span class="font-black text-slate-900">2&nbsp;Minuten</span>
                                 <span class="text-slate-400">Check</span>
                             </div>
-                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#0D9488]/5 border border-[#0D9488]/15 text-xs">
-                                <span class="font-black text-[#0D9488]">100%</span>
-                                <span class="text-[#0D9488]/70">Kostenlos</span>
+                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#D9622B]/5 border border-[#D9622B]/15 text-xs">
+                                <span class="font-black text-[#D9622B]">100%</span>
+                                <span class="text-[#D9622B]/70">Kostenlos</span>
                             </div>
                         </div>
 
@@ -147,29 +139,29 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                         <div class="hero-buttons">
                             <p class="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">Wie viele Personen leben in deinem Haushalt?</p>
                             <div class="grid grid-cols-4 gap-2 mb-4 max-w-sm">
-                                <button data-persons="1" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#0EA5E9] hover:scale-[1.05] shadow-sm" aria-label="1 Person">
+                                <button data-persons="1" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#5B8467] hover:bg-[#5B8467]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#5B8467] hover:scale-[1.05] shadow-sm" aria-label="1 Person">
                                     1
-                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#0EA5E9]/60 normal-case tracking-normal">Person</span>
+                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#5B8467]/60 normal-case tracking-normal">Person</span>
                                 </button>
-                                <button data-persons="2" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#0EA5E9] hover:scale-[1.05] shadow-sm" aria-label="2 Personen">
+                                <button data-persons="2" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#5B8467] hover:bg-[#5B8467]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#5B8467] hover:scale-[1.05] shadow-sm" aria-label="2 Personen">
                                     2
-                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#0EA5E9]/60 normal-case tracking-normal">Personen</span>
+                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#5B8467]/60 normal-case tracking-normal">Personen</span>
                                 </button>
-                                <button data-persons="3" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#0EA5E9] hover:scale-[1.05] shadow-sm" aria-label="3-4 Personen">
+                                <button data-persons="3" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#5B8467] hover:bg-[#5B8467]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#5B8467] hover:scale-[1.05] shadow-sm" aria-label="3-4 Personen">
                                     3–4
-                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#0EA5E9]/60 normal-case tracking-normal">Personen</span>
+                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#5B8467]/60 normal-case tracking-normal">Personen</span>
                                 </button>
-                                <button data-persons="4" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-[#0D9488] bg-[#0D9488]/5 transition-all duration-200 font-black text-[#0D9488] text-lg hover:scale-[1.05] shadow-sm relative" aria-label="5 oder mehr Personen">
+                                <button data-persons="4" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-[#D9622B] bg-[#D9622B]/5 transition-all duration-200 font-black text-[#D9622B] text-lg hover:scale-[1.05] shadow-sm relative" aria-label="5 oder mehr Personen">
                                     5+
-                                    <span class="text-[9px] font-medium text-[#0D9488]/60 normal-case tracking-normal">Personen</span>
-                                    <span class="absolute -top-2 -right-2 text-[7px] font-black bg-[#0D9488] text-white px-1.5 py-0.5 rounded-full uppercase tracking-wide">Top</span>
+                                    <span class="text-[9px] font-medium text-[#D9622B]/60 normal-case tracking-normal">Personen</span>
+                                    <span class="absolute -top-2 -right-2 text-[7px] font-black bg-[#D9622B] text-white px-1.5 py-0.5 rounded-full uppercase tracking-wide">Top</span>
                                 </button>
                             </div>
 
                             <!-- Trust micro-copy -->
                             <p class="text-[11px] text-slate-400 flex items-center gap-1.5">
                                 <i data-lucide="lock" class="w-3 h-3 flex-shrink-0"></i>
-                                Keine Anmeldung &nbsp;·&nbsp; DSGVO-konform &nbsp;·&nbsp; Daten verlassen nie deinen Browser
+                                Keine Anmeldung &nbsp;·&nbsp; DSGVO-konform &nbsp;·&nbsp; Verschlüsselt übertragen, nie verkauft
                             </p>
                         </div>
                     </div>
@@ -178,18 +170,18 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                 <!-- Right Side: Interactive Calculation Matrix (Plerouse Dashboard Style) -->
                 <div class="lg:col-span-6 relative flex justify-center items-center w-full min-h-[480px]">
                     <!-- Background glows behind dashboard -->
-                    <div class="absolute w-[400px] h-[400px] bg-gradient-to-tr from-[#0EA5E9]/10 to-[#0D9488]/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute w-[400px] h-[400px] bg-gradient-to-tr from-[#5B8467]/10 to-[#D9622B]/10 rounded-full blur-3xl pointer-events-none"></div>
 
                     <!-- Glowing SVG Flow Lines (Data Streams) -->
                     <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="pink-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#0EA5E9" />
-                                <stop offset="100%" stop-color="#0D9488" />
+                                <stop offset="0%" stop-color="#5B8467" />
+                                <stop offset="100%" stop-color="#D9622B" />
                             </linearGradient>
                             <linearGradient id="lime-grad" x1="100%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#0D9488" />
-                                <stop offset="100%" stop-color="#0EA5E9" />
+                                <stop offset="0%" stop-color="#D9622B" />
+                                <stop offset="100%" stop-color="#5B8467" />
                             </linearGradient>
                         </defs>
                         <!-- Left path from Profil-Card to Result-Hub -->
@@ -201,7 +193,7 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                     <!-- Card 1: Input Profile (Top Left) -->
                     <div class="absolute left-2 top-8 w-[230px] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl p-4.5 shadow-xl z-10 hover:scale-[1.03] transition-all duration-300 animate-float-soft">
                         <div class="flex items-center justify-between mb-3.5">
-                            <span class="bg-[#0EA5E9]/15 text-[#0EA5E9] border border-[#0EA5E9]/25 text-[8px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">Profil</span>
+                            <span class="bg-[#5B8467]/15 text-[#5B8467] border border-[#5B8467]/25 text-[8px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">Profil</span>
                             <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
                         </div>
                         <h4 class="text-slate-900 text-xs font-black mb-1">3-Personen-Haushalt</h4>
@@ -212,10 +204,10 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                         <div class="space-y-2.5 text-[9px] text-slate-500 font-bold">
                             <div class="flex justify-between items-center mb-1">
                                 <span>Kaltmiete: 620 €</span>
-                                <span class="text-[#0EA5E9]">Mietstufe IV</span>
+                                <span class="text-[#5B8467]">Mietstufe IV</span>
                             </div>
                             <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                                <div class="bg-[#0EA5E9] h-full w-3/4 rounded-full"></div>
+                                <div class="bg-[#5B8467] h-full w-3/4 rounded-full"></div>
                             </div>
                             <div class="flex justify-between items-center mt-2">
                                 <span>Netto-Einkommen</span>
@@ -227,38 +219,38 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                     <!-- Card 2: Engine calculations (Top Right) -->
                     <div class="absolute right-2 top-20 w-[220px] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl p-4.5 shadow-xl z-10 hover:scale-[1.03] transition-all duration-300 animate-float-soft-reverse">
                         <div class="flex items-center justify-between mb-3.5">
-                            <span class="bg-[#0D9488]/15 text-[#0D9488] border border-[#0D9488]/25 text-[8px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">Amtly Engine v4</span>
+                            <span class="bg-[#D9622B]/15 text-[#D9622B] border border-[#D9622B]/25 text-[8px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">Amtly Engine v4</span>
                             <div class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0D9488] opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0D9488]"></span>
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D9622B] opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#D9622B]"></span>
                             </div>
                         </div>
                         
                         <div class="space-y-2 font-mono text-[9px] text-slate-600">
                             <div class="flex items-center gap-1.5">
-                                <span class="text-[#0D9488] font-bold">✓</span>
+                                <span class="text-[#D9622B] font-bold">✓</span>
                                 <span>Berechne Freibeträge SGB II</span>
                             </div>
                             <div class="flex items-center gap-1.5">
-                                <span class="text-[#0D9488] font-bold">✓</span>
+                                <span class="text-[#D9622B] font-bold">✓</span>
                                 <span>Lookup Wohngeldtabelle 2026</span>
                             </div>
                             <div class="flex items-center gap-1.5">
-                                <span class="text-[#0D9488] font-bold">✓</span>
+                                <span class="text-[#D9622B] font-bold">✓</span>
                                 <span>Heizkostenpauschale active</span>
                             </div>
-                            <span class="text-[8px] font-bold text-[#0D9488]/80 block mt-2 animate-pulse">> engine.py: check_eligibility() ...</span>
+                            <span class="text-[8px] font-bold text-[#D9622B]/80 block mt-2 animate-pulse">> engine.py: check_eligibility() ...</span>
                         </div>
                     </div>
 
                     <!-- Card 3: Eligibility Output Hub (Center Bottom) -->
-                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[340px] bg-white border-2 border-[#0D9488] rounded-[28px] p-5.5 shadow-[0_25px_60px_-15px_rgba(13,148,136,0.12)] z-20 hover:scale-[1.02] hover:shadow-[0_30px_70px_-10px_rgba(13,148,136,0.18)] transition-all duration-500 animate-float-medium">
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[340px] bg-white border-2 border-[#D9622B] rounded-[28px] p-5.5 shadow-[0_25px_60px_-15px_rgba(13,148,136,0.12)] z-20 hover:scale-[1.02] hover:shadow-[0_30px_70px_-10px_rgba(13,148,136,0.18)] transition-all duration-500 animate-float-medium">
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-slate-500 text-[8px] font-black uppercase tracking-widest">Monatlicher Zuschuss</span>
-                            <span class="bg-[#0D9488] text-white text-[7px] font-black uppercase px-2 py-0.5 rounded-full">Ergebnis</span>
+                            <span class="bg-[#D9622B] text-white text-[7px] font-black uppercase px-2 py-0.5 rounded-full">Ergebnis</span>
                         </div>
                         
-                        <div class="text-[2.75rem] font-black text-[#0D9488] tracking-tighter leading-none mb-1 select-none">
+                        <div class="text-[2.75rem] font-black text-[#D9622B] tracking-tighter leading-none mb-1 select-none">
                             672,00 €
                         </div>
                         <p class="text-slate-800 text-[10px] font-bold leading-normal mb-4">Dein berechneter Anspruch pro Monat</p>
@@ -271,17 +263,17 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                             </div>
                             <div class="bg-slate-50 border border-slate-100 rounded-xl p-2.5 text-left">
                                 <span class="block text-slate-500 text-[7px] uppercase tracking-wider font-bold mb-0.5">Kinderzuschlag</span>
-                                <span class="text-[#0EA5E9] text-xs font-black">292,00 €</span>
+                                <span class="text-[#5B8467] text-xs font-black">292,00 €</span>
                             </div>
                         </div>
 
                         <!-- Generator Action Status -->
                         <div class="border-t border-slate-100 pt-3 flex items-center justify-between">
                             <div class="text-slate-500 text-[8px] flex items-center gap-1.5">
-                                <span class="flex h-1.5 w-1.5 rounded-full bg-[#0D9488] animate-pulse"></span>
+                                <span class="flex h-1.5 w-1.5 rounded-full bg-[#D9622B] animate-pulse"></span>
                                 <span>Antrag_fertig.pdf generiert</span>
                             </div>
-                            <span class="text-[#0EA5E9] hover:underline text-[9px] font-black flex items-center gap-0.5 cursor-pointer">
+                            <span class="text-[#5B8467] hover:underline text-[9px] font-black flex items-center gap-0.5 cursor-pointer">
                                 PDF Download
                                 <i data-lucide="download" class="w-3 h-3 stroke-[2.5]"></i>
                             </span>
@@ -321,12 +313,12 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
 
                     // Visual feedback: highlight selected
                     document.querySelectorAll('.person-selector-btn').forEach(b => {
-                        b.classList.remove('border-[#0EA5E9]', 'bg-[#0EA5E9]/10', 'text-[#0EA5E9]',
-                                           'border-[#0D9488]', 'bg-[#0D9488]/5', 'text-[#0D9488]', 'scale-[1.08]');
+                        b.classList.remove('border-[#5B8467]', 'bg-[#5B8467]/10', 'text-[#5B8467]',
+                                           'border-[#D9622B]', 'bg-[#D9622B]/5', 'text-[#D9622B]', 'scale-[1.08]');
                         b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
                     });
                     this.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
-                    this.classList.add('border-[#0EA5E9]', 'bg-[#0EA5E9]/10', 'text-[#0EA5E9]', 'scale-[1.08]');
+                    this.classList.add('border-[#5B8467]', 'bg-[#5B8467]/10', 'text-[#5B8467]', 'scale-[1.08]');
 
                     // Fire custom event for SmartCalculator
                     document.dispatchEvent(new CustomEvent('amtly:preselect', { detail: { persons } }));
@@ -367,14 +359,14 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
         <!-- PROCESS SECTION -->
         <div class="w-full bg-slate-50/50 pb-40 pt-24 relative overflow-hidden border-t border-slate-100">
             <!-- Decorative Elements -->
-             <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0EA5E9]/5 rounded-full blur-[140px] pointer-events-none"></div>
-             <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#0D9488]/5 rounded-full blur-[120px] pointer-events-none"></div>
+             <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#5B8467]/5 rounded-full blur-[140px] pointer-events-none"></div>
+             <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#D9622B]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
              <div class="max-w-7xl mx-auto px-6 mb-20 relative z-10">
                 <div class="text-center mb-16">
-                    <span class="text-[#0EA5E9] text-xs font-black uppercase tracking-widest mb-4 block">Der Ablauf</span>
+                    <span class="text-[#5B8467] text-xs font-black uppercase tracking-widest mb-4 block">Der Ablauf</span>
                     <h2 class="text-4xl md:text-5xl font-sans font-black text-slate-900 mb-6">
-                        Vom Anspruch zur <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5E9] to-[#0D9488]">Auszahlung.</span>
+                        Vom Anspruch zur <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#5B8467] to-[#D9622B]">Auszahlung.</span>
                     </h2>
                     <p class="text-slate-600 text-lg font-light max-w-2xl mx-auto leading-relaxed">
                         Wir begleiten dich nicht nur beim Rechnen, sondern bis das Geld auf deinem Konto ist.
@@ -383,8 +375,8 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
 
                 <div class="process-grid grid md:grid-cols-4 gap-6">
                     <!-- Step 1 -->
-                    <div class="process-card bg-white border border-slate-200/80 p-8 rounded-3xl relative group hover:shadow-xl hover:border-[#0D9488]/30 transition-all duration-300">
-                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-[#0D9488] text-white font-black flex items-center justify-center text-sm rounded-2xl shadow-lg shadow-[#0D9488]/20">1</div>
+                    <div class="process-card bg-white border border-slate-200/80 p-8 rounded-3xl relative group hover:shadow-xl hover:border-[#D9622B]/30 transition-all duration-300">
+                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-[#D9622B] text-white font-black flex items-center justify-center text-sm rounded-2xl shadow-lg shadow-[#D9622B]/20">1</div>
                          <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-800 mb-6 border border-slate-100">
                              <i data-lucide="calculator" class="w-6 h-6"></i>
                          </div>
@@ -419,9 +411,9 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                     </div>
 
                     <!-- Step 4 -->
-                    <div class="process-card bg-[#0EA5E9]/5 border border-[#0EA5E9]/15 p-8 rounded-3xl relative group hover:bg-[#0EA5E9]/10 hover:shadow-xl transition-all duration-300">
-                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-[#0EA5E9] text-white font-black flex items-center justify-center text-sm rounded-2xl shadow-lg shadow-[#0EA5E9]/20">4</div>
-                         <div class="w-14 h-14 bg-[#0EA5E9]/10 rounded-2xl flex items-center justify-center text-[#0EA5E9] mb-6 border border-[#0EA5E9]/20">
+                    <div class="process-card bg-[#5B8467]/5 border border-[#5B8467]/15 p-8 rounded-3xl relative group hover:bg-[#5B8467]/10 hover:shadow-xl transition-all duration-300">
+                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-[#5B8467] text-white font-black flex items-center justify-center text-sm rounded-2xl shadow-lg shadow-[#5B8467]/20">4</div>
+                         <div class="w-14 h-14 bg-[#5B8467]/10 rounded-2xl flex items-center justify-center text-[#5B8467] mb-6 border border-[#5B8467]/20">
                              <i data-lucide="banknote" class="w-6 h-6"></i>
                          </div>
                          <h3 class="text-xl font-sans font-black text-slate-900 mb-3">Auszahlung</h3>
@@ -450,8 +442,8 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                 <div class="advantages-grid grid md:grid-cols-3 gap-8">
                      
                      <!-- Card 1 -->
-                     <div class="advantage-card group p-8 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-500 border border-transparent hover:border-teal-500/20">
-                          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-teal-600 mb-8 shadow-sm group-hover:scale-110 group-hover:bg-teal-600 group-hover:text-white transition-all duration-500 border border-slate-100">
+                     <div class="advantage-card group p-8 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-brand-blue/10 transition-all duration-500 border border-transparent hover:border-brand-blue/20">
+                          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-blue mb-8 shadow-sm group-hover:scale-110 group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 border border-slate-100">
                               <i data-lucide="smartphone" class="w-6 h-6"></i>
                           </div>
                           <h3 class="text-2xl font-sans font-bold text-slate-900 mb-4">100% Digital</h3>
@@ -461,8 +453,8 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                      </div>
 
                      <!-- Card 2 -->
-                     <div class="advantage-card group p-8 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-500 border border-transparent hover:border-sky-500/20">
-                          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-sky-600 mb-8 shadow-sm group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-500 border border-slate-100">
+                     <div class="advantage-card group p-8 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-brand-emerald/10 transition-all duration-500 border border-transparent hover:border-brand-emerald/20">
+                          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-emerald mb-8 shadow-sm group-hover:scale-110 group-hover:bg-brand-emerald group-hover:text-white transition-all duration-500 border border-slate-100">
                               <i data-lucide="trending-up" class="w-6 h-6"></i>
                           </div>
                           <h3 class="text-2xl font-sans font-bold text-slate-900 mb-4">Maximiere deinen Anspruch</h3>
@@ -476,9 +468,9 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
                           <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-700 mb-8 shadow-sm group-hover:scale-110 group-hover:bg-slate-700 group-hover:text-white transition-all duration-500 border border-slate-100">
                               <i data-lucide="shield-check" class="w-6 h-6"></i>
                           </div>
-                          <h3 class="text-2xl font-sans font-bold text-slate-900 mb-4">Banken-Level Sicherheit</h3>
+                          <h3 class="text-2xl font-sans font-bold text-slate-900 mb-4">Verschlüsselt & DSGVO-konform</h3>
                           <p class="text-slate-600 leading-relaxed font-light mb-6">
-                              Deine Privatsphäre ist uns heilig. Deine Daten bleiben auf deinem Gerät und werden nach der PDF-Generierung sofort und unwiderruflich gelöscht.
+                              Deine Privatsphäre ist uns wichtig. Deine Angaben werden verschlüsselt übertragen, ausschließlich zur Berechnung deines Anspruchs verwendet und nie an Dritte verkauft.
                           </p>
                      </div>
 
@@ -551,7 +543,7 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
 
     <!-- NOTIFICATION -->
     <div id="notification-toast" class="bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 fixed bottom-6 left-1/2 -translate-x-1/2 z-[300] hidden transform translate-y-4 opacity-0 transition-all border border-slate-800">
-        <i data-lucide="check-circle" class="text-teal-400"></i>
+        <i data-lucide="check-circle" class="text-brand-blue"></i>
         <span id="toast-message" class="text-sm font-semibold tracking-wide">Status aktualisiert.</span>
     </div>
 

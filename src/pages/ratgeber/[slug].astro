@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 export const prerender = true;
 import Layout from '../../layouts/layout.astro';
-import SchemaOrg from '../../components/seo/seo-schema.astro';
 
 export async function getStaticPaths() {
   const guideEntries = await getCollection('ratgeber');
@@ -17,20 +16,7 @@ const { Content } = await entry.render();
 const title = `${entry.data.title} | Sozialer Navigator Ratgeber`;
 ---
 
-<Layout title={title} description={entry.data.description} type="article">
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": entry.data.title,
-    "description": entry.data.description,
-    "author": {
-      "@type": "Person",
-      "name": entry.data.author
-    },
-    "datePublished": entry.data.pubDate.toISOString().split('T')[0],
-    "image": entry.data.image ? `https://sozialer-navigator.de${entry.data.image}` : undefined
-  })} slot="head" />
-
+<Layout title={title} description={entry.data.description} type="article" publishDate={entry.data.pubDate} author={entry.data.author}>
   <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-6 relative">
       
       <!-- Progress Bar (Reading) -->
