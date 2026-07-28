@@ -26,18 +26,10 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
     faq={defaultFaqs}
 >
 
-    <!-- SEO Meta & Schema -->
+    <!-- Page-specific structured data. Organization/Website schema already comes from Layout, don't duplicate it here. -->
     <fragment slot="head">
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Wohngeld & Bürgergeld Rechner 2026 | Kostenlos Anspruch prüfen" />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content="/apple-touch-icon.png" />
-        <meta property="og:url" content="https://sozialer-navigator.de/" />
-
-        <SchemaOrg type="Organization" />
-        <SchemaOrg type="Website" />
         <SchemaOrg type="SoftwareApplication" />
-        
+
         <script>
             import { gsap } from 'gsap';
             import { ScrollTrigger } from 'gsap/ScrollTrigger';

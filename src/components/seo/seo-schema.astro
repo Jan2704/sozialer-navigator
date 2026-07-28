@@ -8,7 +8,7 @@ interface Props {
 
 const { type, data } = Astro.props;
 
-const siteUrl = "https://sozialer-navigator.de";
+const siteUrl = Astro.site ? Astro.site.origin : Astro.url.origin;
 
 // 1. Organization (Global Base)
 const organizationSchema = {

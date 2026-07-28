@@ -28,15 +28,21 @@ const {
   faq
 } = Astro.props;
 
+// Single source of truth for the site's own domain — derived from astro.config.mjs's `site`,
+// not hardcoded, so every schema stays consistent if the canonical domain ever changes.
+const siteOrigin = Astro.site ? Astro.site.origin : Astro.url.origin;
+const organizationId = `${siteOrigin}/#organization`;
+const websiteId = `${siteOrigin}/#website`;
+
 // Base Organization Schema (The "Publisher")
 const organizationSchema: Organization = {
   "@type": "Organization",
-  "@id": "https://sozialer-navigator.de/#organization",
+  "@id": organizationId,
   "name": "Sozialer Navigator",
-  "url": "https://sozialer-navigator.de",
+  "url": siteOrigin,
   "logo": {
     "@type": "ImageObject",
-    "url": "https://sozialer-navigator.de/logo.png", // TODO: Verify logo path
+    "url": `${siteOrigin}/logo.png`,
     "width": "112",
     "height": "112"
   },
@@ -53,11 +59,11 @@ const organizationSchema: Organization = {
 // Website Schema (Search Box)
 const websiteSchema: WebSite = {
     "@type": "WebSite",
-    "@id": "https://sozialer-navigator.de/#website",
-    "url": "https://sozialer-navigator.de",
+    "@id": websiteId,
+    "url": siteOrigin,
     "name": "Sozialer Navigator",
     "description": "Ihr Wegweiser durch den Sozialstaat",
-    "publisher": { "@id": "https://sozialer-navigator.de/#organization" },
+    "publisher": { "@id": organizationId },
     "inLanguage": "de-DE"
 };
 
@@ -122,7 +128,7 @@ if (type === "article" && title && description) {
             "@type": "Person", // or Organization
             "name": author
         },
-        "publisher": { "@id": "https://sozialer-navigator.de/#organization" },
+        "publisher": { "@id": organizationId },
         "datePublished": publishDate ? publishDate.toISOString() : undefined,
         "inLanguage": "de-DE"
     }

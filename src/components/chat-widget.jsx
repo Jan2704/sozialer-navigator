@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MessageCircle, X, Send, Minus, ChevronRight, Sparkles, Calculator, AlertTriangle, TrendingUp, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ErrorBoundary from './error-boundary.jsx';
 
 // =========================================================
 // BRAIN v3.0 — Konstanten & Datentabellen
@@ -11,7 +12,7 @@ const CITY_MIETSTUFE = {
   'münchen': 7, 'munich': 7,
   'berlin': 6, 'hamburg': 6, 'frankfurt': 6, 'stuttgart': 6,
   'köln': 5, 'cologne': 5, 'düsseldorf': 5, 'wiesbaden': 5,
-  'heidelberg': 5, 'freiburg': 5, 'münchen': 7,
+  'heidelberg': 5, 'freiburg': 5,
   'dortmund': 4, 'essen': 4, 'bremen': 4, 'hannover': 4,
   'nürnberg': 4, 'bonn': 4, 'mannheim': 4, 'karlsruhe': 4,
   'augsburg': 4, 'mainz': 4, 'münster': 4, 'aachen': 4,
@@ -625,6 +626,14 @@ function renderText(text) {
 // =========================================================
 
 const ChatWidget = () => {
+  return (
+    <ErrorBoundary fallback={null}>
+      <ChatWidgetInner />
+    </ErrorBoundary>
+  );
+};
+
+const ChatWidgetInner = () => {
   const [isOpen,      setIsOpen]      = useState(false);
   const [hasStarted,  setHasStarted]  = useState(false);
   const [inputValue,  setInputValue]  = useState('');

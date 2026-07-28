@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { evaluateAllBenefits } from "../logic/benefit-engine.js";
 import { wohngeldData } from "../data/wohngeld-data.js";
 import { cn } from "../lib/utils";
+import ErrorBoundary from "./error-boundary.jsx";
 import {
   Search,
   X,
@@ -25,7 +26,15 @@ function InfoTooltip({ text }) {
   );
 }
 
-export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, className, defaultCity, theme = 'light' }) {
+export function SmartCalculator(props) {
+  return (
+    <ErrorBoundary>
+      <SmartCalculatorInner {...props} />
+    </ErrorBoundary>
+  );
+}
+
+function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, className, defaultCity, theme = 'light' }) {
   const isDark = theme === 'dark';
 
   // Wizard Step State (1, 2, 3, or 4)
@@ -373,6 +382,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
     });
 
     const payload = {
+      zip_code: selectedCity ? selectedCity.plz : "10115",
+      city_tier: selectedCity ? selectedCity.mietstufe : null,
       rent_cold: rentCold,
       rent_utility: rentUtility,
       rent_heating: rentHeating,

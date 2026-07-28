@@ -10,8 +10,17 @@ import ResultRoadmap from './result-roadmap';
 import citiesData from '../data/cities_2026.json';
 import cityDistrictsData from '../data/city_districts.json';
 import authoritiesData from '../data/authorities.json';
+import ErrorBoundary from './error-boundary.jsx';
 
-export default function AuthorityApp() {
+export default function AuthorityApp(props) {
+    return (
+        <ErrorBoundary>
+            <AuthorityAppInner {...props} />
+        </ErrorBoundary>
+    );
+}
+
+function AuthorityAppInner() {
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [hasSearched, setHasSearched] = useState(false);
