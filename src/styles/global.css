@@ -3,22 +3,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* Foundation */
-  --color-brand-blue: #0D9488;     /* Modern Teal */
-  --color-brand-indigo: #0EA5E9;   /* Sky Blue */
-  --color-brand-emerald: #14B8A6;  /* Mint/Teal accent */
-  --color-brand-navy: #0F172A;     /* Dark Slate/Navy */
-  --color-brand-gold: #c5a67c;     /* Premium Gold accent */
-  
+  /* Foundation — warm, neutral, human-first palette (replaces the earlier teal/slate fintech look) */
+  --color-brand-blue: #D9622B;     /* Confident single accent (was teal) */
+  --color-brand-indigo: #B84D1C;   /* Accent hover/deep (was sky blue) */
+  --color-brand-emerald: #5B8467;  /* Muted sage — secondary/success (was mint/teal) */
+  --color-brand-navy: #1F2E24;     /* Deep charcoal-green — replaces slate navy */
+  --color-brand-gold: #c5a67c;     /* Premium Gold accent (kept — used by the separate legal-referral sub-brand) */
+
   /* Surface */
-  --color-surface-base: #F8FAFC;
+  --color-surface-base: #F2F0EA;
   --color-surface-card: #FFFFFF;
-  --color-surface-muted: #F8FAFC;
+  --color-surface-muted: #E7E3D8;
 
   /* Functional */
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #475569;
-  --color-border-subtle: #F1F5F9;
+  --color-text-primary: #1B1A17;
+  --color-text-secondary: #6E6A60;
+  --color-border-subtle: #E7E1D3;
 
   /* Typography */
   --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
@@ -34,6 +34,14 @@
     --bg-base: var(--color-surface-base);
     --text-primary: var(--color-text-primary);
     --text-secondary: var(--color-text-secondary);
+
+    /* shadcn-style tokens used by src/components/ui/* primitives — previously undefined */
+    --background: 48 25% 93%;
+    --foreground: 30 12% 10%;
+    --border: 38 25% 87%;
+    --input: 38 25% 87%;
+    --ring: 20 68% 51%;
+    --radius: 0.75rem;
   }
 
   html {

@@ -650,15 +650,17 @@ function AuthorityAppInner() {
                                             <div className="bg-amber-50 p-4 rounded-full mb-4">
                                                 <AlertCircle className="w-10 h-10 text-amber-600" />
                                             </div>
-                                            <span className="text-lg font-serif font-bold text-[#0a1628]">Amt nicht gefunden</span>
-                                            <p className="text-sm text-slate-500 mt-2 max-w-[200px]">
-                                                Für diese PLZ konnte kein zuständiges Amt automatisch ermittelt werden.
+                                            <span className="text-lg font-serif font-bold text-[#0a1628]">Amt nicht in unserer Datenbank</span>
+                                            <p className="text-sm text-slate-500 mt-2 max-w-[220px]">
+                                                Für diese PLZ haben wir noch keine hinterlegte Kontaktadresse. Ihr ausgefülltes Antrags-PDF können Sie trotzdem herunterladen — Sie müssen es nur selbst adressieren.
                                             </p>
                                             <a
-                                                href="mailto:support@sozialer-navigator.de?subject=PLZ%20nicht%20gefunden"
+                                                href={`https://www.google.com/search?q=${encodeURIComponent('zuständiges Jobcenter Wohngeldstelle für PLZ ' + zipCode)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                                 className="mt-4 text-xs font-bold text-[#c5a67c] hover:underline"
                                             >
-                                                Support kontaktieren
+                                                Zuständiges Amt selbst suchen ➔
                                             </a>
                                         </div>
                                     )
