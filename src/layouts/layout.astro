@@ -20,6 +20,7 @@ interface Props {
   faq?: { question: string; answer: string }[];
   publishDate?: Date;
   author?: string;
+  image?: string;
 }
 
 const {
@@ -32,7 +33,8 @@ const {
   serviceType,
   faq,
   publishDate,
-  author
+  author,
+  image
 } = Astro.props;
 ---
 <!doctype html>
@@ -74,6 +76,7 @@ const {
       faq={faq}
       publishDate={publishDate}
       author={author}
+      image={image}
     />
 
     <style is:global>

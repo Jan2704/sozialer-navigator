@@ -33,6 +33,7 @@ const {
 const siteOrigin = Astro.site ? Astro.site.origin : Astro.url.origin;
 const organizationId = `${siteOrigin}/#organization`;
 const websiteId = `${siteOrigin}/#website`;
+const absoluteImage = new URL(image, siteOrigin).href;
 
 // Base Organization Schema (The "Publisher")
 const organizationSchema: Organization = {
@@ -123,7 +124,7 @@ if (type === "article" && title && description) {
         "@type": "Article",
         "headline": title,
         "description": description,
-        "image": image,
+        "image": absoluteImage,
         "author": {
             "@type": "Person", // or Organization
             "name": author

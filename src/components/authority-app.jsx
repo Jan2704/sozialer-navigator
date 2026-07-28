@@ -688,8 +688,8 @@ function AuthorityAppInner() {
                                 <div className="bg-white border border-slate-200 rounded-[2rem] p-8 flex flex-col shadow-lg shadow-slate-200/20 hover:border-slate-300 transition-all relative">
                                     <div className="mb-6">
                                         <div className="flex justify-between items-start mb-4">
-                                            <h3 className="font-bold text-[#0D9488] text-xl">Antrag kostenfrei ausfüllen</h3>
-                                            <Mail className="w-6 h-6 text-[#0D9488]/40" />
+                                            <h3 className="font-bold text-[#5B8467] text-xl">Antrag kostenfrei ausfüllen</h3>
+                                            <Mail className="w-6 h-6 text-[#5B8467]/40" />
                                         </div>
                                         <p className="text-slate-500 leading-relaxed text-sm">
                                             Beantworten Sie ein paar einfache Fragen am Handy. Wir erstellen Ihnen ein vollständig ausgefülltes, offizielles Antrags-PDF zum direkten Einreichen – 100% kostenfrei.
@@ -699,7 +699,7 @@ function AuthorityAppInner() {
                                     <div className="mt-auto pt-6 border-t border-slate-100">
                                         <button
                                             onClick={handleStartAssistant}
-                                            className="w-full py-4 px-4 bg-[#0D9488] hover:bg-teal-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md shadow-teal-500/10 cursor-pointer"
+                                            className="w-full py-4 px-4 bg-[#5B8467] hover:bg-[#4a6d55] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md shadow-brand-emerald/10 cursor-pointer"
                                         >
                                             <Download className="w-4 h-4" />
                                             Jetzt kostenlos ausfüllen
@@ -1044,7 +1044,7 @@ function AuthorityAppInner() {
                             <div className="col-span-1 md:col-span-3 bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative animate-in fade-in zoom-in-95 duration-300 text-left">
                                 <div className="max-w-6xl mx-auto">
                                     <div className="text-center mb-10">
-                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-700 text-[10px] font-bold uppercase tracking-widest mb-4">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 text-[#4a6d55] text-[10px] font-bold uppercase tracking-widest mb-4">
                                             Antrag ausgefüllt & startklar
                                         </div>
                                         <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#0a1628] mb-3">
@@ -1065,7 +1065,7 @@ function AuthorityAppInner() {
                                                 /* Capture Contact Form */
                                                 <div className="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 md:p-8 space-y-6 shadow-inner animate-in fade-in duration-300">
                                                     <h3 className="font-serif text-xl font-bold text-[#0a1628] border-b border-slate-200 pb-3 flex items-center gap-2">
-                                                        <User className="w-5 h-5 text-teal-600" />
+                                                        <User className="w-5 h-5 text-brand-emerald" />
                                                         <span>Wer soll den Antrag erhalten? (Empfängerdaten)</span>
                                                     </h3>
 
@@ -1077,7 +1077,7 @@ function AuthorityAppInner() {
                                                                 placeholder="z.B. Erika"
                                                                 value={assistantData.firstName}
                                                                 onChange={(e) => setAssistantData(prev => ({ ...prev, firstName: e.target.value }))}
-                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-1 focus:ring-brand-emerald/20 font-medium transition-colors"
                                                             />
                                                         </div>
                                                         <div>
@@ -1087,7 +1087,7 @@ function AuthorityAppInner() {
                                                                 placeholder="z.B. Mustermann"
                                                                 value={assistantData.lastName}
                                                                 onChange={(e) => setAssistantData(prev => ({ ...prev, lastName: e.target.value }))}
-                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-1 focus:ring-brand-emerald/20 font-medium transition-colors"
                                                             />
                                                         </div>
                                                         <div>
@@ -1097,7 +1097,7 @@ function AuthorityAppInner() {
                                                                 placeholder="erika@beispiel.de"
                                                                 value={assistantData.email}
                                                                 onChange={(e) => setAssistantData(prev => ({ ...prev, email: e.target.value }))}
-                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-1 focus:ring-brand-emerald/20 font-medium transition-colors"
                                                             />
                                                         </div>
                                                         <div>
@@ -1107,7 +1107,7 @@ function AuthorityAppInner() {
                                                                 placeholder="z.B. 0176 1234567"
                                                                 value={assistantData.phone}
                                                                 onChange={(e) => setAssistantData(prev => ({ ...prev, phone: e.target.value }))}
-                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:ring-1 focus:ring-teal-600/20 font-medium transition-colors"
+                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-1 focus:ring-brand-emerald/20 font-medium transition-colors"
                                                             />
                                                         </div>
                                                     </div>
@@ -1117,7 +1117,7 @@ function AuthorityAppInner() {
                                                             type="button"
                                                             disabled={!assistantData.firstName || !assistantData.lastName || !assistantData.email.includes('@')}
                                                             onClick={() => setIsContactFilled(true)}
-                                                            className="w-full py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl shadow-xl shadow-teal-600/20 hover:-translate-y-0.5 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                            className="w-full py-4 bg-brand-emerald hover:bg-[#4a6d55] text-white font-bold rounded-2xl shadow-xl shadow-brand-emerald/20 hover:-translate-y-0.5 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                                         >
                                                             Antrags-PDF freischalten & vorbereiten <ArrowRight className="w-5 h-5" />
                                                         </button>
@@ -1128,7 +1128,7 @@ function AuthorityAppInner() {
                                                 <>
                                                     <div className="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 md:p-8 space-y-6 shadow-inner animate-in fade-in duration-300">
                                                         <h3 className="font-serif text-xl font-bold text-[#0a1628] border-b border-slate-200 pb-3 flex items-center gap-2">
-                                                            <User className="w-5 h-5 text-teal-600" />
+                                                            <User className="w-5 h-5 text-brand-emerald" />
                                                             <span>Persönliche Angaben & Auszahlung</span>
                                                         </h3>
 
@@ -1150,7 +1150,7 @@ function AuthorityAppInner() {
                                                                 <span className="font-semibold text-slate-800">{assistantData.phone || '-'}</span>
                                                             </div>
                                                             <div className="sm:col-span-2 pt-2 border-t border-slate-200/50">
-                                                                <span className="text-[10px] font-bold uppercase tracking-wider text-teal-600 block mb-1">Bankverbindung & Hausanschrift (Datenschutz-Schutz)</span>
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-emerald block mb-1">Bankverbindung & Hausanschrift (Datenschutz-Schutz)</span>
                                                                 <p className="text-slate-500 text-xs mt-1 leading-relaxed font-medium">
                                                                     Aus Gründen des Datenschutzes haben wir Ihre <strong>Bankverbindung (IBAN)</strong>, Ihr <strong>Geburtsdatum</strong> sowie Ihre <strong>genaue Straße & Hausnummer</strong> online <strong>nicht</strong> abgefragt.
                                                                 </p>
@@ -1166,7 +1166,7 @@ function AuthorityAppInner() {
                                                             type="button"
                                                             onClick={handleGeneratePdf}
                                                             disabled={isGeneratingPdf}
-                                                            className="w-full py-5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl shadow-xl shadow-teal-600/20 hover:-translate-y-0.5 active:scale-[0.99] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-lg"
+                                                            className="w-full py-5 bg-brand-emerald hover:bg-[#4a6d55] text-white font-bold rounded-2xl shadow-xl shadow-brand-emerald/20 hover:-translate-y-0.5 active:scale-[0.99] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-lg"
                                                         >
                                                             {isGeneratingPdf ? (
                                                                 <>Wird generiert... <Loader2 className="w-6 h-6 animate-spin" /></>
@@ -1176,7 +1176,7 @@ function AuthorityAppInner() {
                                                         </button>
                                                         
                                                         <div className="flex items-center justify-center gap-3 mt-4 text-xs font-semibold text-slate-400 select-none">
-                                                            <Lock className="w-4 h-4 text-teal-600" />
+                                                            <Lock className="w-4 h-4 text-brand-emerald" />
                                                             <span>Zero-Knowledge: Die PDF-Befüllung erfolgt zu 100 % sicher auf Ihrem Gerät</span>
                                                         </div>
 
@@ -1193,7 +1193,7 @@ function AuthorityAppInner() {
                                                                 }));
                                                                 setView('main');
                                                             }}
-                                                            className="w-full mt-3 py-3 text-sm font-bold text-teal-700 hover:text-teal-800 hover:underline transition-colors cursor-pointer"
+                                                            className="w-full mt-3 py-3 text-sm font-bold text-[#4a6d55] hover:text-[#3a5443] hover:underline transition-colors cursor-pointer"
                                                         >
                                                             Lieber automatisch für mich ans Amt versenden lassen ➔
                                                         </button>
@@ -1203,8 +1203,8 @@ function AuthorityAppInner() {
 
                                             {/* Authority box inside the ready view */}
                                             {authority && (
-                                                <div className="bg-teal-50/40 border border-teal-500/10 rounded-3xl p-6 flex flex-col sm:flex-row gap-5 items-start">
-                                                    <div className="p-3 bg-white border border-teal-100 rounded-2xl text-teal-600 shadow-sm shrink-0">
+                                                <div className="bg-brand-emerald/10 border border-brand-emerald/10 rounded-3xl p-6 flex flex-col sm:flex-row gap-5 items-start">
+                                                    <div className="p-3 bg-white border border-brand-emerald/15 rounded-2xl text-brand-emerald shadow-sm shrink-0">
                                                         <Building2 className="w-6 h-6" />
                                                     </div>
                                                     <div>
@@ -1217,7 +1217,7 @@ function AuthorityAppInner() {
                                                         {authority.email && authority.email !== 'Nicht verfügbar' && (
                                                             <div className="mt-3 text-xs flex items-center gap-2">
                                                                 <span className="text-slate-400 font-bold uppercase tracking-wider text-[9px]">E-Mail für Anträge:</span>
-                                                                <span className="font-semibold text-slate-700 font-mono select-all bg-white px-2 py-0.5 rounded border border-teal-100/50">{authority.email}</span>
+                                                                <span className="font-semibold text-slate-700 font-mono select-all bg-white px-2 py-0.5 rounded border border-brand-emerald/15">{authority.email}</span>
                                                             </div>
                                                         )}
                                                     </div>
@@ -1230,8 +1230,8 @@ function AuthorityAppInner() {
                                             <div className="absolute inset-0 bg-grid-slate-200/[0.4] bg-[bottom_1px_center] opacity-30 pointer-events-none"></div>
                                             
                                             <div className="flex justify-between items-center pb-3 border-b border-slate-200 mb-4 relative z-10">
-                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileCheck className="w-4 h-4 text-teal-600" /> LIVE-VORSCHAU</span>
-                                                <span className="text-[9px] bg-teal-600/10 text-teal-700 px-2 py-0.5 rounded-full font-bold uppercase">Entwurf</span>
+                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileCheck className="w-4 h-4 text-brand-emerald" /> LIVE-VORSCHAU</span>
+                                                <span className="text-[9px] bg-brand-emerald/10 text-[#4a6d55] px-2 py-0.5 rounded-full font-bold uppercase">Entwurf</span>
                                             </div>
                                             
                                             <div className="bg-white border border-slate-200 shadow-lg rounded-xl p-5 flex-1 flex flex-col justify-between text-[8px] leading-normal text-slate-700 font-sans relative z-10 max-h-[360px] overflow-y-auto font-mono">
@@ -1288,7 +1288,7 @@ function AuthorityAppInner() {
                                 
                                 <div className="max-w-4xl mx-auto">
                                     <div className="text-center mb-8 mt-4">
-                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-600 text-[10px] font-bold uppercase tracking-widest mb-4">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald text-[10px] font-bold uppercase tracking-widest mb-4">
                                              Digitaler Antrags-Assistent ({benefitLabel})
                                         </div>
                                         <h2 className="text-3xl font-serif font-bold text-[#0F172A] mb-2">Offiziellen Antrag ausfüllen</h2>
@@ -1302,7 +1302,7 @@ function AuthorityAppInner() {
                                          </div>
                                          <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                                              <div 
-                                                 className="bg-teal-600 h-full transition-all duration-500 rounded-full"
+                                                 className="bg-brand-emerald h-full transition-all duration-500 rounded-full"
                                                  style={{ width: `${(assistantStep / 5) * 100}%` }}
                                              ></div>
                                          </div>
@@ -1321,7 +1321,7 @@ function AuthorityAppInner() {
                                                                     required
                                                                     value={assistantData.firstName}
                                                                     onChange={e => setAssistantData({...assistantData, firstName: e.target.value})}
-                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                     placeholder="z.B. Max"
                                                                 />
                                                            </div>
@@ -1332,7 +1332,7 @@ function AuthorityAppInner() {
                                                                     required
                                                                     value={assistantData.lastName}
                                                                     onChange={e => setAssistantData({...assistantData, lastName: e.target.value})}
-                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                     placeholder="z.B. Mustermann"
                                                                 />
                                                            </div>
@@ -1344,7 +1344,7 @@ function AuthorityAppInner() {
                                                                 required
                                                                 value={assistantData.birthDate}
                                                                 onChange={e => setAssistantData({...assistantData, birthDate: e.target.value})}
-                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                 placeholder="TT.MM.JJJJ (z.B. 15.08.1985)"
                                                            />
                                                       </div>
@@ -1356,7 +1356,7 @@ function AuthorityAppInner() {
                                                                     required
                                                                     value={assistantData.email}
                                                                     onChange={e => setAssistantData({...assistantData, email: e.target.value})}
-                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                     placeholder="ihre@email.de"
                                                                 />
                                                            </div>
@@ -1366,7 +1366,7 @@ function AuthorityAppInner() {
                                                                     type="tel" 
                                                                     value={assistantData.phone}
                                                                     onChange={e => setAssistantData({...assistantData, phone: e.target.value})}
-                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                    className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                     placeholder="0176..."
                                                                 />
                                                            </div>
@@ -1384,7 +1384,7 @@ function AuthorityAppInner() {
                                                                 required
                                                                 value={assistantData.street}
                                                                 onChange={e => setAssistantData({...assistantData, street: e.target.value})}
-                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                 placeholder="z.B. Hauptstraße 12"
                                                            />
                                                       </div>
@@ -1395,7 +1395,7 @@ function AuthorityAppInner() {
                                                                 required
                                                                 value={assistantData.zipCity}
                                                                 onChange={e => setAssistantData({...assistantData, zipCity: e.target.value})}
-                                                                className="w-full rounded-xl border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all font-medium"
+                                                                className="w-full rounded-xl border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all font-medium"
                                                                 placeholder="PLZ Ort"
                                                            />
                                                       </div>
@@ -1412,7 +1412,7 @@ function AuthorityAppInner() {
                                                                 type="text" 
                                                                 value={assistantData.kontoinhaber}
                                                                 onChange={e => setAssistantData({...assistantData, kontoinhaber: e.target.value})}
-                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                 placeholder={assistantData.firstName ? `${assistantData.firstName} ${assistantData.lastName}` : "Name des Inhabers"}
                                                            />
                                                       </div>
@@ -1422,7 +1422,7 @@ function AuthorityAppInner() {
                                                                 type="text" 
                                                                 value={assistantData.iban}
                                                                 onChange={e => setAssistantData({...assistantData, iban: e.target.value})}
-                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 p-3.5 shadow-sm transition-all"
+                                                                className="w-full rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 p-3.5 shadow-sm transition-all"
                                                                 placeholder="DE..."
                                                            />
                                                       </div>
@@ -1441,14 +1441,14 @@ function AuthorityAppInner() {
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, transferBenefit: 'yes'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.transferBenefit === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.transferBenefit === 'yes' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Ja
                                                                        </button>
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, transferBenefit: 'no'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.transferBenefit === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.transferBenefit === 'no' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Nein
                                                                        </button>
@@ -1460,14 +1460,14 @@ function AuthorityAppInner() {
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, isOwner: 'yes'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.isOwner === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.isOwner === 'yes' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Ja (Lastenzuschuss)
                                                                        </button>
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, isOwner: 'no'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.isOwner === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.isOwner === 'no' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Nein (Mietzuschuss)
                                                                        </button>
@@ -1482,14 +1482,14 @@ function AuthorityAppInner() {
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, hasCar: 'yes'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasCar === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasCar === 'yes' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Ja
                                                                        </button>
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, hasCar: 'no'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasCar === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasCar === 'no' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Nein
                                                                        </button>
@@ -1501,14 +1501,14 @@ function AuthorityAppInner() {
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, hasSavings: 'yes'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasSavings === 'yes' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasSavings === 'yes' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Ja
                                                                        </button>
                                                                        <button 
                                                                            type="button"
                                                                            onClick={() => setAssistantData({...assistantData, hasSavings: 'no'})}
-                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasSavings === 'no' ? 'border-teal-600 bg-teal-50 text-teal-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
+                                                                           className={`flex-1 py-3 border-2 rounded-xl font-bold transition-all cursor-pointer ${assistantData.hasSavings === 'no' ? 'border-brand-emerald bg-brand-emerald/10 text-[#4a6d55]' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}
                                                                        >
                                                                            Nein
                                                                        </button>
@@ -1523,7 +1523,7 @@ function AuthorityAppInner() {
                                                  <div className="space-y-6 animate-in fade-in duration-300">
                                                       <h3 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">5. Vorschau & Generierung</h3>
                                                       <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex gap-3">
-                                                           <ShieldCheck className="w-6 h-6 text-[#0D9488] shrink-0 mt-0.5" />
+                                                           <ShieldCheck className="w-6 h-6 text-[#5B8467] shrink-0 mt-0.5" />
                                                            <div className="text-xs text-emerald-800 font-medium leading-relaxed">
                                                                 <strong>Zero-Knowledge Verschlüsselung:</strong> Ihre Daten werden zu 100% lokal auf Ihrem Gerät verarbeitet und niemals an unsere Server gesendet. Die PDF-Erstellung geschieht direkt in Ihrem Browser.
                                                            </div>
@@ -1560,7 +1560,7 @@ function AuthorityAppInner() {
                                                          type="button"
                                                          onClick={handleGeneratePdf}
                                                          disabled={isGeneratingPdf}
-                                                         className="flex-1 py-3.5 bg-[#0D9488] hover:bg-teal-700 text-white font-bold rounded-xl shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                                         className="flex-1 py-3.5 bg-[#5B8467] hover:bg-[#4a6d55] text-white font-bold rounded-xl shadow-lg shadow-brand-emerald/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                                      >
                                                          {isGeneratingPdf ? (
                                                              <>Wird generiert... <Loader2 className="w-5 h-5 animate-spin" /></>
@@ -1576,8 +1576,8 @@ function AuthorityAppInner() {
                                               <div className="absolute inset-0 bg-grid-slate-200/[0.4] bg-[bottom_1px_center] opacity-30 pointer-events-none"></div>
                                               
                                               <div className="flex justify-between items-center pb-3 border-b border-slate-200 mb-4 relative z-10">
-                                                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileCheck className="w-4 h-4 text-[#0D9488]" /> LIVE-VORSCHAU</span>
-                                                   <span className="text-[9px] bg-teal-600/10 text-teal-700 px-2 py-0.5 rounded-full font-bold uppercase">Entwurf</span>
+                                                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileCheck className="w-4 h-4 text-[#5B8467]" /> LIVE-VORSCHAU</span>
+                                                   <span className="text-[9px] bg-brand-emerald/10 text-[#4a6d55] px-2 py-0.5 rounded-full font-bold uppercase">Entwurf</span>
                                               </div>
                                               
                                               <div className="bg-white border border-slate-200 shadow-lg rounded-xl p-5 flex-1 flex flex-col justify-between text-[8px] leading-normal text-slate-700 font-sans relative z-10 max-h-[320px] overflow-y-auto font-mono">
@@ -1627,19 +1627,19 @@ function AuthorityAppInner() {
                         )}
 
                         {view === 'assistant-success' && (
-                            <div className="col-span-1 md:col-span-2 bg-white border border-teal-500/30 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-teal-500/10 text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 text-left text-left">
+                            <div className="col-span-1 md:col-span-2 bg-white border border-brand-emerald/30 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-brand-emerald/10 text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 text-left text-left">
                                 <div className="absolute inset-0 bg-gradient-to-b from-[#f8fafc] to-white pointer-events-none"></div>
                                 <div className="relative z-10 flex flex-col items-center">
 
-                                    <div className="w-20 h-20 bg-[#0D9488] text-white rounded-full flex items-center justify-center mb-8 shadow-xl border-4 border-white ring-1 ring-slate-100 animate-bounce" style={{ animationDuration: '3s' }}>
+                                    <div className="w-20 h-20 bg-[#5B8467] text-white rounded-full flex items-center justify-center mb-8 shadow-xl border-4 border-white ring-1 ring-slate-100 animate-bounce" style={{ animationDuration: '3s' }}>
                                         <CheckCircle className="w-10 h-10" />
                                     </div>
                                     <h2 className="text-4xl font-serif font-bold text-[#0F172A] mb-4 text-center">Ihr Antrag ist fertig!</h2>
-                                    <p className="text-teal-600 mb-8 font-bold uppercase tracking-widest text-xs text-center">PDF-Dokument erfolgreich generiert</p>
+                                    <p className="text-brand-emerald mb-8 font-bold uppercase tracking-widest text-xs text-center">PDF-Dokument erfolgreich generiert</p>
 
                                     <div className="mb-10 w-full max-w-md mx-auto bg-slate-50 border border-slate-200/60 rounded-2xl p-6 text-left space-y-4 shadow-inner">
                                         <div className="flex items-start gap-3">
-                                            <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-teal-600 shadow-sm shrink-0"><Building2 className="w-5 h-5" /></div>
+                                            <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-brand-emerald shadow-sm shrink-0"><Building2 className="w-5 h-5" /></div>
                                             <div>
                                                 <h4 className="font-bold text-slate-800 text-sm">Empfänger (Zuständiges Amt)</h4>
                                                 <p className="text-slate-600 text-xs mt-0.5 leading-relaxed font-medium">
@@ -1651,7 +1651,7 @@ function AuthorityAppInner() {
                                         </div>
                                         {authority?.email && authority.email !== 'Nicht verfügbar' && (
                                             <div className="flex items-center gap-3 pt-3 border-t border-slate-200/60 text-xs">
-                                                <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-[#0D9488] shadow-sm shrink-0"><Mail className="w-5 h-5" /></div>
+                                                <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-[#5B8467] shadow-sm shrink-0"><Mail className="w-5 h-5" /></div>
                                                 <div>
                                                     <span className="block text-slate-400 font-bold uppercase tracking-wider text-[9px]">E-Mail für Anträge</span>
                                                     <span className="font-medium text-slate-700 select-all font-mono">{authority.email}</span>
@@ -1664,7 +1664,7 @@ function AuthorityAppInner() {
                                         {authority?.email && authority.email !== 'Nicht verfügbar' ? (
                                             <button
                                                 onClick={handleEmailAuthority}
-                                                className="px-6 py-4 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-500 transition-all shadow-lg hover:shadow-xl w-full flex justify-center items-center gap-2 group cursor-pointer"
+                                                className="px-6 py-4 bg-brand-emerald text-white rounded-xl font-bold hover:bg-brand-emerald transition-all shadow-lg hover:shadow-xl w-full flex justify-center items-center gap-2 group cursor-pointer"
                                             >
                                                 <Send className="w-5 h-5" />
                                                 <span>Antrag per E-Mail an das Amt senden</span>
@@ -1680,9 +1680,9 @@ function AuthorityAppInner() {
                                         )}
                                     </div>
 
-                                    <div className="bg-[#f8fafc] border-l-4 border-teal-500 p-6 w-full max-w-lg text-left shadow-sm rounded-r-xl">
+                                    <div className="bg-[#f8fafc] border-l-4 border-brand-emerald p-6 w-full max-w-lg text-left shadow-sm rounded-r-xl">
                                         <h4 className="font-bold text-[#0F172A] mb-2 flex items-center gap-2 font-serif text-sm">
-                                            <Info className="w-4 h-4 text-teal-600" /> Wie geht es jetzt weiter?
+                                            <Info className="w-4 h-4 text-brand-emerald" /> Wie geht es jetzt weiter?
                                         </h4>
                                         <ol className="text-slate-600 text-xs space-y-2 list-decimal list-inside font-medium leading-relaxed">
                                              <li><strong>PDF anhängen:</strong> Falls Sie oben auf "Per E-Mail senden" geklickt haben, öffnet sich Ihr Mail-Programm. Vergessen Sie nicht, das heruntergeladene PDF-Dokument an diese Mail anzuhängen!</li>

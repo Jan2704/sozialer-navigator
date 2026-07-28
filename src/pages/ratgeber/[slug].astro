@@ -16,7 +16,7 @@ const { Content } = await entry.render();
 const title = `${entry.data.title} | Sozialer Navigator Ratgeber`;
 ---
 
-<Layout title={title} description={entry.data.description} type="article" publishDate={entry.data.pubDate} author={entry.data.author}>
+<Layout title={title} description={entry.data.description} type="article" publishDate={entry.data.pubDate} author={entry.data.author} image={entry.data.image}>
   <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-6 relative">
       
       <!-- Progress Bar (Reading) -->
