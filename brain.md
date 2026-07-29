@@ -1,7 +1,7 @@
 # 🧠 The Brain: Sozialer Navigator (Project Intelligence)
 
 > **Status**: Active Development (Kostenloser Antrags-Flow & Render Backend Stabilisierung)
-> **Last Updated**: 2026-07-29
+> **Last Updated**: 2026-07-29 (dev-loop iteration)
 > **Focus**: Kostenloser Antragsversand, Rendert-Backend Stabilität, Multi-KI Handoff
 
 ## 1. 🎯 Top Priority Missions
@@ -11,6 +11,7 @@ What we are working on *right now*.
 - [x] **Partner Interface / API**: Implemented schema & integration (PartnerCTA).
 - [x] **Lead Nurturing Webhook**: Implemented secure API (`/api/leads`) to send user data to the automation workflow.
 - [x] **AVGS Monetization**: Refined funnel with "Recht statt Almosen" messaging & integrated into Results.
+- [x] **Content Hygiene Fix (2026-07-29)**: Found & fixed a leaked `// TODO: Faktencheck...` comment that was embedded inside a live, user-facing FAQ answer string on `/kindergeld/` (rendered on-page AND in FAQPage JSON-LD schema). Trimmed to the fact-checked, deadline/portal-name-free part of the sentence. Also removed a stale `// TODO: Verify logo path` comment in `src/components/seo/schema.astro` after confirming `public/logo.png` exists and the schema URL is correct. Verified via `npm run build` + independent subagent review.
 
 ## 2. 🗺️ Strategic Roadmap
 ### Phase 1: Core Foundation (Current)
