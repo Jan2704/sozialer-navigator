@@ -1,7 +1,7 @@
 # 🧠 The Brain: Sozialer Navigator (Project Intelligence)
 
 > **Status**: Active Development (Kostenloser Antrags-Flow & Render Backend Stabilisierung)
-> **Last Updated**: 2026-07-27
+> **Last Updated**: 2026-07-29
 > **Focus**: Kostenloser Antragsversand, Rendert-Backend Stabilität, Multi-KI Handoff
 
 ## 1. 🎯 Top Priority Missions
@@ -22,7 +22,8 @@ What we are working on *right now*.
 ### Phase 2: Authority & Trust (GEO Focused)
 - [x] **GEO-First Content**: Rewrite `/lexikon` intros as direct Q&A for AI.
 - [x] **Schema.org Optimization**: [CRITICAL] Implement `GovernmentService` and `FAQPage` schema.
-- [ ] **Social Proof**: Add trust badges and testimonials.
+- [x] **Social Proof (Trust Badges)**: `<TrustBadges />` (factual claims: kostenlos, DSGVO, Made in Germany, SSL) is now rendered on `index.astro` between the mission section and FAQ.
+- [ ] **Social Proof (Testimonials)**: `src/components/testimonials.astro` exists but is intentionally **not** wired in — it contains fabricated named customer quotes (Thomas W., Sabine K., Michael R.) with no real source. Owner decision (2026-07-29): do not publish as-is; needs either real customer testimonials or anonymized/generic placeholders before going live (risk: irreführende Werbung / UWG).
 
 ### Phase 3: Monetization Ecosystem
 - [x] **Partner API**: Secure lead transmission to legal/coaching partners.
