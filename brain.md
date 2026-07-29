@@ -24,6 +24,7 @@ What we are working on *right now*.
 - [x] **Schema.org Optimization**: [CRITICAL] Implement `GovernmentService` and `FAQPage` schema.
 - [x] **Social Proof (Trust Badges)**: `<TrustBadges />` (factual claims: kostenlos, DSGVO, Made in Germany, SSL) is now rendered on `index.astro` between the mission section and FAQ.
 - [ ] **Social Proof (Testimonials)**: `src/components/testimonials.astro` exists but is intentionally **not** wired in — it contains fabricated named customer quotes (Thomas W., Sabine K., Michael R.) with no real source. Owner decision (2026-07-29): do not publish as-is; needs either real customer testimonials or anonymized/generic placeholders before going live (risk: irreführende Werbung / UWG).
+- [ ] **Repo hygiene follow-up**: removed 25 stray dev-session artifacts (logs, scratch scripts, a 22MB `stripe.exe`) from git tracking on 2026-07-29, see commit history. Still tracked but same category of clutter, left for a future pass: `test_bat.bat`, `test_lead.js`, `verify_all_cities.js`, `verify_fix.js` at repo root.
 
 ### Phase 3: Monetization Ecosystem
 - [x] **Partner API**: Secure lead transmission to legal/coaching partners.

@@ -24,3 +24,17 @@ pnpm-debug.log*
 .idea/
 
 .vercel
+
+# local debug/verification output, not part of the app
+scratch/
+*.log
+build_*.txt
+check*.txt
+*_output.txt
+verification_*.txt
+video_transcript.txt
+fields.txt
+debug_*.txt
+debug_*.js
+*.exe
+*.zip
