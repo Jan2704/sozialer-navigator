@@ -8,12 +8,12 @@
 
 ## 1. 🎯 Top Priority Missions
 What we are working on *right now*.
-- [x] **Free application flow**: Automated PDF generation + email-to-authority + confirmation, fully free (Stripe paywall removed 2026-07-29). Entry point added from the free "Assistent" flow so it's actually reachable.
+- [x] **Free application flow**: Automated PDF generation + email-to-authority + confirmation, fully free (Stripe paywall removed 2026-07-29). **Product decision (2026-07-29, same day): entry point intentionally hidden again.** The code (`send-application.ts`, the `main`/`confirm` views in `authority-app.jsx`) stays in the repo for later — just unreachable from the UI. The only live send path right now is the self-service "Assistent" (user downloads the filled PDF and sends it themselves).
 - [x] **Kinderzuschlag calculation bug**: Backend had single/couple income thresholds inverted (single parents wrongly told they didn't qualify) and a stale max amount. Fixed.
 - [x] **Wohngeld calculation accuracy**: Backend (the *primary* live calculation path, not the JS fallback) used a crude heuristic that ignored Mietstufe entirely. Replaced with the real WoGG formula.
 - [x] **Admin security**: `/admin/dashboard` and `/admin/feedback` had zero access control and a hardcoded Supabase key in the page source. Now behind real auth (env-secret password, signed session cookie).
 - [ ] **Jobcenter/Wohngeldbehörde coverage**: Only **20 cities** have real authority contact data (`src/data/authorities.json`) against 400+ Land-/Stadtkreise in Germany. Outside those 20, the app falls back to "Amt nicht gefunden" — the free PDF still generates, but the "we find your exact office" promise doesn't hold nationally yet. This is a data-entry/partnership problem, not a code bug.
-- [ ] **RDG legal review** (unresolved, needs a lawyer, not an engineer): the app auto-generates and sends "formlose Anträge" to real authorities framed as acting "als Bote" (messenger) to stay outside the Rechtsdienstleistungsgesetz. Whether automated calculation + PDF generation + authority lookup + send still qualifies as "Botentätigkeit" vs. a licensable Rechtsdienstleistung has not been legally reviewed.
+- [ ] **RDG legal review**: lower urgency now that automated sending is disabled (see above) — the live flow is "we fill your PDF, you send it," which is a much safer framing than the previously-live "we email it to the authority for you." Still worth a lawyer's confirmation before ever re-enabling the automated-send entry point.
 
 ## 2. 🗺️ Strategic Roadmap
 ### Phase 1: Core Foundation
@@ -68,11 +68,19 @@ What we are working on *right now*.
 - **[PR #1](https://github.com/Jan2704/sozialer-navigator/pull/1)**: 2026-07-29 security/calculation/SEO/design audit — read this diff before touching auth, the Wohngeld formula, or the color tokens.
 
 ## 6. ⚠️ Known Open Risks (not code-fixable, need a human decision)
-- **Legal**: RDG framing of the automated application service is unreviewed (see §1).
+- **Legal**: lower priority now — see §1, automated sending is off.
 - **Coverage**: Authority database covers 20/400+ Kreise. Expanding this is data entry, not engineering.
-- **Business model**: No clear revenue path after the free pivot (see Phase 3).
+- **Business model**: no clear revenue path after the free pivot — owner's current lean is "free first, add a paid tier once there's traction," not decided in detail.
 - **Content/SEO**: 6 ratgeber + 18 lexikon entries, no city pages. Competing for "Förderungen" search terms against official government calculators requires months of content investment, not a code change.
 - **Multi-agent workflow**: Multiple AI sessions (Claude + Gemini/Antigravity per this file's own path references) commit directly to `main` without review. Consider routing changes through PRs going forward — this audit did, via [PR #1](https://github.com/Jan2704/sozialer-navigator/pull/1).
+
+## 7. 📌 Owner Product Decisions (2026-07-29)
+Explicit calls from the project owner — don't re-litigate these without asking:
+- **Brand name**: still genuinely undecided (Amtly vs. Sozialer Navigator). Don't force a resolution; keep using "Amtly" in new copy since that's what's already predominant, but no big rebrand push.
+- **Automated authority-send**: paused, not cancelled. Code stays, UI entry point hidden (see §1).
+- **Revenue model**: deferred — likely free-first-then-paid-later, not designed in detail yet. Don't build monetization features speculatively.
+- **Partnerships/Beziehungsarbeit** (Sozialverbände, Outplacement, etc.): deliberately deferred until SEO/organic traffic is bigger. Near-term focus stays on product + content, not outreach.
+- **Budget/timeline**: adaptive — scales with whether the work is visibly paying off, no fixed roadmap dates. Don't commit to calendar deadlines on the owner's behalf.
 
 ---
 *This file is the central nervous system of the project. Keep it updated — but only check a box after you've actually looked at the code, not the last time someone said it was done.*

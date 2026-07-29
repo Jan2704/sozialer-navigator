@@ -1179,24 +1179,9 @@ function AuthorityAppInner() {
                                                             <Lock className="w-4 h-4 text-brand-emerald" />
                                                             <span>Zero-Knowledge: Die PDF-Befüllung erfolgt zu 100 % sicher auf Ihrem Gerät</span>
                                                         </div>
-
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setFormData(prev => ({
-                                                                    ...prev,
-                                                                    firstName: assistantData.firstName || prev.firstName,
-                                                                    lastName: assistantData.lastName || prev.lastName,
-                                                                    email: assistantData.email || prev.email,
-                                                                    street: assistantData.street || prev.street,
-                                                                    zipCity: assistantData.zipCity || prev.zipCity,
-                                                                }));
-                                                                setView('main');
-                                                            }}
-                                                            className="w-full mt-3 py-3 text-sm font-bold text-[#4a6d55] hover:text-[#3a5443] hover:underline transition-colors cursor-pointer"
-                                                        >
-                                                            Lieber automatisch für mich ans Amt versenden lassen ➔
-                                                        </button>
+                                                        {/* Automated-send entry point intentionally hidden (2026-07-29 product decision) —
+                                                            the 'main'/'confirm' views and send-application.ts stay in the codebase for later,
+                                                            just unreachable from the UI. See brain.md. */}
                                                     </div>
                                                 </>
                                             )}
