@@ -257,12 +257,8 @@ import PartnerCTA from './partner-cta.astro';
 </section>
 
 <script>
-    console.log("ResultsSection: Script initializing...");
-
     // 1. DEFINE SHOWVIEW GLOBALLY FIRST (Critical for Navigation)
     window.showView = (viewId) => {
-        console.log("showView called for:", viewId);
-        
         const homeView = document.getElementById('view-home');
         const resultsView = document.getElementById('view-results');
 
@@ -291,8 +287,6 @@ import PartnerCTA from './partner-cta.astro';
 
     // 2. MAIN EVENT LISTENER
     window.addEventListener('benefit-calculation-completed', async (event) => {
-        console.log("ResultsSection: Event Received", event.detail);
-        
         // Save for React components (AuthorityApp)
         window.lastCalculationResult = event.detail;
 

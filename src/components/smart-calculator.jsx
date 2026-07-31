@@ -394,7 +394,6 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         ? 'http://localhost:8000/api/v4/analyze'
         : 'https://sozialer-navigator-api.onrender.com/api/v4/analyze';
 
-      console.log("Fetching calculation from backend API:", apiUrl, payload);
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -411,7 +410,6 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       }
 
       const data = await response.json();
-      console.log("Calculation success from API:", data);
 
       const bgRes = (data.results || []).find(r => r.type === "SGB2");
       const wgRes = (data.results || []).find(r => r.type === "WOHNGELD");
