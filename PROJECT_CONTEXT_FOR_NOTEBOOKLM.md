@@ -34,8 +34,7 @@ The project is a **modern static/hybrid web application** built for performance 
 │   ├── components/         # Reusable UI (ResultsSection, SmartCalculator)
 │   ├── layouts/            # Page shells (Layout.astro)
 │   ├── logic/              # CORE BUSINESS LOGIC
-│   │   ├── calculator-2026.js  # The official WoGG 2026 formula & Rent Limits
-│   │   └── client-calculator.js # Input handling & state management
+│   │   └── calculator-2026.js  # The official WoGG 2026 formula & Rent Limits
 │   ├── pages/              # Routing
 │   │   ├── index.astro     # Homepage (Calculator + Landing)
 │   │   ├── [citySlug]/     # Dynamic City Pages (Local SEO)
@@ -86,6 +85,6 @@ Refer to `SCHEMA_STRATEGY.md` for details.
 
 ## 7. Workflow for Changes
 1.  **Content**: Edit `src/pages/*.astro` files.
-2.  **Logic**: Edit `src/logic/calculator-2026.js` (Server/Core) or `client-calculator.js` (UI State).
+2.  **Logic**: Edit `src/logic/calculator-2026.js`.
 3.  **Styling**: Use Tailwind classes. Only touch `global.css` for animations/resets.
 4.  **Deployment**: Vercel (Auto-builds on push).
