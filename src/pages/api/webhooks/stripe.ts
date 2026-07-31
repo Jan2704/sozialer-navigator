@@ -32,7 +32,10 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     let event;
-    const isLocal = request.url.includes('localhost');
+    // Use the actual hostname, not a substring match on the full URL — the
+    // latter can be spoofed by an attacker appending e.g. "?x=localhost" to
+    // the request URL, bypassing signature verification in production.
+    const isLocal = ['localhost', '127.0.0.1'].includes(new URL(request.url).hostname);
 
     try {
         const body = await request.text();
