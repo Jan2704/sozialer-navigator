@@ -38,3 +38,6 @@ debug_*.txt
 debug_*.js
 *.exe
 *.zip
+*.bat
+/test_*.js
+/verify_*.js

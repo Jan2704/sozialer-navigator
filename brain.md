@@ -1,7 +1,7 @@
 # 🧠 The Brain: Sozialer Navigator (Project Intelligence)
 
 > **Status**: Active Development (Kostenloser Antrags-Flow & Render Backend Stabilisierung)
-> **Last Updated**: 2026-07-29 (dev-loop iteration)
+> **Last Updated**: 2026-07-31 (dev-loop iteration)
 > **Focus**: Kostenloser Antragsversand, Rendert-Backend Stabilität, Multi-KI Handoff
 
 ## 1. 🎯 Top Priority Missions
@@ -25,7 +25,7 @@ What we are working on *right now*.
 - [x] **Schema.org Optimization**: [CRITICAL] Implement `GovernmentService` and `FAQPage` schema.
 - [x] **Social Proof (Trust Badges)**: `<TrustBadges />` (factual claims: kostenlos, DSGVO, Made in Germany, SSL) is now rendered on `index.astro` between the mission section and FAQ.
 - [ ] **Social Proof (Testimonials)**: `src/components/testimonials.astro` exists but is intentionally **not** wired in — it contains fabricated named customer quotes (Thomas W., Sabine K., Michael R.) with no real source. Owner decision (2026-07-29): do not publish as-is; needs either real customer testimonials or anonymized/generic placeholders before going live (risk: irreführende Werbung / UWG).
-- [ ] **Repo hygiene follow-up**: removed 25 stray dev-session artifacts (logs, scratch scripts, a 22MB `stripe.exe`) from git tracking on 2026-07-29, see commit history. Still tracked but same category of clutter, left for a future pass: `test_bat.bat`, `test_lead.js`, `verify_all_cities.js`, `verify_fix.js` at repo root.
+- [x] **Repo hygiene follow-up (2026-07-31)**: removed the remaining stray root-level dev-scratch scripts flagged on 2026-07-29 — `test_bat.bat`, `test_lead.js`, `verify_all_cities.js`, `verify_fix.js` — plus two more of the identical category found during this pass, `test_stripe.js` and `test_fictitious_person.js` (manual localhost-only smoke scripts, unreferenced by app code/build/docs). Added `*.bat`, `/test_*.js`, `/verify_*.js` to `.gitignore` to prevent recurrence (root-anchored, doesn't touch `src/`). Verified via `git grep` (no references anywhere outside brain.md's own note) + `npm run build` + independent subagent review. Not in scope for this pass (deliberately left alone, different risk profile): `backend/` (Python service + `__pycache__`), root `.cjs`/PDF-extraction utility scripts, and generated `*.pdf`/`*.json` sample files — these look like they could still be in active use and warrant a dedicated look rather than a drive-by deletion.
 
 ### Phase 3: Monetization Ecosystem
 - [x] **Partner API**: Secure lead transmission to legal/coaching partners.
