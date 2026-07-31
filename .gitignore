@@ -41,3 +41,4 @@ debug_*.js
 *.bat
 /test_*.js
 /verify_*.js
+/*_status.json
