@@ -1,6 +1,7 @@
 export const prerender = false; // Disable prereader for dynamic API route
 import type { APIRoute, APIContext } from "astro";
 import { createClient } from '@supabase/supabase-js';
+import { checkRateLimit, rateLimitResponse } from '../../lib/rate-limit';
 
 // Environment variables (ensure these are set in your .env or platform)
 const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL || process.env.PUBLIC_SUPABASE_URL;
@@ -13,6 +14,11 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const stripControlChars = (str: string) => str.replace(/[\r\n]/g, '').trim();
 
 export const POST: APIRoute = async ({ request }: APIContext) => {
+    const rl = checkRateLimit(request, { limit: 10, windowMs: 60_000, scope: 'leads' });
+    if (!rl.allowed) {
+        return rateLimitResponse(rl.retryAfterSeconds);
+    }
+
     try {
         const data = await request.json();
 

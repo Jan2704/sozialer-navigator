@@ -3,10 +3,16 @@ import type { APIRoute } from "astro";
 import { sendEmail } from "../../lib/email";
 import { generateApplicationPdf } from "../../lib/pdf-generator";
 import { escapeHtml } from "../../lib/html-escape";
+import { checkRateLimit, rateLimitResponse } from "../../lib/rate-limit";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const POST: APIRoute = async ({ request }) => {
+    const rl = checkRateLimit(request, { limit: 3, windowMs: 10 * 60_000, scope: 'send-application' });
+    if (!rl.allowed) {
+        return rateLimitResponse(rl.retryAfterSeconds);
+    }
+
     try {
         const data = await request.json();
         const stripControlChars = (value: unknown) =>

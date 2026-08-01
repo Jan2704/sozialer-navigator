@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
+import { checkRateLimit, rateLimitResponse } from '../../lib/rate-limit';
 
 const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL || process.env.PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || process.env.PUBLIC_SUPABASE_ANON_KEY;
@@ -12,6 +13,11 @@ const stripControlChars = (value: unknown) =>
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export const POST: APIRoute = async ({ request }) => {
+    const rl = checkRateLimit(request, { limit: 10, windowMs: 60_000, scope: 'wba-reminder' });
+    if (!rl.allowed) {
+        return rateLimitResponse(rl.retryAfterSeconds);
+    }
+
     try {
         const data = await request.json();
         const name = stripControlChars(data.name);
