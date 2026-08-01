@@ -1,46 +1,51 @@
-# Astro Starter Kit: Basics
+# Sozialer Navigator
 
-```sh
-npm create astro@latest -- --template basics
-```
+A German social-benefits guidance site: an interactive calculator for Wohngeld and Bürgergeld 2026, a Jobcenter/Wohngeldbehörde authority search, and an application (Antrag) flow that lets users submit their forms for free or via a paid, assisted PDF package.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Tech Stack
 
-## 🚀 Project Structure
+- **[Astro 5](https://astro.build)** — hybrid rendering (static content + server endpoints), deployed on Vercel (`@astrojs/vercel`)
+- **React** — interactive islands (calculator, authority search, chat widget, PDF tools)
+- **Tailwind CSS v4** — styling, configured in `tailwind.config.mjs`
+- **Supabase** — data/auth backend
+- **Stripe** — paid PDF package checkout
+- **Resend** — transactional email
+- **pdf-lib / html2pdf.js** — PDF generation and filling
+- A separate **Python backend** (`backend/`) with its own PDF-generation/rules engine
 
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
 ```text
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── src/
+│   ├── pages/            # Astro routes (index, lexikon, ratgeber, kindergeld, admin, ...)
+│   │   └── api/           # Server endpoints: leads, checkout, chat, send-application,
+│   │                       #   webhooks/, cron/
+│   ├── components/        # Astro + React components (calculator, authority search,
+│   │                       #   PDF template, results, nav, footer, ...)
+│   ├── logic/              # Benefit calculation logic (calculator-2026.js, benefit-engine.js, ...)
+│   ├── data/               # Static datasets: authorities, cities, benefits, FAQs, Wohngeld data
+│   ├── layouts/, styles/, lib/, utils/, content/
+├── backend/                # Python service: PDF generation & rules engine (main.py, engine.py)
+├── public/                 # Static assets (images, downloadable forms, icons)
+├── supabase/               # Supabase config/migrations
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Commands
 
-## 🧞 Commands
+All commands are run from the root of the project:
 
-All commands are run from the root of the project, from a terminal:
+| Command           | Action                                       |
+| :----------------- | :-------------------------------------------- |
+| `npm install`       | Installs dependencies                         |
+| `npm run dev`       | Starts local dev server at `localhost:4321`    |
+| `npm run build`     | Builds the production site to `./dist/`        |
+| `npm run preview`   | Previews the build locally, before deploying   |
+| `npm run astro ...` | Runs Astro CLI commands (e.g. `astro check`)   |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+The `backend/` Python service has its own dependencies — see `backend/requirements.txt`.
 
-## 👀 Want to learn more?
+## Learn More
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+For project context beyond this README — purpose, roadmap, design philosophy, and calculation/data rules — see [`brain.md`](./brain.md), the project's living documentation. For Astro-specific questions, see the [Astro docs](https://docs.astro.build).
