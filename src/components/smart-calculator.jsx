@@ -63,7 +63,11 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
   const [isSingleParent, setIsSingleParent] = useState(false);
   const [childSupportReceived, setChildSupportReceived] = useState("none");
   const [childOwnIncome, setChildOwnIncome] = useState("");
-  const [isPregnantOrNewborn, setIsPregnantOrNewborn] = useState(false);
+  // "none" | "pregnant" | "newborn" - kept distinct because the SGB2 Mehrbedarf
+  // Schwangerschaft surcharge may only legally apply while still pregnant, not
+  // once the child is already born (see brain.md).
+  const [pregnancyStatus, setPregnancyStatus] = useState("none");
+  const isPregnantOrNewborn = pregnancyStatus !== "none";
   const [netIncomeBeforeBirth, setNetIncomeBeforeBirth] = useState("");
   const [elterngeldOption, setElterngeldOption] = useState("basis");
 
@@ -340,6 +344,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         role: "main",
         age: parseInt(age) || 30,
         is_single_parent: isSingleParent,
+        is_pregnant: pregnancyStatus === "pregnant",
         incomes: (mainIncomeBrutto > 0 || mainIncomeNetto > 0) ? [
           { amount_brutto: mainIncomeBrutto, amount_net: mainIncomeNetto }
         ] : []
@@ -1144,19 +1149,24 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
               </div>
             )}
 
-            {/* Pregnancy Checkbox */}
+            {/* Pregnancy / Newborn Status */}
             <div className={cn("p-5 border rounded-2xl space-y-4 text-left transition-colors", isDark ? "bg-slate-900/40 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  id="pregnant-newborn"
-                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
-                  checked={isPregnantOrNewborn}
-                  onChange={(e) => setIsPregnantOrNewborn(e.target.checked)}
-                />
-                <label htmlFor="pregnant-newborn" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+              <div className="space-y-2">
+                <label className={cn("text-sm font-semibold select-none block", isDark ? "text-slate-300" : "text-slate-700")}>
                   Schwangerschaft oder Kind unter 14 Monate alt? <InfoTooltip text="für Elterngeld" />
                 </label>
+                <div className="relative">
+                  <select
+                    className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
+                    value={pregnancyStatus}
+                    onChange={(e) => setPregnancyStatus(e.target.value)}
+                  >
+                    <option value="none">Nein</option>
+                    <option value="pregnant">Ja, ich bin schwanger</option>
+                    <option value="newborn">Ja, mein Kind ist bereits geboren (unter 14 Monate)</option>
+                  </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                </div>
               </div>
 
               {isPregnantOrNewborn && (
