@@ -2,14 +2,21 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { sendEmail } from "../../lib/email";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export const POST: APIRoute = async ({ request }) => {
     try {
         const formData = await request.formData();
-        const email = formData.get('email') as string;
+        const rawEmail = formData.get('email') as string;
+        const email = rawEmail ? rawEmail.replace(/[\r\n]+/g, '').trim() : rawEmail;
         const pdfBlob = formData.get('pdf') as Blob;
 
         if (!email || !pdfBlob) {
             return new Response(JSON.stringify({ error: 'Email oder PDF fehlt.' }), { status: 400 });
+        }
+
+        if (!EMAIL_REGEX.test(email)) {
+            return new Response(JSON.stringify({ error: 'Ungültige E-Mail-Adresse.' }), { status: 400 });
         }
 
         const pdfBuffer = await pdfBlob.arrayBuffer();
