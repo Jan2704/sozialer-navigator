@@ -53,10 +53,3 @@ class HouseholdRequest(BaseModel):
     owns_property: bool = False
     
     members: List[Person]
-
-class LeadRequest(BaseModel):
-    firstname: str
-    lastname: str
-    email: str
-    phone: Optional[str] = None
-    type: Literal["avgs", "kiz", "legal", "ablehnung", "other"] = "other"
