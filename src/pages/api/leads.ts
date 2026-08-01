@@ -9,25 +9,44 @@ const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/b62o727sba6wjwjbbbpmbqbq35tk
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const stripControlChars = (str: string) => str.replace(/[\r\n]/g, '').trim();
+
 export const POST: APIRoute = async ({ request }: APIContext) => {
     try {
         const data = await request.json();
+
+        const first_name = data.first_name ? stripControlChars(String(data.first_name)) : data.first_name;
+        const last_name = data.last_name ? stripControlChars(String(data.last_name)) : data.last_name;
+        const email = data.email ? stripControlChars(String(data.email)) : data.email;
+        const interest = data.interest ? stripControlChars(String(data.interest)) : data.interest;
+        const city = data.city ? stripControlChars(String(data.city)) : data.city;
+        const modal_type = data.modal_type ? stripControlChars(String(data.modal_type)) : data.modal_type;
+        const partner_vertical = data.partner_vertical ? stripControlChars(String(data.partner_vertical)) : data.partner_vertical;
+
+        if (!first_name || !email || !interest || !modal_type) {
+            return new Response(JSON.stringify({ error: 'Fehlende Daten (Name, E-Mail, Interesse oder Modal-Typ).' }), { status: 400 });
+        }
+
+        if (!EMAIL_REGEX.test(email)) {
+            return new Response(JSON.stringify({ error: 'Ungültige E-Mail-Adresse.' }), { status: 400 });
+        }
 
         // 1. Insert into Supabase
         const { error } = await supabase
             .from('leads')
             .insert([
                 {
-                    first_name: data.first_name,
-                    last_name: data.last_name,
-                    email: data.email,
+                    first_name,
+                    last_name,
+                    email,
                     phone: data.phone || null,
-                    interest: data.interest,
-                    city: data.city || 'Unbekannt',
+                    interest,
+                    city: city || 'Unbekannt',
                     source: data.source || 'website-api',
-                    modal_type: data.modal_type,
+                    modal_type,
                     // Partner / Monetization Fields
-                    partner_vertical: data.partner_vertical || null, // 'legal', 'coaching', etc.
+                    partner_vertical: partner_vertical || null, // 'legal', 'coaching', etc.
                     consent_partner_transfer: data.consent_partner_transfer || false
                 }
             ]);
