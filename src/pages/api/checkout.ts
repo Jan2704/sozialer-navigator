@@ -1,10 +1,16 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import Stripe from 'stripe';
+import { checkRateLimit, rateLimitResponse } from "../../lib/rate-limit";
 
 const STRIPE_SECRET_KEY = import.meta.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY;
 
 export const POST: APIRoute = async ({ request, url }) => {
+    const rl = checkRateLimit(request, { limit: 5, windowMs: 60_000, scope: 'checkout' });
+    if (!rl.allowed) {
+        return rateLimitResponse(rl.retryAfterSeconds);
+    }
+
     if (!STRIPE_SECRET_KEY) {
         return new Response(JSON.stringify({ error: 'Server Konfiguration Fehler: STRIPE_SECRET_KEY fehlt.' }), { status: 500 });
     }
