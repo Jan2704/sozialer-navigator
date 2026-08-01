@@ -3,7 +3,12 @@ import type { APIRoute } from "astro";
 import Stripe from 'stripe';
 import { sendEmail } from "../../../lib/email";
 import { generateApplicationPdf } from "../../../lib/pdf-generator";
+import { escapeHtml } from "../../../lib/html-escape";
 import { createClient } from '@supabase/supabase-js';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const stripControlChars = (value: unknown) =>
+    typeof value === 'string' ? value.replace(/[\r\n]+/g, ' ').trim() : value;
 
 // Initialize Configs
 const STRIPE_SECRET_KEY = import.meta.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY;
@@ -75,7 +80,16 @@ export const POST: APIRoute = async ({ request }) => {
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     const metadata = session.metadata || {};
-    const { firstName, lastName, authority, authorityEmail, type, street, zipCity, benefitLabel } = metadata;
+    const { type } = metadata;
+    // Stripe metadata is client-controlled (set verbatim from the checkout request body in
+    // checkout.ts) — strip CR/LF before it reaches email subject lines or HTML bodies below.
+    const firstName = stripControlChars(metadata.firstName);
+    const lastName = stripControlChars(metadata.lastName);
+    const authority = stripControlChars(metadata.authority);
+    const authorityEmail = stripControlChars(metadata.authorityEmail);
+    const street = stripControlChars(metadata.street);
+    const zipCity = stripControlChars(metadata.zipCity);
+    const benefitLabel = stripControlChars(metadata.benefitLabel);
     const customerEmail = session.customer_details?.email || session.customer_email;
 
     if (type !== 'application_service') {
@@ -169,9 +183,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
         to: customerEmail!,
         subject: 'Zahlung bestätigt: Ihr Antrag beim Sozialen Navigator',
         html: `
-            <h1>Vielen Dank, ${firstName}!</h1>
+            <h1>Vielen Dank, ${escapeHtml(firstName)}!</h1>
             <p>Wir haben Ihre Zahlung erhalten und den Prozess in Gang gesetzt.</p>
-            <p>Ihr Antrag für <strong>${authority}</strong> lautet auf: ${benefitLabel}.</p>
+            <p>Ihr Antrag für <strong>${escapeHtml(authority)}</strong> lautet auf: ${escapeHtml(benefitLabel)}.</p>
             <br>
             ${pdfBuffer
                 ? '<p>Anbei finden Sie eine Kopie des generierten Antrags, den wir in Ihrem Namen an die Behörde senden.</p>'
@@ -180,9 +194,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
             <br>
             <p><strong>Ihre übermittelten Daten:</strong></p>
             <ul>
-                <li>Behörde: ${authority}</li>
-                <li>E-Mail der Behörde: ${authorityEmail} (Versandziel)</li>
-                <li>Ihre Adresse: ${street}, ${zipCity}</li>
+                <li>Behörde: ${escapeHtml(authority)}</li>
+                <li>E-Mail der Behörde: ${escapeHtml(authorityEmail)} (Versandziel)</li>
+                <li>Ihre Adresse: ${escapeHtml(street)}, ${escapeHtml(zipCity)}</li>
             </ul>
             <p>Mit freundlichen Grüßen,</p>
             <p>Das Team vom Sozialen Navigator</p>
@@ -208,7 +222,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
     let authoritySent = false;
 
-    if (pdfBuffer && targetAuthorityEmail && targetAuthorityEmail.includes('@')) {
+    if (pdfBuffer && targetAuthorityEmail && EMAIL_REGEX.test(targetAuthorityEmail)) {
         try {
             await sendEmail({
                 to: targetAuthorityEmail,
@@ -220,7 +234,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
                      <p>Bitte bestätigen Sie mir den Eingang dieses Antrags und den Zeitpunkt des Eingangs.</p>
                      <br>
                      <p>Mit freundlichen Grüßen,</p>
-                     <p>${firstName} ${lastName}</p>
+                     <p>${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
                      <br>
                      <hr>
                      <p style="font-size: 10px; color: #666;">
@@ -254,15 +268,15 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
         html: `
             <h2>${adminActionRequired ? '⚠️ ACTION REQUIRED: Konnte nicht an Amt gesendet werden!' : '✅ Erfolgreicher automatischer Versand'}</h2>
             <ul>
-                <li><strong>Kunde:</strong> ${firstName} ${lastName}</li>
-                <li><strong>Email:</strong> ${customerEmail}</li>
-                <li><strong>Leistung:</strong> ${benefitLabel}</li>
-                <li><strong>Amt:</strong> ${authority}</li>
-                <li><strong>Amt Email:</strong> <a href="mailto:${authorityEmail}">${authorityEmail}</a></li>
-                <li><strong>Kunden-Adresse:</strong> ${street}, ${zipCity}</li>
-                <li><strong>Stripe Session:</strong> ${session.id}</li>
+                <li><strong>Kunde:</strong> ${escapeHtml(firstName)} ${escapeHtml(lastName)}</li>
+                <li><strong>Email:</strong> ${escapeHtml(customerEmail)}</li>
+                <li><strong>Leistung:</strong> ${escapeHtml(benefitLabel)}</li>
+                <li><strong>Amt:</strong> ${escapeHtml(authority)}</li>
+                <li><strong>Amt Email:</strong> <a href="mailto:${escapeHtml(authorityEmail)}">${escapeHtml(authorityEmail)}</a></li>
+                <li><strong>Kunden-Adresse:</strong> ${escapeHtml(street)}, ${escapeHtml(zipCity)}</li>
+                <li><strong>Stripe Session:</strong> ${escapeHtml(session.id)}</li>
             </ul>
-            ${pdfGenerationError ? `<p style="color:red;"><strong>PDF Generator Fehler:</strong> ${pdfGenerationError}</p>` : ''}
+            ${pdfGenerationError ? `<p style="color:red;"><strong>PDF Generator Fehler:</strong> ${escapeHtml(pdfGenerationError)}</p>` : ''}
             <h3>Status:</h3>
             <p>
                PDF generiert: ${pdfBuffer ? 'JA' : 'NEIN'}<br>
@@ -300,8 +314,8 @@ async function sendAdminAlert(session: any, error: any) {
             subject: `[ALARM] Webhook Error for ${session.id}`,
             html: `
                 <h1>Webhook Processing Failed</h1>
-                <p>Error: ${JSON.stringify(error, Object.getOwnPropertyNames(error))}</p>
-                <p>Session: ${JSON.stringify(session)}</p>
+                <p>Error: ${escapeHtml(JSON.stringify(error, Object.getOwnPropertyNames(error)))}</p>
+                <p>Session: ${escapeHtml(JSON.stringify(session))}</p>
             `
         });
     } catch (e) {
