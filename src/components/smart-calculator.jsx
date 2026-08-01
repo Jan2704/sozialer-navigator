@@ -338,6 +338,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
     const mainIncomeBrutto = parseFloat(income) || 0;
     const mainIncomeNetto = parseFloat(netIncome) || 0;
+    // Bestimmt, ob der gestaffelte Erwerbstätigenfreibetrag greift (Backend unterscheidet danach).
+    const mainIncomeSourceType = status === "pensioner" ? "pension" : (status === "self_employed" ? "self_employed" : "employment");
 
     const members = [
       {
@@ -346,8 +348,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         is_single_parent: isSingleParent,
         is_pregnant: pregnancyStatus === "pregnant",
         is_disabled: hasDisability,
+        is_retired: status === "pensioner",
+        is_student: status === "student",
         incomes: (mainIncomeBrutto > 0 || mainIncomeNetto > 0) ? [
-          { amount_brutto: mainIncomeBrutto, amount_net: mainIncomeNetto }
+          { amount_brutto: mainIncomeBrutto, amount_net: mainIncomeNetto, source_type: mainIncomeSourceType }
         ] : []
       }
     ];

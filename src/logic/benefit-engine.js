@@ -102,7 +102,7 @@ const KinderzuschlagModule = {
     id: "kinderzuschlag",
     name: "Kinderzuschlag",
     category: "Familie",
-    isRelevant: (input) => (parseInt(input.kids) || 0) > 0,
+    isRelevant: (input) => (parseInt(input.kids) || 0) > 0 && input.status !== "asylum_seeker",
     calculate: (input) => {
         const kidsCount = parseInt(input.kids) || 0;
         const parentsCount = Math.max(1, (parseInt(input.persons) || 1) - kidsCount);
@@ -160,7 +160,7 @@ const WohngeldModule = {
     id: "wohngeld",
     name: "Wohngeld (Mietzuschuss)",
     category: "Wohnen",
-    isRelevant: (input) => input.housingType !== "Eigentum" && input.status !== "student",
+    isRelevant: (input) => input.housingType !== "Eigentum" && input.status !== "student" && input.status !== "asylum_seeker",
     calculate: (input) => {
         if (input.hasHighAssets) {
             return { eligible: "none", amount: 0, type: "Wohngeld", reasoning: "Aufgrund Ihres Schonvermögens (>60k €) besteht kein Anspruch." };
@@ -196,7 +196,7 @@ const LastenzuschussModule = {
     id: "lastenzuschuss",
     name: "Lastenzuschuss",
     category: "Wohnen",
-    isRelevant: (input) => input.housingType === "Eigentum" && input.status !== "student",
+    isRelevant: (input) => input.housingType === "Eigentum" && input.status !== "student" && input.status !== "asylum_seeker",
     calculate: (input) => {
         if (input.hasHighAssets) {
             return { eligible: "none", amount: 0, type: "Lastenzuschuss", reasoning: "Aufgrund Ihres Schonvermögens (>60k €) besteht kein Anspruch." };
@@ -296,7 +296,7 @@ const BuergergeldModule = {
     id: "buergergeld",
     name: "Bürgergeld",
     category: "Grundsicherung",
-    isRelevant: (input) => input.status !== "student" && input.status !== "pensioner" && input.age < 65,
+    isRelevant: (input) => input.status !== "student" && input.status !== "pensioner" && input.status !== "asylum_seeker" && input.age < 65,
     calculate: (input) => {
         if (input.hasHighAssets) {
             return { eligible: "none", amount: 0, type: "Bürgergeld", reasoning: "Bürgergeld ist wegen Überschreitung der Vermögensgrenze (40k €) ausgeschlossen." };

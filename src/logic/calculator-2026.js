@@ -189,7 +189,7 @@ export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 56
     if (status === 'pensioner') {
         // Renten sind oft brutto fast netto (nur KV/PV Abzüge)
         nettoFactor = 0.89;
-    } else if (status === 'self-employed') {
+    } else if (status === 'self_employed') {
         // Einkommen ist oft Gewinn vor Steuern
         nettoFactor = 0.80;
     } else {
@@ -306,7 +306,7 @@ export function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mi
     if (status === 'pensioner') {
         // Rentner zahlen meist nur Kranken-/Pflegeversicherung: 10% Abzug
         pauschale = 0.9;
-    } else if (status === 'self-employed') {
+    } else if (status === 'self_employed') {
         // Selbstständige zahlen meist KV/PV und Steuer, aber keine Pflicht-RV: 20% Abzug
         pauschale = 0.8;
     }
@@ -433,7 +433,7 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
 
     if (status === 'pensioner') {
         nettoFactor = 0.89;
-    } else if (status === 'self-employed') {
+    } else if (status === 'self_employed') {
         nettoFactor = 0.80;
     } else {
         const isFamily = (kids > 0 || persons > 1);
