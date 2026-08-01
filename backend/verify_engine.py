@@ -1,6 +1,18 @@
 import json
+import sys
 from models import HouseholdRequest, Person, IncomeSource, IncomeType, TerminationReason
 from engine import SocialRuleEngine
+
+FAILURES = []
+
+def check(label, actual, expected, tolerance=0.01):
+    """Assert actual == expected (numeric values compared with tolerance). Records
+    failures instead of raising immediately, so one bad case doesn't hide the rest."""
+    ok = abs(actual - expected) <= tolerance if isinstance(expected, (int, float)) else actual == expected
+    status = "OK" if ok else "FAIL"
+    print(f"  [{status}] {label}: expected={expected!r} actual={actual!r}")
+    if not ok:
+        FAILURES.append(f"{label}: expected {expected!r}, got {actual!r}")
 
 def run_tests():
     print("[TEST] Starting Rules Engine Verification Tests...\n")
@@ -24,6 +36,12 @@ def run_tests():
     print(f"Reason: {res1['sgb2']['reason']}")
     print(f"Kindergeld: Amount = {res1['kindergeld']['amount']} EUR | Status = {res1['kindergeld']['status']}")
     print(f"Reason: {res1['kindergeld']['reason']}")
+    # Regression guard: a single parent (no partner) must get the RBS 1 (single) base
+    # rate, not the RBS 2 (couple) rate — see the 2026-08-01 dev-loop iteration 16 fix.
+    check("Test 1: SGB2 status", res1['sgb2']['status'], "eligible")
+    check("Test 1: SGB2 amount (RBS 1 single-parent rate)", res1['sgb2']['amount'], 1902.68)
+    check("Test 1: Kindergeld status", res1['kindergeld']['status'], "eligible")
+    check("Test 1: Kindergeld amount", res1['kindergeld']['amount'], 250.0)
     print("")
 
     # TEST CASE 2: Low-income family of 4 (Main: 40y (1500€ net/1800€ brutto), Partner: 38y (none), Child 1: 8y, Child 2: 12y)
@@ -51,6 +69,12 @@ def run_tests():
     print(f"Reason: {res2['kindergeld']['reason']}")
     print(f"Kinderzuschlag: Amount = {res2['kinderzuschlag']['amount']} EUR | Status = {res2['kinderzuschlag']['status']}")
     print(f"Reason: {res2['kinderzuschlag']['reason']}")
+    check("Test 2: SGB2 status", res2['sgb2']['status'], "eligible")
+    check("Test 2: SGB2 amount", res2['sgb2']['amount'], 1718.2)
+    check("Test 2: Wohngeld status", res2['wohngeld']['status'], "possible")
+    check("Test 2: Kindergeld amount (2 children)", res2['kindergeld']['amount'], 500.0)
+    check("Test 2: Kinderzuschlag status", res2['kinderzuschlag']['status'], "possible")
+    check("Test 2: Kinderzuschlag amount", res2['kinderzuschlag']['amount'], 584.0)
     print("")
 
     # TEST CASE 3: Expectant mother (28y, expecting a baby, has minijob income of 450€ net/brutto)
@@ -72,7 +96,18 @@ def run_tests():
     print(f"Reason: {res3['elterngeld']['reason']}")
     print(f"Buergergeld: Status = {res3['sgb2']['status']} | Amount = {res3['sgb2']['amount']} EUR (Includes pregnancy Mehrbedarf)")
     print(f"Reason: {res3['sgb2']['reason']}")
-    print("\n[SUCCESS] Verification Tests Completed Successfully!")
+    check("Test 3: Elterngeld status", res3['elterngeld']['status'], "eligible")
+    check("Test 3: Elterngeld amount", res3['elterngeld']['amount'], 300.0)
+    check("Test 3: SGB2 status (incl. pregnancy Mehrbedarf)", res3['sgb2']['status'], "eligible")
+    check("Test 3: SGB2 amount (incl. pregnancy Mehrbedarf)", res3['sgb2']['amount'], 1018.71)
+
+    print("")
+    if FAILURES:
+        print(f"[FAILURE] {len(FAILURES)} check(s) failed:")
+        for f in FAILURES:
+            print(f"  - {f}")
+        sys.exit(1)
+    print("[SUCCESS] All checks passed!")
 
 if __name__ == "__main__":
     run_tests()
