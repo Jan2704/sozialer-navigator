@@ -1002,6 +1002,59 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
               </div>
             )}
 
+            {/* Pflegebedürftigkeit / Pflegegrad */}
+            <div className={cn("p-5 border rounded-2xl space-y-4 text-left transition-colors", isDark ? "bg-slate-900/40 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="has-care-dependent"
+                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                  checked={hasCareDependent}
+                  onChange={(e) => setHasCareDependent(e.target.checked)}
+                />
+                <label htmlFor="has-care-dependent" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+                  Pflegegrad amtlich festgestellt (bei Ihnen oder im Haushalt)?
+                </label>
+                <InfoTooltip text="Kann Pflegegeld bzw. Zuschüsse zum Pflegedienst, den Pflege-Entlastungsbetrag sowie einen Freibetrag beim Wohngeld auslösen." />
+              </div>
+
+              {hasCareDependent && (
+                <div className="pt-2 border-t border-slate-100/10 space-y-4 animate-in slide-in-from-top-2 duration-300">
+                  <div>
+                    <label className={cn(labelClass, isDark && labelDarkClass)}>Amtlich festgestellter Pflegegrad</label>
+                    <div className="relative">
+                      <select
+                        className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
+                        value={careDependentGrad}
+                        onChange={(e) => setCareDependentGrad(e.target.value)}
+                      >
+                        <option value="PG 1">Pflegegrad 1</option>
+                        <option value="PG 2">Pflegegrad 2</option>
+                        <option value="PG 3">Pflegegrad 3</option>
+                        <option value="PG 4">Pflegegrad 4</option>
+                        <option value="PG 5">Pflegegrad 5</option>
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={cn(labelClass, isDark && labelDarkClass)}>Wer übernimmt die Pflege überwiegend?</label>
+                    <div className="relative">
+                      <select
+                        className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
+                        value={careOrganization}
+                        onChange={(e) => setCareOrganization(e.target.value)}
+                      >
+                        <option value="private">Angehörige / Nachbarn (Pflegegeld)</option>
+                        <option value="service">Ambulanter Pflegedienst (Pflegesachleistung)</option>
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
           </div>
         )}
