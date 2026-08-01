@@ -1337,6 +1337,23 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 </div>
               )}
             </div>
+
+            {/* Bereavement / Hinterbliebenenrente */}
+            <div className={cn("p-5 border rounded-2xl space-y-4 text-left transition-colors", isDark ? "bg-slate-900/40 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="is-bereaved"
+                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                  checked={isBereaved}
+                  onChange={(e) => setIsBereaved(e.target.checked)}
+                />
+                <label htmlFor="is-bereaved" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+                  Ehepartner oder Elternteil verstorben?
+                </label>
+                <InfoTooltip text="Kann einen Anspruch auf Witwen-/Waisenrente (Hinterbliebenenrente) auslösen, sofern die verstorbene Person rentenversichert war." />
+              </div>
+            </div>
           </div>
         )}
 
