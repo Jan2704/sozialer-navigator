@@ -345,6 +345,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         age: parseInt(age) || 30,
         is_single_parent: isSingleParent,
         is_pregnant: pregnancyStatus === "pregnant",
+        is_disabled: hasDisability,
         incomes: (mainIncomeBrutto > 0 || mainIncomeNetto > 0) ? [
           { amount_brutto: mainIncomeBrutto, amount_net: mainIncomeNetto }
         ] : []
@@ -1242,6 +1243,47 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
               </div>
             </div>
             <p className="text-[10px] text-slate-400 text-left">Geben Sie das gesamte Einkommen aller Haushaltsmitglieder ein. Freibeträge werden automatisch berechnet.</p>
+
+            {/* Disability / GdB Status */}
+            <div className={cn("p-5 border rounded-2xl space-y-4 text-left transition-colors", isDark ? "bg-slate-900/40 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="has-disability"
+                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                  checked={hasDisability}
+                  onChange={(e) => setHasDisability(e.target.checked)}
+                />
+                <label htmlFor="has-disability" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+                  Grad der Behinderung (GdB) amtlich festgestellt?
+                </label>
+                <InfoTooltip text="Kann einen Mehrbedarf beim Bürgergeld sowie einen Freibetrag beim Wohngeld auslösen." />
+              </div>
+
+              {hasDisability && (
+                <div className="pt-2 border-t border-slate-100/10 animate-in slide-in-from-top-2 duration-300">
+                  <label className={cn(labelClass, isDark && labelDarkClass)}>Amtlich festgestellter GdB</label>
+                  <div className="relative">
+                    <select
+                      className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
+                      value={disabilityGdb}
+                      onChange={(e) => setDisabilityGdb(e.target.value)}
+                    >
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50 (Schwerbehinderung)</option>
+                      <option value="60">60</option>
+                      <option value="70">70</option>
+                      <option value="80">80</option>
+                      <option value="90">90</option>
+                      <option value="100">100</option>
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
