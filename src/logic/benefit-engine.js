@@ -9,6 +9,14 @@ import { calculateBuergergeld, calculateExactWohngeld, RENT_LIMITS } from "./cal
 // Helper to format currency
 const formatEuro = (val) => Math.round(val) + " €";
 
+// Helper: Schonvermögen-Freibetrag skaliert mit Haushaltsgröße (Grundbetrag + Betrag je weiterem Mitglied)
+const getAssetLimit = (input, base, perAdditionalMember) => {
+    const persons = Math.max(1, parseInt(input.persons) || 1);
+    return base + perAdditionalMember * (persons - 1);
+};
+const exceedsAssetLimit = (input, base, perAdditionalMember) =>
+    (parseFloat(input.assets) || 0) > getAssetLimit(input, base, perAdditionalMember) || !!input.hasHighAssets;
+
 // Helper to determine Federal State (Bundesland) from PLZ
 export function getBundeslandFromPlz(plz) {
     if (!plz) return 'OTH';
@@ -117,7 +125,7 @@ const KinderzuschlagModule = {
                 reasoning: `Ihr Bruttoeinkommen (${formatEuro(parentGross)}) liegt unter dem Mindesteinkommen von ${formatEuro(minGross)} für den Kinderzuschlag.`
             };
         }
-        if (input.hasHighAssets) {
+        if (exceedsAssetLimit(input, 40000, 15000)) {
             return {
                 eligible: "none",
                 amount: 0,
@@ -162,8 +170,8 @@ const WohngeldModule = {
     category: "Wohnen",
     isRelevant: (input) => input.housingType !== "Eigentum" && input.status !== "student" && input.status !== "asylum_seeker",
     calculate: (input) => {
-        if (input.hasHighAssets) {
-            return { eligible: "none", amount: 0, type: "Wohngeld", reasoning: "Aufgrund Ihres Schonvermögens (>60k €) besteht kein Anspruch." };
+        if (exceedsAssetLimit(input, 60000, 30000)) {
+            return { eligible: "none", amount: 0, type: "Wohngeld", reasoning: "Aufgrund Ihres Schonvermögens (>60k €, zzgl. 30k € je weiterem Haushaltsmitglied) besteht kein Anspruch." };
         }
         const wg = calculateExactWohngeld({
             income: parseFloat(input.income) || 0,
@@ -198,8 +206,8 @@ const LastenzuschussModule = {
     category: "Wohnen",
     isRelevant: (input) => input.housingType === "Eigentum" && input.status !== "student" && input.status !== "asylum_seeker",
     calculate: (input) => {
-        if (input.hasHighAssets) {
-            return { eligible: "none", amount: 0, type: "Lastenzuschuss", reasoning: "Aufgrund Ihres Schonvermögens (>60k €) besteht kein Anspruch." };
+        if (exceedsAssetLimit(input, 60000, 30000)) {
+            return { eligible: "none", amount: 0, type: "Lastenzuschuss", reasoning: "Aufgrund Ihres Schonvermögens (>60k €, zzgl. 30k € je weiterem Haushaltsmitglied) besteht kein Anspruch." };
         }
         const mietstufe = input.selectedCity ? input.selectedCity.mietstufe : 4;
         const size = parseInt(input.persons) || 1;
@@ -298,8 +306,8 @@ const BuergergeldModule = {
     category: "Grundsicherung",
     isRelevant: (input) => input.status !== "student" && input.status !== "pensioner" && input.status !== "asylum_seeker" && input.age < 65,
     calculate: (input) => {
-        if (input.hasHighAssets) {
-            return { eligible: "none", amount: 0, type: "Bürgergeld", reasoning: "Bürgergeld ist wegen Überschreitung der Vermögensgrenze (40k €) ausgeschlossen." };
+        if (exceedsAssetLimit(input, 40000, 15000)) {
+            return { eligible: "none", amount: 0, type: "Bürgergeld", reasoning: "Bürgergeld ist wegen Überschreitung der Vermögensgrenze (40k €, zzgl. 15k € je weiterem Haushaltsmitglied) ausgeschlossen." };
         }
         const mietstufe = input.selectedCity ? input.selectedCity.mietstufe : 4;
         const persons = Math.max(1, parseInt(input.persons) || 1);
@@ -336,8 +344,8 @@ const GrundsicherungAlterModule = {
     category: "Grundsicherung",
     isRelevant: (input) => input.status === "pensioner" || input.age >= 65 || !!input.isPermanentlyDisabled,
     calculate: (input) => {
-        const hasHighAssets = parseFloat(input.assets) > 10000 || input.hasHighAssets;
-        if (hasHighAssets) {
+        const assetLimitSgbXii = 10000 * Math.max(1, parseInt(input.persons) || 1);
+        if ((parseFloat(input.assets) || 0) > assetLimitSgbXii || input.hasHighAssets) {
             return { eligible: "none", amount: 0, type: "Grundsicherung", reasoning: "SGB XII Grundsicherung schließt Schonvermögen über 10.000 € pro Person aus." };
         }
         const mietstufe = input.selectedCity ? input.selectedCity.mietstufe : 4;
@@ -375,8 +383,9 @@ const SozialhilfeModule = {
     category: "Grundsicherung",
     isRelevant: (input) => input.status === "student" || (input.age < 65 && input.status !== "pensioner"),
     calculate: (input) => {
-        if (input.hasHighAssets) {
-            return { eligible: "none", amount: 0, type: "Sozialhilfe", reasoning: "Sozialhilfe (SGB XII) erfordert ein Schonvermögen von unter 10.000 €." };
+        const assetLimitSozialhilfe = 10000 * Math.max(1, parseInt(input.persons) || 1);
+        if ((parseFloat(input.assets) || 0) > assetLimitSozialhilfe || input.hasHighAssets) {
+            return { eligible: "none", amount: 0, type: "Sozialhilfe", reasoning: "Sozialhilfe (SGB XII) erfordert ein Schonvermögen von unter 10.000 € pro Person." };
         }
         // General screening
         return {

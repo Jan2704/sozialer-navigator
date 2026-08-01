@@ -77,6 +77,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
   const [terminationReason, setTerminationReason] = useState("none");
   const [expenses, setExpenses] = useState("");
   const [maintenance, setMaintenance] = useState("");
+  const [assets, setAssets] = useState("");
   const [hasHighAssets, setHasHighAssets] = useState(false);
   const [hasDisability, setHasDisability] = useState(false);
   const [disabilityGdb, setDisabilityGdb] = useState("50");
@@ -324,6 +325,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       income: parseFloat(income) || 0,
       expenses: parseFloat(expenses) || (status === 'employee' ? 102 : 0),
       maintenance: parseFloat(maintenance) || 0,
+      assets: parseFloat(assets) || 0,
       hasHighAssets: hasHighAssets,
       hasDisability: hasDisability,
       disabilityGdb: parseFloat(disabilityGdb) || 0,
@@ -1300,6 +1302,24 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
               </div>
             </div>
             <p className="text-[10px] text-slate-400 text-left">Geben Sie das gesamte Einkommen aller Haushaltsmitglieder ein. Freibeträge werden automatisch berechnet.</p>
+
+            {/* Assets / Vermögen */}
+            <div className="text-left animate-in fade-in duration-300">
+              <label className={cn(labelClass, isDark && labelDarkClass)}>
+                Vermögen / Ersparnisse (Haushalt) <InfoTooltip text="Nicht durch Altersvorsorge, ein angemessenes Auto oder selbstgenutztes Wohneigentum geschütztes Vermögen (z.B. Sparkonten, Bausparverträge, Aktien). Je nach Leistung gelten unterschiedliche Schonvermögens-Freibeträge (ab 10.000 € bis 60.000 € für die erste Person, gestaffelt nach Haushaltsgröße) – oberhalb kann der jeweilige Anspruch entfallen." />
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={assets}
+                  onChange={(e) => setAssets(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className={cn(inputClass, "text-lg font-semibold", isDark && inputDarkClass)}
+                  placeholder="z.B. 5000"
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">€</span>
+              </div>
+            </div>
 
             {/* Disability / GdB Status */}
             <div className={cn("p-5 border rounded-2xl space-y-4 text-left transition-colors", isDark ? "bg-slate-900/40 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
