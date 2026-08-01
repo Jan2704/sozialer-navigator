@@ -23,6 +23,7 @@ export const POST: APIRoute = async ({ request }: APIContext) => {
         const city = data.city ? stripControlChars(String(data.city)) : data.city;
         const modal_type = data.modal_type ? stripControlChars(String(data.modal_type)) : data.modal_type;
         const partner_vertical = data.partner_vertical ? stripControlChars(String(data.partner_vertical)) : data.partner_vertical;
+        const phone = data.phone ? stripControlChars(String(data.phone)) : data.phone;
 
         if (!first_name || !email || !interest || !modal_type) {
             return new Response(JSON.stringify({ error: 'Fehlende Daten (Name, E-Mail, Interesse oder Modal-Typ).' }), { status: 400 });
@@ -40,7 +41,7 @@ export const POST: APIRoute = async ({ request }: APIContext) => {
                     first_name,
                     last_name,
                     email,
-                    phone: data.phone || null,
+                    phone: phone || null,
                     interest,
                     city: city || 'Unbekannt',
                     source: data.source || 'website-api',
@@ -65,6 +66,14 @@ export const POST: APIRoute = async ({ request }: APIContext) => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         ...data,
+                        first_name,
+                        last_name,
+                        email,
+                        phone,
+                        interest,
+                        city,
+                        modal_type,
+                        partner_vertical,
                         submitted_at: new Date().toISOString(),
                         source: 'leads-api'
                     })
