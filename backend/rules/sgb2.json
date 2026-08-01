@@ -14,5 +14,6 @@
   "freibetrag_step2_percent": 0.30,
   "freibetrag_step3_limit": 1200,
   "freibetrag_step3_percent": 0.10,
+  "versicherungspauschale": 30.00,
   "application_link": "https://www.arbeitsagentur.de/arbeitslos-arbeit-finden/buergergeld/buergergeld-beantragen"
 }
