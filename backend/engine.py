@@ -59,12 +59,13 @@ class SocialRuleEngine:
         total_income_anrechenbar = 0.0
         
         has_child = any(member.role == "child" for member in request.members)
+        has_partner = any(member.role == "partner" for member in request.members)
 
         # 1. BEDARF & MEHRBEDARF
         for member in request.members:
             # Regelsatz
             if member.role == "main":
-                rate = self.sgb2_rules["rbs_1"] if len(request.members) == 1 else self.sgb2_rules["rbs_2"]
+                rate = self.sgb2_rules["rbs_2"] if has_partner else self.sgb2_rules["rbs_1"]
             elif member.role == "partner":
                 rate = self.sgb2_rules["rbs_2"]
             elif member.role == "child":
@@ -106,7 +107,7 @@ class SocialRuleEngine:
         total_need += accommodation
 
         # 3. SANKTION (Kündigung)
-        main_regelsatz = self.sgb2_rules["rbs_1"] if len(request.members) == 1 else self.sgb2_rules["rbs_2"]
+        main_regelsatz = self.sgb2_rules["rbs_2"] if has_partner else self.sgb2_rules["rbs_1"]
         sanction_amount = 0.0
         if request.termination_reason in [TerminationReason.SELF_TERMINATION, TerminationReason.MUTUAL_AGREEMENT]:
             sanction_amount = round(main_regelsatz * 0.30, 2)
