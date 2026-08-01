@@ -42,3 +42,6 @@ debug_*.js
 /test_*.js
 /verify_*.js
 /*_status.json
+
+# Claude Code agent worktree scratch space (isolation:"worktree" runs), not project content
+.claude/worktrees/
