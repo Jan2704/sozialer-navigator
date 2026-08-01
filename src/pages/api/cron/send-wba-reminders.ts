@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
+import { escapeHtml } from '../../../lib/html-escape';
 
 const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL || process.env.PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || process.env.PUBLIC_SUPABASE_ANON_KEY;
@@ -44,7 +45,7 @@ export const POST: APIRoute = async ({ request }) => {
                     html: `
                         <div style="font-family: Arial, sans-serif; color: #0a1628; max-width: 600px; margin: 0 auto; padding: 20px;">
                             <h2 style="color: #c5a67c;">WBA-Schutz: Ihr Bescheid läuft ab.</h2>
-                            <p>Guten Tag ${lead.name || ''},</p>
+                            <p>Guten Tag ${escapeHtml(lead.name || '')},</p>
                             <p>Sie haben unseren WBA-Schutz aktiviert. Dies ist eine automatische Erinnerung: Ihr aktueller Leistungsbescheid läuft in ca. 6 Wochen ab.</p>
                             <p>Um Zahlungsunterbrechungen zu vermeiden, sollten Sie <strong>jetzt</strong> Ihren Weiterbewilligungsantrag (WBA) beim zuständigen Jobcenter stellen.</p>
                             <p><a href="https://web.arbeitsagentur.de/portal/metasuche/suche/formulare" style="background-color: #0a1628; color: #c5a67c; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 2px; display: inline-block;">WBA Formular herunterladen</a></p>
@@ -82,7 +83,7 @@ export const POST: APIRoute = async ({ request }) => {
                     html: `
                         <div style="font-family: Arial, sans-serif; color: #0a1628; max-width: 600px; margin: 0 auto; padding: 20px;">
                             <h2 style="color: #c5a67c;">WBA-Schutz: Letzte Erinnerung</h2>
-                            <p>Guten Tag ${lead.name || ''},</p>
+                            <p>Guten Tag ${escapeHtml(lead.name || '')},</p>
                             <p>in ca. 2 Wochen läuft Ihr aktueller Leistungsbescheid ab. Haben Sie Ihren Weiterbewilligungsantrag bereits gestellt?</p>
                             <p>Falls nicht, ist dies die letzte Erinnerung. Ein verspäteter Antrag führt fast immer zu einer Lücke in den Zahlungen am Ersten des kommenden Monats.</p>
                             <p>Sobald Sie Ihren <strong>neuen</strong> Bescheid erhalten haben, können Sie diesen direkt bei uns von Experten auf Fehler prüfen lassen (fast 50% aller Bescheide sind fehlerhaft!).</p>
