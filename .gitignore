@@ -45,3 +45,7 @@ debug_*.js
 
 # Claude Code agent worktree scratch space (isolation:"worktree" runs), not project content
 .claude/worktrees/
+
+# Python bytecode cache (backend/)
+__pycache__/
+*.pyc
