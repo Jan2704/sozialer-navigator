@@ -1107,7 +1107,7 @@ export const wohngeldData = [
     daten_valide: true
   },
   {
-    plz: "38100",
+    plz: "38440",
     stadt: "Wolfsburg",
     mietstufe: 4,
     max_kalt_1p: "480.00",
@@ -1209,7 +1209,7 @@ export const wohngeldData = [
     daten_valide: true
   },
   {
-    plz: "58313",
+    plz: "58452",
     stadt: "Witten",
     mietstufe: 4,
     max_kalt_1p: "465.00",
@@ -1311,7 +1311,7 @@ export const wohngeldData = [
     daten_valide: true
   },
   {
-    plz: "45657",
+    plz: "45768",
     stadt: "Marl",
     mietstufe: 3,
     max_kalt_1p: "410.00",
@@ -1532,7 +1532,7 @@ export const wohngeldData = [
     daten_valide: true
   },
   {
-    plz: "35576",
+    plz: "35037",
     stadt: "Marburg",
     mietstufe: 5,
     max_kalt_1p: "505.00",
