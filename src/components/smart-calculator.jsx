@@ -418,7 +418,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
     }, 3000);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 35000);
 
     try {
       const isLocal = window.location.hostname.includes('localhost') || window.location.hostname === '127.0.0.1';
