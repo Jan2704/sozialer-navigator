@@ -41,7 +41,7 @@ def run_tests():
     check("Test 1: SGB2 status", res1['sgb2']['status'], "eligible")
     check("Test 1: SGB2 amount (RBS 1 single-parent rate)", res1['sgb2']['amount'], 1902.68)
     check("Test 1: Kindergeld status", res1['kindergeld']['status'], "eligible")
-    check("Test 1: Kindergeld amount", res1['kindergeld']['amount'], 250.0)
+    check("Test 1: Kindergeld amount", res1['kindergeld']['amount'], 259.0)
     print("")
 
     # TEST CASE 2: Low-income family of 4 (Main: 40y (1500€ net/1800€ brutto), Partner: 38y (none), Child 1: 8y, Child 2: 12y)
@@ -72,9 +72,9 @@ def run_tests():
     check("Test 2: SGB2 status", res2['sgb2']['status'], "eligible")
     check("Test 2: SGB2 amount", res2['sgb2']['amount'], 1718.2)
     check("Test 2: Wohngeld status", res2['wohngeld']['status'], "possible")
-    check("Test 2: Kindergeld amount (2 children)", res2['kindergeld']['amount'], 500.0)
+    check("Test 2: Kindergeld amount (2 children)", res2['kindergeld']['amount'], 518.0)
     check("Test 2: Kinderzuschlag status", res2['kinderzuschlag']['status'], "possible")
-    check("Test 2: Kinderzuschlag amount", res2['kinderzuschlag']['amount'], 584.0)
+    check("Test 2: Kinderzuschlag amount", res2['kinderzuschlag']['amount'], 594.0)
     print("")
 
     # TEST CASE 3: Expectant mother (28y, expecting a baby, has minijob income of 450€ net/brutto)
