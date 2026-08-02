@@ -124,16 +124,18 @@ import SchemaOrg from '../../components/seo/seo-schema.astro';
                         const isWohngeld = t.includes('wohngeld') || t.includes('miet') || s.includes('wohngeld');
                         const isSgbXii = t.includes('sgb xii') || t.includes('grundsicherung im alter') || t.includes('renten') || s.includes('sgb-xii');
 
-                        let targetLink = "/buergergeld/";
+                        let targetLink = "/lexikon/buergergeld/";
                         let targetName = "Bürgergeld";
 
                         if (isWohngeld) {
-                            targetLink = "/wohngeld/";
+                            targetLink = "/lexikon/wohngeld/";
                             targetName = "Wohngeld";
                         } else if (isSgbXii) {
-                            targetLink = "/buergergeld-grundsicherung/";
+                            targetLink = "/grundsicherung-im-alter/";
                             targetName = "Grundsicherung";
                         }
+
+                        if (targetLink === `/lexikon/${entry.slug}/`) return null;
 
                         return (
                             <div class="bg-white border border-slate-200 p-8 rounded-sm shadow-sm">
