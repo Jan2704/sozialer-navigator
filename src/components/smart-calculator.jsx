@@ -332,6 +332,22 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       isBereaved: isBereaved
     };
 
+    // Persist input for the /pdf-paket page's auto-fill/cover-page feature (trust-pdf-generator.jsx)
+    try {
+      sessionStorage.setItem('sozialerNavigatorState', JSON.stringify({
+        input: {
+          city: selectedCity,
+          rent: profileInput.rent,
+          income: profileInput.income,
+          persons: profileInput.persons,
+          kids: profileInput.kids,
+          status: profileInput.status
+        }
+      }));
+    } catch (e) {
+      console.warn('Could not persist state to sessionStorage', e);
+    }
+
     // Construct Payload for Python Backend API
     const isOwner = housingType === "Eigentum";
     const rentCold = isOwner ? (parseFloat(interest) || 0) : (parseFloat(rent) || 0);
