@@ -59,6 +59,6 @@ export const POST: APIRoute = async ({ request, url }) => {
         return new Response(JSON.stringify({ url: session.url }), { status: 200 });
     } catch (error: any) {
         console.error('Stripe Error:', error);
-        return new Response(JSON.stringify({ error: error.message || 'Interner Fehler' }), { status: 500 });
+        return new Response(JSON.stringify({ error: 'Interner Fehler beim Erstellen der Checkout-Sitzung.' }), { status: 500 });
     }
 };

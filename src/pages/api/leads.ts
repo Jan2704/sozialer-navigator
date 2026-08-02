@@ -60,7 +60,7 @@ export const POST: APIRoute = async ({ request }: APIContext) => {
 
         if (error) {
             console.error('Supabase Error:', error);
-            return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+            return new Response(JSON.stringify({ error: 'Interner Server Fehler.' }), { status: 500 });
         }
 
         // 2. Send to Make.com Webhook (Fire & Forget or Await)

@@ -140,6 +140,6 @@ export const POST: APIRoute = async ({ request }) => {
 
     } catch (error: any) {
         console.error('API Error (Send Application):', error);
-        return new Response(JSON.stringify({ error: 'Interner Server Fehler: ' + error.message }), { status: 500 });
+        return new Response(JSON.stringify({ error: 'Interner Server Fehler.' }), { status: 500 });
     }
 };
