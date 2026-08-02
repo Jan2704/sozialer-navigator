@@ -315,22 +315,27 @@ class SocialRuleEngine:
             }
             
         # Check parents minimum income requirements
+        # §6a BKGG's Mindesteinkommensgrenze is a BRUTTO (gross) threshold, so it is
+        # checked against gross income here — kept separate from parent_earned_income
+        # (net), which the excess-income/Bedarf calculation below still legitimately needs.
         parent_earned_income = 0.0
+        parent_earned_income_gross = 0.0
         has_couple = any(m.role == "partner" for m in request.members)
-        
+
         for member in request.members:
             if member.role in ["main", "partner"]:
                 for inc in member.incomes:
                     if inc.source_type in ["employment", "minijob", "self_employed"]:
                         parent_earned_income += inc.amount_net
-                        
+                        parent_earned_income_gross += inc.amount_brutto
+
         min_req = self.kinderzuschlag_rules["min_income_couple"] if has_couple else self.kinderzuschlag_rules["min_income_single"]
-        
-        if parent_earned_income < min_req:
+
+        if parent_earned_income_gross < min_req:
             return {
                 "status": "ineligible",
                 "amount": 0.0,
-                "reason": f"Das Mindesteinkommen der Eltern von {min_req} € (Erwerbseinkommen) wird nicht erreicht (aktuell: {parent_earned_income:.2f} €). Bürgergeld ist wahrscheinlicher.",
+                "reason": f"Das Mindesteinkommen der Eltern von {min_req} € brutto (Erwerbseinkommen) wird nicht erreicht (aktuell: {parent_earned_income_gross:.2f} € brutto). Bürgergeld ist wahrscheinlicher.",
                 "application_link": self.kinderzuschlag_rules["application_link"]
             }
             
