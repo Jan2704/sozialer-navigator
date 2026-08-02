@@ -1073,7 +1073,7 @@ export const wohngeldData = [
     daten_valide: true
   },
   {
-    plz: "45879",
+    plz: "45657",
     stadt: "Recklinghausen",
     mietstufe: 3,
     max_kalt_1p: "415.00",
