@@ -15,8 +15,10 @@ const resend = new Resend(RESEND_API_KEY);
 
 export const POST: APIRoute = async ({ request }) => {
     // 1. Authenticate Request
+    // Fail closed: without CRON_SECRET configured, this public endpoint would otherwise
+    // accept any unauthenticated request and blast real reminder emails to real leads.
     const authHeader = request.headers.get('authorization');
-    if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
+    if (!CRON_SECRET || authHeader !== `Bearer ${CRON_SECRET}`) {
         return new Response('Unauthorized', { status: 401 });
     }
 
