@@ -16,6 +16,6 @@ Menschen, die:
 
 ## Leistungen
 Das Bürgergeld besteht aus:
-*   **Regelbedarf:** Pauschaler Betrag für Ernährung, Kleidung, Strom etc. (z.B. 563 € für Alleinstehende in 2024).
+*   **Regelbedarf:** Pauschaler Betrag für Ernährung, Kleidung, Strom etc. (z.B. 563 € für Alleinstehende in 2026).
 *   **Kosten der Unterkunft:** Miete und Heizung in angemessener Höhe (in der Karenzzeit auch darüber hinaus).
 *   **Mehrbedarfe:** Zuschläge für Sonderfälle (Schwangerschaft, Alleinerziehende etc.).
