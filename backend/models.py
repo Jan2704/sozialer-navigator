@@ -35,6 +35,7 @@ class Person(BaseModel):
     is_retired: bool = False
     is_in_training: bool = False
     is_cared_for: bool = False
+    is_asylum_seeker: bool = False
 
 class HouseholdRequest(BaseModel):
     zip_code: str = "10115"

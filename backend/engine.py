@@ -62,8 +62,32 @@ class SocialRuleEngine:
     # konservativer Näherungswert für aktuelle/zukünftige Renteneintritte).
     REGELALTERSGRENZE = 67
 
+    # Für Asylbewerber/innen im laufenden Asylverfahren gilt statt Bürgergeld/Wohngeld/
+    # Kinderzuschlag das AsylbLG (Asylbewerberleistungsgesetz) - die Systeme schließen sich
+    # gegenseitig aus. Ohne diese Prüfung würde ihnen fälschlich ein regulärer Anspruch
+    # angezeigt, obwohl sie rechtlich auf das gesonderte AsylbLG-Verfahren beim Sozialamt
+    # verwiesen sind.
+    ASYLBLG_INELIGIBLE_REASON = (
+        "Während des laufenden Asylverfahrens besteht in der Regel kein Anspruch auf diese "
+        "Leistung, sondern auf Leistungen nach dem Asylbewerberleistungsgesetz (AsylbLG) - "
+        "ein eigenes Verfahren beim Sozialamt."
+    )
+    ASYLBLG_APPLICATION_LINK = "https://www.bamf.de/"
+
+    def _is_asylum_seeker(self, request: HouseholdRequest) -> bool:
+        main_person = next((m for m in request.members if m.role == "main"), None)
+        return main_person is not None and getattr(main_person, 'is_asylum_seeker', False)
+
     def calculate_sgb2(self, request: HouseholdRequest) -> dict:
         main_person = next((m for m in request.members if m.role == "main"), None)
+
+        if self._is_asylum_seeker(request):
+            return {
+                "status": "ineligible",
+                "amount": 0.00,
+                "reason": self.ASYLBLG_INELIGIBLE_REASON,
+                "application_link": self.ASYLBLG_APPLICATION_LINK
+            }
 
         # Personen ab Regelaltersgrenze bzw. bereits im Ruhestand fallen nicht unter SGB II,
         # sondern unter die Grundsicherung im Alter (SGB XII) - ein eigenes Verfahren, das dieser
@@ -183,6 +207,14 @@ class SocialRuleEngine:
         }
 
     def calculate_wohngeld(self, request: HouseholdRequest) -> dict:
+        if self._is_asylum_seeker(request):
+            return {
+                "status": "ineligible",
+                "amount": 0.00,
+                "reason": self.ASYLBLG_INELIGIBLE_REASON,
+                "application_link": self.ASYLBLG_APPLICATION_LINK
+            }
+
         total_netto = sum([sum([i.amount_net for i in m.incomes]) for m in request.members])
         warm_miete = request.rent_cold + request.rent_utility
         hh_size = len(request.members)
@@ -260,6 +292,14 @@ class SocialRuleEngine:
         }
 
     def calculate_kinderzuschlag(self, request: HouseholdRequest) -> dict:
+        if self._is_asylum_seeker(request):
+            return {
+                "status": "ineligible",
+                "amount": 0.00,
+                "reason": self.ASYLBLG_INELIGIBLE_REASON,
+                "application_link": self.ASYLBLG_APPLICATION_LINK
+            }
+
         # Eligible children: under 25, lives in household, unmarried
         eligible_children = 0
         for member in request.members:

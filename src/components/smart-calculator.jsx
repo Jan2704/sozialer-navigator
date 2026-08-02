@@ -352,6 +352,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         is_disabled: hasDisability,
         is_retired: status === "pensioner",
         is_student: status === "student",
+        is_asylum_seeker: status === "asylum_seeker",
         incomes: (mainIncomeBrutto > 0 || mainIncomeNetto > 0) ? [
           { amount_brutto: mainIncomeBrutto, amount_net: mainIncomeNetto, source_type: mainIncomeSourceType }
         ] : []
