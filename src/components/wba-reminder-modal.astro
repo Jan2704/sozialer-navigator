@@ -43,10 +43,6 @@
                         </select>
                         <select id="wba-year" required class="w-full bg-white border border-slate-300 rounded-sm px-4 py-3 text-brand-navy outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold appearance-none">
                             <option value="" disabled selected>Jahr</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                            <option value="2027">2027</option>
                         </select>
                     </div>
                     <p class="text-[10px] text-slate-500 font-light mt-1">Sie finden das genaue Enddatum auf der ersten Seite Ihres aktuellen Bewilligungsbescheids.</p>
@@ -100,6 +96,19 @@
     const form = document.getElementById('wba-reminder-form');
     const successMsg = document.getElementById('wba-success');
     const submitBtn = document.getElementById('wba-submit-btn');
+
+    // Populate the year dropdown with the current year onward, so past years
+    // (which would produce a Bescheid end date that already elapsed) never appear.
+    const yearSelect = document.getElementById('wba-year') as HTMLSelectElement;
+    if (yearSelect) {
+        const currentYear = new Date().getFullYear();
+        for (let y = currentYear; y <= currentYear + 3; y++) {
+            const option = document.createElement('option');
+            option.value = String(y);
+            option.textContent = String(y);
+            yearSelect.appendChild(option);
+        }
+    }
 
     // Open Modal Function (Exposed globally so trigger buttons can call it)
     window.openWbaModal = () => {

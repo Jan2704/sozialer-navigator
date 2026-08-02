@@ -51,6 +51,17 @@ export const POST: APIRoute = async ({ request }) => {
         // Determine the end date of the Bescheid
         const endDate = new Date(yearNum, monthNum, 0); // Last day of the specified month/year
 
+        // A Bescheid end date already in the past can never produce a reminder: the cron job
+        // matches reminder_date_1/2 against today's date with an exact equality check, so a
+        // date that has already elapsed will never match again and the lead silently never
+        // gets reminded, despite the UI showing "Service aktiviert!".
+        if (endDate.getTime() <= Date.now()) {
+            return new Response(JSON.stringify({ error: 'Das gewählte Enddatum liegt in der Vergangenheit.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
         // Calculate reminder dates (6 weeks before, 2 weeks before)
         const reminderDate1 = new Date(endDate.getTime() - (6 * 7 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
         const reminderDate2 = new Date(endDate.getTime() - (2 * 7 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
