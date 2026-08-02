@@ -1,3 +1,5 @@
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+
 // Helper to sanitize text for WinAnsi encoding (standard PDF fonts)
 function sanitizeForPdf(text: string): string {
     if (!text) return '';
