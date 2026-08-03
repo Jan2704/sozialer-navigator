@@ -162,14 +162,14 @@ export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 56
         // Basic 100
         freeAmount += Math.min(inc, 100);
 
-        // 100-538 (20%) - Updated 2024/2026 limit (was 520)
+        // 100-603 (20%) - Minijob-Grenze 2026 (was 538 in 2025)
         if (inc > 100) {
-            freeAmount += Math.min(inc - 100, 438) * 0.20;
+            freeAmount += Math.min(inc - 100, 503) * 0.20;
         }
 
-        // 538-1000 (30%)
-        if (inc > 538) {
-            freeAmount += Math.min(inc - 538, 462) * 0.30;
+        // 603-1000 (30%)
+        if (inc > 603) {
+            freeAmount += Math.min(inc - 603, 397) * 0.30;
         }
 
         // 1000-1200 (10%) (or 1500 with child)
@@ -198,7 +198,7 @@ export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 56
         const isFamily = (numKids > 0 || numPersons > 1);
         const taxFreeBonus = isFamily ? 1000 : 0;
 
-        if (inc <= (538 + taxFreeBonus)) nettoFactor = 1.0;
+        if (inc <= (603 + taxFreeBonus)) nettoFactor = 1.0;
         else if (inc <= (2200 + taxFreeBonus)) nettoFactor = 0.78;
         else if (inc <= (3500 + taxFreeBonus)) nettoFactor = 0.73;
         else nettoFactor = 0.68;
@@ -439,7 +439,7 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
         const isFamily = (kids > 0 || persons > 1);
         const taxFreeBonus = isFamily ? 1000 : 0;
 
-        if (inc <= (538 + taxFreeBonus)) nettoFactor = 1.0;
+        if (inc <= (603 + taxFreeBonus)) nettoFactor = 1.0;
         else if (inc <= (2200 + taxFreeBonus)) nettoFactor = 0.78;
         else if (inc <= (3500 + taxFreeBonus)) nettoFactor = 0.73;
         else nettoFactor = 0.68;

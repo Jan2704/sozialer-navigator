@@ -8,7 +8,7 @@
   "single_parent_percent": 0.36,
   "pregnancy_percent": 0.17,
   "freibetrag_min": 100,
-  "freibetrag_step1_limit": 538,
+  "freibetrag_step1_limit": 603,
   "freibetrag_step1_percent": 0.20,
   "freibetrag_step2_limit": 1000,
   "freibetrag_step2_percent": 0.30,

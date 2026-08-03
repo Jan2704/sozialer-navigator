@@ -36,12 +36,12 @@ class SocialRuleEngine:
         # 1. Grundfreibetrag
         freibetrag = self.sgb2_rules["freibetrag_min"]
         
-        # 2. Step 1: 20% (100-538€)
+        # 2. Step 1: 20% (100-603€, Minijob-Grenze)
         if brutto > 100:
             step1_base = min(brutto, self.sgb2_rules["freibetrag_step1_limit"]) - 100.00
             freibetrag += step1_base * self.sgb2_rules["freibetrag_step1_percent"]
-            
-        # 3. Step 2: 30% (538-1000€)
+
+        # 3. Step 2: 30% (603-1000€)
         if brutto > self.sgb2_rules["freibetrag_step1_limit"]:
             step2_base = min(brutto, self.sgb2_rules["freibetrag_step2_limit"]) - self.sgb2_rules["freibetrag_step1_limit"]
             freibetrag += step2_base * self.sgb2_rules["freibetrag_step2_percent"]

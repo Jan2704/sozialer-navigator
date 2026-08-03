@@ -15,8 +15,8 @@ Das Bürgergeld ist die Grundsicherung für Arbeitssuchende. Anspruch haben Pers
 
 ## Einkommen & Freibeträge
 Wer arbeitet, darf einen Teil seines Einkommens behalten. Die ersten **100 € sind immer anrechnungsfrei**. Darüber hinaus gelten Staffelungen:
-- 20% Freibetrag zwischen 100 € und 538 € (Minijob-Grenze)
-- 30% Freibetrag zwischen 538 € und 1.000 €
+- 20% Freibetrag zwischen 100 € und 603 € (Minijob-Grenze)
+- 30% Freibetrag zwischen 603 € und 1.000 €
 
 ## Schonvermögen
 Im ersten Jahr (Karenzzeit) gilt ein sehr hohes Schonvermögen von **40.000 €** für die erste Person und **15.000 €** für jede weitere Person. Selbstgenutztes Wohneigentum bleibt meist unangetastet.

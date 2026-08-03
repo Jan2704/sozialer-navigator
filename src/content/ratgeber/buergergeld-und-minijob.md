@@ -8,7 +8,7 @@ tags: ["Bürgergeld", "Minijob", "Freibetrag"]
 
 # Minijob und Bürgergeld: Was bleibt vom Verdienst übrig?
 
-Sie beziehen Bürgergeld und möchten sich mit einem Minijob (538-Euro-Job) etwas dazuverdienen? Das ist nicht nur erlaubt, sondern ausdrücklich erwünscht! Allerdings dürfen Sie nicht den gesamten Verdienst komplett behalten. Ein Großteil wird auf Ihr Bürgergeld angerechnet.
+Sie beziehen Bürgergeld und möchten sich mit einem Minijob (603-Euro-Job) etwas dazuverdienen? Das ist nicht nur erlaubt, sondern ausdrücklich erwünscht! Allerdings dürfen Sie nicht den gesamten Verdienst komplett behalten. Ein Großteil wird auf Ihr Bürgergeld angerechnet.
 
 Um den Anreiz zur Arbeit zu erhalten, gibt es gesetzliche **Freibeträge**.
 
@@ -17,27 +17,27 @@ Um den Anreiz zur Arbeit zu erhalten, gibt es gesetzliche **Freibeträge**.
 Das Einkommen aus Erwerbstätigkeit wird beim Bürgergeld schrittweise angerechnet. Für das Jahr 2026 (und bezogen auf die letzte Bürgergeld-Reform) gelten folgende Regeln für den Zuverdienst:
 
 1.  **Der Grundfreibetrag (100 Euro):** Die ersten 100 Euro, die Sie im Monat verdienen, sind **komplett anrechnungsfrei**. Dieses Geld dürfen Sie zu 100 % behalten (es deckt pauschal auch Werbungskosten ab).
-2.  **Stufe 1 (100 Euro bis 538 Euro):** Von dem Betrag, der zwischen 100 und 538 Euro liegt, dürfen Sie **20 %** behalten. 80 % werden auf Ihr Bürgergeld angerechnet.
-3.  **Stufe 2 (538 Euro bis 1.000 Euro):** Von dem Betrag, der zwischen 538 und 1.000 Euro liegt, dürfen Sie **30 %** behalten.
+2.  **Stufe 1 (100 Euro bis 603 Euro):** Von dem Betrag, der zwischen 100 und 603 Euro liegt, dürfen Sie **20 %** behalten. 80 % werden auf Ihr Bürgergeld angerechnet.
+3.  **Stufe 2 (603 Euro bis 1.000 Euro):** Von dem Betrag, der zwischen 603 und 1.000 Euro liegt, dürfen Sie **30 %** behalten.
 
-*(Hinweis: Der Minijob-Grenzwert liegt beim Bruttolohn mittlerweile bei 538 Euro pro Monat — er deckt sich damit genau mit der Obergrenze von Stufe 1.)*
+*(Hinweis: Der Minijob-Grenzwert liegt beim Bruttolohn mittlerweile bei 603 Euro pro Monat — er deckt sich damit genau mit der Obergrenze von Stufe 1.)*
 
-## Rechenbeispiel für einen 538-Euro-Minijob
+## Rechenbeispiel für einen 603-Euro-Minijob
 
-Nehmen wir an, Sie verdienen jeden Monat genau **538 Euro brutto wie netto** (da der Minijob abgabenfrei für Sie ist):
+Nehmen wir an, Sie verdienen jeden Monat genau **603 Euro brutto wie netto** (da der Minijob abgabenfrei für Sie ist):
 
 *   **Schritt 1:** Die ersten 100 Euro behalten Sie komplett. (Freibetrag: **100 €**)
-*   **Schritt 2:** Der Betrag zwischen 100 und 538 Euro beträgt 438 Euro. Davon dürfen Sie 20 % behalten. (20 % von 438 € = **87,60 €**)
+*   **Schritt 2:** Der Betrag zwischen 100 und 603 Euro beträgt 503 Euro. Davon dürfen Sie 20 % behalten. (20 % von 503 € = **100,60 €**)
 
-Da Ihr Verdienst die Grenze von 538 Euro nicht übersteigt, greift Stufe 2 (30 %) in diesem Beispiel nicht.
+Da Ihr Verdienst die Grenze von 603 Euro nicht übersteigt, greift Stufe 2 (30 %) in diesem Beispiel nicht.
 
-**Gesamter Freibetrag:** 100 € + 87,60 € = **187,60 Euro**
+**Gesamter Freibetrag:** 100 € + 100,60 € = **200,60 Euro**
 
-Ihr anrechenbares Einkommen beträgt somit: 538 € Verdienst - 187,60 € Freibetrag = **350,40 Euro**. 
-Das bedeutet: Vom Jobcenter bekommen Sie 350,40 Euro weniger Bürgergeld überwiesen, dafür haben Sie die 538 Euro vom Arbeitgeber auf dem Konto. Unterm Strich haben Sie jeden Monat **187,60 Euro mehr zur Verfügung**, als wenn Sie nicht arbeiten würden.
+Ihr anrechenbares Einkommen beträgt somit: 603 € Verdienst - 200,60 € Freibetrag = **402,40 Euro**. 
+Das bedeutet: Vom Jobcenter bekommen Sie 402,40 Euro weniger Bürgergeld überwiesen, dafür haben Sie die 603 Euro vom Arbeitgeber auf dem Konto. Unterm Strich haben Sie jeden Monat **200,60 Euro mehr zur Verfügung**, als wenn Sie nicht arbeiten würden.
 
 > [!TIP]
-> **Ausnahme für Schüler, Azubis und Studenten:** Für junge Menschen unter 25 Jahren gelten Sonderregelungen! Wer zur Schule geht (allgemeinbildend oder berufsbildend) oder studiert, darf Einnahmen aus Minijobs teilweise komplett bis zur Minijob-Grenze (538 Euro) behalten, ohne dass das Bürgergeld der Eltern gekürzt wird.
+> **Ausnahme für Schüler, Azubis und Studenten:** Für junge Menschen unter 25 Jahren gelten Sonderregelungen! Wer zur Schule geht (allgemeinbildend oder berufsbildend) oder studiert, darf Einnahmen aus Minijobs teilweise komplett bis zur Minijob-Grenze (603 Euro) behalten, ohne dass das Bürgergeld der Eltern gekürzt wird.
 
 ## Meldepflicht beim Jobcenter
 
