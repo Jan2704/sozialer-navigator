@@ -78,6 +78,18 @@ class SocialRuleEngine:
         main_person = next((m for m in request.members if m.role == "main"), None)
         return main_person is not None and getattr(main_person, 'is_asylum_seeker', False)
 
+    # Vermögensprüfung (Schonvermögen): Bürgergeld, Kinderzuschlag und Wohngeld sind bei
+    # Vermögen über der jeweiligen Freigrenze vollständig ausgeschlossen, unabhängig von Einkommen
+    # oder Bedarf. Die Freigrenze skaliert mit der Haushaltsgröße (Grundbetrag + Betrag je
+    # weiterem Mitglied), spiegelt exakt die bereits im lokalen JS-Fallback-Engine
+    # (src/logic/benefit-engine.js, exceedsAssetLimit) implementierten Grenzwerte.
+    def _exceeds_asset_limit(self, request: HouseholdRequest, base: float, per_additional_member: float) -> bool:
+        if getattr(request, 'has_high_assets', False):
+            return True
+        hh_size = max(1, len(request.members))
+        limit = base + per_additional_member * (hh_size - 1)
+        return getattr(request, 'assets', 0.0) > limit
+
     def calculate_sgb2(self, request: HouseholdRequest) -> dict:
         main_person = next((m for m in request.members if m.role == "main"), None)
 
@@ -115,6 +127,15 @@ class SocialRuleEngine:
                 "status": "ineligible",
                 "amount": 0.00,
                 "reason": "Als Vollzeit-Studierende(r) in einer grundsätzlich BAföG-förderfähigen Ausbildung besteht in der Regel kein Anspruch auf Bürgergeld (§ 27 SGB II), unabhängig vom tatsächlichen BAföG-Bezug. Ausnahmen (z.B. Urlaubssemester, Härtefälle) bitte individuell beim Jobcenter klären lassen.",
+                "application_link": self.sgb2_rules["application_link"]
+            }
+
+        if self._exceeds_asset_limit(request, 40000.0, 15000.0):
+            hh_size = max(1, len(request.members))
+            return {
+                "status": "ineligible",
+                "amount": 0.00,
+                "reason": f"Bürgergeld ist wegen Überschreitung der Vermögensgrenze (Schonvermögen: {40000.0 + 15000.0 * (hh_size - 1):.2f} € für deinen Haushalt) ausgeschlossen.",
                 "application_link": self.sgb2_rules["application_link"]
             }
 
@@ -215,6 +236,15 @@ class SocialRuleEngine:
                 "application_link": self.ASYLBLG_APPLICATION_LINK
             }
 
+        if self._exceeds_asset_limit(request, 60000.0, 30000.0):
+            hh_size = max(1, len(request.members))
+            return {
+                "status": "ineligible",
+                "amount": 0.00,
+                "reason": f"Wohngeld ist wegen Überschreitung der Vermögensgrenze (Schonvermögen: {60000.0 + 30000.0 * (hh_size - 1):.2f} € für deinen Haushalt) ausgeschlossen.",
+                "application_link": self.wohngeld_rules["application_link"]
+            }
+
         total_netto = sum([sum([i.amount_net for i in m.incomes]) for m in request.members])
         warm_miete = request.rent_cold + request.rent_utility
         hh_size = len(request.members)
@@ -298,6 +328,15 @@ class SocialRuleEngine:
                 "amount": 0.00,
                 "reason": self.ASYLBLG_INELIGIBLE_REASON,
                 "application_link": self.ASYLBLG_APPLICATION_LINK
+            }
+
+        if self._exceeds_asset_limit(request, 40000.0, 15000.0):
+            hh_size = max(1, len(request.members))
+            return {
+                "status": "ineligible",
+                "amount": 0.00,
+                "reason": f"Kinderzuschlag ist wegen Überschreitung der Vermögensgrenze (Schonvermögen: {40000.0 + 15000.0 * (hh_size - 1):.2f} € für deinen Haushalt) ausgeschlossen.",
+                "application_link": self.kinderzuschlag_rules["application_link"]
             }
 
         # Eligible children: under 25, lives in household, unmarried

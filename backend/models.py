@@ -52,5 +52,8 @@ class HouseholdRequest(BaseModel):
     
     expects_child: bool = False
     owns_property: bool = False
-    
+
+    assets: float = 0.0
+    has_high_assets: bool = False
+
     members: List[Person]

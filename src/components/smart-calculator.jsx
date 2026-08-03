@@ -409,7 +409,9 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       members: members,
       expects_child: isPregnantOrNewborn,
       owns_property: isOwner,
-      city_tier: selectedCity ? selectedCity.mietstufe : null
+      city_tier: selectedCity ? selectedCity.mietstufe : null,
+      assets: parseFloat(assets) || 0,
+      has_high_assets: hasHighAssets
     };
 
     // Timers for cold start message and API Timeout
