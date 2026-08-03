@@ -58,6 +58,32 @@ class SocialRuleEngine:
             
         return round(freibetrag, 2)
 
+    def _get_wohngeld_rent_limit(self, hh_size: int, mietstufe: int) -> float:
+        """WoGG Anlage 1 Mietobergrenze (inkl. Heiz-/Klimakomponente), gestaffelt nach
+        Haushaltsgröße 1-5 und Mietstufe 1-7; größere Haushalte nutzen die Tabelle für 5
+        Personen zzgl. der amtlichen Pro-Person-Erhöhung je Mietstufe."""
+        ms_idx = min(max(mietstufe, 1), 7) - 1
+        size_key = min(hh_size, 5)
+        limit = self.wohngeld_rules["rent_limits"][str(size_key)][ms_idx]
+        if hh_size > 5:
+            limit += (hh_size - 5) * self.wohngeld_rules["extra_person_limit"][ms_idx]
+        return limit
+
+    def _get_wohngeld_heating_pauschale(self, hh_size: int) -> float:
+        """Pauschale Heizkostenkomponente (Bestandteil der Mietobergrenze seit der
+        Wohngeld-Plus-Reform 2023), gestaffelt nach Haushaltsgröße."""
+        size_key = min(hh_size, 5)
+        pauschale = self.wohngeld_rules["heating_pauschale"][str(size_key)]
+        if hh_size > 5:
+            pauschale += (hh_size - 5) * self.wohngeld_rules["heating_pauschale_extra_person"]
+        return pauschale
+
+    def _get_wohngeld_coefficients(self, hh_size: int) -> dict:
+        """WoGG Anlage 2 Koeffizienten a/b/c für die Rasterformel, gestaffelt nach
+        Haushaltsgröße 1-12; größere Haushalte nutzen die Werte für 12 Personen (Näherung)."""
+        size_key = min(max(hh_size, 1), 12)
+        return self.wohngeld_rules["coefficients"][str(size_key)]
+
     # Vereinfachte Regelaltersgrenze (variiert je nach Geburtsjahrgang zwischen 65 und 67; 67 als
     # konservativer Näherungswert für aktuelle/zukünftige Renteneintritte).
     REGELALTERSGRENZE = 67
@@ -263,21 +289,27 @@ class SocialRuleEngine:
         # Mietstufe (1-7) bestimmt die Mietobergrenze und fließt in die amtliche
         # WoGG-Rasterformel ein. city_tier kann fehlen (altes Frontend/Bestandsdaten) -> Mietstufe 1 als konservativer Default.
         mietstufe = request.city_tier if request.city_tier in range(1, 8) else 1
-        rent_caps = self.wohngeld_rules["rent_caps"][str(mietstufe)]
-        # rent_caps ist nach Haushaltsgröße 1-6 gestaffelt; größere Haushalte nutzen die Obergrenze für 6 Personen (Näherung).
-        size_idx = min(hh_size, len(rent_caps)) - 1
-        rent_cap = rent_caps[size_idx]
-        # Für die Formel zählt die Bruttokaltmiete (kalt + Nebenkosten, ohne Heizkosten), gedeckelt auf die Mietobergrenze.
-        considered_rent = min(warm_miete, rent_cap)
+        safe_hh_size = max(1, hh_size)
 
-        # Koeffizienten sind nur bis Haushaltsgröße 5 hinterlegt; größere Haushalte nutzen Größe 5 (Näherung).
-        coeff_size = min(hh_size, 5)
-        coeffs = self.wohngeld_rules["coefficients"][str(coeff_size)]
+        # Mietobergrenze (WoGG Anlage 1, seit der Wohngeld-Plus-Reform 2023 inkl. pauschaler
+        # Heiz- und Klimakomponente) + Heizkostenpauschale, mit identischer Methodik zum
+        # lokalen JS-Fallback-Engine (src/logic/calculator-2026.js), um Backend/Frontend-Drift
+        # bei den amtlichen Tabellen zu vermeiden.
+        rent_limit_total = self._get_wohngeld_rent_limit(safe_hh_size, mietstufe)
+        heating_pauschale = self._get_wohngeld_heating_pauschale(safe_hh_size)
+        rent_limit_kalt = rent_limit_total - heating_pauschale
+
+        # Für die Formel zählt die Bruttokaltmiete (kalt + Nebenkosten, ohne Heizkosten), gedeckelt
+        # auf die um die Heizkostenpauschale reduzierte Mietobergrenze; die Pauschale wird danach
+        # wieder aufgeschlagen, da sie Teil der amtlichen Mietobergrenze (inkl. Heizkosten) ist.
+        considered_kalt = min(warm_miete, rent_limit_kalt)
+        M = round(considered_kalt + heating_pauschale, 2)
+
+        coeffs = self._get_wohngeld_coefficients(safe_hh_size)
         a, b, c = coeffs["a"], coeffs["b"], coeffs["c"]
 
         # Amtliche WoGG-Rasterformel (§19 WoGG): WG = 1,15 * (M - (a + b*M + c*Y) * Y)
         Y = total_netto
-        M = considered_rent
         raw_amount = 1.15 * (M - ((a + (b * M) + (c * Y)) * Y))
 
         # Bagatellgrenze: unter 10€/Monat besteht kein Wohngeldanspruch (wird nicht ausgezahlt).
@@ -289,8 +321,8 @@ class SocialRuleEngine:
                 "application_link": self.wohngeld_rules["application_link"]
             }
 
-        # Wohngeld kann rechnerisch nie die berücksichtigte Miete selbst übersteigen.
-        estimated_amount = min(round(raw_amount, 2), round(considered_rent, 2))
+        # Wohngeld kann rechnerisch nie die berücksichtigte Miete (inkl. Heizkostenpauschale) selbst übersteigen.
+        estimated_amount = min(round(raw_amount, 2), M)
 
         return {
             "status": "eligible",
