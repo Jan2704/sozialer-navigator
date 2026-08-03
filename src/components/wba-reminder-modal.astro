@@ -172,7 +172,7 @@
         const year = (document.getElementById('wba-year') as HTMLSelectElement).value;
 
         try {
-            const response = await fetch('/api/wba-reminder', {
+            const response = await fetch('/api/wba-reminder/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, month, year, type: 'WBA_REMINDER' })
