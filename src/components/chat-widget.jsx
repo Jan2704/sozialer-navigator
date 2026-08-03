@@ -111,8 +111,23 @@ function extractEntities(text) {
   }
 
   // --- Stadt ---
+  // 'essen', 'halle' und 'kiel' sind auch normale deutsche Wörter (Nahrung/
+  // Gebäude/Schiffskiel) – ein reiner Substring-Treffer würde z.B. "Geld für
+  // Essen" oder "vergessen" fälschlich als Stadt "Essen" erkennen. Für diese
+  // Städte nur bei Ortsbezug (z.B. "in Essen") oder einer knappen Antwort auf
+  // die "In welcher Stadt wohnst du?"-Frage (bare "Essen"/"Halle"/"Kiel")
+  // matchen.
+  const AMBIGUOUS_CITIES = new Set(['essen', 'halle', 'kiel']);
+  const bareCityReply = lower.trim().replace(/[.!?]+$/, '');
   for (const city of Object.keys(CITY_MIETSTUFE)) {
-    if (lower.includes(city)) { ent.city = city; break; }
+    const cityWordRgx = new RegExp(`\\b${city}\\b`, 'i');
+    if (!cityWordRgx.test(lower)) continue;
+    if (AMBIGUOUS_CITIES.has(city)) {
+      const locationRgx = new RegExp(`\\b(?:in|aus|bei|nähe(?:\\s+von)?|stadt)\\s+${city}\\b`, 'i');
+      if (!locationRgx.test(lower) && bareCityReply !== city) continue;
+    }
+    ent.city = city;
+    break;
   }
 
   // --- Lebenssituation ---
