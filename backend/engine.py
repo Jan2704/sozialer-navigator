@@ -417,8 +417,8 @@ class SocialRuleEngine:
         
         if parent_earned_income >= parent_need:
             excess = parent_earned_income - parent_need
-            # 50% of parent's excess income is deducted from Kinderzuschlag
-            amount = max(0.0, max_kiz - (excess * 0.5))
+            # § 6a Abs. 3 Satz 3 BKGG: 45% of parent's excess income is deducted from Kinderzuschlag
+            amount = max(0.0, max_kiz - (excess * 0.45))
             if amount > 0:
                 return {
                     "status": "eligible",
