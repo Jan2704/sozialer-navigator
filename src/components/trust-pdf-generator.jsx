@@ -3,6 +3,18 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { ShieldCheck, Lock, Download, ChevronRight, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 
+const STATUS_LABELS = {
+  employee: 'Angestellt / Arbeitnehmer',
+  self_employed: 'Selbstständig',
+  unemployed_sgb2: 'Arbeitslos (Bürgergeld-Bezug)',
+  unemployed_sgb3: 'Arbeitslos (ALG I Bezug)',
+  seeking_work: 'Arbeitssuchend / Ohne Bezüge',
+  student: 'Student(in)',
+  trainee: 'Auszubildende(r) / Schüler',
+  pensioner: 'Rentner / Pensionär',
+  asylum_seeker: 'Asylbewerber(in)'
+};
+
 export function TrustPdfGenerator({ result }) {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -141,7 +153,7 @@ export function TrustPdfGenerator({ result }) {
         drawRow(yStart - 25, 'Haushaltsgröße:', `${savedState.input.persons} Erwachsene(r), ${savedState.input.kids} Kind(er)`);
         drawRow(yStart - 50, 'Brutto-Einkommen:', `${savedState.input.income} Euro`);
         drawRow(yStart - 75, 'Warmmiete:', `${savedState.input.rent} Euro`);
-        drawRow(yStart - 100, 'Berufl. Status:', savedState.input.status === 'employee' ? 'Angestellt/Arbeitssuchend' : 'Rentner/Pensionär');
+        drawRow(yStart - 100, 'Berufl. Status:', STATUS_LABELS[savedState.input.status] || 'Sonstiges');
         
         coverPage.drawText(`Diese Anlage dient zur schnelleren Vorab-Einschätzung durch die Behörde.`, {
           x: 60, y: height - 320, size: 10, font: fontRegular, color: rgb(0.4, 0.4, 0.4)
