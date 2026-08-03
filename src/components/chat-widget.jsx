@@ -1,25 +1,28 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MessageCircle, X, Send, Minus, ChevronRight, Sparkles, Calculator, AlertTriangle, TrendingUp, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { wohngeldData } from '../data/wohngeld-data.js';
 
 // =========================================================
 // BRAIN v3.0 — Konstanten & Datentabellen
 // =========================================================
 
-/** Mietstufen der großen deutschen Städte (Wohngeldgesetz 2023) */
+/**
+ * Mietstufen der großen deutschen Städte (Wohngeldgesetz 2023).
+ * Abgeleitet aus `wohngeldData` (der kanonischen, pro Stadt gepflegten
+ * Datenquelle, die auch die echten Städte-Landingpages speist), damit diese
+ * Tabelle nicht unabhängig von dort gepflegt wird und wieder auseinanderläuft.
+ * `stadt` deckt fast alle Schlüssel direkt ab (z.B. "Köln" -> 'köln'); ein
+ * paar Städte brauchen einen Alias (abweichender Name in `wohngeldData` oder
+ * englischer Name) oder fehlen dort ganz und bleiben als manueller Fallback.
+ */
 const CITY_MIETSTUFE = {
-  'münchen': 7, 'munich': 7,
-  'berlin': 6, 'hamburg': 6, 'frankfurt': 6, 'stuttgart': 6,
-  'köln': 5, 'cologne': 5, 'düsseldorf': 5, 'wiesbaden': 5,
-  'heidelberg': 5, 'freiburg': 5, 'münchen': 7,
-  'dortmund': 4, 'essen': 4, 'bremen': 4, 'hannover': 4,
-  'nürnberg': 4, 'bonn': 4, 'mannheim': 4, 'karlsruhe': 4,
-  'augsburg': 4, 'mainz': 4, 'münster': 4, 'aachen': 4,
-  'kiel': 4, 'potsdam': 4, 'lübeck': 3, 'erfurt': 3,
-  'rostock': 3, 'magdeburg': 3, 'chemnitz': 3, 'halle': 3,
-  'bielefeld': 3, 'wuppertal': 3, 'bochum': 3, 'duisburg': 3,
-  'krefeld': 3, 'oberhausen': 3, 'hagen': 3, 'kassel': 3,
-  'saarbrücken': 3, 'osnabrück': 3, 'leverkusen': 3,
+  ...Object.fromEntries(wohngeldData.map((c) => [c.stadt.toLowerCase(), c.mietstufe])),
+  'munich': 7,
+  'cologne': wohngeldData.find((c) => c.stadt === 'Köln').mietstufe,
+  'halle': wohngeldData.find((c) => c.stadt === 'Halle (Saale)').mietstufe,
+  // Nicht in wohngeldData vorhanden (keine eigene Städte-Landingpage) — Fallback beibehalten.
+  'potsdam': 4, 'bochum': 3, 'leverkusen': 3,
 };
 
 /**
