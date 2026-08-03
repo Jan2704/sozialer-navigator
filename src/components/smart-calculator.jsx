@@ -491,6 +491,43 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         });
       }
 
+      // The live backend has no Grundsicherung im Alter (SGB XII) module — calculate_sgb2() correctly
+      // excludes retirees from Bürgergeld but never computes what they may actually be owed instead, so a
+      // pensioner would otherwise land on "Kein Anspruch" here despite the site's own dedicated
+      // /grundsicherung-im-alter/ page advertising this exact calculation. Fill the gap with the
+      // already-implemented local module rather than leaving retirees stranded on the primary path.
+      if (status === "pensioner") {
+        const gaResult = evaluateAllBenefits(profileInput).find(r => r.id === "grundsicherung_alter");
+        if (gaResult && gaResult.eligible !== "none" && gaResult.amount > 0) {
+          // Wohngeld/Lastenzuschuss and Grundsicherung im Alter are mutually exclusive (§7 Abs. 1 WoGG) —
+          // the backend has no retiree exclusion for Wohngeld, so both can come back positive here. Rather
+          // than showing two contradictory "probable" claims to a vulnerable user group, keep only the
+          // higher one as a firm claim and demote the other to "possible" with an explanatory note.
+          const housingCard = mappedResults.find(r => (r.id === "wohngeld" || r.id === "lastenzuschuss") && r.amount > 0);
+          const gaWins = !housingCard || gaResult.amount >= housingCard.amount;
+
+          mappedResults.push({
+            id: "grundsicherung_alter",
+            title: gaResult.type,
+            amount: gaResult.amount,
+            eligible: gaWins ? "probable" : "possible",
+            description: gaWins ? gaResult.reasoning : `${gaResult.reasoning} Da Wohngeld in Ihrem Fall voraussichtlich höher ausfällt, kommt meist nur eine der beiden Leistungen infrage (Wahlrecht).`,
+            details: gaResult
+          });
+
+          if (housingCard && gaWins) {
+            housingCard.eligible = "possible";
+            housingCard.description = `${housingCard.description} Grundsicherung im Alter fällt in Ihrem Fall voraussichtlich höher aus, meist kommt nur eine der beiden Leistungen infrage (Wahlrecht).`;
+          }
+
+          if (gaResult.amount > primaryAmount) {
+            primaryType = "Grundsicherung im Alter";
+            primaryAmount = gaResult.amount;
+            primaryEligible = true;
+          }
+        }
+      }
+
       const resultDetail = {
         results: mappedResults,
         opportunities: data.opportunities || [],
