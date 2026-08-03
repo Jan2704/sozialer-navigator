@@ -100,7 +100,19 @@ export default function AuthorityApp() {
 
             // b) Prefix check (NEW: Universal for major cities)
             const hasPrefixMatch = cityData.prefixes?.some(p => term.startsWith(p));
-            if (hasPrefixMatch || isCityMatch) {
+            // Guard: some prefixes here are only 2 digits (e.g. Essen "45", Köln "50"/"51",
+            // Berlin "14", Nürnberg "90") and are broad enough to also match a real,
+            // different neighboring city's exact postal code (e.g. Essen's "45" prefix
+            // would otherwise hijack Gelsenkirchen's real PLZ 45881). If the search term is
+            // a full 5-digit PLZ that exactly belongs to a different city already correctly
+            // catalogued in cities_2026.json, don't let the broad prefix override it here —
+            // let it fall through to the exact-match lookup in step 2 below instead.
+            const prefixMatchIsReliable = hasPrefixMatch && !citiesData.some(c => {
+                const cPlz = c.plz.toString().padStart(5, '0');
+                const cStadt = c.stadt.toLowerCase();
+                return cPlz === term && !cStadt.includes(cityName.toLowerCase()) && !cityName.toLowerCase().includes(cStadt);
+            });
+            if (prefixMatchIsReliable || isCityMatch) {
                 if (cityData.authorities?.[currentBenefit]) {
                     const auth = cityData.authorities[currentBenefit];
                     return {
