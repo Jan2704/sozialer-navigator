@@ -45,7 +45,7 @@ def analyze():
             results_list.append({
                 "type": "ALERT",
                 "title": "⚠️ Risiko: Sperrzeit erkannt",
-                "text": f"Durch die Eigenkündigung verlierst du {loss} € pro Monat. Das ist eine Woche Essen! Diese Kürzung ist oft rechtswidrig.",
+                "text": f"Durch die Eigenkündigung verlierst du {loss:.2f} € pro Monat. Das ist eine Woche Essen! Diese Kürzung ist oft rechtswidrig.",
                 "amount": 0.0,
                 "status": "possible",
                 "link": LINK_ANWALT_SPERRZEIT
@@ -77,7 +77,7 @@ def analyze():
         if sgb2_res.get("sanction_applied", 0) > 0:
             opportunities.append({
                 "id": "legal_aid",
-                "title": "168 € Verlust verhindern ⚖️",
+                "title": f"{loss:.2f} € Verlust verhindern ⚖️",
                 "text": "Dein Anspruch wurde gekürzt. Lass kostenlos prüfen, ob du das Geld zurückbekommst.",
                 "icon": "§",
                 "link": LINK_ANWALT_SPERRZEIT,
