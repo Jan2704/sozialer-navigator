@@ -28,12 +28,18 @@ export const POST: APIRoute = async ({ request }: APIContext) => {
         const interest = data.interest ? stripControlChars(String(data.interest)) : data.interest;
         const city = data.city ? stripControlChars(String(data.city)) : data.city;
         const modal_type = data.modal_type ? stripControlChars(String(data.modal_type)) : data.modal_type;
-        const partner_vertical = data.partner_vertical ? stripControlChars(String(data.partner_vertical)) : data.partner_vertical;
         const phone = data.phone ? stripControlChars(String(data.phone)) : data.phone;
 
         if (!first_name || !email || !interest || !modal_type) {
             return new Response(JSON.stringify({ error: 'Fehlende Daten (Name, E-Mail, Interesse oder Modal-Typ).' }), { status: 400 });
         }
+
+        // Derive partner_vertical/consent server-side instead of trusting the client verbatim.
+        // Only the 'legal_help' modal flow ever shows the partner-consent checkbox or sets a
+        // partner vertical (see lead-modal.astro's openLeadModal) — a raw client field here would
+        // let a direct API caller forge a fake partner-consent record for any other modal_type.
+        const partner_vertical = modal_type === 'legal_help' ? 'legal' : null;
+        const consent_partner_transfer = modal_type === 'legal_help' ? (data.consent_partner_transfer === true) : false;
 
         if (!EMAIL_REGEX.test(email)) {
             return new Response(JSON.stringify({ error: 'Ungültige E-Mail-Adresse.' }), { status: 400 });
@@ -53,8 +59,8 @@ export const POST: APIRoute = async ({ request }: APIContext) => {
                     source: data.source || 'website-api',
                     modal_type,
                     // Partner / Monetization Fields
-                    partner_vertical: partner_vertical || null, // 'legal', 'coaching', etc.
-                    consent_partner_transfer: data.consent_partner_transfer || false
+                    partner_vertical, // derived server-side above, 'legal' or null
+                    consent_partner_transfer
                 }
             ]);
 
@@ -80,6 +86,7 @@ export const POST: APIRoute = async ({ request }: APIContext) => {
                         city,
                         modal_type,
                         partner_vertical,
+                        consent_partner_transfer,
                         submitted_at: new Date().toISOString(),
                         source: 'leads-api'
                     })
