@@ -171,7 +171,7 @@ const formatDate = (dateStr) => {
                                                 <form method="POST" class="inline">
                                                     <input type="hidden" name="action" value="toggle" />
                                                     <input type="hidden" name="id" value={item.id} />
-                                                    <input type="hidden" name="current_status" value={item.resolved.toString()} />
+                                                    <input type="hidden" name="current_status" value={(item.resolved ?? false).toString()} />
                                                     <button type="submit" class:list={[
                                                         "rounded px-2 py-1 text-xs font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
                                                         item.resolved 
