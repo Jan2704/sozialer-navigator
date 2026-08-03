@@ -39,10 +39,43 @@ const { cityName, citySlug } = Astro.props;
       </div>
 
       <!-- Mobile Menu Button -->
-      <button class="md:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
+      <button
+        id="mobile-menu-button"
+        class="md:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Menü öffnen"
+      >
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
     </nav>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 pb-4">
+      <ul class="flex flex-col gap-1 pt-3 text-sm font-semibold text-slate-600">
+        <li>
+          <a href="/" class="block px-2 py-2.5 hover:text-[#0EA5E9] transition-colors uppercase tracking-wider text-[11px] font-black">Startseite</a>
+        </li>
+        <li>
+          <a href="/ueber-uns/" class="block px-2 py-2.5 hover:text-[#0EA5E9] transition-colors uppercase tracking-wider text-[11px] font-black">Über Uns</a>
+        </li>
+        <li class="pt-1">
+          <a href="/#calculator" class="block text-center px-5 py-2.5 bg-transparent text-slate-800 hover:text-[#0D9488] hover:border-[#0D9488] transition-all text-xs font-black uppercase tracking-wider rounded-xl border border-slate-200 shadow-sm">
+            Anspruch prüfen
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </header>
+
+<script>
+  const menuButton = document.getElementById('mobile-menu-button');
+  const menuPanel = document.getElementById('mobile-menu');
+  menuButton?.addEventListener('click', () => {
+    const isOpen = menuPanel?.classList.toggle('hidden') === false;
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+  });
+</script>
