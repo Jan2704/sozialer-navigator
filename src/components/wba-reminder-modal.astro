@@ -182,7 +182,15 @@
                 form.classList.add('hidden');
                 successMsg?.classList.remove('hidden');
             } else {
-                throw new Error('API Error');
+                let message = 'Es gab einen Fehler bei der Übertragung. Bitte versuchen Sie es später erneut.';
+                try {
+                    const data = await response.json();
+                    if (data?.error) message = data.error;
+                } catch {
+                    // Response body wasn't JSON — keep the generic fallback.
+                }
+                console.error('WBA reminder submission rejected:', response.status, message);
+                alert(message);
             }
         } catch (error) {
             console.error('Error submitting WBA reminder:', error);
