@@ -1,5 +1,6 @@
 import os
 import json
+import math
 from typing import List, Dict, Any
 from models import HouseholdRequest, Person, IncomeSource, TerminationReason
 
@@ -450,6 +451,21 @@ class SocialRuleEngine:
                     "application_link": self.kinderzuschlag_rules["application_link"]
                 }
 
+    def _get_elterngeld_rate(self, net_income: float) -> float:
+        """Sliding-scale Elterngeld replacement rate per §2 Abs. 2 BEEG:
+        up to 100% below 1.000€, 67% between 1.000€ and 1.200€, tapering to
+        65% between 1.200€ and 1.240€, flat 65% above that."""
+        rate = self.elterngeld_rules["standard_percentage"]
+        if net_income < 1000:
+            diff = 1000 - net_income
+            rate = min(1.0, 0.67 + math.floor(diff / 2) * 0.001)
+        elif net_income <= 1200:
+            rate = 0.67
+        elif net_income <= 1240:
+            diff = net_income - 1200
+            rate = max(0.65, 0.67 - math.floor(diff / 2) * 0.001)
+        return rate
+
     def calculate_elterngeld(self, request: HouseholdRequest) -> dict:
         has_baby = any(member.role == "child" and member.age == 0 for member in request.members)
         expects = getattr(request, 'expects_child', False)
@@ -467,7 +483,8 @@ class SocialRuleEngine:
         if main_parent:
             parent_income = sum(inc.amount_net for inc in main_parent.incomes if inc.amount_net > 0)
             
-        estimated_amount = parent_income * self.elterngeld_rules["standard_percentage"]
+        rate = self._get_elterngeld_rate(parent_income)
+        estimated_amount = parent_income * rate
         estimated_amount = max(self.elterngeld_rules["min_amount"], min(self.elterngeld_rules["max_amount"], estimated_amount))
         
         reason = f"Anspruch auf ca. {estimated_amount:.2f} € Elterngeld pro Monat."
