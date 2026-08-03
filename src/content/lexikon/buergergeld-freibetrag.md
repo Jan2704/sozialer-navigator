@@ -19,19 +19,19 @@ Wenn Sie mehr als 100 Euro verdienen, gelten zusätzlich folgende Freibeträge a
 
 | Einkommensspanne (Brutto) | Freibetrag (davon dürfen Sie behalten) |
 | ------------------------- | -------------------------------------- |
-| 100 € bis 520 €           | **20 %**                               |
-| 520 € bis 1.000 €         | **30 %**                               |
+| 100 € bis 538 €           | **20 %**                               |
+| 538 € bis 1.000 €         | **30 %**                               |
 | 1.000 € bis 1.200 €*      | **10 %**                               |
 
-With Kind im Haushalt: Die Obergrenze der letzten Stufe steigt von 1.200 € auf **1.500 €**, wenn Sie minderjährige Kinder haben.
+Bei Kind im Haushalt: Die Obergrenze der letzten Stufe steigt von 1.200 € auf **1.500 €**, wenn Sie minderjährige Kinder haben.
 
 ### Ein Rechenbeispiel
 Angenommen, Sie verdienen **1.400 Euro Brutto**.
 
 1. **0 - 100 €:** Frei (100 €)
-2. **100 - 520 €:** 20% von 420 € = **84 €**
-3. **520 - 1.000 €:** 30% von 480 € = **144 €**
+2. **100 - 538 €:** 20% von 438 € = **87,60 €**
+3. **538 - 1.000 €:** 30% von 462 € = **138,60 €**
 4. **1.000 - 1.400 €:** 10% von 400 € = **40 €** (mit Kind bis 1.500€ möglich)
 
-**Gesamter Freibetrag:** 100 + 84 + 144 + 40 = **368 Euro**.
-Das bedeutet, 368 Euro Ihres Einkommens werden nicht angerechnet.
+**Gesamter Freibetrag:** 100 + 87,60 + 138,60 + 40 = **366,20 Euro**.
+Das bedeutet, 366,20 Euro Ihres Einkommens werden nicht angerechnet.
