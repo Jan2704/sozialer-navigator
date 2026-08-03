@@ -179,7 +179,13 @@
         
         // Reset state
         step3.classList.add('hidden');
-        
+        const pVerticalReset = document.getElementById('avgs-partner-vertical');
+        if(pVerticalReset) pVerticalReset.value = '';
+        const pConsentReset = document.getElementById('partner-consent-container');
+        if(pConsentReset) pConsentReset.classList.add('hidden');
+        const pConsentCheckReset = document.getElementById('partner-consent-check');
+        if(pConsentCheckReset) pConsentCheckReset.checked = false;
+
         if (type === 'application') {
             // Context: Application Help -> Skip Step 1
             step1.classList.add('hidden');
