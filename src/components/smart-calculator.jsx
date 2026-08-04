@@ -507,14 +507,19 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         let id = "unknown";
         if (r.type === "SGB2") id = "buergergeld";
         if (r.type === "WOHNGELD") id = "wohngeld";
+        if (r.type === "KINDERGELD") id = "kindergeld";
+        if (r.type === "KINDERZUSCHLAG") id = "kinderzuschlag";
+        if (r.type === "ELTERNGELD") id = "elterngeld";
         if (r.type === "ALERT") id = "sperrzeit_alert";
 
         return {
           id: id,
           title: r.title,
+          name: r.title,
           amount: r.amount,
           eligible: r.amount > 0 || r.type === "ALERT" ? "probable" : "none",
           description: r.text,
+          reasoning: r.text,
           details: r
         };
       });
@@ -523,9 +528,11 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         mappedResults.push({
           id: "lastenzuschuss",
           title: "Lastenzuschuss (Wohngeld)",
+          name: "Lastenzuschuss (Wohngeld)",
           amount: wgRes.amount,
           eligible: wgRes.amount > 0 ? "probable" : "none",
           description: wgRes.text,
+          reasoning: wgRes.text,
           details: wgRes
         });
       }
@@ -548,15 +555,18 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
           mappedResults.push({
             id: "grundsicherung_alter",
             title: gaResult.type,
+            name: gaResult.type,
             amount: gaResult.amount,
             eligible: gaWins ? "probable" : "possible",
             description: gaWins ? gaResult.reasoning : `${gaResult.reasoning} Da Wohngeld in Ihrem Fall voraussichtlich höher ausfällt, kommt meist nur eine der beiden Leistungen infrage (Wahlrecht).`,
+            reasoning: gaWins ? gaResult.reasoning : `${gaResult.reasoning} Da Wohngeld in Ihrem Fall voraussichtlich höher ausfällt, kommt meist nur eine der beiden Leistungen infrage (Wahlrecht).`,
             details: gaResult
           });
 
           if (housingCard && gaWins) {
             housingCard.eligible = "possible";
             housingCard.description = `${housingCard.description} Grundsicherung im Alter fällt in Ihrem Fall voraussichtlich höher aus, meist kommt nur eine der beiden Leistungen infrage (Wahlrecht).`;
+            housingCard.reasoning = `${housingCard.reasoning} Grundsicherung im Alter fällt in Ihrem Fall voraussichtlich höher aus, meist kommt nur eine der beiden Leistungen infrage (Wahlrecht).`;
           }
 
           if (gaResult.amount > primaryAmount) {
