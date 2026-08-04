@@ -91,14 +91,32 @@ export const POST: APIRoute = async ({ request }) => {
             }
         }
 
-        // Confirmation copy to the applicant
+        // Confirmation copy to the applicant — wording depends on whether the
+        // authority-side send actually succeeded, so we never falsely claim
+        // the Fristwahrung-relevant application was delivered.
         await sendEmail({
             to: email,
-            subject: 'Ihr Antrag beim Sozialen Navigator wurde versendet',
-            html: `
+            subject: authoritySent
+                ? 'Ihr Antrag beim Sozialen Navigator wurde versendet'
+                : 'Ihr Antrag beim Sozialen Navigator wird manuell nachbearbeitet',
+            html: authoritySent ? `
                 <h1>Vielen Dank, ${escapeHtml(firstName)}!</h1>
                 <p>Ihr Antrag für <strong>${escapeHtml(authority)}</strong> lautet auf: ${escapeHtml(benefitLabel || 'Sozialleistungen')}.</p>
                 <p>Anbei finden Sie eine Kopie des Antrags, den wir in Ihrem Namen an die Behörde gesendet haben.</p>
+                <br>
+                <p><strong>Ihre übermittelten Daten:</strong></p>
+                <ul>
+                    <li>Behörde: ${escapeHtml(authority)}</li>
+                    <li>E-Mail der Behörde: ${escapeHtml(authorityEmail)} (Versandziel)</li>
+                    <li>Ihre Adresse: ${escapeHtml(street || '')}, ${escapeHtml(zipCity || '')}</li>
+                </ul>
+                <p>Mit freundlichen Grüßen,</p>
+                <p>Das Team vom Sozialen Navigator</p>
+            ` : `
+                <h1>Hallo ${escapeHtml(firstName)},</h1>
+                <p>wir haben Ihren Antrag für <strong>${escapeHtml(authority)}</strong> (${escapeHtml(benefitLabel || 'Sozialleistungen')}) entgegengenommen.</p>
+                <p><strong>Der automatische Versand an die Behörde ist technisch fehlgeschlagen.</strong> Ihr Antrag wurde deshalb noch nicht an ${escapeHtml(authority)} übermittelt. Unser Team kümmert sich umgehend manuell um den Versand und meldet sich bei Ihnen, sobald der Antrag zur Fristwahrung eingereicht wurde.</p>
+                <p>Anbei finden Sie zu Ihrer eigenen Sicherheit bereits eine Kopie des Antrags als PDF.</p>
                 <br>
                 <p><strong>Ihre übermittelten Daten:</strong></p>
                 <ul>
@@ -136,7 +154,7 @@ export const POST: APIRoute = async ({ request }) => {
             }],
         });
 
-        return new Response(JSON.stringify({ success: true }), { status: 200 });
+        return new Response(JSON.stringify({ success: true, authoritySent }), { status: 200 });
 
     } catch (error: any) {
         console.error('API Error (Send Application):', error);

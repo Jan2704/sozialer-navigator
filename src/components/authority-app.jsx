@@ -323,7 +323,9 @@ export default function AuthorityApp() {
                 if (!completedSteps.includes(1)) {
                     setCompletedSteps(prev => [...prev, 1]);
                 }
-                window.location.href = `/erfolg/?name=${encodeURIComponent(formData.firstName + ' ' + formData.lastName)}`;
+                const nameParam = `name=${encodeURIComponent(formData.firstName + ' ' + formData.lastName)}`;
+                const pendingParam = data.authoritySent === false ? '&pending=1' : '';
+                window.location.href = `/erfolg/?${nameParam}${pendingParam}`;
             } else {
                 console.error("Send Error:", data);
                 alert("Fehler beim Versenden des Antrags: " + (data.error || 'Unbekannt'));

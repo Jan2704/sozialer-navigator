@@ -20,7 +20,7 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </div>
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">Geschafft!</h1>
-        <p class="text-xl text-slate-600 font-medium mb-12 max-w-2xl mx-auto">
+        <p id="intro-text" class="text-xl text-slate-600 font-medium mb-12 max-w-2xl mx-auto">
           Hallo <span id="display-name" class="text-blue-600 font-bold">...</span>, dein Antrag wurde soeben kostenlos erstellt und fristwahrend versendet.
         </p>
 
@@ -30,11 +30,11 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
              <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/30 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
 
              <div class="relative z-10">
-                  <h2 class="text-3xl font-black text-white mb-6 leading-tight flex items-center gap-3">
+                  <h2 id="success-heading" class="text-3xl font-black text-white mb-6 leading-tight flex items-center gap-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                       Antrag erfolgreich versendet
                   </h2>
-                  <div class="space-y-6 text-blue-50 font-medium text-lg leading-relaxed">
+                  <div id="success-body" class="space-y-6 text-blue-50 font-medium text-lg leading-relaxed">
                       <p>
                           Wir haben deinen formlosen Antrag zur Fristwahrung soeben <strong>automatisch an die zuständige Behörde</strong> gesendet – kostenlos, ohne versteckte Gebühren.
                       </p>
@@ -121,8 +121,6 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
 </Layout>
 
 <script>
-  import { supabase } from '../lib/supabase';
-
   // Handle URL parameters
   const params = new URLSearchParams(window.location.search);
   const name = params.get('name');
@@ -132,6 +130,44 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
           nameEl.innerText = name;
       } else {
           nameEl.style.display = 'none';
+      }
+  }
+
+  // If the automatic send to the authority failed server-side, don't claim
+  // it succeeded — the API tells us via ?pending=1 (see send-application.ts).
+  if (params.get('pending') === '1') {
+      const introEl = document.getElementById('intro-text');
+      if (introEl) {
+          introEl.textContent = '';
+          introEl.append('Hallo ');
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'text-blue-600 font-bold';
+          nameSpan.textContent = name || '';
+          introEl.append(nameSpan, ', dein Antrag wurde entgegengenommen. Der automatische Versand an die Behörde hat leider nicht geklappt — unser Team kümmert sich jetzt manuell darum.');
+      }
+      const headingEl = document.getElementById('success-heading');
+      if (headingEl) {
+          headingEl.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-amber-300"><path d="M12 9v4"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L14.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 17h.01"/></svg>
+              Antrag wird manuell nachbearbeitet
+          `;
+      }
+      const bodyEl = document.getElementById('success-body');
+      if (bodyEl) {
+          bodyEl.innerHTML = `
+              <p>
+                  Der automatische Versand deines Antrags an die zuständige Behörde ist technisch fehlgeschlagen. <strong>Dein Antrag wurde noch nicht an die Behörde übermittelt.</strong>
+              </p>
+              <div class="bg-white/10 border border-white/10 rounded-2xl p-6 backdrop-blur-sm shadow-inner flex items-start gap-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200 shrink-0 mt-1"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  <div>
+                      <h3 class="text-white font-bold mb-1">Prüfe dein Postfach</h3>
+                      <p class="text-sm text-blue-100 leading-snug">
+                          Wir haben dir eine E-Mail mit weiteren Infos und einer Kopie deines Antrags als PDF geschickt. Unser Team übernimmt den Versand an die Behörde manuell und meldet sich bei dir.
+                      </p>
+                  </div>
+              </div>
+          `;
       }
   }
 
@@ -183,6 +219,7 @@ const currentMonth = new Date().toLocaleString('de-DE', { month: 'long' });
               ? `${data.email} | Newsletter: ${data.newsletter === 'on' ? 'Ja' : 'Nein'}`
               : (data.newsletter === 'on' ? 'Newsletter: Ja (Keine E-Mail angegeben!)' : '');
 
+          const { supabase } = await import('../lib/supabase');
           const { error } = await supabase
               .from('user_feedback')
               .insert([{
