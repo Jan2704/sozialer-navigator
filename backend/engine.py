@@ -478,16 +478,24 @@ class SocialRuleEngine:
                 "application_link": self.elterngeld_rules["application_link"]
             }
             
-        main_parent = next((m for m in request.members if m.role == "main"), None)
-        parent_income = 0.0
-        if main_parent:
-            parent_income = sum(inc.amount_net for inc in main_parent.incomes if inc.amount_net > 0)
-            
+        net_before = getattr(request, 'net_income_before_birth', None)
+        if net_before is not None and net_before > 0:
+            parent_income = net_before
+        else:
+            main_parent = next((m for m in request.members if m.role == "main"), None)
+            parent_income = 0.0
+            if main_parent:
+                parent_income = sum(inc.amount_net for inc in main_parent.incomes if inc.amount_net > 0)
+
         rate = self._get_elterngeld_rate(parent_income)
         estimated_amount = parent_income * rate
         estimated_amount = max(self.elterngeld_rules["min_amount"], min(self.elterngeld_rules["max_amount"], estimated_amount))
-        
-        reason = f"Anspruch auf ca. {estimated_amount:.2f} € Elterngeld pro Monat."
+
+        is_plus = getattr(request, 'elterngeld_option', 'basis') == 'plus'
+        if is_plus:
+            estimated_amount = estimated_amount / 2
+
+        reason = f"Anspruch auf ca. {estimated_amount:.2f} € {'Elterngeld Plus' if is_plus else 'Basiselterngeld'} pro Monat."
         if expects:
             reason += " (Prognose basierend auf Angabe Schwangerschaft)"
             

@@ -409,6 +409,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       members: members,
       expects_child: isPregnantOrNewborn,
       owns_property: isOwner,
+      net_income_before_birth: parseFloat(netIncomeBeforeBirth) || 0,
+      elterngeld_option: elterngeldOption,
       city_tier: selectedCity ? selectedCity.mietstufe : null,
       assets: parseFloat(assets) || 0,
       has_high_assets: hasHighAssets

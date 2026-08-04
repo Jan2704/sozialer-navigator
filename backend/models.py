@@ -52,6 +52,8 @@ class HouseholdRequest(BaseModel):
     
     expects_child: bool = False
     owns_property: bool = False
+    net_income_before_birth: Optional[float] = None
+    elterngeld_option: str = "basis"
 
     assets: float = 0.0
     has_high_assets: bool = False
