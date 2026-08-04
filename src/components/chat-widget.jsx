@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MessageCircle, X, Send, Minus, ChevronRight, Sparkles, Calculator, AlertTriangle, TrendingUp, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wohngeldData } from '../data/wohngeld-data.js';
+import { calculateExactWohngeld, RENT_LIMITS } from '../logic/calculator-2026.js';
 
 // =========================================================
 // BRAIN v3.0 — Konstanten & Datentabellen
@@ -24,30 +25,6 @@ const CITY_MIETSTUFE = {
   // Nicht in wohngeldData vorhanden (keine eigene Städte-Landingpage) — Fallback beibehalten.
   'potsdam': 4, 'bochum': 3, 'leverkusen': 3,
 };
-
-/**
- * Wohngeld-Tabelle 2026: Höchstbeträge für berücksichtigungsfähige Miete
- * Index: [Personenanzahl-1][Mietstufe-1]  (Stufen I–VII)
- */
-const WG_MAX_RENT = [
-  [392, 426, 469, 512, 562, 619, 711],  // 1 Person
-  [477, 520, 577, 629, 694, 763, 880],  // 2 Personen
-  [574, 626, 693, 756, 833, 918, 1059], // 3 Personen
-  [671, 732, 810, 884, 973, 1071, 1236],// 4 Personen
-  [751, 820, 908, 990, 1090, 1201, 1384],// 5+ Personen
-];
-
-/**
- * Wohngeld-Formel-Koeffizienten 2026 (§ 19 WoGG)
- * WG = M − (a + b·Y + c·M) · Y   mit M = Mindestmiete, Y = Jahreseinkommen
- */
-const WG_COEFF = [
-  { a: 0.04, b: 0.000321, c: 0.000127 }, // 1 P
-  { a: 0.04, b: 0.000261, c: 0.000104 }, // 2 P
-  { a: 0.04, b: 0.000220, c: 0.000088 }, // 3 P
-  { a: 0.04, b: 0.000190, c: 0.000076 }, // 4 P
-  { a: 0.04, b: 0.000168, c: 0.000067 }, // 5+ P
-];
 
 /** Bürgergeld Regelbedarfsstufen 2026 (§ 28 SGB XII) */
 const BG_SÄTZE = {
@@ -186,16 +163,12 @@ function detectIntent(text) {
 // =========================================================
 
 function calcWohngeld(income, rent, persons, city) {
-  const stufe   = CITY_MIETSTUFE[city] || 3;
-  const pIdx    = Math.min(Math.max(persons, 1), 5) - 1;
-  const sIdx    = stufe - 1;
-  const maxM    = WG_MAX_RENT[pIdx][sIdx];
-  const M       = Math.min(rent, maxM);
-  const { a, b, c } = WG_COEFF[pIdx];
-  // Jahreseinkommen aus monatlichem Netto (Pauschal × 12, da WoGG Jahreseinkommen)
-  const Y       = income * 12;
-  const wg      = M - (a + b * Y + c * M) * Y;
-  return Math.max(0, Math.round(wg));
+  const stufe = CITY_MIETSTUFE[city] || 3;
+  // Delegiert an die kanonische, mit dem Backend synchron gehaltene Formel
+  // (siehe calculator-2026.js), statt eine eigene, unabhängig gepflegte
+  // Kopie der WoGG-Koeffizienten/Mietobergrenzen zu führen.
+  const { amount } = calculateExactWohngeld({ income, rent, persons, mietstufe: stufe });
+  return amount;
 }
 
 function calcBuergergeld(income, persons, children, rent) {
@@ -204,8 +177,8 @@ function calcBuergergeld(income, persons, children, rent) {
   bedarf      += children * BG_SÄTZE.youth_6_13;
 
   // Angemessene Miete (Näherungswert)
-  const pIdx    = Math.min(persons, 5) - 1;
-  const maxMiete = WG_MAX_RENT[pIdx][3] * 1.2; // Mietstufe IV als Durchschnitt, +20%
+  const pKey    = Math.min(Math.max(persons, 1), 5);
+  const maxMiete = RENT_LIMITS[pKey][3] * 1.2; // Mietstufe IV als Durchschnitt, +20%
   bedarf       += Math.min(rent || 650, maxMiete);
 
   // Einkommensfreibetrag (vereinfachtes Modell)
