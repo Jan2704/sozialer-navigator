@@ -120,9 +120,9 @@ export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 56
         mehrbedarf += 563 * 0.36;
     }
 
-    // Schwerbehinderung Mehrbedarf (17% of Regelsatz)
+    // Schwerbehinderung Mehrbedarf (35% of Regelsatz, § 21 Abs. 4 SGB II)
     if (hasDisability) {
-        mehrbedarf += 563 * 0.17;
+        mehrbedarf += 563 * 0.35;
     }
 
     // C. Shelter (KdU)

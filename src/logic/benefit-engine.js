@@ -323,7 +323,8 @@ const BuergergeldModule = {
             kids: parseInt(input.kids) || 0,
             expenses: parseFloat(input.expenses) || 0,
             maintenance: parseFloat(input.maintenance) || 0,
-            status: input.status || "employee"
+            status: input.status || "employee",
+            hasDisability: !!input.hasDisability
         });
         if (!bg.eligible || bg.amount <= 0) {
             return { eligible: "none", amount: 0, type: "Bürgergeld", reasoning: "Ihr Einkommen reicht aus, um Ihren Bedarf nach SGB II zu decken." };
@@ -362,7 +363,8 @@ const GrundsicherungAlterModule = {
             kids: parseInt(input.kids) || 0,
             expenses: parseFloat(input.expenses) || 0,
             maintenance: parseFloat(input.maintenance) || 0,
-            status: "pensioner"
+            status: "pensioner",
+            hasDisability: !!input.hasDisability
         });
         if (!bg.eligible || bg.amount <= 0) {
             return { eligible: "none", amount: 0, type: "Grundsicherung", reasoning: "Ihr Einkommen deckt den Grundsicherungsbedarf im Alter." };
