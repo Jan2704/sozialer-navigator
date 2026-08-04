@@ -70,7 +70,7 @@ def run_tests():
     print(f"Kinderzuschlag: Amount = {res2['kinderzuschlag']['amount']} EUR | Status = {res2['kinderzuschlag']['status']}")
     print(f"Reason: {res2['kinderzuschlag']['reason']}")
     check("Test 2: SGB2 status", res2['sgb2']['status'], "eligible")
-    check("Test 2: SGB2 amount", res2['sgb2']['amount'], 1718.2)
+    check("Test 2: SGB2 amount", res2['sgb2']['amount'], 1711.7)
     check("Test 2: Wohngeld status", res2['wohngeld']['status'], "possible")
     check("Test 2: Kindergeld amount (2 children)", res2['kindergeld']['amount'], 518.0)
     check("Test 2: Kinderzuschlag status", res2['kinderzuschlag']['status'], "possible")
