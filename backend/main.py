@@ -101,7 +101,7 @@ def analyze():
 
     except Exception as e:
         app.logger.error(f"An unexpected error occurred during analysis: {e}", exc_info=True)
-        return jsonify({"error": "An unexpected error occurred", "details": str(e)}), 500
+        return jsonify({"error": "An unexpected error occurred"}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
