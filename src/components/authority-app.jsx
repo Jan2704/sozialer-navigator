@@ -361,28 +361,91 @@ export default function AuthorityApp() {
         setIsGeneratingPdf(true);
         try {
             const isWohngeld = benefitLabel.toLowerCase().includes('wohngeld') || benefitLabel.toLowerCase().includes('lastenzuschuss');
-            // Fetch template
-            const templatePath = isWohngeld ? '/forms/TEST_Wohngeld.pdf' : '/forms/Hauptantrag_Buergergeld.pdf';
-            const response = await fetch(templatePath);
-            if (!response.ok) {
-                throw new Error('PDF-Vorlage nicht gefunden.');
-            }
-            const arrayBuffer = await response.arrayBuffer();
-            const pdfDoc = await PDFDocument.load(arrayBuffer);
-            const form = pdfDoc.getForm();
+            let pdfDoc;
 
-            // Fill basic details
-            try {
-                if (isWohngeld) {
-                    form.getTextField('Vorname').setText(assistantData.firstName);
-                    form.getTextField('Nachname').setText(assistantData.lastName);
-                    form.getTextField('Strasse_Hausnummer').setText(assistantData.street);
-                    form.getTextField('PLZ_Ort').setText(assistantData.zipCity);
-                } else {
+            if (isWohngeld) {
+                // No official, address-matching Wohngeld form template exists (every Wohngeldbehörde
+                // has its own form). Generate a proper "formloser Antrag" letter from scratch instead
+                // of filling the static Munich-only sample, whose AcroForm fields overlapped its own
+                // baked-in fake sender/recipient/signature text.
+                pdfDoc = await PDFDocument.create();
+                const page = pdfDoc.addPage([595.28, 841.89]); // A4
+                const { width, height } = page.getSize();
+                const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+                const colorPrimary = rgb(15/255, 23/255, 42/255);
+                const colorGray = rgb(71/255, 85/255, 105/255);
+                const marginX = 70.87;
+                const rightMargin = width - 70.87;
+
+                // Sender (top right)
+                let sy = height - 60;
+                [[`${assistantData.firstName} ${assistantData.lastName}`, true], [assistantData.street, false], [assistantData.zipCity, false]]
+                    .forEach(([text, bold]) => {
+                        if (!text) return;
+                        page.drawText(text, { x: width - 210, y: sy, size: 11, font: bold ? fontBold : font, color: colorPrimary });
+                        sy -= 14;
+                    });
+
+                // Recipient (use the authority already resolved for this city/PLZ)
+                let y = height - 160;
+                page.drawText(authority?.name || `Wohngeldstelle ${city || ''}`, { x: marginX, y, size: 12, font: fontBold, color: colorPrimary });
+                y -= 18;
+                page.drawText(authority?.street || `Zuständige Wohngeldbehörde ${city || ''}`, { x: marginX, y, size: 11, font, color: colorPrimary });
+
+                // Date
+                const dateText = `Datum: ${new Date().toLocaleDateString('de-DE')}`;
+                page.drawText(dateText, { x: rightMargin - font.widthOfTextAtSize(dateText, 11), y: height - 240, size: 11, font, color: colorPrimary });
+
+                // Subject + body
+                y = height - 290;
+                const drawAt = (text, opts = {}) => {
+                    page.drawText(text, { x: marginX, y, size: opts.size || 11, font: opts.bold ? fontBold : font, color: colorPrimary });
+                    y -= opts.lineHeight || 16;
+                };
+                drawAt(`Betreff: Formloser Antrag auf ${benefitLabel} zur Fristwahrung`, { bold: true, size: 13, lineHeight: 35 });
+                drawAt('Sehr geehrte Damen und Herren,', { lineHeight: 35 });
+
+                const wrap = (text) => {
+                    const words = text.split(' ');
+                    let line = '';
+                    for (const word of words) {
+                        const test = line ? `${line} ${word}` : word;
+                        if (font.widthOfTextAtSize(test, 11) < rightMargin - marginX) {
+                            line = test;
+                        } else {
+                            drawAt(line);
+                            line = word;
+                        }
+                    }
+                    drawAt(line);
+                };
+                wrap(`Hiermit stelle ich formlos einen Antrag auf ${benefitLabel} zur Wahrung der gesetzlichen Fristen.`);
+                y -= 10;
+                wrap('Dieser Antrag dient der Sicherung meiner Ansprüche mit sofortiger Wirkung für den aktuellen Kalendermonat.');
+                y -= 25;
+                drawAt('Um das Verfahren zeitnah abzuschließen, bitte ich Sie höflichst um:', { bold: true, lineHeight: 20 });
+                drawAt('1. Eine schriftliche Bestätigung über den Eingang dieses Antrags.');
+                drawAt('2. Die Zusendung der erforderlichen Antragsformulare sowie einer Liste der benötigten Nachweise.');
+                y -= 30;
+                drawAt('Mit freundlichen Grüßen,', { lineHeight: 35 });
+                drawAt(`${assistantData.firstName} ${assistantData.lastName}`, { bold: true, size: 12, lineHeight: 20 });
+                page.drawText('(Dieses Schreiben wurde maschinell erstellt und ist ohne Unterschrift gültig)', { x: marginX, y, size: 7, font, color: colorGray });
+            } else {
+                const response = await fetch('/forms/Hauptantrag_Buergergeld.pdf');
+                if (!response.ok) {
+                    throw new Error('PDF-Vorlage nicht gefunden.');
+                }
+                const arrayBuffer = await response.arrayBuffer();
+                pdfDoc = await PDFDocument.load(arrayBuffer);
+                const form = pdfDoc.getForm();
+
+                // Fill basic details
+                try {
                     form.getTextField('txtfPersonVorname').setText(assistantData.firstName);
                     form.getTextField('txtfPersonNachname').setText(assistantData.lastName);
                     form.getTextField('txtfPersonStr').setText(assistantData.street);
-                    
+
                     // PLZ & Ort split
                     const zipMatch = assistantData.zipCity.match(/^(\d{5})\s*(.*)$/);
                     if (zipMatch) {
@@ -391,14 +454,16 @@ export default function AuthorityApp() {
                     } else {
                         form.getTextField('txtfPersonOrt').setText(assistantData.zipCity);
                     }
-                    
+
                     // Attempt birthdate if field exists
                     try {
                         form.getTextField('txtfPersonGebDat').setText(assistantData.birthDate);
                     } catch(e) {}
+                } catch (fieldErr) {
+                    console.warn("Field filling warning:", fieldErr);
                 }
-            } catch (fieldErr) {
-                console.warn("Field filling warning:", fieldErr);
+
+                form.flatten();
             }
 
             // TAXFIX-FEATURE: Cover page
@@ -529,7 +594,6 @@ export default function AuthorityApp() {
                 color: rgb(71/255, 85/255, 105/255),
             });
 
-            form.flatten();
             const pdfBytes = await pdfDoc.save();
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);

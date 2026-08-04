@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { ShieldCheck, Lock, Download, ChevronRight, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { getAuthority } from '../utils/get-authority';
 
 const STATUS_LABELS = {
   employee: 'Angestellt / Arbeitnehmer',
@@ -65,35 +66,98 @@ export function TrustPdfGenerator({ result }) {
     setError('');
 
     try {
-      // 1. Fetch the correct template
-      // If Wohngeld, use the prepared test PDF. If Bürgergeld, use the real 16-page official Hauptantrag.
-      const templatePath = isWohngeld ? '/forms/TEST_Wohngeld.pdf' : '/forms/Hauptantrag_Buergergeld.pdf';
-      const response = await fetch(templatePath);
-      
-      if (!response.ok) {
-        throw new Error('Konfigurationsfehler: PDF-Template nicht gefunden.');
-      }
-      
-      const arrayBuffer = await response.arrayBuffer();
-      
-      // 2. Load the PDF
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      const form = pdfDoc.getForm();
-      
-      // 3. Fill Form Fields
-      try {
-        if (isWohngeld) {
-          // Wohngeld Fallback (Prepared fields)
-          form.getTextField('Vorname').setText(formData.firstName);
-          form.getTextField('Nachname').setText(formData.lastName);
-          form.getTextField('Strasse_Hausnummer').setText(formData.street);
-          form.getTextField('PLZ_Ort').setText(formData.zipCity);
-        } else {
-          // Bürgergeld (Real 16-page Hauptantrag from BA)
+      let pdfDoc;
+
+      if (isWohngeld) {
+        // No official, address-matching Wohngeld form template exists (every Wohngeldbehörde
+        // has its own form). Generate a proper "formloser Antrag" letter from scratch instead
+        // of filling a static Munich-only sample that carried a baked-in fake sender/recipient/
+        // signature and whose AcroForm fields overlapped that fake text.
+        pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage([595.28, 841.89]); // A4
+        const { width, height } = page.getSize();
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+        const colorPrimary = rgb(0.04, 0.09, 0.16);
+        const colorGray = rgb(0.4, 0.4, 0.4);
+        const marginX = 70.87;
+        const rightMargin = width - 70.87;
+
+        const zipMatch = formData.zipCity.match(/^(\d{5})\s*(.*)$/);
+        const plz = zipMatch ? zipMatch[1] : '';
+        const cityName = zipMatch ? zipMatch[2] : formData.zipCity;
+        const { authority } = getAuthority(cityName, plz, 'wohngeld');
+
+        // Sender (top right)
+        let sy = height - 60;
+        [[`${formData.firstName} ${formData.lastName}`, true], [formData.street, false], [formData.zipCity, false]]
+          .forEach(([text, bold]) => {
+            if (!text) return;
+            page.drawText(text, { x: width - 210, y: sy, size: 11, font: bold ? fontBold : font, color: colorPrimary });
+            sy -= 14;
+          });
+
+        // Recipient
+        let y = height - 160;
+        page.drawText(authority.name, { x: marginX, y, size: 12, font: fontBold, color: colorPrimary });
+        y -= 18;
+        page.drawText(authority.address || `Zuständige Wohngeldbehörde ${cityName}`, { x: marginX, y, size: 11, font, color: colorPrimary });
+
+        // Date
+        const dateText = `Datum: ${new Date().toLocaleDateString('de-DE')}`;
+        page.drawText(dateText, { x: rightMargin - font.widthOfTextAtSize(dateText, 11), y: height - 240, size: 11, font, color: colorPrimary });
+
+        // Subject + body
+        y = height - 290;
+        const drawAt = (text, opts = {}) => {
+          page.drawText(text, { x: marginX, y, size: opts.size || 11, font: opts.bold ? fontBold : font, color: colorPrimary });
+          y -= opts.lineHeight || 16;
+        };
+        drawAt(`Betreff: Formloser Antrag auf ${benefitType} zur Fristwahrung`, { bold: true, size: 13, lineHeight: 35 });
+        drawAt('Sehr geehrte Damen und Herren,', { lineHeight: 35 });
+
+        const wrap = (text) => {
+          const words = text.split(' ');
+          let line = '';
+          for (const word of words) {
+            const test = line ? `${line} ${word}` : word;
+            if (font.widthOfTextAtSize(test, 11) < rightMargin - marginX) {
+              line = test;
+            } else {
+              drawAt(line);
+              line = word;
+            }
+          }
+          drawAt(line);
+        };
+        wrap(`Hiermit stelle ich formlos einen Antrag auf ${benefitType} zur Wahrung der gesetzlichen Fristen.`);
+        y -= 10;
+        wrap('Dieser Antrag dient der Sicherung meiner Ansprüche mit sofortiger Wirkung für den aktuellen Kalendermonat.');
+        y -= 25;
+        drawAt('Um das Verfahren zeitnah abzuschließen, bitte ich Sie höflichst um:', { bold: true, lineHeight: 20 });
+        drawAt('1. Eine schriftliche Bestätigung über den Eingang dieses Antrags.');
+        drawAt('2. Die Zusendung der erforderlichen Antragsformulare sowie einer Liste der benötigten Nachweise.');
+        y -= 30;
+        drawAt('Mit freundlichen Grüßen,', { lineHeight: 35 });
+        drawAt(`${formData.firstName} ${formData.lastName}`, { bold: true, size: 12, lineHeight: 20 });
+        page.drawText('(Dieses Schreiben wurde maschinell erstellt und ist ohne Unterschrift gültig)', { x: marginX, y, size: 7, font, color: colorGray });
+      } else {
+        // Bürgergeld (Real 16-page Hauptantrag from BA)
+        const response = await fetch('/forms/Hauptantrag_Buergergeld.pdf');
+
+        if (!response.ok) {
+          throw new Error('Konfigurationsfehler: PDF-Template nicht gefunden.');
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        pdfDoc = await PDFDocument.load(arrayBuffer);
+        const form = pdfDoc.getForm();
+
+        try {
           form.getTextField('txtfPersonVorname').setText(formData.firstName);
           form.getTextField('txtfPersonNachname').setText(formData.lastName);
           form.getTextField('txtfPersonStr').setText(formData.street); // BA separates street and nr, but putting both in street works.
-          
+
           // Try to split PLZ and Ort if possible
           const zipMatch = formData.zipCity.match(/^(\d{5})\s*(.*)$/);
           if (zipMatch) {
@@ -103,29 +167,31 @@ export function TrustPdfGenerator({ result }) {
             // Fallback if user didn't enter PLZ properly
             form.getTextField('txtfPersonOrt').setText(formData.zipCity);
           }
+        } catch (fieldError) {
+          console.warn("Could not find some form fields, falling back to overlay method if needed.", fieldError);
+
+          // Fallback for flat PDFs
+          const pages = pdfDoc.getPages();
+          const firstPage = pages[0];
+          const { height } = firstPage.getSize();
+          const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+          const color = rgb(0.04, 0.09, 0.16);
+
+          const startX = 60;
+          let startY = height - 150;
+
+          firstPage.drawText(`${formData.firstName} ${formData.lastName}`, {
+            x: startX, y: startY, size: 12, font, color
+          });
+          firstPage.drawText(`${formData.street}`, {
+            x: startX, y: startY - 20, size: 12, font, color
+          });
+          firstPage.drawText(`${formData.zipCity}`, {
+            x: startX, y: startY - 40, size: 12, font, color
+          });
         }
-      } catch (fieldError) {
-        console.warn("Could not find some form fields, falling back to overlay method if needed.", fieldError);
-        
-        // Fallback for flat PDFs
-        const pages = pdfDoc.getPages();
-        const firstPage = pages[0];
-        const { height } = firstPage.getSize();
-        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-        const color = rgb(0.04, 0.09, 0.16);
-        
-        const startX = 60; 
-        let startY = height - 150;
-        
-        firstPage.drawText(`${formData.firstName} ${formData.lastName}`, {
-          x: startX, y: startY, size: 12, font, color
-        });
-        firstPage.drawText(`${formData.street}`, {
-          x: startX, y: startY - 20, size: 12, font, color
-        });
-        firstPage.drawText(`${formData.zipCity}`, {
-          x: startX, y: startY - 40, size: 12, font, color
-        });
+
+        form.flatten();
       }
 
       // TAXFIX-FEATURE: Create a cover page with the deep-mapped data
@@ -160,9 +226,6 @@ export function TrustPdfGenerator({ result }) {
         });
       }
 
-      // Flatten the form to prevent further editing (Official requirement often)
-      form.flatten();
-      
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
