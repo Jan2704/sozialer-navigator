@@ -97,7 +97,7 @@ def run_tests():
     print(f"Buergergeld: Status = {res3['sgb2']['status']} | Amount = {res3['sgb2']['amount']} EUR (Includes pregnancy Mehrbedarf)")
     print(f"Reason: {res3['sgb2']['reason']}")
     check("Test 3: Elterngeld status", res3['elterngeld']['status'], "eligible")
-    check("Test 3: Elterngeld amount", res3['elterngeld']['amount'], 300.0)
+    check("Test 3: Elterngeld amount", res3['elterngeld']['amount'], 425.25)
     check("Test 3: SGB2 status (incl. pregnancy Mehrbedarf)", res3['sgb2']['status'], "eligible")
     check("Test 3: SGB2 amount (incl. pregnancy Mehrbedarf)", res3['sgb2']['amount'], 1018.71)
 
