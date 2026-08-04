@@ -2,8 +2,8 @@
 // src/components/WbaReminderModal.astro
 ---
 
-<div id="wba-modal-backdrop" class="fixed inset-0 bg-brand-navy/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-    <div id="wba-modal-content" class="bg-surface-base w-full max-w-lg shadow-2xl relative border-t-4 border-brand-gold transform scale-95 transition-transform duration-300 rounded-sm">
+<div id="wba-modal-backdrop" class="fixed inset-0 bg-brand-navy/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="wba-modal-title">
+    <div id="wba-modal-content" tabindex="-1" class="bg-surface-base w-full max-w-lg shadow-2xl relative border-t-4 border-brand-gold transform scale-95 transition-transform duration-300 rounded-sm">
         
         <!-- Close Button -->
         <button id="close-wba-modal" class="absolute top-4 right-4 text-slate-400 hover:text-brand-navy transition-colors">
@@ -15,7 +15,7 @@
                 <div class="w-12 h-12 bg-[#f4f1ea] rounded-sm flex items-center justify-center text-brand-gold mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 </div>
-                <h3 class="font-serif text-3xl text-brand-navy mb-2">WBA-Schutz aktivieren</h3>
+                <h3 id="wba-modal-title" class="font-serif text-3xl text-brand-navy mb-2">WBA-Schutz aktivieren</h3>
                 <p class="text-slate-600 font-light text-sm">
                     Lassen Sie sich rechtzeitig an Ihren Weiterbewilligungsantrag erinnern. Wir informieren Sie kostenlos per E-Mail, bevor Ihr Bewilligungszeitraum abläuft.
                 </p>
@@ -96,6 +96,7 @@
     const form = document.getElementById('wba-reminder-form');
     const successMsg = document.getElementById('wba-success');
     const submitBtn = document.getElementById('wba-submit-btn');
+    let lastFocusedElement: HTMLElement | null = null;
 
     // Populate the year dropdown with the current year onward, so past years
     // (which would produce a Bescheid end date that already elapsed) never appear.
@@ -113,6 +114,7 @@
     // Open Modal Function (Exposed globally so trigger buttons can call it)
     window.openWbaModal = () => {
         if (!backdrop || !content) return;
+        lastFocusedElement = document.activeElement as HTMLElement;
         backdrop.classList.remove('hidden');
         backdrop.classList.add('flex');
         // Small delay to allow display flex to apply before opacity transition
@@ -121,6 +123,7 @@
             backdrop.classList.add('opacity-100');
             content.classList.remove('scale-95');
             content.classList.add('scale-100');
+            content.focus();
         }, 10);
         document.body.style.overflow = 'hidden'; // Prevent scrolling
     };
@@ -132,12 +135,13 @@
         backdrop.classList.add('opacity-0');
         content.classList.remove('scale-100');
         content.classList.add('scale-95');
-        
+
         setTimeout(() => {
             backdrop.classList.add('hidden');
             backdrop.classList.remove('flex');
             document.body.style.overflow = '';
-            
+            lastFocusedElement?.focus();
+
             // Reset form
             if (form && successMsg) {
                 setTimeout(() => {
@@ -154,6 +158,29 @@
     closeSuccessBtn?.addEventListener('click', closeModal);
     backdrop?.addEventListener('click', (e) => {
         if (e.target === backdrop) closeModal();
+    });
+
+    // Escape closes the modal; Tab is trapped inside the panel while open.
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (!backdrop || backdrop.classList.contains('hidden')) return;
+        if (e.key === 'Escape') {
+            closeModal();
+            return;
+        }
+        if (e.key !== 'Tab' || !content) return;
+        const focusable = Array.from(
+            content.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+        ).filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
     });
 
     // Handle Form Submission

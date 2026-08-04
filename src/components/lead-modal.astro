@@ -1,7 +1,7 @@
 ---
 ---
 <!-- AVGS Lead Modal -->
-<div id="avgs-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="avgs-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="avgs-step-1-title" role="dialog" aria-modal="true">
     <!-- Backdrop -->
     <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity opacity-0" id="avgs-modal-backdrop"></div>
 
@@ -9,7 +9,7 @@
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             
             <!-- Modal Panel -->
-            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" id="avgs-modal-panel">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" id="avgs-modal-panel" tabindex="-1">
                 
                 <!-- Close Button -->
                 <button type="button" id="avgs-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 focus:outline-none">
@@ -27,7 +27,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold leading-6 text-gray-900 mb-2">Bereich auswählen</h3>
+                        <h3 id="avgs-step-1-title" class="text-2xl font-bold leading-6 text-gray-900 mb-2">Bereich auswählen</h3>
                         <p class="text-sm text-gray-500">Für welches Thema interessieren Sie sich?</p>
                     </div>
 
@@ -54,7 +54,7 @@
                 <!-- STEP 2: Contact Form -->
                 <div id="avgs-step-2" class="hidden p-6 sm:p-8">
                     <div class="text-center mb-6">
-                        <h3 class="text-xl font-bold leading-6 text-gray-900 mb-2">Wir prüfen deinen Anspruch und helfen dir beim Antrag.</h3>
+                        <h3 id="avgs-step-2-title" class="text-xl font-bold leading-6 text-gray-900 mb-2">Wir prüfen deinen Anspruch und helfen dir beim Antrag.</h3>
                         <p class="text-sm text-slate-500">Ein zertifizierter Berater prüft Ihren Fall persönlich.</p>
                     </div>
 
@@ -126,7 +126,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold leading-6 text-gray-900 mb-2">Anfrage erhalten!</h3>
+                    <h3 id="avgs-step-3-title" class="text-2xl font-bold leading-6 text-gray-900 mb-2">Anfrage erhalten!</h3>
                     <p class="text-sm text-gray-500 mb-6">
                         Vielen Dank. Ihre Anfrage ist eingegangen. Ein zuständiger Berater wird sich zeitnah bei Ihnen melden.
                     </p>
@@ -166,17 +166,20 @@
     const step3Desc = step3.querySelector('p');
 
     let currentModalType = 'avgs';
+    let lastFocusedElement: HTMLElement | null = null;
 
     // Open Modal Function (Global)
     window.openLeadModal = (type = 'avgs') => {
         currentModalType = type;
+        lastFocusedElement = document.activeElement as HTMLElement;
         modal.classList.remove('hidden');
         // Animation
         setTimeout(() => {
             backdrop.classList.remove('opacity-0');
             panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            panel.focus();
         }, 10);
-        
+
         // Reset state
         step3.classList.add('hidden');
         const pVerticalReset = document.getElementById('avgs-partner-vertical');
@@ -268,8 +271,11 @@
             // Set Content (will be visible when moving to Step 2)
             if(step2Title) step2Title.textContent = "Kostenlos Anspruch prüfen & Budget sichern.";
             if(step2Desc) step2Desc.textContent = "Ein Experte klärt mit Ihnen die Voraussetzungen für den Gutschein.";
-            interestInput.value = ""; 
+            interestInput.value = "";
         }
+
+        // Point the dialog's accessible name at whichever step is now visible.
+        modal.setAttribute('aria-labelledby', step1.classList.contains('hidden') ? 'avgs-step-2-title' : 'avgs-step-1-title');
     };
     
     // Old function for compatibility (redirects)
@@ -281,22 +287,47 @@
         panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
         setTimeout(() => {
             modal.classList.add('hidden');
+            lastFocusedElement?.focus();
         }, 300);
     };
+
+    // Escape closes the modal; Tab is trapped inside the panel while open.
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (modal.classList.contains('hidden')) return;
+        if (e.key === 'Escape') {
+            closeModal();
+            return;
+        }
+        if (e.key !== 'Tab') return;
+        const focusable = Array.from(
+            panel.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+        ).filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    });
 
     // Events
     closeBtn?.addEventListener('click', closeModal);
     doneBtn?.addEventListener('click', closeModal);
-    
+
     // Step 1 -> Step 2
     document.querySelectorAll('.avgs-interest-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const interest = btn.dataset.interest;
+            const interest = (btn as HTMLElement).dataset.interest;
             interestInput.value = interest;
-            
+
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
-            
+            modal.setAttribute('aria-labelledby', 'avgs-step-2-title');
+
             // SHOW CHECKS FOR AVGS
             if(qualChecks) qualChecks.classList.remove('hidden');
         });
@@ -378,7 +409,8 @@
 
              step2.classList.add('hidden');
              step3.classList.remove('hidden');
-             
+             modal.setAttribute('aria-labelledby', 'avgs-step-3-title');
+
              if(window.confetti) window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
         } catch (err) {
