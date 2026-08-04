@@ -86,6 +86,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
   // UI States
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlightedSuggestion, setHighlightedSuggestion] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [isFocused, setIsFocused] = useState("");
@@ -191,9 +192,11 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
       setSuggestions(filtered.slice(0, 10));
       setShowSuggestions(true);
+      setHighlightedSuggestion(-1);
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
+      setHighlightedSuggestion(-1);
     }
   }, [cityInput, selectedCity]);
 
@@ -202,6 +205,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
     setSelectedCity(city);
     setSuggestions([]);
     setShowSuggestions(false);
+    setHighlightedSuggestion(-1);
   };
 
   const clearCity = () => {
@@ -273,6 +277,37 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         handleNextStep();
       }
     }
+  };
+
+  // Keyboard support for the PLZ suggestion dropdown (arrow keys to navigate,
+  // Enter to select the highlighted suggestion) - falls back to handleKeyDown
+  // when no suggestions are open so Enter still advances the wizard as usual.
+  const handleCityKeyDown = (e) => {
+    if (showSuggestions && suggestions.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setHighlightedSuggestion((prev) => (prev + 1) % suggestions.length);
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setHighlightedSuggestion((prev) => (prev <= 0 ? suggestions.length : prev) - 1);
+        return;
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const city = suggestions[highlightedSuggestion >= 0 ? highlightedSuggestion : 0];
+        handleCitySelect(city);
+        return;
+      }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setShowSuggestions(false);
+        setHighlightedSuggestion(-1);
+        return;
+      }
+    }
+    handleKeyDown(e);
   };
 
   const handleSubmit = async (e) => {
@@ -870,10 +905,14 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                   placeholder="Ihre PLZ..."
                   className={cn(inputClass, "pl-12 pr-10 tracking-widest font-medium", isDark && inputDarkClass)}
                   autoComplete="off"
+                  role="combobox"
+                  aria-expanded={showSuggestions && suggestions.length > 0}
+                  aria-controls="city-suggestions-listbox"
+                  aria-activedescendant={highlightedSuggestion >= 0 ? `city-suggestion-${highlightedSuggestion}` : undefined}
                   value={cityInput}
                   onFocus={() => setIsFocused("city")}
                   onBlur={() => setTimeout(() => setIsFocused(""), 200)}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={handleCityKeyDown}
                   onChange={(e) => {
                     const numericVal = e.target.value.replace(/\D/g, '');
                     setCityInput(numericVal);
@@ -893,12 +932,16 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
               </div>
 
               {showSuggestions && suggestions.length > 0 && (
-                <div className={cn("absolute top-full left-0 right-0 border rounded-[1rem] shadow-2xl z-50 mt-2 max-h-72 overflow-y-auto overflow-x-hidden", isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200")}>
-                  {suggestions.map((city) => (
+                <div id="city-suggestions-listbox" role="listbox" className={cn("absolute top-full left-0 right-0 border rounded-[1rem] shadow-2xl z-50 mt-2 max-h-72 overflow-y-auto overflow-x-hidden", isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200")}>
+                  {suggestions.map((city, index) => (
                     <div
                       key={`${city.plz}-${city.stadt}`}
+                      id={`city-suggestion-${index}`}
+                      role="option"
+                      aria-selected={index === highlightedSuggestion}
                       onClick={() => handleCitySelect(city)}
-                      className={cn("px-5 py-3 cursor-pointer text-sm font-medium flex justify-between items-center border-b last:border-none transition-colors", isDark ? "hover:bg-slate-800 text-slate-300 border-slate-800" : "hover:bg-teal-50 text-slate-700 border-slate-50")}
+                      onMouseEnter={() => setHighlightedSuggestion(index)}
+                      className={cn("px-5 py-3 cursor-pointer text-sm font-medium flex justify-between items-center border-b last:border-none transition-colors", index === highlightedSuggestion ? (isDark ? "bg-slate-800" : "bg-teal-50") : "", isDark ? "hover:bg-slate-800 text-slate-300 border-slate-800" : "hover:bg-teal-50 text-slate-700 border-slate-50")}
                     >
                       <div className="flex items-center gap-3">
                         <span className={cn("font-bold text-lg", isDark ? "text-white" : "text-teal-600")}>{city.plz}</span>
