@@ -189,9 +189,21 @@ class SocialRuleEngine:
             
             total_need += rate
             
-            # Mehrbedarf: Alleinerziehend
+            # Mehrbedarf: Alleinerziehend (§ 21 Abs. 3 SGB II)
+            # Pauschal 36% gilt nur, wenn mind. ein Kind unter 7 lebt, oder wenn genau 2-3 Kinder
+            # im Haushalt leben und alle unter 16 sind ("Nr. 1"). Sonst 12% je Kind, max. 60% ("Nr. 2",
+            # greift laut Gesetzeswortlaut nur, wenn sich nach Nr. 1 KEIN Anspruch auf 36% ergibt -
+            # kein Vergleich/Maximum der beiden Werte, sondern strikt eines von beiden).
             if member.role == "main" and getattr(member, 'is_single_parent', False):
-                total_need += self.sgb2_rules["rbs_1"] * self.sgb2_rules["single_parent_percent"]
+                children = [m for m in request.members if m.role == "child" and m.age < 18]
+                num_children = len(children)
+                if num_children > 0:
+                    qualifies_36 = (
+                        any(c.age < 7 for c in children)
+                        or (num_children in (2, 3) and all(c.age < 16 for c in children))
+                    )
+                    percent = 0.36 if qualifies_36 else min(0.12 * num_children, 0.60)
+                    total_need += self.sgb2_rules["rbs_1"] * percent
                 
             # Mehrbedarf: Schwangerschaft
             if getattr(member, 'is_pregnant', False):
