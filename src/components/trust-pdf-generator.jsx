@@ -216,7 +216,7 @@ export function TrustPdfGenerator({ result }) {
 
         let yStart = height - 180;
         drawRow(yStart, 'Antragsteller:', `${formData.firstName} ${formData.lastName}`);
-        drawRow(yStart - 25, 'Haushaltsgröße:', `${savedState.input.persons} Erwachsene(r), ${savedState.input.kids} Kind(er)`);
+        drawRow(yStart - 25, 'Haushaltsgröße:', `${savedState.input.persons} Person(en) (${savedState.input.kids} Kind/er)`);
         drawRow(yStart - 50, 'Brutto-Einkommen:', `${savedState.input.income} Euro`);
         drawRow(yStart - 75, 'Warmmiete:', `${savedState.input.rent} Euro`);
         drawRow(yStart - 100, 'Berufl. Status:', STATUS_LABELS[savedState.input.status] || 'Sonstiges');
