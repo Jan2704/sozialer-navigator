@@ -517,7 +517,9 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
           title: r.title,
           name: r.title,
           amount: r.amount,
-          eligible: r.amount > 0 || r.type === "ALERT" ? "probable" : "none",
+          eligible: r.type === "ALERT" || r.status === "eligible" ? "probable"
+            : r.status === "possible" ? "possible"
+            : "none",
           description: r.text,
           reasoning: r.text,
           details: r
