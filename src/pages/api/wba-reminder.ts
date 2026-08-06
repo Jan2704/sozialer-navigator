@@ -62,10 +62,27 @@ export const POST: APIRoute = async ({ request }) => {
             });
         }
 
+        // The cron job matches reminder_date_1/2 against "today" with an exact equality
+        // check, so a reminder date that has already elapsed by the time this row is
+        // inserted can never match again and would silently never fire. Reject end dates
+        // too close to "now" for the 2-week reminder (the later, more critical one) to
+        // still land in the future.
+        const twoWeeksMs = 2 * 7 * 24 * 60 * 60 * 1000;
+        if (endDate.getTime() - twoWeeksMs <= Date.now()) {
+            return new Response(JSON.stringify({ error: 'Das gewählte Enddatum liegt zu nah in der Zukunft für eine rechtzeitige Erinnerung.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
         // Calculate reminder dates (6 weeks before, 2 weeks before)
         const reminderDate1 = new Date(endDate.getTime() - (6 * 7 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
-        const reminderDate2 = new Date(endDate.getTime() - (2 * 7 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
+        const reminderDate2 = new Date(endDate.getTime() - twoWeeksMs).toISOString().split('T')[0];
         const endIsoDate = endDate.toISOString().split('T')[0];
+        // If the 6-week mark already elapsed (end date 15-42 days out, allowed since the
+        // 2-week check above passed), reminder_date_1 is already unreachable by the cron's
+        // same-day match — mark it pre-sent rather than leaving a dead, never-matching date.
+        const reminder1AlreadyElapsed = new Date(reminderDate1).getTime() <= Date.now();
 
         // 1. Insert into Supabase (requires a table 'wba_reminders')
         const { error: supabaseError } = await supabase
@@ -77,7 +94,7 @@ export const POST: APIRoute = async ({ request }) => {
                     bescheid_end_date: endIsoDate,
                     reminder_date_1: reminderDate1,
                     reminder_date_2: reminderDate2,
-                    reminder_1_sent: false,
+                    reminder_1_sent: reminder1AlreadyElapsed,
                     reminder_2_sent: false
                 }
             ]);
