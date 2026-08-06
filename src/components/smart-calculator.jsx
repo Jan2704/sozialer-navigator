@@ -373,6 +373,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         input: {
           city: selectedCity,
           rent: profileInput.rent,
+          heating: profileInput.heating,
           income: profileInput.income,
           persons: profileInput.persons,
           kids: profileInput.kids,

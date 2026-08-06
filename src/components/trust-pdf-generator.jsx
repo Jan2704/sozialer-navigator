@@ -218,7 +218,7 @@ export function TrustPdfGenerator({ result }) {
         drawRow(yStart, 'Antragsteller:', `${formData.firstName} ${formData.lastName}`);
         drawRow(yStart - 25, 'Haushaltsgröße:', `${savedState.input.persons} Person(en) (${savedState.input.kids} Kind/er)`);
         drawRow(yStart - 50, 'Brutto-Einkommen:', `${savedState.input.income} Euro`);
-        drawRow(yStart - 75, 'Warmmiete:', `${savedState.input.rent} Euro`);
+        drawRow(yStart - 75, 'Warmmiete:', `${savedState.input.rent} € Kalt + ${savedState.input.heating ?? 0} € Heizung`);
         drawRow(yStart - 100, 'Berufl. Status:', STATUS_LABELS[savedState.input.status] || 'Sonstiges');
         
         coverPage.drawText(`Diese Anlage dient zur schnelleren Vorab-Einschätzung durch die Behörde.`, {
