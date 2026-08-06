@@ -13,7 +13,18 @@ const CRON_SECRET = import.meta.env.CRON_SECRET || process.env.CRON_SECRET;
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const resend = new Resend(RESEND_API_KEY);
 
-export const POST: APIRoute = async ({ request }) => {
+// Vercel Cron Jobs always invoke the configured path with an HTTP GET request
+// (see vercel.json's `crons` entry for this route) — they never send POST. This
+// handler used to only be exported as POST, so Astro's endpoint dispatcher had
+// no matching handler for the GET request Vercel actually sends and returned a
+// bare 404 (astro/dist/runtime/server/endpoint.js falls back to `mod["ALL"]`,
+// which also isn't exported here, before giving up) instead of ever running the
+// campaign. The daily cron trigger was silently a no-op — reminder emails for
+// the "WBA-Schutz" deadline-protection feature never went out on schedule, even
+// though the same route worked fine when POSTed to manually (e.g. via curl).
+// Exporting the same handler under GET (what Vercel actually calls) fixes the
+// scheduled trigger; POST is kept for manual/local invocation.
+const handler: APIRoute = async ({ request }) => {
     // 1. Authenticate Request
     // Fail closed: without CRON_SECRET configured, this public endpoint would otherwise
     // accept any unauthenticated request and blast real reminder emails to real leads.
@@ -120,3 +131,8 @@ export const POST: APIRoute = async ({ request }) => {
         });
     }
 };
+
+// GET is what Vercel's Cron Jobs scheduler actually sends (see comment above).
+export const GET = handler;
+// POST kept for manual/local triggering (e.g. curl), matching prior behavior.
+export const POST = handler;
