@@ -330,6 +330,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       age: parseInt(age) || 30,
       plz: selectedCity ? selectedCity.plz : "",
       selectedCity: selectedCity,
+      city: selectedCity,
       status: status,
       isKurzarbeit: isKurzarbeit,
       schoolType: schoolType,
