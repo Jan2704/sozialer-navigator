@@ -181,10 +181,17 @@ function calcBuergergeld(income, persons, children, rent) {
   const maxMiete = RENT_LIMITS[pKey][3] * 1.2; // Mietstufe IV als Durchschnitt, +20%
   bedarf       += Math.min(rent || 650, maxMiete);
 
-  // Einkommensfreibetrag (vereinfachtes Modell)
-  let frei = 100;
-  if (income > 100) frei += Math.min(income - 100, 900) * 0.2;
-  if (income > 1000) frei += Math.min(income - 1000, 200) * 0.1;
+  // Einkommensfreibetrag (§11b Abs. 3 SGB II — gestaffelt wie in calculator-2026.js)
+  let frei = 0;
+  if (income > 0) {
+    frei += Math.min(income, 100);
+    if (income > 100) frei += Math.min(income - 100, 503) * 0.2;   // 100-603€: 20%
+    if (income > 603) frei += Math.min(income - 603, 397) * 0.3;   // 603-1000€: 30%
+    if (income > 1000) {
+      const topCap = children > 0 ? 1500 : 1200;                  // 1000-1200€ (bzw. 1500€ mit Kind): 10%
+      frei += Math.min(Math.max(income - 1000, 0), topCap - 1000) * 0.1;
+    }
+  }
   const anrechenbar = Math.max(0, income - frei);
 
   return Math.max(0, Math.round(bedarf - anrechenbar));
