@@ -540,7 +540,11 @@ export default function AuthorityApp() {
                 drawField("Mietstufe der Stadt:", `${savedState.input.city?.mietstufe || 'N/A'}`);
                 drawField("Haushaltsgröße:", `${savedState.input.persons} Person(en) (${savedState.input.kids} Kind/er)`);
                 drawField("Monatliches Brutto:", `${savedState.input.income} €`);
-                drawField("Warmmiete:", `${savedState.input.rent} € Kalt + ${savedState.input.heating} € Heizung`);
+                if (savedState.input.housingType === 'Eigentum') {
+                    drawField("Wohnkosten (Eigentum):", `${savedState.input.interest ?? 0} € Zins + ${savedState.input.operatingCosts ?? 0} € Nebenkosten + ${savedState.input.propertyTax ?? 0} € Grundsteuer`);
+                } else {
+                    drawField("Warmmiete:", `${savedState.input.rent} € Kalt + ${savedState.input.heating} € Heizung`);
+                }
             } else {
                 drawField("Voraussichtlicher Anspruch:", "Berechnung abgeschlossen (siehe Folgeseiten)");
             }

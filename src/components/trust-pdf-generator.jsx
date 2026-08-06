@@ -218,7 +218,11 @@ export function TrustPdfGenerator({ result }) {
         drawRow(yStart, 'Antragsteller:', `${formData.firstName} ${formData.lastName}`);
         drawRow(yStart - 25, 'Haushaltsgröße:', `${savedState.input.persons} Person(en) (${savedState.input.kids} Kind/er)`);
         drawRow(yStart - 50, 'Brutto-Einkommen:', `${savedState.input.income} Euro`);
-        drawRow(yStart - 75, 'Warmmiete:', `${savedState.input.rent} € Kalt + ${savedState.input.heating ?? 0} € Heizung`);
+        if (savedState.input.housingType === 'Eigentum') {
+          drawRow(yStart - 75, 'Wohnkosten (Eigentum):', `${savedState.input.interest ?? 0} € Zins + ${savedState.input.operatingCosts ?? 0} € Nebenkosten + ${savedState.input.propertyTax ?? 0} € Grundsteuer`);
+        } else {
+          drawRow(yStart - 75, 'Warmmiete:', `${savedState.input.rent} € Kalt + ${savedState.input.heating ?? 0} € Heizung`);
+        }
         drawRow(yStart - 100, 'Berufl. Status:', STATUS_LABELS[savedState.input.status] || 'Sonstiges');
         
         coverPage.drawText(`Diese Anlage dient zur schnelleren Vorab-Einschätzung durch die Behörde.`, {
@@ -287,7 +291,7 @@ export function TrustPdfGenerator({ result }) {
                  <ShieldCheck className="w-5 h-5" /> Daten sicher übernommen!
                </p>
                <ul className="text-sm text-emerald-800 font-medium space-y-1">
-                 <li>• Miete: {savedState.input.rent}€</li>
+                 <li>• {savedState.input.housingType === 'Eigentum' ? `Wohnkosten: ${(savedState.input.interest ?? 0) + (savedState.input.operatingCosts ?? 0) + (savedState.input.propertyTax ?? 0)}` : `Miete: ${savedState.input.rent}`}€</li>
                  <li>• Einkommen: {savedState.input.income}€</li>
                  <li>• Haushalt: {savedState.input.persons} Person(en)</li>
                </ul>

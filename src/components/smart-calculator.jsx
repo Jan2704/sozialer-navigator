@@ -373,8 +373,12 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       sessionStorage.setItem('sozialerNavigatorState', JSON.stringify({
         input: {
           city: selectedCity,
+          housingType: profileInput.housingType,
           rent: profileInput.rent,
           heating: profileInput.heating,
+          interest: profileInput.interest,
+          operatingCosts: profileInput.operatingCosts,
+          propertyTax: profileInput.propertyTax,
           income: profileInput.income,
           persons: profileInput.persons,
           kids: profileInput.kids,
