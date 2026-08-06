@@ -21,6 +21,9 @@ Regeln:
 - Gib keine Rechtsberatung, nur allgemeine Informationen
 - Aktueller Wissenstand: 2026`;
 
+const MAX_MESSAGES = 20;
+const MAX_MESSAGE_LENGTH = 4000;
+
 export const POST: APIRoute = async ({ request }) => {
   const rl = checkRateLimit(request, { limit: 20, windowMs: 60_000, scope: 'chat' });
   if (!rl.allowed) {
@@ -40,8 +43,30 @@ export const POST: APIRoute = async ({ request }) => {
       };
     };
 
-    if (!messages || !Array.isArray(messages)) {
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: 'Invalid request: messages required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (messages.length > MAX_MESSAGES) {
+      return new Response(JSON.stringify({ error: 'Too many messages' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const hasInvalidMessage = messages.some(
+      (m) =>
+        !m ||
+        (m.role !== 'user' && m.role !== 'assistant') ||
+        typeof m.content !== 'string' ||
+        m.content.length === 0 ||
+        m.content.length > MAX_MESSAGE_LENGTH
+    );
+    if (hasInvalidMessage) {
+      return new Response(JSON.stringify({ error: 'Invalid message format' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
