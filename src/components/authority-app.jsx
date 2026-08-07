@@ -200,7 +200,12 @@ export default function AuthorityApp() {
             const { detail } = event;
             if (!detail || !detail.input) return;
 
-            const { input, type } = detail;
+            const { input, type, eligible, amount } = detail;
+
+            // No entitlement found: don't fabricate a benefit label or fast-track
+            // the user into the "application ready to send" dashboard.
+            if (!eligible || !(amount > 0)) return;
+
             const isCityObject = typeof input.city === 'object' && input.city !== null;
             const cityName = isCityObject ? input.city.stadt : input.city;
             const cityPlz = isCityObject ? input.city.plz : '';
