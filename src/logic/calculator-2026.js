@@ -78,7 +78,7 @@ function getHeizkostenPauschale(persons) {
     return 225.40 + (p - 5) * 27.60;
 }
 
-export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, status = 'employee', hasDisability = false }) {
+export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, kidsAges = [], expenses = 0, maintenance = 0, status = 'employee', hasDisability = false }) {
     let inc = parseFloat(income) || 0;
     const rnt = parseFloat(rent) || 0;
     const heat = parseFloat(heating) || 0;
@@ -113,11 +113,15 @@ export function calculateBuergergeld({ income, rent, heating = 0, regelsatz = 56
     }
 
     // B. Mehrbedarfe (Additional Needs)
-    // Single Parent (Alleinerziehend)
+    // Single Parent (Alleinerziehend), § 21 Abs. 3 SGB II:
+    // 36% if living with a child under 7, or with 2-3 children all under 16;
+    // otherwise 12% per child, capped at 60%.
     let mehrbedarf = 0;
     if (numAdults === 1 && numKids > 0) {
-        // Flat 36% of 563 for simplicity (correct varies by kid age/number)
-        mehrbedarf += 563 * 0.36;
+        const ages = kidsAges.map(a => parseInt(a, 10) || 0);
+        const qualifies36 = ages.some(a => a < 7) || (numKids >= 2 && numKids <= 3 && ages.length === numKids && ages.every(a => a < 16));
+        const percent = qualifies36 ? 0.36 : Math.min(0.12 * numKids, 0.60);
+        mehrbedarf += 563 * percent;
     }
 
     // Schwerbehinderung Mehrbedarf (35% of Regelsatz, § 21 Abs. 4 SGB II)
@@ -376,7 +380,7 @@ export function calculateExactWohngeld({ income, rent, persons = 1, kids = 0, mi
 }
 
 
-export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, expenses = 0, maintenance = 0, city = null, quadratmeter = 0, status = 'employee', hasDisability = false }) {
+export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563, rentLimit = 0, persons = 1, kids = 0, kidsAges = [], expenses = 0, maintenance = 0, city = null, quadratmeter = 0, status = 'employee', hasDisability = false }) {
     // Determine Mietstufe from City Object if available, else 1
     const mietstufe = city ? city.mietstufe : 1;
 
@@ -390,7 +394,7 @@ export function calculateBestOption({ income, rent, heating = 0, regelsatz = 563
 
     // 2. Bürgergeld / Grundsicherung (Based on Status)
     let bgResult = calculateBuergergeld({
-        income, rent, heating, regelsatz, rentLimit: limit, persons, kids, expenses, maintenance, status, hasDisability
+        income, rent, heating, regelsatz, rentLimit: limit, persons, kids, kidsAges, expenses, maintenance, status, hasDisability
     });
 
     // SPECIAL STATUS LOGIC
