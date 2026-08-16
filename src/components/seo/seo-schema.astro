@@ -8,13 +8,17 @@ interface Props {
 
 const { type, data } = Astro.props;
 
-const siteUrl = Astro.site ? Astro.site.origin : Astro.url.origin;
+// Hardcoded to match astro.config.mjs's `site` value exactly — Astro.site/
+// Astro.url.origin proved unreliable here and were emitting the non-www apex
+// domain in JSON-LD @id/url values while every canonical tag correctly used
+// www (SEO audit, schema.md #3). This is the single source of truth.
+const siteUrl = 'https://www.sozialer-navigator.de';
 
 // 1. Organization (Global Base)
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Sozialer Navigator",
+  "name": "Fördercheck",
   "url": siteUrl,
   "logo": `${siteUrl}/logo.png`, // Placeholder, ensure this exists or use a valid path
   "description": "Ihr unabhängiger Ratgeber für Sozialleistungen, Wohngeld und Bürgergeld in Deutschland.",
@@ -23,20 +27,15 @@ const organizationSchema = {
   ]
 };
 
-// 2. WebSite (Global Base) - for Sitelinks Search Box
+// 2. WebSite (Global Base)
+// No SearchAction: there is no working /suche results page on this site, and
+// shipping a SearchAction pointing at a dead end is worse than omitting it
+// (SEO audit, schema.md #2). Add it back only once a real search page exists.
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Sozialer Navigator",
-  "url": siteUrl,
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${siteUrl}/suche?q={search_term_string}`
-    },
-    "query-input": "required name=search_term_string"
-  }
+  "name": "Fördercheck",
+  "url": siteUrl
 };
 
 let schema = null;
@@ -72,7 +71,7 @@ if (type === 'Organization') {
     "image": data?.image || `${siteUrl}/og-image.jpg`,
     "author": {
       "@type": "Organization",
-      "name": "Sozialer Navigator Redaktion"
+      "name": "Fördercheck Redaktion"
     },
     "publisher": organizationSchema,
     "datePublished": data?.datePublished || new Date().toISOString().split('T')[0],

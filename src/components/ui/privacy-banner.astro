@@ -2,17 +2,20 @@
 // src/components/ui/PrivacyBanner.astro
 ---
 
-<div id="privacy-banner" class="fixed bottom-0 left-0 right-0 z-[200] p-4 translate-y-full transition-transform duration-500 ease-in-out print:hidden">
-    <div class="max-w-4xl mx-auto bg-[#0a1628] text-white p-6 rounded-sm shadow-2xl border-t-2 border-[#c5a67c] flex flex-col md:flex-row items-center gap-6">
-        <div class="flex-grow">
-            <h4 class="text-sm font-bold uppercase tracking-widest text-[#c5a67c] mb-2 font-sans">Datenschutz & Cookies</h4>
-            <p class="text-xs text-slate-300 leading-relaxed font-light">
-                Wir nutzen nur technisch notwendige Cookies (z.B. für die sichere Zahlungsabwicklung via Stripe) und anonyme Analysen. Mit der Nutzung der Seite erklären Sie sich damit einverstanden. Details finden Sie in unserer 
+<div id="privacy-banner" class="fixed bottom-0 left-0 right-0 z-[200] p-2 md:p-4 translate-y-full transition-transform duration-500 ease-in-out print:hidden">
+    <div class="max-w-4xl mx-auto bg-[#0a1628] text-white p-3 md:p-6 rounded-sm shadow-2xl border-t-2 border-[#c5a67c] flex flex-row md:flex-row items-center gap-3 md:gap-6">
+        <div class="flex-grow min-w-0">
+            <h4 class="text-xs md:text-sm font-bold uppercase tracking-widest text-[#c5a67c] mb-0 md:mb-2 font-sans">Datenschutz & Cookies</h4>
+            <p class="hidden md:block text-xs text-slate-300 leading-relaxed font-light">
+                Wir nutzen nur technisch notwendige Cookies (z.B. für die sichere Zahlungsabwicklung via Stripe) und anonyme Analysen. Mit der Nutzung der Seite erklären Sie sich damit einverstanden. Details finden Sie in unserer
                 <a href="/datenschutz" class="underline hover:text-white transition-colors">Datenschutzerklärung</a>.
+            </p>
+            <p class="md:hidden text-[11px] text-slate-300 leading-snug font-light truncate">
+                Nur technisch notwendige Cookies. <a href="/datenschutz" class="underline">Details</a>.
             </p>
         </div>
         <div class="flex shrink-0 gap-3">
-            <button id="close-privacy-banner" class="px-6 py-2 bg-white text-[#0a1628] text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-[#c5a67c] transition-colors whitespace-nowrap">
+            <button id="close-privacy-banner" class="px-4 md:px-6 py-2 bg-white text-[#0a1628] text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-[#c5a67c] transition-colors whitespace-nowrap">
                 Verstanden
             </button>
         </div>

@@ -8,7 +8,7 @@ interface Props {
   description?: string;
   image?: string;
   publishDate?: Date;
-  author?: string; // Default to "Sozialer Navigator Redaktion"
+  author?: string; // Default to "Fördercheck Redaktion"
   canonicalUrl?: string; // e.g. https://sozialer-navigator.de/berlin/wohngeld
   city?: string; // For Local/GovernmentService
   serviceType?: "Wohngeld" | "Bürgergeld" | "WBS";
@@ -17,20 +17,22 @@ interface Props {
 
 const {
   type = "website",
-  title = "Sozialer Navigator - Wohngeld & Bürgergeld Rechner 2026",
+  title = "Fördercheck - Wohngeld & Bürgergeld Rechner 2026",
   description = "Prüfen Sie Ihren Anspruch auf Wohngeld und Bürgergeld. Kostenlos, anonym und mit Sofort-Ergebnis.",
   image = "/og-image.jpg",
   publishDate,
-  author = "Sozialer Navigator Redaktion",
+  author = "Fördercheck Redaktion",
   canonicalUrl = Astro.url.href,
   city,
   serviceType,
   faq
 } = Astro.props;
 
-// Single source of truth for the site's own domain — derived from astro.config.mjs's `site`,
-// not hardcoded, so every schema stays consistent if the canonical domain ever changes.
-const siteOrigin = Astro.site ? Astro.site.origin : Astro.url.origin;
+// Hardcoded to match astro.config.mjs's `site` value exactly. Previously derived
+// from Astro.site/Astro.url.origin, but that produced the non-www apex domain in
+// live JSON-LD output while every canonical tag correctly used www (SEO audit,
+// schema.md #3) — update this alongside astro.config.mjs's `site` if it ever changes.
+const siteOrigin = 'https://www.sozialer-navigator.de';
 const organizationId = `${siteOrigin}/#organization`;
 const websiteId = `${siteOrigin}/#website`;
 const absoluteImage = new URL(image, siteOrigin).href;
@@ -39,7 +41,7 @@ const absoluteImage = new URL(image, siteOrigin).href;
 const organizationSchema: Organization = {
   "@type": "Organization",
   "@id": organizationId,
-  "name": "Sozialer Navigator",
+  "name": "Fördercheck",
   "url": siteOrigin,
   "logo": {
     "@type": "ImageObject",
@@ -62,7 +64,7 @@ const websiteSchema: WebSite = {
     "@type": "WebSite",
     "@id": websiteId,
     "url": siteOrigin,
-    "name": "Sozialer Navigator",
+    "name": "Fördercheck",
     "description": "Ihr Wegweiser durch den Sozialstaat",
     "publisher": { "@id": organizationId },
     "inLanguage": "de-DE"
@@ -118,6 +120,9 @@ if (faq && faq.length > 0) {
 }
 
 // 3. Article Schema (For Lexikon/Guides)
+// Only ever attribute authorship to this site's own Organization — never to a
+// third-party name, since `author` may be a curated external source's name
+// (e.g. "Verbraucherzentrale") that did not actually write the page.
 let articleSchema: Article | undefined;
 if (type === "article" && title && description) {
     articleSchema = {
@@ -125,10 +130,7 @@ if (type === "article" && title && description) {
         "headline": title,
         "description": description,
         "image": absoluteImage,
-        "author": {
-            "@type": "Person", // or Organization
-            "name": author
-        },
+        "author": { "@id": organizationId },
         "publisher": { "@id": organizationId },
         "datePublished": publishDate ? publishDate.toISOString() : undefined,
         "inLanguage": "de-DE"

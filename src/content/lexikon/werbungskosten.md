@@ -2,7 +2,12 @@
 title: "Werbungskosten"
 description: "Ausgaben, die Sie von Ihrem Einkommen abziehen können, um Ihren Wohngeldanspruch zu erhöhen."
 relatedTerms: ["Einkommen", "Wohngeld"]
-lastUpdated: 2026-01-24
+lastUpdated: 2026-08-02
+faqs:
+  - question: "Wie wirken sich Werbungskosten auf den Wohngeldanspruch aus?"
+    answer: "Höhere anerkannte Werbungskosten senken das anzurechnende Gesamteinkommen, was oft zu einem höheren Wohngeldanspruch führt."
+  - question: "Wie hoch ist die Werbungskostenpauschale?"
+    answer: "Jeder Arbeitnehmer erhält automatisch eine Pauschale von aktuell 1.230 € pro Jahr (ca. 102,50 € pro Monat) ohne Nachweispflicht. Höhere tatsächliche Kosten wie Fahrtkosten, Arbeitsmittel oder Fortbildungskosten können bei Nachweis zusätzlich geltend gemacht werden."
 ---
 
 # Werbungskosten im Wohngeldrecht
@@ -23,3 +28,5 @@ Jeder Arbeitnehmer erhält automatisch eine Werbungskostenpauschale (aktuell 1.2
 
 ## Tipp für den Antrag
 Nutzen Sie unseren Experten-Modus im Rechner, um Ihre tatsächlichen monatlichen Werbungskosten einzutragen, falls diese über der Pauschale liegen.
+
+Rechtsgrundlage: [§ 14](https://www.gesetze-im-internet.de/wogg/__14.html) und [§ 16 WoGG](https://www.gesetze-im-internet.de/wogg/__16.html) (Jahreseinkommen und Abzüge).

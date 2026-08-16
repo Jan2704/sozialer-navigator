@@ -24,14 +24,14 @@ import SchemaOrg from '../../components/seo/seo-schema.astro';
         <meta property="og:type" content="article" />
         <meta property="og:title" content={entry.data.title} />
         <meta property="og:description" content={entry.data.description} />
-        <meta property="og:url" content={new URL(`/lexikon/${entry.slug}`, Astro.site)} />
+        <meta property="og:url" content={new URL(`/lexikon/${entry.slug}/`, Astro.site)} />
 
         <SchemaOrg
             type="TechnicalArticle"
             data={{
                 title: entry.data.title,
                 description: entry.data.description,
-                url: new URL(`/lexikon/${entry.slug}`, Astro.site).href,
+                url: new URL(`/lexikon/${entry.slug}/`, Astro.site).href,
                 datePublished: "2025-10-01", // Fallback launch date
                 dateModified: entry.data.lastUpdated ? entry.data.lastUpdated.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
             }} 
@@ -41,8 +41,8 @@ import SchemaOrg from '../../components/seo/seo-schema.astro';
             data={{
                 items: [
                     { name: "Startseite", url: "/" },
-                    { name: "Lexikon", url: "/lexikon" },
-                    { name: entry.data.title, url: `/lexikon/${entry.slug}` }
+                    { name: "Lexikon", url: "/lexikon/" },
+                    { name: entry.data.title, url: `/lexikon/${entry.slug}/` }
                 ]
             }}
         />
@@ -103,7 +103,7 @@ import SchemaOrg from '../../components/seo/seo-schema.astro';
                     <!-- Article Footer/Actions -->
                     <div class="mt-16 pt-8 border-t border-slate-100 flex items-center justify-between">
                         <p class="text-slate-400 text-sm italic font-serif">
-                            Stand: {new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long' })}
+                            Fördercheck Redaktion — zuletzt geprüft am {(entry.data.lastUpdated ?? new Date()).toLocaleDateString('de-DE', { year: 'numeric', month: 'long' })}
                         </p>
                         <button class="inline-flex items-center gap-2 text-slate-500 hover:text-brand-navy transition-colors text-sm font-medium tracking-wide uppercase">
                             <Share2 className="w-4 h-4" />

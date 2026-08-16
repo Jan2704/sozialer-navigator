@@ -5,7 +5,7 @@
 <!-- Feedback Trigger Button -->
 <button
   id="feedback-trigger"
-  class="fixed bottom-6 right-24 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand-gold text-brand-navy shadow-xl shadow-brand-gold/20 transition-all hover:scale-105 hover:bg-white focus:outline-none focus:ring-4 focus:ring-brand-gold/50 print:hidden group border-2 border-brand-navy/5"
+  class="fixed bottom-6 right-24 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand-gold text-brand-navy shadow-xl shadow-brand-gold/20 transition-all hover:scale-105 hover:bg-white focus:outline-none focus:ring-4 focus:ring-brand-gold/50 print:hidden group border-2 border-brand-navy/5 opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto duration-300"
   aria-label="Feedback geben"
 >
   <span class="sr-only">Feedback</span>
@@ -23,7 +23,7 @@
   <div class="p-4 text-center border-b border-gray-100 pb-4">
     <span class="text-[10px] font-bold uppercase tracking-widest text-brand-gold block mb-1">Ihre Meinung</span>
     <h3 class="font-serif text-xl text-brand-navy">Helfen Sie uns.</h3>
-    <p class="text-xs text-slate-500 mt-2 font-light">Ehrliches Feedback hilft uns, den Sozialen Navigator zu verbessern.</p>
+    <p class="text-xs text-slate-500 mt-2 font-light">Ehrliches Feedback hilft uns, Fördercheck zu verbessern.</p>
   </div>
   
   <div class="flex flex-col gap-2 p-2">
@@ -161,6 +161,22 @@
     const successView = document.getElementById('feedback-success');
 
     let isMenuOpen = false;
+
+    // Auf Mobile deckt der Button sonst die "5+ Personen"-Auswahlkarte des
+    // Rechners direkt beim ersten Laden ab (SEO-Audit, visual.md #2) — daher
+    // erst sichtbar, sobald über den Hero-Bereich hinausgescrollt wurde.
+    const revealTrigger = () => {
+        triggerBtn?.classList.remove('opacity-0', 'pointer-events-none');
+        triggerBtn?.classList.add('opacity-100', 'pointer-events-auto');
+    };
+    const onHeroScroll = () => {
+        if (window.scrollY > window.innerHeight * 0.6) {
+            revealTrigger();
+            window.removeEventListener('scroll', onHeroScroll);
+        }
+    };
+    onHeroScroll();
+    window.addEventListener('scroll', onHeroScroll, { passive: true });
 
     // Toggle Menu
     triggerBtn?.addEventListener('click', (e) => {

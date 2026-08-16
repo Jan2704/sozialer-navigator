@@ -21,6 +21,11 @@ export default defineConfig({
   trailingSlash: 'always',
 
   integrations: [sitemap({
+    // Excludes internal/admin pages and the curated external-resource "stub"
+    // ratgeber cards (noindexed in src/pages/ratgeber/[slug].astro) — these
+    // are not original content and shouldn't be submitted for indexing.
+    filter: (page) => !/\/(admin|design-system)\//.test(page)
+      && !/\/ratgeber\/(buergergeld-oder-wohngeld|wohngeld-erhoehung-2026|wohngeld-fuer-rentner)\/?$/.test(page),
     serialize(item) {
       // Url string for matching
       const url = item.url;

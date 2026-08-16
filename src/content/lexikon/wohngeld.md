@@ -23,7 +23,7 @@ faqs:
 Voraussetzung ist, dass Sie **keine** Transferleistungen (wie Bürgergeld, Grundsicherung im Alter oder BAföG) beziehen, in denen die Unterkunftskosten bereits enthalten sind.
 
 ## Wovon hängt die Höhe ab?
-Die Berechnung erfolgt nach einer komplexen Formel (WoGG), basierend auf:
+Die Berechnung erfolgt nach einer komplexen Formel im [Wohngeldgesetz (WoGG)](https://www.gesetze-im-internet.de/wogg/), basierend auf:
 1.  **Anzahl der Haushaltsmitglieder**: Berücksichtigt werden alle Personen, die dauerhaft im Haushalt leben.
 2.  **Gesamteinkommen**: Das Bruttoeinkommen aller Mitglieder abzüglich pauschaler Abzüge (Werbungskosten, Steuern, Sozialversicherung).
 3.  **Höhe der Miete**: Es gilt eine Obergrenze, die von der Mietstufe der Gemeinde abhängt.

@@ -2,7 +2,14 @@
 title: "Mietstufe"
 description: "Die Mietstufe bestimmt die Höchstgrenze für Ihre zuschussfähige Miete beim Wohngeld."
 relatedTerms: ["Wohngeld", "Miete", "Kalte Betriebskosten"]
-lastUpdated: 2026-01-24
+lastUpdated: 2026-08-02
+faqs:
+  - question: "Warum gibt es Mietstufen?"
+    answer: "Da die Mieten regional stark variieren, etwa in München im Vergleich zum ländlichen Brandenburg, gleicht der Gesetzgeber diese Unterschiede über Mietstufen von 1 (sehr günstig) bis 7 (sehr teuer) aus – in höheren Mietstufen wird mehr Miete anerkannt und bezuschusst."
+  - question: "Welche Kosten deckt die Mietstufe ab?"
+    answer: "Die Mietstufe deckt die Bruttokaltmiete ab, also Kaltmiete plus kalte Betriebskosten wie Müll, Wasser und Hausmeister. Heizkosten und Warmwasser sind nicht enthalten, dafür gibt es die separate Heizkostenkomponente."
+  - question: "Wo finde ich meine Mietstufe?"
+    answer: "Im Fördercheck-Rechner wird die Mietstufe für Ihre Stadt automatisch ermittelt – Sie müssen sich nicht selbst darum kümmern."
 ---
 
 # Was ist die Mietstufe?
@@ -22,3 +29,5 @@ Die Mietstufe deckt die **Bruttokaltmiete** ab. Das bedeutet:
 In unserem [Wohngeldrechner](/) wird die Mietstufe für Ihre Stadt automatisch ermittelt. Sie müssen sich nicht darum kümmern.
 
 > **Wichtig:** Liegt Ihre tatsächliche Miete *über* dem Höchstbetrag Ihrer Mietstufe, wird nur der Höchstbetrag für die Berechnung genutzt. Der Rest muss aus eigener Tasche gezahlt werden.
+
+Rechtsgrundlage: [Wohngeldgesetz (WoGG)](https://www.gesetze-im-internet.de/wogg/), Anlage zu § 12 WoGG (Mietstufeneinteilung).

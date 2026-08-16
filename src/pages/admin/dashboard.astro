@@ -4,6 +4,8 @@ export const prerender = false;
 import Layout from '../../layouts/layout.astro';
 import { isAdminAuthConfigured, checkAdminPassword, issueSessionCookie, hasValidSessionCookie } from '../../lib/admin-auth';
 
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+
 let isAuthenticated = false;
 let loginError = "";
 

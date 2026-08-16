@@ -9,6 +9,8 @@ import { isAdminAuthConfigured, checkAdminPassword, issueSessionCookie, hasValid
 const SERVICE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 const SITE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
 
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+
 let isAuthenticated = false;
 let feedbackData = [];
 let error = "";
