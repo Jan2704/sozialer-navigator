@@ -10,17 +10,19 @@ faqs:
     answer: "Der Regelsatz deckt den pauschalierten Bedarf für den täglichen Lebensunterhalt ab, insbesondere Ernährung, Kleidung, Körperpflege, Hausrat, Haushaltsenergie ohne Heizung und Warmwasser sowie Bedarfe zur Teilnahme am sozialen und kulturellen Leben."
 ---
 
-# Regelsatz 2026
+## Regelsatz 2026
 
 Der Regelsatz deckt den pauschalierten Bedarf für den täglichen Lebensunterhalt ab. Dazu gehören insbesondere Ernährung, Kleidung, Körperpflege, Hausrat, Haushaltsenergie (ohne Heizung und Warmwasser) sowie Bedarfe zur Teilnahme am sozialen und kulturellen Leben.
 
 ## Aktuelle Höhe (2026)
 
-*   **Alleinstehende**: 563 €
-*   **Paare (pro Partner)**: 506 €
-*   **Erwachsene im Haushalt**: 451 €
-*   **Kinder 14-17 Jahre**: 471 €
-*   **Kinder 6-13 Jahre**: 390 €
-*   **Kinder 0-5 Jahre**: 357 €
+| Regelbedarfsstufe | Personengruppe | Betrag pro Monat |
+| --- | --- | --- |
+| Stufe 1 | Alleinstehende | 563 € |
+| Stufe 2 | Paare (pro Partner) | 506 € |
+| Stufe 3 | Erwachsene im Haushalt (ohne eigenen Hausstand) | 451 € |
+| Stufe 4 | Kinder 14–17 Jahre | 471 € |
+| Stufe 5 | Kinder 6–13 Jahre | 390 € |
+| Stufe 6 | Kinder 0–5 Jahre | 357 € |
 
 Rechtsgrundlage: [§ 20 SGB II](https://www.gesetze-im-internet.de/sgb_2/__20.html) (Regelbedarf zur Sicherung des Lebensunterhalts).

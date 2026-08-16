@@ -11,7 +11,7 @@ faqs:
     answer: "Zuständig ist die Wohngeldstelle Ihrer Stadt- oder Gemeindeverwaltung. Viele Bundesländer bieten mittlerweile auch Online-Anträge an."
 ---
 
-# Wohngeldantrag: Der Weg zum Mietzuschuss
+## Wohngeldantrag: Der Weg zum Mietzuschuss
 
 Wohngeld wird nur auf Antrag gewährt. Wichtig: Das Geld wird **ab dem Monat der Antragstellung** gezahlt. Es lohnt sich also, den Antrag so früh wie möglich einzureichen (notfalls zunächst formlos).
 

@@ -12,7 +12,7 @@ faqs:
     answer: "Die alte Karenzzeit dauerte in der Regel 12 Monate ab Beginn des Leistungsbezugs und gilt nur noch für Bewilligungszeiträume, die vor dem 1.7.2026 begonnen haben."
 ---
 
-# Karenzzeit
+## Karenzzeit
 
 > **Wichtige Änderung zum 1. Juli 2026:** Mit der Umbenennung des Bürgergelds in **Grundsicherungsgeld** entfällt die Karenzzeit für alle **ab dem 1. Juli 2026 neu beginnenden Bewilligungszeiträume** — das Vermögen wird ab dann von Beginn an geprüft. Wer bereits **vor** dem 1.7.2026 in einem laufenden Bewilligungszeitraum Leistungen bezog, behält die alten Karenzzeit-Regeln bis zu dessen Ende (Bestandsschutz). Diese Information basiert auf mehreren übereinstimmenden Sekundärquellen (u.a. [comcave.de](https://www.comcave.de/magazin/neustart-in-den-job/neue-grundsicherung-vermoegen-regelsatz), [rentenbescheid24.de](https://rentenbescheid24.de/grundsicherung-schonvermoegen-neu-geregelt-je-nach-alter-bis-20-000e-geschuetzt/)) und der offiziellen Reformbestätigung von [Bundesagentur für Arbeit](https://www.arbeitsagentur.de/grundsicherung-loest-buergergeld-ab); sie wurde nicht gegen den vollständigen Gesetzestext geprüft. Bei einer konkreten Antragstellung empfehlen wir, die aktuellen Regeln zusätzlich beim Jobcenter zu bestätigen.
 

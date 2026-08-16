@@ -22,6 +22,7 @@ interface Props {
   author?: string;
   image?: string;
   noindex?: boolean;
+  breadcrumbs?: { name: string; url: string }[];
 }
 
 const {
@@ -36,7 +37,8 @@ const {
   publishDate,
   author,
   image,
-  noindex = false
+  noindex = false,
+  breadcrumbs
 } = Astro.props;
 ---
 <!doctype html>
@@ -80,6 +82,7 @@ const {
       publishDate={publishDate}
       author={author}
       image={image}
+      breadcrumbs={breadcrumbs}
     />
 
     <style is:global>

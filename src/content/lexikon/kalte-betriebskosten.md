@@ -10,7 +10,7 @@ faqs:
     answer: "Ja, sowohl beim Bürgergeld als auch beim Wohngeld werden kalte Betriebskosten grundsätzlich berücksichtigt, bis zur jeweiligen Angemessenheitsgrenze bzw. zum Höchstbetrag."
 ---
 
-# Kalte Betriebskosten
+## Kalte Betriebskosten
 
 Kalte Betriebskosten sind alle Nebenkosten, die rund um die Wohnung anfallen, **außer** den Kosten für Wärme (Heizung) und Warmwasser.
 

@@ -6,7 +6,7 @@ const allEntries = await getCollection('lexikon');
 const sortedEntries = allEntries.sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
 
-<Layout title="Lexikon | Sozialer Navigator" activePage="lexikon">
+<Layout title="Lexikon | Fördercheck" activePage="lexikon" breadcrumbs={[{ name: "Startseite", url: "/" }, { name: "Lexikon", url: "/lexikon/" }]}>
 
     <fragment slot="head">
         <meta property="og:url" content="https://sozialer-navigator.de/lexikon" />

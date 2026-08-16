@@ -45,11 +45,16 @@ if (type === 'Organization') {
 } else if (type === 'Website') {
     schema = websiteSchema;
 } else if (type === 'SoftwareApplication') {
-  // For the Calculator
+  // For the Calculator. Uses WebApplication (more precise than the generic
+  // SoftwareApplication for a browser-based, install-free tool) and references
+  // the Organization by @id instead of embedding a duplicate inline copy
+  // (SEO audit, schema.md #4/#5). Defaults describe the actual universal
+  // benefit checker, not a narrower legacy "Wohngeldrechner" product.
   schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": data?.name || "Wohngeldrechner 2026",
+    "@type": "WebApplication",
+    "name": data?.name || "Amtly Universal-Förderscheck",
+    "url": siteUrl,
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -57,9 +62,9 @@ if (type === 'Organization') {
       "price": "0",
       "priceCurrency": "EUR"
     },
-    "author": organizationSchema,
-    "description": data?.description || "Kostenloser Wohngeldrechner für 2026. Prüfen Sie Ihren Anspruch auf Mietzuschuss.",
-    "featureList": "Anspruchsberechnung, Mietstufen-Check, Einkommensprüfung"
+    "provider": { "@id": `${siteUrl}/#organization` },
+    "description": data?.description || "Kostenloser Universal-Förderscheck: Prüfen Sie in 2 Minuten anonym Ihren Anspruch auf Wohngeld, Bürgergeld, Kinderzuschlag und weitere staatliche Zuschüsse.",
+    "featureList": data?.featureList || "Anspruchsberechnung für Wohngeld, Bürgergeld und Kinderzuschlag, Mietstufen-Check, Einkommensprüfung, automatisch befülltes Antrags-PDF"
   };
 } else if (type === 'Article' || type === 'TechnicalArticle') {
   // For Info Pages

@@ -10,7 +10,7 @@ faqs:
     answer: "Nein. Im ersten Jahr des Bürgergeld-Bezugs (Karenzzeit) werden Kaltmiete und kalte Betriebskosten in tatsächlicher Höhe übernommen, auch wenn die Wohnung eigentlich zu teuer ist – für Heizkosten gilt das nicht, diese müssen von Anfang an angemessen sein."
 ---
 
-# Kosten der Unterkunft und Heizung (KdU)
+## Kosten der Unterkunft und Heizung (KdU)
 
 Die **Kosten der Unterkunft und Heizung (KdU)** sind die tatsächlichen monatlichen Aufwendungen für Wohnen und Wärme, die vom Jobcenter übernommen werden. Sie umfassen die **Nettokaltmiete**, die **kalten Betriebskosten** und die **angemessenen Heizkosten**. Die Übernahme ist gesetzlich in [§ 22 SGB II](https://www.gesetze-im-internet.de/sgb_2/__22.html) geregelt und soll das Existenzminimum im Bereich Wohnen sichern.
 
@@ -23,7 +23,7 @@ Die Kosten der Unterkunft setzen sich zusammen aus:
 
 ## Angemessenheit
 
-Die Kosten werden nur übernommen, soweit sie **angemessen** sind. Jedes Jobcenter hat eigene Richtlinien (Mietobergrenzen), die festlegen, wie teuer eine Wohnung für eine bestimmte Personenanzahl sein darf.
+Die Kosten werden nur übernommen, soweit sie **angemessen** sind. Jedes Jobcenter hat eigene Richtlinien (Mietobergrenzen), die festlegen, wie teuer eine Wohnung für eine bestimmte Personenanzahl sein darf — Details dazu unter [Mietobergrenze](/lexikon/mietobergrenze/).
 
 ## Karenzzeit
 

@@ -10,9 +10,9 @@ faqs:
     answer: "Beim Wohngeld gelten bundesweit einheitliche Mietstufen (1 bis 7) mit festen Tabellenwerten je nach Mietstufe der Gemeinde – anders als beim Jobcenter, das sich nach lokalen Richtlinien richtet."
 ---
 
-# Mietobergrenze
+## Mietobergrenze
 
-Die Mietobergrenze definiert den Höchstbetrag, der für eine Wohnung übernommen wird. Sie variiert je nach Wohnort und Anzahl der Bewohner.
+Die Mietobergrenze definiert den Höchstbetrag, der für eine Wohnung übernommen wird. Sie variiert je nach Wohnort und Anzahl der Bewohner. Dieser Artikel vergleicht, wie Jobcenter und Wohngeldstelle die Obergrenze jeweils ermitteln — die konkreten Wohngeld-Tabellenwerte finden Sie unter [Mietstufe](/lexikon/mietstufe/), die Zusammensetzung der angerechneten Miete unter [Kosten der Unterkunft](/lexikon/kosten-der-unterkunft/).
 
 ## Bürgergeld
 

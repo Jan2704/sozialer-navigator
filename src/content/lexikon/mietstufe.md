@@ -12,7 +12,7 @@ faqs:
     answer: "Im Fördercheck-Rechner wird die Mietstufe für Ihre Stadt automatisch ermittelt – Sie müssen sich nicht selbst darum kümmern."
 ---
 
-# Was ist die Mietstufe?
+## Was ist die Mietstufe?
 
 Die **Mietstufe** ist ein zentraler Faktor bei der Berechnung des Wohngeldes. Jede Gemeinde und Stadt in Deutschland ist einer bestimmten Mietstufe von **1 (sehr günstig)** bis **7 (sehr teuer)** zugeordnet.
 
@@ -29,5 +29,17 @@ Die Mietstufe deckt die **Bruttokaltmiete** ab. Das bedeutet:
 In unserem [Wohngeldrechner](/) wird die Mietstufe für Ihre Stadt automatisch ermittelt. Sie müssen sich nicht darum kümmern.
 
 > **Wichtig:** Liegt Ihre tatsächliche Miete *über* dem Höchstbetrag Ihrer Mietstufe, wird nur der Höchstbetrag für die Berechnung genutzt. Der Rest muss aus eigener Tasche gezahlt werden.
+
+## Höchstbeträge nach Mietstufe und Haushaltsgröße (2026)
+
+Die folgenden Werte zeigen die maximal anerkannte Bruttokaltmiete pro Monat, gestaffelt nach Mietstufe (I–VII) und Haushaltsgröße — dieselben Werte, die auch unser Rechner verwendet:
+
+| Personen | Stufe I | Stufe II | Stufe III | Stufe IV | Stufe V | Stufe VI | Stufe VII |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 Person | 392 € | 426 € | 469 € | 512 € | 562 € | 619 € | 711 € |
+| 2 Personen | 477 € | 520 € | 577 € | 629 € | 694 € | 763 € | 880 € |
+| 3 Personen | 574 € | 626 € | 693 € | 756 € | 833 € | 918 € | 1.059 € |
+| 4 Personen | 671 € | 732 € | 810 € | 884 € | 973 € | 1.071 € | 1.236 € |
+| 5+ Personen | 751 € | 820 € | 908 € | 990 € | 1.090 € | 1.201 € | 1.384 € |
 
 Rechtsgrundlage: [Wohngeldgesetz (WoGG)](https://www.gesetze-im-internet.de/wogg/), Anlage zu § 12 WoGG (Mietstufeneinteilung).

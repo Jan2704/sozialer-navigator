@@ -86,180 +86,46 @@ const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minut
         <!-- HERO SECTION -->
         <div class="relative w-full min-h-[90vh] flex items-center overflow-hidden bg-[#EDE6D9] border-b border-[#DED2BC]">
 
-            <!-- Content Container -->
-            <div class="relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 md:gap-16 items-center pt-28 pb-20">
+            <!-- Content Container: "Der Brief" — a direct address, not a dashboard pitch. Single
+                 column, no cards, no badges, no bordered buttons; the CTA is a link, not a box. -->
+            <div class="relative z-10 w-full max-w-3xl mx-auto px-6 pt-28 pb-20">
+                <div class="text-left animate-slide-up">
 
-                <!-- Text Content Left -->
-                <div class="lg:col-span-6 relative z-10">
-                    <div class="text-left animate-slide-up">
+                    <p class="hero-title font-serif text-xl md:text-2xl text-[#6B5B4B] mb-5">Liebe Leserin, lieber Leser,</p>
 
-                        <!-- Badge + Social Proof Row -->
-                        <div class="flex flex-wrap items-center gap-3 mb-5">
-                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-[#4B5A45]/10 border border-[#4B5A45]/25">
-                                <span class="flex h-1.5 w-1.5 rounded-full bg-[#4B5A45]"></span>
-                                <span class="text-brand-emerald text-xs font-bold tracking-widest uppercase">Förder-Check 2026</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 text-xs text-[#6B5B4B]">
-                                <i data-lucide="users" class="w-3.5 h-3.5 text-brand-blue flex-shrink-0"></i>
-                                <span><span id="social-counter" class="font-bold text-[#2B1D16]">18.423</span> Haushalte haben bereits geprüft</span>
-                            </div>
-                        </div>
+                    <h1 class="hero-title font-serif font-bold tracking-tight mb-7 text-[#2B1D16] text-4xl md:text-5xl lg:text-[3.4rem] leading-[1.2]">
+                        vermutlich steht dir <span class="text-brand-blue">mehr vom Staat zu</span>, als du denkst.
+                    </h1>
 
-                        <!-- Loss-Framing Headline -->
-                        <h1 class="hero-title font-serif font-bold tracking-tight mb-5 text-[#2B1D16] text-5xl md:text-6xl lg:text-[4.25rem] leading-[1.08]">
-                            Verschenkst du jeden Monat <span class="text-brand-blue">Geld vom Staat?</span>
-                        </h1>
+                    <p class="hero-description text-lg md:text-xl text-[#6B5B4B] leading-relaxed mb-10 max-w-2xl">
+                        Die meisten Haushalte prüfen ihren Anspruch nie — nicht weil er nicht besteht, sondern weil niemand es ihnen einfach erklärt hat.
+                    </p>
 
-                        <!-- Subline -->
-                        <p class="hero-description text-base md:text-lg text-[#6B5B4B] leading-relaxed mb-6 max-w-lg">
-                            Die meisten Haushalte wissen nicht, was ihnen zusteht. Prüfe in 2&nbsp;Minuten kostenlos deinen Anspruch auf Wohngeld, Bürgergeld, Kinderzuschlag&nbsp;& mehr.
-                        </p>
-
-                        <!-- Stat Pills -->
-                        <div class="hero-stats flex flex-wrap gap-2.5 mb-8">
-                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-[#F7F3EA] border border-[#DED2BC] text-xs">
-                                <span class="text-[#8A7A6A]">Ø</span>
-                                <span class="font-bold text-[#2B1D16]">487&nbsp;€/Monat</span>
-                                <span class="text-[#8A7A6A]">Förderung</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-[#F7F3EA] border border-[#DED2BC] text-xs">
-                                <i data-lucide="clock" class="w-3 h-3 text-[#8A7A6A]"></i>
-                                <span class="font-bold text-[#2B1D16]">2&nbsp;Minuten</span>
-                                <span class="text-[#8A7A6A]">Check</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-[#9C4A32]/10 border border-[#9C4A32]/25 text-xs">
-                                <span class="font-bold text-brand-blue">100%</span>
-                                <span class="text-brand-blue">Kostenlos</span>
-                            </div>
-                        </div>
-
-                        <!-- Micro-Commitment Selector -->
-                        <div class="hero-buttons">
-                            <p class="text-xs font-semibold text-[#6B5B4B] mb-3 uppercase tracking-wider">Wie viele Personen leben in deinem Haushalt?</p>
-                            <div class="grid grid-cols-4 gap-2 mb-4 max-w-sm">
-                                <button data-persons="1" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-lg border-2 border-[#DED2BC] bg-[#F7F3EA] hover:border-[#4B5A45] hover:bg-[#4B5A45]/5 transition-all duration-200 font-bold text-[#2B1D16] text-lg hover:text-brand-emerald" aria-label="1 Person">
-                                    1
-                                    <span class="text-[9px] font-medium text-[#8A7A6A] group-hover:text-brand-emerald normal-case tracking-normal">Person</span>
-                                </button>
-                                <button data-persons="2" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-lg border-2 border-[#DED2BC] bg-[#F7F3EA] hover:border-[#4B5A45] hover:bg-[#4B5A45]/5 transition-all duration-200 font-bold text-[#2B1D16] text-lg hover:text-brand-emerald" aria-label="2 Personen">
-                                    2
-                                    <span class="text-[9px] font-medium text-[#8A7A6A] group-hover:text-brand-emerald normal-case tracking-normal">Personen</span>
-                                </button>
-                                <button data-persons="3" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-lg border-2 border-[#DED2BC] bg-[#F7F3EA] hover:border-[#4B5A45] hover:bg-[#4B5A45]/5 transition-all duration-200 font-bold text-[#2B1D16] text-lg hover:text-brand-emerald" aria-label="3-4 Personen">
-                                    3–4
-                                    <span class="text-[9px] font-medium text-[#8A7A6A] group-hover:text-brand-emerald normal-case tracking-normal">Personen</span>
-                                </button>
-                                <button data-persons="4" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-lg border-2 border-[#DED2BC] bg-[#F7F3EA] hover:border-[#9C4A32] hover:bg-[#9C4A32]/5 transition-all duration-200 font-bold text-[#2B1D16] text-lg hover:text-brand-blue" aria-label="5 oder mehr Personen">
-                                    5+
-                                    <span class="text-[9px] font-medium text-[#8A7A6A] group-hover:text-brand-blue normal-case tracking-normal">Personen</span>
-                                </button>
-                            </div>
-
-                            <!-- Trust micro-copy -->
-                            <p class="text-[11px] text-[#8A7A6A] flex items-center gap-1.5">
-                                <i data-lucide="lock" class="w-3 h-3 flex-shrink-0"></i>
-                                Keine Anmeldung &nbsp;·&nbsp; DSGVO-konform &nbsp;·&nbsp; Verschlüsselt übertragen, nie verkauft
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Side: Ledger cards — input, calculation, result, laid out as flat paper index cards -->
-                <div class="lg:col-span-6 relative flex justify-center items-center w-full min-h-[480px]">
-
-                    <!-- Connecting line (single ink tone, not a two-color gradient "data stream") -->
-                    <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 110 140 C 110 240, 200 240, 230 330" stroke="#2B1D16" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 7" class="animate-dash opacity-20" />
-                        <path d="M 370 170 C 370 260, 280 260, 250 330" stroke="#2B1D16" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 7" class="animate-dash opacity-20" />
-                    </svg>
-
-                    <!-- Card 1: Input Profile (Top Left) -->
-                    <div class="absolute left-2 top-8 w-[230px] bg-[#F7F3EA] border border-[#DED2BC] rounded-lg p-4.5 shadow-[0_8px_24px_-8px_rgba(43,29,22,0.15)] z-10 hover:-translate-y-0.5 transition-transform duration-300 animate-float-soft">
-                        <div class="flex items-center justify-between mb-3.5">
-                            <span class="bg-[#4B5A45]/15 text-brand-emerald border border-[#4B5A45]/25 text-[8px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded">Profil</span>
-                            <i data-lucide="users" class="w-3.5 h-3.5 text-[#8A7A6A]"></i>
-                        </div>
-                        <h4 class="text-[#2B1D16] text-xs font-bold mb-1">3-Personen-Haushalt</h4>
-                        <p class="text-[#8A7A6A] text-[10px] font-medium leading-tight mb-3">Mutter (34) & 2 Kinder (6, 9)</p>
-
-                        <div class="w-full h-[1px] bg-[#DED2BC] my-3"></div>
-
-                        <div class="space-y-2.5 text-[9px] text-[#6B5B4B] font-bold">
-                            <div class="flex justify-between items-center mb-1">
-                                <span>Kaltmiete: 620 €</span>
-                                <span class="text-brand-emerald">Mietstufe IV</span>
-                            </div>
-                            <div class="w-full bg-[#E1D8C6] h-1.5 rounded-full overflow-hidden">
-                                <div class="bg-[#4B5A45] h-full w-3/4 rounded-full"></div>
-                            </div>
-                            <div class="flex justify-between items-center mt-2">
-                                <span>Netto-Einkommen</span>
-                                <span class="text-[#2B1D16]">2.100 € / mtl.</span>
-                            </div>
-                        </div>
+                    <!-- The value-add, spelled out plainly — no badges, just what you actually get -->
+                    <div class="hero-stats mb-10 max-w-xl">
+                        <p class="text-sm font-bold uppercase tracking-wide text-[#8A7A6A] mb-4">Was du in 2 Minuten bekommst</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 text-base md:text-lg text-[#2B1D16] leading-snug">
+                                <span class="text-brand-emerald font-serif mt-0.5">—</span>
+                                <span>Eine ehrliche Einschätzung, ob dir Wohngeld, Bürgergeld oder Kinderzuschlag zusteht</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-base md:text-lg text-[#2B1D16] leading-snug">
+                                <span class="text-brand-emerald font-serif mt-0.5">—</span>
+                                <span>Den genauen Betrag — centgenau berechnet, nicht geschätzt</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-base md:text-lg text-[#2B1D16] leading-snug">
+                                <span class="text-brand-emerald font-serif mt-0.5">—</span>
+                                <span>Einen fertig ausgefüllten Antrag zum Download, den du direkt einreichen kannst</span>
+                            </li>
+                        </ul>
                     </div>
 
-                    <!-- Card 2: Calculation in progress (Top Right) -->
-                    <div class="absolute right-2 top-20 w-[220px] bg-[#F7F3EA] border border-[#DED2BC] rounded-lg p-4.5 shadow-[0_8px_24px_-8px_rgba(43,29,22,0.15)] z-10 hover:-translate-y-0.5 transition-transform duration-300 animate-float-soft-reverse">
-                        <div class="flex items-center justify-between mb-3.5">
-                            <span class="bg-[#9C4A32]/15 text-brand-indigo border border-[#9C4A32]/25 text-[8px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded">Prüfung läuft</span>
-                            <div class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-blue"></span>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2 text-[9px] text-[#6B5B4B]">
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-brand-indigo font-bold">✓</span>
-                                <span>Freibeträge nach SGB II geprüft</span>
-                            </div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-brand-indigo font-bold">✓</span>
-                                <span>Wohngeldtabelle 2026 abgeglichen</span>
-                            </div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-brand-indigo font-bold">✓</span>
-                                <span>Heizkostenpauschale berücksichtigt</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Result (Center Bottom) -->
-                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[340px] bg-[#F7F3EA] border-2 border-brand-blue rounded-xl p-5.5 shadow-[0_20px_48px_-16px_rgba(43,29,22,0.22)] z-20 hover:-translate-y-0.5 transition-transform duration-500 animate-float-medium">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[#8A7A6A] text-[8px] font-bold uppercase tracking-widest">Monatlicher Zuschuss</span>
-                            <span class="bg-brand-blue text-[#F7F3EA] text-[7px] font-bold uppercase px-2 py-0.5 rounded">Ergebnis</span>
-                        </div>
-
-                        <div class="text-[2.75rem] font-serif font-bold text-brand-blue tracking-tight leading-none mb-1 select-none">
-                            672,00 €
-                        </div>
-                        <p class="text-[#2B1D16] text-[10px] font-bold leading-normal mb-4">Dein berechneter Anspruch pro Monat</p>
-
-                        <!-- Mini Breakdown grid -->
-                        <div class="grid grid-cols-2 gap-2 mb-4">
-                            <div class="bg-[#EDE6D9] border border-[#DED2BC] rounded-lg p-2.5 text-left">
-                                <span class="block text-[#8A7A6A] text-[7px] uppercase tracking-wider font-bold mb-0.5">Wohngeld</span>
-                                <span class="text-[#2B1D16] text-xs font-bold">380,00 €</span>
-                            </div>
-                            <div class="bg-[#EDE6D9] border border-[#DED2BC] rounded-lg p-2.5 text-left">
-                                <span class="block text-[#8A7A6A] text-[7px] uppercase tracking-wider font-bold mb-0.5">Kinderzuschlag</span>
-                                <span class="text-brand-emerald text-xs font-bold">292,00 €</span>
-                            </div>
-                        </div>
-
-                        <!-- Generator Action Status -->
-                        <div class="border-t border-[#DED2BC] pt-3 flex items-center justify-between">
-                            <div class="text-[#8A7A6A] text-[8px] flex items-center gap-1.5">
-                                <span class="flex h-1.5 w-1.5 rounded-full bg-brand-blue"></span>
-                                <span>Antrag_fertig.pdf generiert</span>
-                            </div>
-                            <span class="text-brand-emerald hover:underline text-[9px] font-bold flex items-center gap-0.5 cursor-pointer">
-                                PDF Download
-                                <i data-lucide="download" class="w-3 h-3 stroke-[2.5]"></i>
-                            </span>
-                        </div>
+                    <div class="hero-buttons">
+                        <a href="#calculator" class="hero-cta-link inline-flex items-center gap-2 font-serif text-lg md:text-xl font-bold text-brand-blue border-b-2 border-brand-blue pb-1 hover:gap-3 transition-all duration-200">
+                            Jetzt kostenlos prüfen
+                            <span aria-hidden="true">→</span>
+                        </a>
+                        <p class="text-sm text-[#8A7A6A] mt-5">Kostenlos · Anonym · Keine Anmeldung nötig</p>
                     </div>
                 </div>
             </div>
@@ -267,6 +133,12 @@ const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minut
 
         <!-- Hero Interaction Scripts -->
         <script>
+            // "Der Brief" hero has no dashboard figure and no household-size buttons —
+            // the household question now lives only inside the calculator itself. The
+            // one authored motion moment is the staggered fade-up of salutation ->
+            // headline -> body -> value list -> CTA, handled by the shared
+            // "Scroll Triggered Reveal" hero timeline further down this file.
+
             // --- Social Proof Counter Animation ---
             (function() {
                 const el = document.getElementById('social-counter');
@@ -287,28 +159,6 @@ const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minut
                 // Start after a short delay so it's visible
                 setTimeout(() => requestAnimationFrame(step), 400);
             })();
-
-            // --- Micro-Commitment Selector ---
-            document.querySelectorAll('.person-selector-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const persons = this.dataset.persons;
-
-                    // Visual feedback: highlight selected
-                    document.querySelectorAll('.person-selector-btn').forEach(b => {
-                        b.classList.remove('border-[#4B5A45]', 'bg-[#4B5A45]/10', 'text-brand-emerald', 'scale-[1.05]');
-                        b.classList.add('border-[#DED2BC]', 'bg-[#F7F3EA]', 'text-[#2B1D16]');
-                    });
-                    this.classList.remove('border-[#DED2BC]', 'bg-[#F7F3EA]', 'text-[#2B1D16]');
-                    this.classList.add('border-[#4B5A45]', 'bg-[#4B5A45]/10', 'text-brand-emerald', 'scale-[1.05]');
-
-                    // Fire custom event for SmartCalculator
-                    document.dispatchEvent(new CustomEvent('foerdercheck:preselect', { detail: { persons } }));
-
-                    // Scroll to calculator
-                    const calc = document.getElementById('calculator');
-                    if (calc) calc.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
         </script>
 
         <!-- Spacing container -->

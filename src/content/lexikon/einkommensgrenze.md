@@ -9,7 +9,7 @@ faqs:
     answer: "Ist das Einkommen zu niedrig, um den Lebensunterhalt größtenteils selbst zu bestreiten, werden Sie meist an das Jobcenter (Bürgergeld) verwiesen, da Wohngeld allein dann nicht ausreichen würde."
 ---
 
-# Gibt es eine fest Einkommensgrenze?
+## Gibt es eine fest Einkommensgrenze?
 
 Nein, beim Wohngeld gibt es **keine starre Einkommensgrenze** wie "bis 2.000 €". Die Grenze ist **dynamisch** und hängt von drei Faktoren ab:
 

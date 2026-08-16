@@ -12,7 +12,7 @@ faqs:
     answer: "Nein, Wohngeld ist eine Sozialleistung und kein steuerpflichtiges Einkommen. Es darf nicht gepfändet werden."
 ---
 
-# Was ist Wohngeld?
+## Was ist Wohngeld?
 
 **Wohngeld** ist ein staatlicher Mietzuschuss für Haushalte mit geringem Einkommen, die keine anderen Sozialleistungen (wie Bürgergeld) beziehen. Es dient dazu, Mieter und Eigentümer finanziell zu entlasten und ein angemessenes Wohnen zu sichern. Die Höhe ist abhängig von der Miete, dem Gesamteinkommen und der Anzahl der Haushaltsmitglieder.
 

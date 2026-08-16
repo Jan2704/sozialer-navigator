@@ -10,7 +10,7 @@ faqs:
     answer: "Jeder Arbeitnehmer erhält automatisch eine Pauschale von aktuell 1.230 € pro Jahr (ca. 102,50 € pro Monat) ohne Nachweispflicht. Höhere tatsächliche Kosten wie Fahrtkosten, Arbeitsmittel oder Fortbildungskosten können bei Nachweis zusätzlich geltend gemacht werden."
 ---
 
-# Werbungskosten im Wohngeldrecht
+## Werbungskosten im Wohngeldrecht
 
 Werbungskosten sind Aufwendungen, die notwendig sind, um Ihr Einkommen zu erzielen, zu sichern und zu erhalten. Im Wohngeldrecht spielen sie eine wichtige Rolle, da sie Ihr **anzurechnendes Gesamteinkommen senken**.
 

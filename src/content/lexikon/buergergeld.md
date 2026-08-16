@@ -12,7 +12,7 @@ faqs:
     answer: "Es besteht aus dem Regelbedarf für Ernährung, Kleidung und Strom, den Kosten der Unterkunft für Miete und Heizung in angemessener Höhe, sowie Mehrbedarfen für Sonderfälle wie Schwangerschaft oder Alleinerziehende."
 ---
 
-# Bürgergeld
+## Bürgergeld
 
 > **Neuer amtlicher Name seit 1. Juli 2026:** Mit dem 13. Gesetz zur Änderung des SGB II heißt die Leistung offiziell **Grundsicherungsgeld** (das Gesetz selbst wieder "Grundsicherung für Arbeitsuchende"). Die Höhe der Leistungen ändert sich dadurch nicht. Da "Bürgergeld" weiterhin der gebräuchlichste und meistgesuchte Begriff ist, verwenden wir ihn hier weiter als Hauptbezeichnung und weisen auf den neuen Namen hin, wo es relevant ist. Quellen: [Bundesregierung](https://www.bundesregierung.de/breg-de/aktuelles/neue-grundsicherung-2399562), [Bundesagentur für Arbeit](https://www.arbeitsagentur.de/grundsicherung-loest-buergergeld-ab).
 

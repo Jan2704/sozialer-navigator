@@ -9,7 +9,7 @@ faqs:
     answer: "Die ersten 100 € Ihres Einkommens sind immer anrechnungsfrei. Darüber hinaus gelten Staffelungen: 20 % Freibetrag zwischen 100 € und 520 €, und 30 % Freibetrag zwischen 520 € und 1.000 €."
 ---
 
-# Wer bekommt Bürgergeld?
+## Wer bekommt Bürgergeld?
 
 > **Hinweis:** Seit 1. Juli 2026 heißt die Leistung offiziell **Grundsicherungsgeld**; die Anspruchsvoraussetzungen selbst ändern sich dadurch nicht. Die Schonvermögen-Regel weiter unten wurde für neue Bewilligungszeiträume ebenfalls geändert — Details unter [Vermögen](/lexikon/vermoegen/) und [Karenzzeit](/lexikon/karenzzeit/).
 

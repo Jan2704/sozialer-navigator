@@ -21,7 +21,11 @@ const title = `${entry.data.title} | Fördercheck Ratgeber`;
 const isExternalSource = Boolean(entry.data.externalUrl);
 ---
 
-<Layout title={title} description={entry.data.description} type={isExternalSource ? "website" : "article"} publishDate={entry.data.pubDate} author={entry.data.author} image={entry.data.image} noindex={isExternalSource}>
+<Layout title={title} description={entry.data.description} type={isExternalSource ? "website" : "article"} publishDate={entry.data.pubDate} author={entry.data.author} image={entry.data.image} noindex={isExternalSource} breadcrumbs={[
+    { name: "Startseite", url: "/" },
+    { name: "Ratgeber", url: "/ratgeber/" },
+    { name: entry.data.title, url: `/ratgeber/${entry.slug}/` }
+  ]}>
   <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-6 relative">
       
       <!-- Progress Bar (Reading) -->
@@ -44,7 +48,7 @@ const isExternalSource = Boolean(entry.data.externalUrl);
                    <span>{entry.data.pubDate.toLocaleDateString('de-DE')}</span>
                </div>
 
-               <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif text-[#0a1628] leading-[1.1] mb-8">
+               <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif text-[#0a1628] leading-[1.1] mb-8 break-words hyphens-auto">
                    {entry.data.title}
                </h1>
 

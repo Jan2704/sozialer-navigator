@@ -13,6 +13,7 @@ interface Props {
   city?: string; // For Local/GovernmentService
   serviceType?: "Wohngeld" | "Bürgergeld" | "WBS";
   faq?: { question: string; answer: string }[];
+  breadcrumbs?: { name: string; url: string }[];
 }
 
 const {
@@ -25,7 +26,8 @@ const {
   canonicalUrl = Astro.url.href,
   city,
   serviceType,
-  faq
+  faq,
+  breadcrumbs
 } = Astro.props;
 
 // Hardcoded to match astro.config.mjs's `site` value exactly. Previously derived
@@ -138,6 +140,20 @@ if (type === "article" && title && description) {
 }
 
 
+// 4. BreadcrumbList (for ratgeber, index, and legal pages)
+let breadcrumbSchema: BreadcrumbList | undefined;
+if (breadcrumbs && breadcrumbs.length > 0) {
+  breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": item.url.startsWith('http') ? item.url : `${siteOrigin}${item.url}`
+    }))
+  };
+}
+
 // Graph Construction
 const graph: Graph = {
   "@context": "https://schema.org",
@@ -146,7 +162,8 @@ const graph: Graph = {
     websiteSchema,
     ...(governmentServiceSchema ? [governmentServiceSchema] : []),
     ...(faqSchema ? [faqSchema] : []),
-    ...(articleSchema ? [articleSchema] : [])
+    ...(articleSchema ? [articleSchema] : []),
+    ...(breadcrumbSchema ? [breadcrumbSchema] : [])
   ]
 };
 
