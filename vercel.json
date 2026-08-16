@@ -1,5 +1,6 @@
 {
     "redirects": [
+        { "source": "/:path*", "has": [{ "type": "host", "value": "sozialer-navigator.de" }], "destination": "https://www.sozialer-navigator.de/:path*", "permanent": true },
         { "source": "/bescheid-check", "destination": "/?action=legal_help", "permanent": true },
         { "source": "/bescheid-check/", "destination": "/?action=legal_help", "permanent": true },
         { "source": "/ratgeber/wohngeld-trotz-buergergeld", "destination": "/ratgeber/buergergeld-oder-wohngeld/", "permanent": true },

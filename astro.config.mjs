@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import gracefulFs from 'graceful-fs';
 gracefulFs.gracefulify(fs);
 
@@ -8,6 +9,33 @@ import react from '@astrojs/react';
 
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
+
+// Real per-page lastmod for the sitemap, sourced from each content file's own
+// `lastUpdated`/`pubDate` frontmatter — NOT a fabricated always-today value
+// (SEO audit, sitemap.md #3: a boilerplate build-time date is worse than none,
+// since Google treats it as untrustworthy once detected). Content collections
+// aren't available inside astro.config.mjs, so this reads frontmatter directly.
+function readLastmodMap() {
+  const map = new Map();
+  for (const [collection, urlPrefix, dateField] of [
+    ['lexikon', '/lexikon/', 'lastUpdated'],
+    ['ratgeber', '/ratgeber/', 'pubDate']
+  ]) {
+    const dir = path.join(process.cwd(), 'src/content', collection);
+    if (!fs.existsSync(dir)) continue;
+    for (const file of fs.readdirSync(dir)) {
+      if (!file.endsWith('.md')) continue;
+      const slug = file.replace(/\.md$/, '');
+      const raw = fs.readFileSync(path.join(dir, file), 'utf8');
+      const match = raw.match(new RegExp(`^${dateField}:\\s*"?(\\d{4}-\\d{2}-\\d{2})"?`, 'm'));
+      if (match) {
+        map.set(`${urlPrefix}${slug}/`, match[1]);
+      }
+    }
+  }
+  return map;
+}
+const lastmodMap = readLastmodMap();
 
 export default defineConfig({
   // Single source of truth for the canonical domain — all canonical URLs, OG tags,
@@ -32,26 +60,24 @@ export default defineConfig({
 
       // Default priority
       let priority = 0.5;
+      const segments = new URL(url).pathname.split('/').filter(Boolean);
 
-      if (/\/wohngeldrechner\//.test(url)) {
-        // Legacy Pages -> Low Priority
-        priority = 0.2;
-      } else if (/\/staedte\/?$/.test(url)) {
-        // Our Main SEO Hub -> Very High Priority
-        priority = 0.85;
-      } else if (/\/[a-z0-9-]+\/(wohngeld|grundsicherung|buergergeld)$/.test(url)) {
-        // Canonical Action Pages (e.g. /berlin/wohngeld) -> Highest Priority
-        priority = 0.9;
-      } else if (/\/wohngeld$/.test(url) || /\/buergergeld$/.test(url) || /\/buergergeld-grundsicherung$/.test(url)) {
-        // Canonical Entity Pages -> High Priority
-        priority = 0.8;
-      } else if (/\/lexikon\//.test(url)) {
+      if (/\/lexikon\//.test(url)) {
         // Lexikon -> Lower Priority
         priority = 0.4;
-      } else if (/\/[a-z0-9-]+$/.test(url) && !/\/lexikon$/.test(url) && !/\/impressum$/.test(url) && !/\/datenschutz$/.test(url)) {
-        // City Pages (e.g. /berlin) -> Medium Priority (exclude known static pages if necessary)
-        // Note: Use a more specific regex if possible, but this catches single segment slugs (cities)
+      } else if (segments.length === 1 && !['impressum', 'datenschutz', 'agb'].includes(segments[0])) {
+        // Single-segment top-level tool pages (e.g. /kindergeld/, /grundsicherung-im-alter/) -> Medium Priority
         priority = 0.6;
+      }
+
+      // Real per-page lastmod where we track one; omitted entirely otherwise
+      // rather than defaulting to today's build date (see note above readLastmodMap).
+      const pathname = new URL(url).pathname;
+      const knownDate = lastmodMap.get(pathname);
+      if (knownDate) {
+        item.lastmod = new Date(knownDate).toISOString();
+      } else {
+        delete item.lastmod;
       }
 
       item.changefreq = 'weekly';
