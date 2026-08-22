@@ -1,6 +1,5 @@
 ---
 import LeadModal from './lead-modal.astro';
-import AuthorityApp from './authority-app.jsx';
 ---
 
 <section id="view-results" class="view-section max-w-4xl mx-auto hidden opacity-0 transition-opacity duration-500 pt-32 pb-24 px-6 relative z-20">
@@ -133,29 +132,6 @@ import AuthorityApp from './authority-app.jsx';
         </div>
     </div>
 
-    <!-- Bescheid-Prüfung Banner -->
-    <div id="bescheid-pruefung-banner" class="hidden mb-10 p-7 bg-surface-card border border-border-subtle rounded-card flex flex-col md:flex-row items-start md:items-center justify-between gap-5 text-left">
-        <div class="flex items-start gap-4">
-            <span class="text-brand-emerald bg-surface-base border border-border-subtle p-2.5 rounded-lg shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M9 15h6"/></svg>
-            </span>
-            <div>
-                <h4 class="text-base font-bold text-brand-navy">Bescheid bereits erhalten? Jetzt kostenlos prüfen lassen.</h4>
-                <p class="text-sm text-text-secondary mt-1 leading-relaxed max-w-lg">Fast jeder zweite behördliche Bescheid ist fehlerhaft. Unabhängige Fachanwälte prüfen Ihren aktuellen Bescheid kostenfrei auf Rechenfehler.</p>
-            </div>
-        </div>
-        <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="shrink-0 w-full md:w-auto px-6 py-3.5 bg-brand-emerald hover:bg-[#3d4a38] text-white text-xs font-bold uppercase tracking-wider rounded-btn transition-colors text-center">
-            Bescheid kostenlos prüfen
-        </a>
-    </div>
-
-    <!-- Authority Finder & Application -->
-    <div id="authority-finder-container" class="hidden mb-10">
-        <h2 class="font-serif text-brand-navy font-bold text-2xl mb-2 tracking-tight">Wo reiche ich das genau ein?</h2>
-        <p class="text-text-secondary text-sm mb-6 max-w-2xl">Geben Sie Ihre PLZ ein — wir zeigen Ihnen das zuständige Amt und bereiten den Antrag vor.</p>
-        <AuthorityApp client:visible />
-    </div>
-
     <!-- Not eligible: kept out of the way, not competing for attention -->
     <details id="benefits-none-section" class="hidden mb-10 group">
         <summary class="cursor-pointer text-sm font-bold text-text-secondary hover:text-brand-navy transition-colors list-none flex items-center gap-2">
@@ -225,9 +201,9 @@ import AuthorityApp from './authority-app.jsx';
             case 'buergergeld':
                 return { html: `<a href="/pdf-paket/?type=Bürgergeld" class="${primaryBtn}">Antrag jetzt ausfüllen ➔</a>` };
             case 'grundsicherung_alter':
-                return { html: `<a href="/pdf-paket/?type=Grundsicherung" class="${primaryBtn}">Antrag jetzt ausfüllen ➔</a>` };
+                return { html: `<a href="#" onclick="window.openLeadModal('pdf-checklist'); return false;" class="${ghostBtn}">Kostenlose Antrags-Hilfe anfordern ➔</a>` };
             case 'erstausstattung':
-                return { html: `<a href="/pdf-paket/?type=Erstausstattung" class="${primaryBtn}">Antrag jetzt ausfüllen ➔</a>` };
+                return { html: `<a href="#" onclick="window.openLeadModal('pdf-checklist'); return false;" class="${ghostBtn}">Kostenlose Antrags-Hilfe anfordern ➔</a>` };
             case 'kindergeld':
                 return { html: `<a href="https://www.arbeitsagentur.de/familie-und-kinder/kindergeld-beantragen" target="_blank" rel="noopener noreferrer" class="${ghostBtn}">Direkt beantragen ➔</a>` };
             case 'kinderzuschlag':
@@ -457,8 +433,6 @@ import AuthorityApp from './authority-app.jsx';
 
         const heroClaimEl = document.getElementById('dashboard-hero-claim');
         const heroZeroEl = document.getElementById('dashboard-hero-zero');
-        const bescheidBanner = document.getElementById('bescheid-pruefung-banner');
-        const authorityFinder = document.getElementById('authority-finder-container');
         const bafoegContainer = document.getElementById('bafoeg-container');
 
         const isBafoeg = (type === 'BAföG-Prüfung');
@@ -467,20 +441,14 @@ import AuthorityApp from './authority-app.jsx';
             heroClaimEl?.classList.add('hidden');
             heroZeroEl?.classList.add('hidden');
             bafoegContainer?.classList.remove('hidden');
-            bescheidBanner?.classList.add('hidden');
-            authorityFinder?.classList.add('hidden');
         } else if (totalAmount === 0) {
             heroClaimEl?.classList.add('hidden');
             heroZeroEl?.classList.remove('hidden');
             bafoegContainer?.classList.add('hidden');
-            bescheidBanner?.classList.add('hidden');
-            authorityFinder?.classList.add('hidden');
         } else {
             heroClaimEl?.classList.remove('hidden');
             heroZeroEl?.classList.add('hidden');
             bafoegContainer?.classList.add('hidden');
-            bescheidBanner?.classList.remove('hidden');
-            authorityFinder?.classList.remove('hidden');
         }
 
         if (!isBafoeg && totalAmount > 0) {
