@@ -1,7 +1,7 @@
 import { calculateBuergergeld, calculateExactWohngeld, RENT_LIMITS } from "./calculator-2026.js";
 
 /**
- * Modular Benefit Engine for Sozialer Navigator 2026
+ * Modular Benefit Engine for Fördercheck 2026
  * Performs all calculations fully client-side in the browser.
  * Covers 30 distinct social benefits, cost exemptions, and tax credits.
  */
@@ -334,16 +334,36 @@ const GrundsicherungAlterModule = {
     id: "grundsicherung_alter",
     name: "Grundsicherung im Alter / Erwerbsminderung",
     category: "Grundsicherung",
-    isRelevant: (input) => input.status === "pensioner" || input.age >= 65 || !!input.isPermanentlyDisabled,
+    // The form only collects a general `hasDisability` flag (used elsewhere
+    // for the Schwerbehinderung tax-allowance module), not a confirmed
+    // "dauerhaft voll erwerbsgemindert" status — that is a distinct, stricter
+    // legal status (needs a Rentenversicherung decision), not implied by a
+    // disability pass or GdB alone. Treating `hasDisability` as equivalent
+    // would show this SGB XII benefit to people who don't actually qualify,
+    // so the disability-triggered path below is always capped at "possible"
+    // and says explicitly what still needs to be confirmed — only age/pensioner
+    // status (the actual "im Alter" case) can reach "probable".
+    isRelevant: (input) => input.status === "pensioner" || input.age >= 65 || !!input.hasDisability,
     calculate: (input) => {
+        const isAgeCase = input.status === "pensioner" || input.age >= 65;
         const hasHighAssets = parseFloat(input.assets) > 10000 || input.hasHighAssets;
         if (hasHighAssets) {
             return { eligible: "none", amount: 0, type: "Grundsicherung", reasoning: "SGB XII Grundsicherung schließt Schonvermögen über 10.000 € pro Person aus." };
         }
+        if (!isAgeCase) {
+            // Disability-only trigger: real signal worth surfacing, but we
+            // cannot confirm eligibility from a disability flag alone.
+            return {
+                eligible: "possible",
+                amount: 0,
+                type: "Grundsicherung bei Erwerbsminderung (SGB XII)",
+                reasoning: "Bei dauerhafter voller Erwerbsminderung (bestätigt durch die Rentenversicherung) kann Grundsicherung zur Aufstockung einer geringen Erwerbsminderungsrente bestehen. Das lässt sich aus Ihren Angaben allein nicht sicher feststellen — eine kostenlose Prüfung klärt, ob die Voraussetzungen vorliegen."
+            };
+        }
         const mietstufe = input.selectedCity ? input.selectedCity.mietstufe : 4;
         const size = Math.max(1, parseInt(input.persons) || 1);
         const limit = RENT_LIMITS[Math.min(size, 5)][mietstufe - 1] || 500;
-        
+
         const bg = calculateBuergergeld({
             income: parseFloat(input.income) || 0,
             rent: parseFloat(input.rent) || 0,
@@ -373,17 +393,25 @@ const SozialhilfeModule = {
     id: "sozialhilfe",
     name: "Sozialhilfe (Hilfe zum Lebensunterhalt)",
     category: "Grundsicherung",
-    isRelevant: (input) => input.status === "student" || (input.age < 65 && input.status !== "pensioner"),
+    // Sozialhilfe Kapitel 3 specifically covers people who are NOT
+    // "erwerbsfähig" (so not covered by Bürgergeld) and not covered by
+    // Grundsicherung im Alter/Erwerbsminderung (Kapitel 4) either — a narrow
+    // case. The previous condition matched almost every non-pensioner under
+    // 65 (i.e. most users) unconditionally, showing this to people with no
+    // actual indication of reduced earning capacity. There's no dedicated
+    // "temporarily unable to work" form field, so this now only fires on the
+    // same disability signal the Erwerbsminderung path uses, and stays
+    // capped at "possible" — real value, not a confirmed match.
+    isRelevant: (input) => input.status !== "pensioner" && input.age < 65 && !!input.hasDisability,
     calculate: (input) => {
         if (input.hasHighAssets) {
             return { eligible: "none", amount: 0, type: "Sozialhilfe", reasoning: "Sozialhilfe (SGB XII) erfordert ein Schonvermögen von unter 10.000 €." };
         }
-        // General screening
         return {
             eligible: "possible",
             amount: 0,
             type: "Sozialhilfe",
-            reasoning: "Bei vorübergehender voller Erwerbsminderung besteht ein Anspruch auf Sozialhilfe nach SGB XII Kapitel 3."
+            reasoning: "Bei vorübergehender voller Erwerbsminderung (ärztlich/durch die Rentenversicherung bestätigt) kann ein Anspruch auf Sozialhilfe nach SGB XII Kapitel 3 bestehen, wenn kein Bürgergeld-Anspruch besteht."
         };
     }
 };
@@ -882,7 +910,10 @@ const SchwerbehinderungModule = {
     id: "schwerbehinderung",
     name: "Schwerbehinderten-Nachteilsausgleiche",
     category: "Behinderung",
-    isRelevant: (input) => !!input.hasDisability || (parseFloat(input.disabilityGdb) || 0) >= 20,
+    // Was `||` — disabilityGdb defaults to "50" in the form state regardless
+    // of whether the user ever indicated a disability, so this fired for
+    // every single user unconditionally. Requires the actual checkbox now.
+    isRelevant: (input) => !!input.hasDisability && (parseFloat(input.disabilityGdb) || 0) >= 20,
     calculate: (input) => {
         const gdb = parseFloat(input.disabilityGdb) || 50;
         let taxAllowance = 1140;
@@ -1026,13 +1057,44 @@ export function evaluateAllBenefits(input) {
         r.eligible === "probable" && r.amount > 0
     );
 
-    if (gezResult && isSocialBenefitRecipient) {
-        gezResult.eligible = "probable";
-        gezResult.reasoning = "Da Sie Anspruch auf existenzsichernde Leistungen haben, ist eine vollständige Befreiung vom Rundfunkbeitrag (18,36 €/Monat) sehr wahrscheinlich.";
+    // GEZ-Befreiung, Kita-Gebührenbefreiung and the Telekom-Sozialtarif all
+    // legally require proof of receiving an existenzsichernde Leistung — the
+    // modules themselves can't know that (each only sees its own input), so
+    // they default to "possible" and get corrected here: upgraded to
+    // "probable" for people who actually qualify, downgraded to "none" for
+    // people who show no such signal at all instead of showing every visitor
+    // a "you can probably apply for this" card regardless of their situation.
+    const telekomResult = results.find(r => r.id === "telekom_social");
+
+    if (gezResult) {
+        if (isSocialBenefitRecipient) {
+            gezResult.eligible = "probable";
+            gezResult.reasoning = "Da Sie Anspruch auf existenzsichernde Leistungen haben, ist eine vollständige Befreiung vom Rundfunkbeitrag (18,36 €/Monat) sehr wahrscheinlich.";
+        } else {
+            gezResult.eligible = "none";
+            gezResult.reasoning = "Die Befreiung setzt den Bezug von Bürgergeld, Grundsicherung, Sozialhilfe oder BAföG voraus — das liegt bei Ihnen auf Basis Ihrer Angaben nicht vor.";
+        }
     }
-    if (kitaResult && isSocialBenefitRecipient) {
-        kitaResult.eligible = "probable";
-        kitaResult.reasoning = "Als Empfänger von Mietzuschuss oder Kinderzuschlag können Sie sich vollständig von den Kita-Gebühren befreien lassen.";
+    // kita_exempt keeps its own isRelevant gate (needs kids > 0) — only
+    // override its eligible state when that gate actually passed, otherwise
+    // a childless household would incorrectly get "probable" Kita-Befreiung.
+    if (kitaResult && (parseInt(input.kids) || 0) > 0) {
+        if (isSocialBenefitRecipient) {
+            kitaResult.eligible = "probable";
+            kitaResult.reasoning = "Als Empfänger von Mietzuschuss oder Kinderzuschlag können Sie sich vollständig von den Kita-Gebühren befreien lassen.";
+        } else {
+            kitaResult.eligible = "none";
+            kitaResult.reasoning = "Die Befreiung setzt den Bezug von Wohngeld, Kinderzuschlag oder Bürgergeld voraus — das liegt bei Ihnen auf Basis Ihrer Angaben nicht vor.";
+        }
+    }
+    if (telekomResult) {
+        if (isSocialBenefitRecipient) {
+            telekomResult.eligible = "probable";
+            telekomResult.reasoning = "Als Empfänger existenzsichernder Leistungen erhalten Sie bei der Telekom einen monatlichen Rabatt von bis zu 6,94 € auf den Telefonanschluss.";
+        } else {
+            telekomResult.eligible = "none";
+            telekomResult.reasoning = "Der Sozialtarif setzt den Bezug von Bürgergeld, Grundsicherung oder vergleichbaren Leistungen voraus — das liegt bei Ihnen auf Basis Ihrer Angaben nicht vor.";
+        }
     }
 
     return results;

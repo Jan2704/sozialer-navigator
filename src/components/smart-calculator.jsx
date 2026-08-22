@@ -448,11 +448,22 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
         primaryEligible = false;
       }
 
+      // Maps the backend's `type` strings to the same lowercase ids the rest
+      // of the app (WHERE_TEXT, CTA routing, cash-vs-savings classification)
+      // keys off. Backend also returns KINDERGELD/KINDERZUSCHLAG/ELTERNGELD —
+      // those previously fell through to id "unknown" and silently lost their
+      // correct application link, authority text, and cash classification.
+      const BACKEND_TYPE_TO_ID = {
+        SGB2: "buergergeld",
+        WOHNGELD: "wohngeld",
+        ALERT: "sperrzeit_alert",
+        KINDERGELD: "kindergeld",
+        KINDERZUSCHLAG: "kinderzuschlag",
+        ELTERNGELD: "elterngeld"
+      };
+
       const mappedResults = (data.results || []).map(r => {
-        let id = "unknown";
-        if (r.type === "SGB2") id = "buergergeld";
-        if (r.type === "WOHNGELD") id = "wohngeld";
-        if (r.type === "ALERT") id = "sperrzeit_alert";
+        const id = BACKEND_TYPE_TO_ID[r.type] || r.type?.toLowerCase() || "unknown";
 
         return {
           id: id,
@@ -479,8 +490,37 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
         });
       }
 
+      // The live backend only computes 5 benefit types (Bürgergeld, Wohngeld,
+      // Kindergeld, Kinderzuschlag, Elterngeld). The offline engine has ~25
+      // more modules (BAföG, Unterhaltsvorschuss, Grundsicherung, GEZ-
+      // Befreiung, Pflegegeld, ...) that were previously only ever reached
+      // when the live backend failed entirely — meaning most real users,
+      // on the normal happy path, never saw them. Run it here too and merge
+      // in everything the backend doesn't already cover, so "der universelle
+      // Check für staatliche Zuschüsse" actually checks all of them.
+      const BACKEND_COVERED_IDS = new Set(["buergergeld", "wohngeld", "lastenzuschuss", "kindergeld", "kinderzuschlag", "elterngeld"]);
+      let mergedResults = mappedResults;
+      try {
+        const extraResults = evaluateAllBenefits(profileInput)
+          .filter(r => !BACKEND_COVERED_IDS.has(r.id))
+          .map(r => ({
+            id: r.id,
+            name: r.name,
+            title: r.name,
+            category: r.category,
+            amount: r.amount,
+            eligible: r.eligible,
+            reasoning: r.reasoning,
+            description: r.reasoning,
+            details: r
+          }));
+        mergedResults = [...mappedResults, ...extraResults];
+      } catch (mergeErr) {
+        console.warn("Could not merge offline-engine benefit checks into live result:", mergeErr);
+      }
+
       const resultDetail = {
-        results: mappedResults,
+        results: mergedResults,
         opportunities: data.opportunities || [],
         input: profileInput,
         eligible: primaryEligible,
@@ -673,6 +713,47 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                 </div>
               </div>
             </div>
+
+            {/* Disability / GdB — feeds Schwerbehinderten-Nachteilsausgleiche and
+                Grundsicherung bei Erwerbsminderung. Without this control those
+                modules either never trigger or (GdB defaulting to 50) trigger
+                for every single user regardless of their actual situation. */}
+            <div className={cn("flex items-center gap-3 p-4 rounded-2xl border transition-colors", isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
+              <input
+                type="checkbox"
+                id="hasDisability"
+                className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
+                checked={hasDisability}
+                onChange={(e) => setHasDisability(e.target.checked)}
+              />
+              <label htmlFor="hasDisability" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+                Haben Sie einen anerkannten Grad der Behinderung (GdB)? <InfoTooltip text="für Steuerfreibetrag, Nachteilsausgleiche und ggf. Grundsicherung" />
+              </label>
+            </div>
+
+            {hasDisability && (
+              <div className="space-y-2 text-left animate-in slide-in-from-top-2 duration-300">
+                <label className={cn(labelClass, isDark && labelDarkClass)}>Grad der Behinderung (GdB)</label>
+                <div className="relative">
+                  <select
+                    className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
+                    value={disabilityGdb}
+                    onChange={(e) => setDisabilityGdb(e.target.value)}
+                  >
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                    <option value="100">100</option>
+                  </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                </div>
+              </div>
+            )}
 
             {/* Conditional Sub-questions based on Status */}
             {status === "employee" && (
