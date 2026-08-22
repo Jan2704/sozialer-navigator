@@ -153,8 +153,8 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
         if (calc) calc.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 150);
     };
-    document.addEventListener('amtly:preselect', handler);
-    return () => document.removeEventListener('amtly:preselect', handler);
+    document.addEventListener('foerdercheck:preselect', handler);
+    return () => document.removeEventListener('foerdercheck:preselect', handler);
   }, []);
 
   // Filter cities on input - PLZ ONLY
@@ -456,9 +456,11 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
         return {
           id: id,
+          name: r.title,
           title: r.title,
           amount: r.amount,
           eligible: r.amount > 0 || r.type === "ALERT" ? "probable" : "none",
+          reasoning: r.text,
           description: r.text,
           details: r
         };
@@ -467,9 +469,11 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
       if (isOwner && wgRes) {
         mappedResults.push({
           id: "lastenzuschuss",
+          name: "Lastenzuschuss (Wohngeld)",
           title: "Lastenzuschuss (Wohngeld)",
           amount: wgRes.amount,
           eligible: wgRes.amount > 0 ? "probable" : "none",
+          reasoning: wgRes.text,
           description: wgRes.text,
           details: wgRes
         });

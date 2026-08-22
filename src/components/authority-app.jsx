@@ -413,7 +413,7 @@ function AuthorityAppInner() {
                 color: rgb(13/255, 148/255, 136/255), // brand.blue Teal
             });
 
-            coverPage.drawText("AMTLY DIGITALER ASSISTENT", {
+            coverPage.drawText("FÖRDERCHECK DIGITALER ASSISTENT", {
                 x: 40,
                 y: height - 45,
                 size: 10,
@@ -455,7 +455,7 @@ function AuthorityAppInner() {
             }
 
             yPos -= 10;
-            coverPage.drawText("2. Vorläufige Anspruchsberechnung (Amtly)", {
+            coverPage.drawText("2. Vorläufige Anspruchsberechnung (Fördercheck)", {
                 x: 40,
                 y: yPos,
                 size: 14,
@@ -984,7 +984,7 @@ function AuthorityAppInner() {
                                                                     <input type="checkbox" name="agb" required checked={formData.agb} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
                                                                 </div>
                                                                 <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
-                                                                    Ich akzeptiere die <a href="/agb" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">AGB</a> und <a href="/datenschutz" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">Datenschutzerklärung</a>.
+                                                                    Ich akzeptiere die <a href="/agb/" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">AGB</a> und <a href="/datenschutz/" target="_blank" className="underline underline-offset-2 hover:text-blue-600 font-medium">Datenschutzerklärung</a>.
                                                                 </span>
                                                             </label>
 
@@ -1002,7 +1002,7 @@ function AuthorityAppInner() {
                                                                     <input type="checkbox" name="messenger" required checked={formData.messenger} onChange={handleInputChange} className="peer w-5 h-5 text-[#0a1628] rounded border-slate-300 focus:ring-[#0a1628] cursor-pointer" />
                                                                 </div>
                                                                 <span className="text-sm text-slate-600 leading-snug group-hover:text-slate-900 transition-colors">
-                                                                    Ich verstehe, dass "Sozialer Navigator" als Bote agiert und keine Rechtsberatung anbietet.
+                                                                    Ich verstehe, dass "Fördercheck" als Bote agiert und keine Rechtsberatung anbietet.
                                                                 </span>
                                                             </label>
                                                         </div>

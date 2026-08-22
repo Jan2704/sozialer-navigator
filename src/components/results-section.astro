@@ -73,9 +73,9 @@ import PartnerCTA from './partner-cta.astro';
                     <svg class="w-full max-w-[240px] h-auto overflow-visible" viewBox="0 0 240 140">
                         <defs>
                             <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#5B8467" />
-                                <stop offset="50%" stop-color="#C77A3E" />
-                                <stop offset="100%" stop-color="#D9622B" />
+                                <stop offset="0%" stop-color="#4B5A45" />
+                                <stop offset="50%" stop-color="#8A6A3A" />
+                                <stop offset="100%" stop-color="#9C4A32" />
                             </linearGradient>
                         </defs>
                         <!-- Background track -->
@@ -201,9 +201,8 @@ import PartnerCTA from './partner-cta.astro';
         <!-- Bescheid-Prüfung Banner (Cleverer Hinweis) -->
         <div id="bescheid-pruefung-banner" class="col-span-1 md:col-span-3 mt-8 p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-xl shadow-slate-100/50 flex flex-col md:flex-row items-center justify-between gap-6 text-left relative overflow-hidden">
             <!-- Subtle Glow -->
-            <div class="absolute -right-20 -top-20 w-48 h-48 bg-[#5B8467]/5 rounded-full blur-2xl pointer-events-none"></div>
             <div class="flex items-start gap-4 relative z-10 max-w-3xl">
-                <span class="text-[#5B8467] mt-1 bg-white border border-slate-100 p-2.5 rounded-2xl shrink-0 shadow-sm">
+                <span class="text-brand-emerald mt-1 bg-[#F7F3EA] border border-[#DED2BC] p-2.5 rounded-lg shrink-0">
                     <!-- FileText Icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M9 15h6"/></svg>
                 </span>
@@ -214,7 +213,7 @@ import PartnerCTA from './partner-cta.astro';
                     </p>
                 </div>
             </div>
-            <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="shrink-0 w-full md:w-auto px-6 py-3.5 bg-[#5B8467] hover:bg-[#4a6d55] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-lg text-center relative z-10 border border-transparent">
+            <a href="#" onclick="window.openLeadModal('legal_help'); return false;" class="shrink-0 w-full md:w-auto px-6 py-3.5 bg-brand-emerald hover:bg-[#3d4a38] text-[#F7F3EA] text-xs font-bold uppercase tracking-wider rounded-lg transition-all text-center relative z-10 border border-transparent">
                 Bescheid kostenlos prüfen
             </a>
         </div>
@@ -227,7 +226,7 @@ import PartnerCTA from './partner-cta.astro';
           <!-- DYNAMIC OPPORTUNITIES GRID - Span 3 -->
           <div class="col-span-1 md:col-span-3 mt-12 hidden" id="opportunities-section">
               <h3 class="font-sans text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
-                  <span class="bg-slate-50 border border-slate-200/80 text-[#5B8467] w-10 h-10 rounded-xl flex items-center justify-center shadow-sm">
+                  <span class="bg-[#F7F3EA] border border-[#DED2BC] text-brand-emerald w-10 h-10 rounded-lg flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
                   </span>
                   Spar- & Optimierungspotenziale
@@ -240,7 +239,7 @@ import PartnerCTA from './partner-cta.astro';
           <!-- UNIVERSAL BENEFITS CHECK RESULTS - Span 3 -->
          <div class="col-span-1 md:col-span-3 mt-16 hidden" id="universal-benefits-section">
              <h3 class="font-sans text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                 <span class="bg-slate-50 border border-slate-200/80 text-[#5B8467] w-10 h-10 rounded-xl flex items-center justify-center shadow-sm">
+                 <span class="bg-[#F7F3EA] border border-[#DED2BC] text-brand-emerald w-10 h-10 rounded-lg flex items-center justify-center">
                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                  </span>
                  Ergebnis des universellen Förder-Checks
@@ -420,19 +419,19 @@ import PartnerCTA from './partner-cta.astro';
                                 if (grp.key !== 'none') {
                                     switch (benefit.id) {
                                         case 'wohngeld':
-                                            ctaHtml = `<a href="/pdf-paket?type=Wohngeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = `<a href="/pdf-paket/?type=Wohngeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
                                             break;
                                         case 'lastenzuschuss':
-                                            ctaHtml = `<a href="/pdf-paket?type=Lastenzuschuss" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = `<a href="/pdf-paket/?type=Lastenzuschuss" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
                                             break;
                                         case 'buergergeld':
-                                            ctaHtml = `<a href="/pdf-paket?type=Bürgergeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = `<a href="/pdf-paket/?type=Bürgergeld" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
                                             break;
                                         case 'grundsicherung_alter':
-                                            ctaHtml = `<a href="/pdf-paket?type=Grundsicherung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
+                                            ctaHtml = `<a href="/pdf-paket/?type=Grundsicherung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Formlosen Antrag generieren ➔</a>`;
                                             break;
                                         case 'erstausstattung':
-                                            ctaHtml = `<a href="/pdf-paket?type=Erstausstattung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Antrag generieren ➔</a>`;
+                                            ctaHtml = `<a href="/pdf-paket/?type=Erstausstattung" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Antrag generieren ➔</a>`;
                                             break;
                                         case 'kindergeld':
                                             ctaHtml = `<a href="https://www.arbeitsagentur.de/familie-und-kinder/kindergeld-beantragen" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Direkt beantragen (Arbeitsagentur) ➔</a>`;
@@ -459,7 +458,7 @@ import PartnerCTA from './partner-cta.astro';
                                             ctaHtml = `<a href="https://www.bmfsfj.de/bmfsfj/themen/familie/familienleistungen/unterhaltsvorschuss/unterhaltsvorschuss-73558" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Unterhaltsvorschuss-Info ➔</a>`;
                                             break;
                                         case 'but':
-                                            ctaHtml = `<a href="/bildung-und-teilhabe" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Details zu Bildung & Teilhabe ➔</a>`;
+                                            ctaHtml = `<a href="/bildung-und-teilhabe/" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Details zu Bildung & Teilhabe ➔</a>`;
                                             break;
                                         case 'bildungsgutschein':
                                             ctaHtml = `<a href="https://www.arbeitsagentur.de/karriere-und-weiterbildung/foerderung-weiterbildung/bildungsgutschein" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md mt-4 w-full md:w-auto">Infos zu Bildungsgutschein ➔</a>`;
@@ -662,7 +661,7 @@ import PartnerCTA from './partner-cta.astro';
                 particleCount: 100,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#D9622B', '#5B8467', '#B84D1C']
+                colors: ['#9C4A32', '#4B5A45', '#7F4F1A']
             });
         }
     });
