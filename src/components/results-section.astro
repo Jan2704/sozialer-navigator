@@ -158,6 +158,42 @@ import LeadModal from './lead-modal.astro';
 <script>
     console.log("ResultsSection: Script initializing...");
 
+    // Only these ids are recurring cash paid directly to the household —
+    // safe to sum into the one headline "Ihnen stehen X€/Monat" figure.
+    // Everything else (fee waivers, tax allowances, one-time grants,
+    // employer-paid subsidies) is real value but not comparable monthly
+    // cash, and mixing it into the total made the number misleading
+    // (e.g. a tax-allowance estimate and a GEZ fee waiver were previously
+    // added straight into the cash total alongside Bürgergeld).
+    const CASH_MONTHLY_IDS = new Set([
+        'kindergeld', 'elterngeld', 'kinderzuschlag', 'wohngeld', 'lastenzuschuss',
+        'buergergeld', 'grundsicherung_alter', 'sozialhilfe', 'asylblg',
+        'bay_familiengeld', 'krippengeld', 'unterhaltsvorschuss', 'bafoeg', 'bab',
+        'pflegegeld', 'landespflegegeld', 'hinterbliebenenrente'
+    ]);
+
+    // How to word the amount on non-cash cards so they never read like a
+    // cash payment. Anything not listed here (and in CASH_MONTHLY_IDS)
+    // keeps the plain "€ / Monat" wording.
+    const AMOUNT_SUFFIX = {
+        gez_exempt: '€ Ersparnis / Monat',
+        kita_exempt: '€ Ersparnis / Monat',
+        telekom_social: '€ Rabatt / Monat',
+        schwerbehinderung: '€ Steuerersparnis / Jahr (geschätzt)',
+        entlastungsbetrag: '€ Budget / Monat',
+        erstausstattung: '€ einmalig',
+        wohneigentum_umbau: '€ einmalig',
+        eingliederungszuschuss: '€ / Monat (an den Arbeitgeber)'
+    };
+
+    function formatAmount(benefit) {
+        const rounded = benefit.id === 'schwerbehinderung'
+            ? Math.round((benefit.amount || 0) * 12) // undo the /12 the engine applies, show the real yearly allowance
+            : Math.round(benefit.amount || 0);
+        const suffix = AMOUNT_SUFFIX[benefit.id] || '€ / Monat';
+        return `${rounded.toLocaleString('de-DE')} ${suffix}`;
+    }
+
     // Plain-language "where & how to apply" per benefit id — surfaced explicitly
     // on every card because that was the #1 clarity complaint about this page:
     // amounts were shown but not where/how to actually get the money.
@@ -342,8 +378,10 @@ import LeadModal from './lead-modal.astro';
         }
 
         const probableBenefits = (results || []).filter(r => r.eligible === 'probable');
-        const probableWithAmount = probableBenefits.filter(r => (r.amount || 0) > 0);
-        const totalAmount = probableWithAmount.reduce((sum, r) => sum + (r.amount || 0), 0);
+        // Only real recurring cash counts toward the headline total — see
+        // CASH_MONTHLY_IDS above for why fee waivers/tax allowances are excluded.
+        const cashWithAmount = probableBenefits.filter(r => (r.amount || 0) > 0 && CASH_MONTHLY_IDS.has(r.id));
+        const totalAmount = cashWithAmount.reduce((sum, r) => sum + (r.amount || 0), 0);
 
         // Render the entitlement list — probable + possible get full cards
         // answering "what / why / where & how / apply now"; "none" collapses
@@ -372,7 +410,7 @@ import LeadModal from './lead-modal.astro';
                     : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-muted text-text-secondary text-[10px] font-bold uppercase tracking-widest shrink-0">Prüfung lohnt sich</span>`;
 
                 const amountText = benefit.amount > 0
-                    ? `${Math.round(benefit.amount).toLocaleString('de-DE')} € / Monat`
+                    ? formatAmount(benefit)
                     : (benefit.id === 'kinderzuschlag' ? 'bis zu 297 € / Kind' : (benefit.id === 'but' ? '195 € / Schuljahr' : null));
 
                 const where = WHERE_TEXT[benefit.id] || "Wir zeigen Ihnen die passende Stelle im nächsten Schritt";
@@ -476,16 +514,25 @@ import LeadModal from './lead-modal.astro';
             }
 
             if (summaryBreakdown) {
-                const sortedProbable = [...probableWithAmount].sort((a, b) => (b.amount || 0) - (a.amount || 0));
-                if (sortedProbable.length > 1) {
-                    const parts = sortedProbable.map(b => `${Math.round(b.amount).toLocaleString('de-DE')} € ${b.name}`);
+                const sortedCash = [...cashWithAmount].sort((a, b) => (b.amount || 0) - (a.amount || 0));
+                let breakdown = '';
+                if (sortedCash.length > 1) {
+                    const parts = sortedCash.map(b => `${Math.round(b.amount).toLocaleString('de-DE')} € ${b.name}`);
                     const last = parts.pop();
-                    summaryBreakdown.textContent = `Zusammengesetzt aus ${parts.join(', ')} und ${last}.`;
-                } else if (sortedProbable.length === 1) {
-                    summaryBreakdown.textContent = `Das ist Ihr Anspruch auf ${sortedProbable[0].name}.`;
-                } else {
-                    summaryBreakdown.textContent = '';
+                    breakdown = `Zusammengesetzt aus ${parts.join(', ')} und ${last}.`;
+                } else if (sortedCash.length === 1) {
+                    breakdown = `Das ist Ihr Anspruch auf ${sortedCash[0].name}.`;
                 }
+
+                // Fee waivers, tax allowances etc. are real value but not cash —
+                // named separately so they aren't silently dropped from view.
+                const nonCash = probableBenefits.filter(r => (r.amount || 0) > 0 && !CASH_MONTHLY_IDS.has(r.id));
+                if (nonCash.length > 0) {
+                    const names = nonCash.map(b => b.name).join(', ');
+                    breakdown += `${breakdown ? ' ' : ''}Zusätzlich können Sie durch ${names} sparen — Details dazu weiter unten.`;
+                }
+
+                summaryBreakdown.textContent = breakdown;
             }
         }
 
