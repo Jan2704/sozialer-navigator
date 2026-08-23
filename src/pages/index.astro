@@ -86,10 +86,12 @@ const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minut
         <!-- HERO SECTION -->
         <div class="relative w-full min-h-[90vh] flex items-center overflow-hidden bg-[#EDE6D9] border-b border-[#DED2BC]">
 
-            <!-- Content Container: "Der Brief" — a direct address, not a dashboard pitch. Single
-                 column, no cards, no badges, no bordered buttons; the CTA is a link, not a box. -->
-            <div class="relative z-10 w-full max-w-3xl mx-auto px-6 pt-28 pb-20">
-                <div class="text-left animate-slide-up">
+            <!-- Content Container: "Der Brief" meets "Der ehrliche Bescheid" — plain-language
+                 address on the left, a small ledger-card narrative on the right that shows the
+                 product working (Frage -> Berechnung -> Ergebnis) instead of describing it. -->
+            <div class="relative z-10 w-full max-w-7xl mx-auto px-6 pt-28 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+
+                <div class="lg:col-span-7 text-left animate-slide-up">
 
                     <p class="hero-title font-serif text-xl md:text-2xl text-[#6B5B4B] mb-5">Liebe Leserin, lieber Leser,</p>
 
@@ -126,6 +128,36 @@ const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minut
                             <span aria-hidden="true">→</span>
                         </a>
                         <p class="text-sm text-[#8A7A6A] mt-5">Kostenlos · Anonym · Keine Anmeldung nötig</p>
+                    </div>
+                </div>
+
+                <!-- Ledger-card narrative: shows the product working, not a dashboard mockup.
+                     Three flat Kartenpapier cards connected by a hand-drawn hairline, ending in
+                     the result card (2px Ton border, per the signature-component spec). -->
+                <div class="hero-ledger-stack lg:col-span-5 relative hidden lg:block" aria-hidden="true">
+                    <svg class="absolute left-9 top-0 h-full w-px overflow-visible" viewBox="0 0 2 400" preserveAspectRatio="none">
+                        <line x1="1" y1="0" x2="1" y2="400" stroke="#9C4A32" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round" class="animate-dash" />
+                    </svg>
+
+                    <div class="relative flex flex-col gap-8 pl-[4.5rem]">
+                        <div class="hero-ledger-card relative bg-[#F7F3EA] border border-[#DED2BC] rounded-card p-6 shadow-[0_8px_24px_-8px_rgba(43,29,22,0.15)] animate-float-soft">
+                            <span class="absolute -left-[4.5rem] top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#F7F3EA] border-2 border-[#DED2BC] flex items-center justify-center text-xs font-bold text-[#8A7A6A]">1</span>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-[#8A7A6A] mb-2">Deine Angabe</p>
+                            <p class="font-sans font-bold text-[#2B1D16] text-base">Kaltmiete: 650&nbsp;€</p>
+                        </div>
+
+                        <div class="hero-ledger-card relative bg-[#F7F3EA] border border-[#DED2BC] rounded-card p-6 shadow-[0_8px_24px_-8px_rgba(43,29,22,0.15)] animate-float-soft-reverse">
+                            <span class="absolute -left-[4.5rem] top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#F7F3EA] border-2 border-[#DED2BC] flex items-center justify-center text-xs font-bold text-[#8A7A6A]">2</span>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-[#8A7A6A] mb-2">Wird geprüft</p>
+                            <p class="font-sans font-bold text-[#2B1D16] text-base">Wohngeld · Mietstufe 4</p>
+                        </div>
+
+                        <div class="hero-ledger-card hero-ledger-result relative bg-[#F7F3EA] border-2 border-brand-blue rounded-card p-7 shadow-[0_20px_48px_-16px_rgba(43,29,22,0.22)]">
+                            <span class="absolute -left-[4.5rem] top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-brand-blue text-[#F7F3EA] flex items-center justify-center text-xs font-bold">3</span>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-indigo mb-2">Dein Anspruch</p>
+                            <p class="font-serif font-bold text-brand-blue text-4xl tracking-tight">737&nbsp;€</p>
+                            <p class="text-sm text-[#6B5B4B] mt-1">pro Monat</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -389,7 +421,8 @@ const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minut
             .from('#view-home .hero-title', { opacity: 0, y: 20, duration: 0.7, ease: 'power2.out' })
             .from('#view-home .hero-description', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, '-=0.45')
             .from('#view-home .hero-stats', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, '-=0.4')
-            .from('#view-home .hero-buttons', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, '-=0.4');
+            .from('#view-home .hero-buttons', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+            .from('#view-home .hero-ledger-card', { opacity: 0, y: 16, stagger: 0.15, duration: 0.6, ease: 'power2.out' }, '-=0.5');
 
         // Everything below the fold: a single, quiet fade — no bespoke stagger per section
         gsap.utils.toArray('.process-card, .advantage-card, .mission-visual').forEach((el) => {
