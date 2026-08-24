@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { ShieldCheck, Lock, Download, ChevronRight, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -53,6 +52,11 @@ export function TrustPdfGenerator({ result }) {
     setError('');
 
     try {
+      // pdf-lib is ~500kB — loaded on demand (only once the user actually
+      // submits) instead of blocking this page's initial render for every
+      // visitor, including those on slow rural connections.
+      const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
+
       // 1. Fetch the correct template
       // If Wohngeld, use the prepared test PDF. If Bürgergeld, use the real 16-page official Hauptantrag.
       const templatePath = isWohngeld ? '/forms/TEST_Wohngeld.pdf' : '/forms/Hauptantrag_Buergergeld.pdf';
@@ -123,7 +127,7 @@ export function TrustPdfGenerator({ result }) {
         const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
         const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
         
-        coverPage.drawText(`Zusammenfassung: Sozialer Navigator`, {
+        coverPage.drawText(`Zusammenfassung: Fördercheck`, {
           x: 60, y: height - 100, size: 24, font: fontBold, color: rgb(0.04, 0.09, 0.16)
         });
         
