@@ -947,6 +947,7 @@ const ChatWidgetInner = () => {
                     />
                     <button
                       type="submit"
+                      aria-label="Nachricht senden"
                       disabled={!inputValue.trim() || isTyping}
                       className="p-2.5 bg-brand-navy text-brand-gold rounded-xl hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm"
                     >

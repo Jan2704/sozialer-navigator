@@ -679,8 +679,9 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Age */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Alter (Jahre)</label>
+                <label htmlFor="age-input" className={cn(labelClass, isDark && labelDarkClass)}>Alter (Jahre)</label>
                 <input
+                  id="age-input"
                   type="number"
                   placeholder="z.B. 32"
                   className={cn(inputClass, isDark && inputDarkClass)}
@@ -692,9 +693,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
               {/* Status */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Beschäftigungsstatus</label>
+                <label htmlFor="status-select" className={cn(labelClass, isDark && labelDarkClass)}>Beschäftigungsstatus</label>
                 <div className="relative">
                   <select
+                    id="status-select"
                     className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
@@ -733,9 +735,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
             {hasDisability && (
               <div className="space-y-2 text-left animate-in slide-in-from-top-2 duration-300">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Grad der Behinderung (GdB)</label>
+                <label htmlFor="gdb-select" className={cn(labelClass, isDark && labelDarkClass)}>Grad der Behinderung (GdB)</label>
                 <div className="relative">
                   <select
+                    id="gdb-select"
                     className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                     value={disabilityGdb}
                     onChange={(e) => setDisabilityGdb(e.target.value)}
@@ -751,6 +754,63 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                     <option value="100">100</option>
                   </select>
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                </div>
+              </div>
+            )}
+
+            {/* Care dependent — feeds Pflegegeld, Pflegesachleistung,
+                Entlastungsbetrag and Landespflegegeld. These states existed
+                and were sent to the engine, but with no form control ever
+                setting them, hasCareDependent was permanently false — so
+                none of those benefits could ever be found for anyone,
+                including people actually caring for a dependent. */}
+            <div className={cn("flex items-center gap-3 p-4 rounded-2xl border transition-colors", isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
+              <input
+                type="checkbox"
+                id="hasCareDependent"
+                className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
+                checked={hasCareDependent}
+                onChange={(e) => setHasCareDependent(e.target.checked)}
+              />
+              <label htmlFor="hasCareDependent" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+                Pflegen Sie einen Angehörigen oder leben mit einer pflegebedürftigen Person im Haushalt? <InfoTooltip text="für Pflegegeld, Pflegesachleistung und Entlastungsbetrag" />
+              </label>
+            </div>
+
+            {hasCareDependent && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in slide-in-from-top-2 duration-300">
+                <div className="space-y-2 text-left">
+                  <label htmlFor="care-grad-select" className={cn(labelClass, isDark && labelDarkClass)}>Pflegegrad</label>
+                  <div className="relative">
+                    <select
+                      id="care-grad-select"
+                      className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
+                      value={careDependentGrad}
+                      onChange={(e) => setCareDependentGrad(e.target.value)}
+                    >
+                      <option value="PG 1">Pflegegrad 1</option>
+                      <option value="PG 2">Pflegegrad 2</option>
+                      <option value="PG 3">Pflegegrad 3</option>
+                      <option value="PG 4">Pflegegrad 4</option>
+                      <option value="PG 5">Pflegegrad 5</option>
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
+                <div className="space-y-2 text-left">
+                  <label htmlFor="care-organization-select" className={cn(labelClass, isDark && labelDarkClass)}>Art der Pflege</label>
+                  <div className="relative">
+                    <select
+                      id="care-organization-select"
+                      className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
+                      value={careOrganization}
+                      onChange={(e) => setCareOrganization(e.target.value)}
+                    >
+                      <option value="private">Durch Angehörige / privat organisiert</option>
+                      <option value="service">Durch einen Pflegedienst</option>
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
                 </div>
               </div>
             )}
@@ -773,9 +833,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
             {["employee", "unemployed_sgb2", "unemployed_sgb3", "seeking_work"].includes(status) && (
               <div className="space-y-2 text-left animate-in slide-in-from-top-2 duration-300">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Beendigung des Arbeitsverhältnisses</label>
+                <label htmlFor="termination-select" className={cn(labelClass, isDark && labelDarkClass)}>Beendigung des Arbeitsverhältnisses</label>
                 <div className="relative">
                   <select
+                    id="termination-select"
                     className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                     value={terminationReason}
                     onChange={(e) => setTerminationReason(e.target.value)}
@@ -795,9 +856,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Schul- / Hochschulart</label>
+                    <label htmlFor="school-type-select" className={cn(labelClass, isDark && labelDarkClass)}>Schul- / Hochschulart</label>
                     <div className="relative">
                       <select
+                        id="school-type-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={schoolType}
                         onChange={(e) => setSchoolType(e.target.value)}
@@ -811,9 +873,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Elterneinkommen (Schätzung)</label>
+                    <label htmlFor="parent-income-select" className={cn(labelClass, isDark && labelDarkClass)}>Elterneinkommen (Schätzung)</label>
                     <div className="relative">
                       <select
+                        id="parent-income-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={parentIncomeBracket}
                         onChange={(e) => setParentIncomeBracket(e.target.value)}
@@ -861,9 +924,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
               <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
                 <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Renten- & Beitragsdetails</h4>
                 <div>
-                  <label className={cn(labelClass, isDark && labelDarkClass)}>Grundrentenzeiten (Versicherungsjahre)</label>
+                  <label htmlFor="grundrente-select" className={cn(labelClass, isDark && labelDarkClass)}>Grundrentenzeiten (Versicherungsjahre)</label>
                   <div className="relative">
                     <select
+                      id="grundrente-select"
                       className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                       value={grundrenteYears}
                       onChange={(e) => setGrundrenteYears(e.target.value)}
@@ -913,6 +977,7 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                   <button
                     type="button"
                     onClick={clearCity}
+                    aria-label="Postleitzahl löschen"
                     className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-red-500 transition-colors"
                   >
                     <X className="w-4 h-4" />
@@ -959,9 +1024,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Household size */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Personen im Haushalt</label>
+                <label htmlFor="persons-select" className={cn(labelClass, isDark && labelDarkClass)}>Personen im Haushalt</label>
                 <div className="relative">
                   <select
+                    id="persons-select"
                     className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                     value={persons}
                     onChange={(e) => setPersons(e.target.value)}
@@ -977,9 +1043,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
               {/* Housing Type */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Wohnverhältnis</label>
+                <label htmlFor="housing-type-select" className={cn(labelClass, isDark && labelDarkClass)}>Wohnverhältnis</label>
                 <div className="relative">
                   <select
+                    id="housing-type-select"
                     className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                     value={housingType}
                     onChange={(e) => setHousingType(e.target.value)}
@@ -996,9 +1063,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
             {housingType === "Miete" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left animate-in slide-in-from-top-2 duration-300">
                 <div>
-                  <label className={cn(labelClass, isDark && labelDarkClass)}>Bruttokaltmiete</label>
+                  <label htmlFor="rent-input" className={cn(labelClass, isDark && labelDarkClass)}>Bruttokaltmiete</label>
                   <div className="relative">
                     <input
+                      id="rent-input"
                       type="number"
                       placeholder="z.B. 650"
                       className={cn(inputClass, isDark && inputDarkClass)}
@@ -1010,9 +1078,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                   </div>
                 </div>
                 <div>
-                  <label className={cn(labelClass, isDark && labelDarkClass)}>Heizkosten</label>
+                  <label htmlFor="heating-input" className={cn(labelClass, isDark && labelDarkClass)}>Heizkosten</label>
                   <div className="relative">
                     <input
+                      id="heating-input"
                       type="number"
                       placeholder="z.B. 110"
                       className={cn(inputClass, isDark && inputDarkClass)}
@@ -1033,9 +1102,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Monatliche Zinsen</label>
+                    <label htmlFor="interest-input" className={cn(labelClass, isDark && labelDarkClass)}>Monatliche Zinsen</label>
                     <div className="relative">
                       <input
+                        id="interest-input"
                         type="number"
                         placeholder="z.B. 250"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -1047,9 +1117,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Nebenkosten (ohne Heizung)</label>
+                    <label htmlFor="operating-costs-input" className={cn(labelClass, isDark && labelDarkClass)}>Nebenkosten (ohne Heizung)</label>
                     <div className="relative">
                       <input
+                        id="operating-costs-input"
                         type="number"
                         placeholder="z.B. 150"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -1064,9 +1135,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Grundsteuer (Monatlich)</label>
+                    <label htmlFor="property-tax-input" className={cn(labelClass, isDark && labelDarkClass)}>Grundsteuer (Monatlich)</label>
                     <div className="relative">
                       <input
+                        id="property-tax-input"
                         type="number"
                         placeholder="z.B. 25"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -1078,9 +1150,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Wohnfläche (qm)</label>
+                    <label htmlFor="housing-area-input" className={cn(labelClass, isDark && labelDarkClass)}>Wohnfläche (qm)</label>
                     <div className="relative">
                       <input
+                        id="housing-area-input"
                         type="number"
                         placeholder="z.B. 85"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -1103,9 +1176,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
         {step === 3 && (
           <div className="space-y-6 animate-in fade-in duration-300">
             <div className="space-y-2 text-left">
-              <label className={cn(labelClass, isDark && labelDarkClass)}>Anzahl Kinder im Haushalt</label>
+              <label htmlFor="kids-count-select" className={cn(labelClass, isDark && labelDarkClass)}>Anzahl Kinder im Haushalt</label>
               <div className="relative">
                 <select
+                  id="kids-count-select"
                   className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                   value={kids}
                   onChange={(e) => handleKidsCountChange(e.target.value)}
@@ -1129,9 +1203,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                     return (
                       <div key={idx} className="flex flex-col sm:flex-row gap-4 items-end p-4 rounded-xl bg-slate-500/5 border border-slate-200/10">
                         <div className="flex-1 space-y-2 text-left">
-                          <label className={cn(labelClass, isDark && labelDarkClass)}>Alter von Kind {idx + 1}</label>
+                          <label htmlFor={`kid-age-select-${idx}`} className={cn(labelClass, isDark && labelDarkClass)}>Alter von Kind {idx + 1}</label>
                           <div className="relative">
                             <select
+                              id={`kid-age-select-${idx}`}
                               className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                               value={ageVal}
                               onChange={(e) => {
@@ -1161,9 +1236,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
                         {isU3 && (
                           <div className="flex-1 space-y-2 text-left animate-in fade-in duration-300">
-                            <label className={cn(labelClass, isDark && labelDarkClass)}>Geburtsjahr (Bayern)</label>
+                            <label htmlFor={`kid-birthyear-select-${idx}`} className={cn(labelClass, isDark && labelDarkClass)}>Geburtsjahr (Bayern)</label>
                             <div className="relative">
                               <select
+                                id={`kid-birthyear-select-${idx}`}
                                 className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                                 value={kidsBirthYears[idx] || ""}
                                 onChange={(e) => {
@@ -1193,9 +1269,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Einkommen der Kinder (z.B. Unterhalt, Waisenrente)</label>
+                <label htmlFor="child-income-input" className={cn(labelClass, isDark && labelDarkClass)}>Einkommen der Kinder (z.B. Unterhalt, Waisenrente)</label>
                 <div className="relative">
                   <input
+                    id="child-income-input"
                     type="number"
                     placeholder="z.B. 250"
                     className={cn(inputClass, isDark && inputDarkClass)}
@@ -1225,9 +1302,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
                 {isSingleParent && (
                   <div className="pt-4 border-t border-slate-100/10 animate-in slide-in-from-top-2 duration-300">
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Unterhalts-Status des anderen Elternteils</label>
+                    <label htmlFor="child-support-select" className={cn(labelClass, isDark && labelDarkClass)}>Unterhalts-Status des anderen Elternteils</label>
                     <div className="relative">
                       <select
+                        id="child-support-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={childSupportReceived}
                         onChange={(e) => setChildSupportReceived(e.target.value)}
@@ -1261,9 +1339,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
               {isPregnantOrNewborn && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100/10 animate-in slide-in-from-top-2 duration-300">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Nettoeinkommen vor Geburt</label>
+                    <label htmlFor="net-income-before-birth-input" className={cn(labelClass, isDark && labelDarkClass)}>Nettoeinkommen vor Geburt</label>
                     <div className="relative">
                       <input
+                        id="net-income-before-birth-input"
                         type="number"
                         placeholder="z.B. 1900"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -1275,9 +1354,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Gewünschte Variante</label>
+                    <label htmlFor="elterngeld-option-select" className={cn(labelClass, isDark && labelDarkClass)}>Gewünschte Variante</label>
                     <div className="relative">
                       <select
+                        id="elterngeld-option-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={elterngeldOption}
                         onChange={(e) => setElterngeldOption(e.target.value)}
@@ -1300,9 +1380,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Brutto Income */}
               <div className="text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Brutto-Einkommen (Haushalt)</label>
+                <label htmlFor="income-brutto-input" className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Brutto-Einkommen (Haushalt)</label>
                 <div className="relative">
                   <input
+                    id="income-brutto-input"
                     type="number"
                     value={income}
                     onChange={(e) => setIncome(e.target.value)}
@@ -1316,9 +1397,10 @@ function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, class
 
               {/* Net Income */}
               <div className="text-left animate-in fade-in duration-300">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Netto-Einkommen (Haushalt)</label>
+                <label htmlFor="income-netto-input" className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Netto-Einkommen (Haushalt)</label>
                 <div className="relative">
                   <input
+                    id="income-netto-input"
                     type="number"
                     value={netIncome}
                     onChange={(e) => setNetIncome(e.target.value)}
