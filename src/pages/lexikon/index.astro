@@ -12,33 +12,30 @@ const sortedEntries = allEntries.sort((a, b) => a.data.title.localeCompare(b.dat
         <meta property="og:url" content="https://sozialer-navigator.de/lexikon" />
     </fragment>
   
-    <main class="min-h-screen bg-white pt-24 pb-24">
+    <main class="min-h-screen bg-surface-base pt-24 pb-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            
+
             <div class="max-w-3xl mx-auto mb-16 text-center">
-                <span class="text-brand-gold font-bold tracking-widest uppercase text-xs mb-3 block">Fachbegriffe erklärt</span>
-                <h1 class="text-5xl md:text-6xl font-serif text-brand-navy mb-6 tracking-tight">Sozialrechtliches <br/> <span class="italic text-brand-gold">Lexikon</span></h1>
-                <p class="text-lg text-slate-600 font-light leading-relaxed">
+                <h1 class="text-5xl md:text-6xl font-serif text-brand-navy mb-6 tracking-tight">Sozialrechtliches <span class="text-brand-blue">Lexikon</span></h1>
+                <p class="text-lg text-text-secondary leading-relaxed">
                     Verstehen Sie das "Behördendeutsch". Wir erklären wichtige Begriffe aus den Bereichen Bürgergeld, Wohngeld und Sozialrecht einfach und verständlich.
                 </p>
             </div>
 
             <div class="max-w-4xl mx-auto">
-                <!-- Search could go here in v2 -->
-                
                 <div class="grid gap-4">
                     {sortedEntries.map((entry) => (
-                        <a href={`/lexikon/${entry.slug}/`} class="group block bg-white border border-slate-200 p-6 hover:border-brand-gold transition-all duration-300 shadow-sm hover:shadow-md">
+                        <a href={`/lexikon/${entry.slug}/`} class="group block bg-surface-card border border-border-subtle rounded-card p-6 hover:border-brand-blue transition-all duration-300">
                             <div class="flex items-baseline justify-between">
-                                <h2 class="text-xl font-serif font-bold text-brand-navy group-hover:text-brand-gold transition-colors">
+                                <h2 class="text-xl font-serif font-bold text-brand-navy group-hover:text-brand-blue transition-colors">
                                     {entry.data.title}
                                 </h2>
-                                <span class="text-slate-400 text-sm group-hover:text-brand-navy transition-colors opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 duration-300">
+                                <span class="text-brand-indigo text-sm transition-colors opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 duration-300">
                                     Begriff lesen &rarr;
                                 </span>
                             </div>
                             {entry.data.description && (
-                                <p class="text-slate-600 font-light mt-2 line-clamp-1">
+                                <p class="text-text-secondary mt-2 line-clamp-1">
                                     {entry.data.description}
                                 </p>
                             )}
