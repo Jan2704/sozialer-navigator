@@ -163,36 +163,6 @@ const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minut
             </div>
         </div>
 
-        <!-- Hero Interaction Scripts -->
-        <script>
-            // "Der Brief" hero has no dashboard figure and no household-size buttons —
-            // the household question now lives only inside the calculator itself. The
-            // one authored motion moment is the staggered fade-up of salutation ->
-            // headline -> body -> value list -> CTA, handled by the shared
-            // "Scroll Triggered Reveal" hero timeline further down this file.
-
-            // --- Social Proof Counter Animation ---
-            (function() {
-                const el = document.getElementById('social-counter');
-                if (!el) return;
-                const target = 18423;
-                const start = 17800;
-                const duration = 1800;
-                const startTime = performance.now();
-                function step(now) {
-                    const elapsed = now - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    // Ease-out cubic
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.round(start + (target - start) * eased);
-                    el.textContent = current.toLocaleString('de-DE');
-                    if (progress < 1) requestAnimationFrame(step);
-                }
-                // Start after a short delay so it's visible
-                setTimeout(() => requestAnimationFrame(step), 400);
-            })();
-        </script>
-
         <!-- Spacing container -->
         <div class="h-16 w-full bg-[#EDE6D9] relative z-10 border-none"></div>
 
