@@ -800,7 +800,7 @@ const ChatWidgetInner = () => {
                 </div>
                 <div>
                   <p className="text-white font-semibold text-sm leading-none">KI-Assistent</p>
-                  <p className="text-brand-gold/70 text-[11px] mt-0.5">Fördercheck · Online</p>
+                  <p className="text-slate-300 text-[11px] mt-0.5">Fördercheck · Online</p>
                 </div>
               </div>
               <button
