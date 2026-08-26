@@ -8,13 +8,17 @@ interface Props {
 
 const { type, data } = Astro.props;
 
-const siteUrl = "https://sozialer-navigator.de";
+// Hardcoded to match astro.config.mjs's `site` value exactly — Astro.site/
+// Astro.url.origin proved unreliable here and were emitting the non-www apex
+// domain in JSON-LD @id/url values while every canonical tag correctly used
+// www (SEO audit, schema.md #3). This is the single source of truth.
+const siteUrl = 'https://www.sozialer-navigator.de';
 
 // 1. Organization (Global Base)
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Sozialer Navigator",
+  "name": "Fördercheck",
   "url": siteUrl,
   "logo": `${siteUrl}/logo.png`, // Placeholder, ensure this exists or use a valid path
   "description": "Ihr unabhängiger Ratgeber für Sozialleistungen, Wohngeld und Bürgergeld in Deutschland.",
@@ -23,20 +27,15 @@ const organizationSchema = {
   ]
 };
 
-// 2. WebSite (Global Base) - for Sitelinks Search Box
+// 2. WebSite (Global Base)
+// No SearchAction: there is no working /suche results page on this site, and
+// shipping a SearchAction pointing at a dead end is worse than omitting it
+// (SEO audit, schema.md #2). Add it back only once a real search page exists.
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Sozialer Navigator",
-  "url": siteUrl,
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${siteUrl}/suche?q={search_term_string}`
-    },
-    "query-input": "required name=search_term_string"
-  }
+  "name": "Fördercheck",
+  "url": siteUrl
 };
 
 let schema = null;
@@ -46,11 +45,16 @@ if (type === 'Organization') {
 } else if (type === 'Website') {
     schema = websiteSchema;
 } else if (type === 'SoftwareApplication') {
-  // For the Calculator
+  // For the Calculator. Uses WebApplication (more precise than the generic
+  // SoftwareApplication for a browser-based, install-free tool) and references
+  // the Organization by @id instead of embedding a duplicate inline copy
+  // (SEO audit, schema.md #4/#5). Defaults describe the actual universal
+  // benefit checker, not a narrower legacy "Wohngeldrechner" product.
   schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": data?.name || "Wohngeldrechner 2026",
+    "@type": "WebApplication",
+    "name": data?.name || "Amtly Universal-Förderscheck",
+    "url": siteUrl,
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -58,9 +62,9 @@ if (type === 'Organization') {
       "price": "0",
       "priceCurrency": "EUR"
     },
-    "author": organizationSchema,
-    "description": data?.description || "Kostenloser Wohngeldrechner für 2026. Prüfen Sie Ihren Anspruch auf Mietzuschuss.",
-    "featureList": "Anspruchsberechnung, Mietstufen-Check, Einkommensprüfung"
+    "provider": { "@id": `${siteUrl}/#organization` },
+    "description": data?.description || "Kostenloser Universal-Förderscheck: Prüfen Sie in 2 Minuten anonym Ihren Anspruch auf Wohngeld, Bürgergeld, Kinderzuschlag und weitere staatliche Zuschüsse.",
+    "featureList": data?.featureList || "Anspruchsberechnung für Wohngeld, Bürgergeld und Kinderzuschlag, Mietstufen-Check, Einkommensprüfung, automatisch befülltes Antrags-PDF"
   };
 } else if (type === 'Article' || type === 'TechnicalArticle') {
   // For Info Pages
@@ -72,7 +76,7 @@ if (type === 'Organization') {
     "image": data?.image || `${siteUrl}/og-image.jpg`,
     "author": {
       "@type": "Organization",
-      "name": "Sozialer Navigator Redaktion"
+      "name": "Fördercheck Redaktion"
     },
     "publisher": organizationSchema,
     "datePublished": data?.datePublished || new Date().toISOString().split('T')[0],

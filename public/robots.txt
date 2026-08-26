@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /design-system/
 
 Sitemap: https://www.sozialer-navigator.de/sitemap-index.xml

@@ -18,17 +18,27 @@ interface Props {
   city?: string; // For Local SEO
   serviceType?: "Wohngeld" | "Bürgergeld" | "WBS";
   faq?: { question: string; answer: string }[];
+  publishDate?: Date;
+  author?: string;
+  image?: string;
+  noindex?: boolean;
+  breadcrumbs?: { name: string; url: string }[];
 }
 
-const { 
-  title, 
-  description = "Verschenken Sie kein Geld! Prüfen Sie in 2 Minuten kostenlos und anonym Ihren Anspruch auf Wohngeld oder Bürgergeld 2026.", 
-  hideNav = false, 
+const {
+  title,
+  description = "Verschenken Sie kein Geld! Prüfen Sie in 2 Minuten kostenlos und anonym Ihren Anspruch auf Wohngeld oder Bürgergeld 2026.",
+  hideNav = false,
   canonical,
   type = "website",
   city,
   serviceType,
-  faq
+  faq,
+  publishDate,
+  author,
+  image,
+  noindex = false,
+  breadcrumbs
 } = Astro.props;
 ---
 <!doctype html>
@@ -37,6 +47,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -60,7 +71,7 @@ const {
     <!-- Lucide Icons -->
     <!-- Lucide Icons removed: using react-lucide or inline SVGs for privacy -->
     
-    <Schema 
+    <Schema
       type={type}
       title={title}
       description={description}
@@ -68,7 +79,23 @@ const {
       city={city}
       serviceType={serviceType}
       faq={faq}
+      publishDate={publishDate}
+      author={author}
+      image={image}
+      breadcrumbs={breadcrumbs}
     />
+
+    <!-- Prefetch likely next navigations: the benefit-check flow and cross-links
+         between lexikon/ratgeber pages, where users tend to click through several
+         pages in one session (SEO audit, performance.md #4). Chrome 121+ only;
+         unsupported browsers ignore the unknown script type harmlessly. -->
+    <script type="speculationrules" is:inline set:html={JSON.stringify({
+      prefetch: [
+        { source: "document", where: { href_matches: "/lexikon/*" }, eagerness: "moderate" },
+        { source: "document", where: { href_matches: "/ratgeber/*" }, eagerness: "moderate" },
+        { source: "document", where: { href_matches: "/" }, eagerness: "moderate" }
+      ]
+    })} />
 
     <style is:global>
         /* Styling für Rechtstexte */
@@ -88,7 +115,7 @@ const {
     </div>
     <Footer />
     <FeedbackWidget />
-    <ChatWidget client:load />
+    <ChatWidget client:idle />
     <PrivacyBanner />
   </body>
 </html>

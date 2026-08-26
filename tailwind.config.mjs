@@ -22,21 +22,21 @@ const config = {
       },
       colors: {
         bg: {
-          base: "#F7F8FA",
+          base: "#F2F0EA",
           surface: "#FFFFFF",
-          muted: "#EEF1F5",
+          muted: "#E7E3D8",
         },
         text: {
-          primary: "#0F172A",
-          secondary: "#475569",
-          muted: "#64748B",
+          primary: "#1B1A17",
+          secondary: "#6E6A60",
+          muted: "#8A8578",
         },
         brand: {
-          blue: "#0D9488", // Modern Teal
-          indigo: "#0EA5E9", // Sky Blue
-          emerald: "#14B8A6", // Mint/Teal accent
-          navy: "#0F172A", // Dark Slate/Navy
-          gold: "#0D9488", // Map old gold to modern Teal
+          blue: "#D9622B", // Confident single accent
+          indigo: "#B84D1C", // Accent hover/deep
+          emerald: "#5B8467", // Muted sage — secondary/success
+          navy: "#1F2E24", // Deep charcoal-green
+          gold: "#c5a67c", // Premium gold (legal-referral sub-brand)
         },
 
         border: "hsl(var(--border))",

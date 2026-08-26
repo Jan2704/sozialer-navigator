@@ -13,9 +13,13 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const resend = new Resend(RESEND_API_KEY);
 
 export const POST: APIRoute = async ({ request }) => {
-    // 1. Authenticate Request
+    // 1. Authenticate Request (fail closed: misconfiguration must not open this up publicly)
+    if (!CRON_SECRET) {
+        console.error('[CRON] CRON_SECRET is not configured — refusing to run.');
+        return new Response('Server Configuration Error', { status: 500 });
+    }
     const authHeader = request.headers.get('authorization');
-    if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
+    if (authHeader !== `Bearer ${CRON_SECRET}`) {
         return new Response('Unauthorized', { status: 401 });
     }
 

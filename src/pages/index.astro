@@ -1,5 +1,5 @@
 ---
-// index.astro - Amtly 2026 - Fintech Aesthetic
+// index.astro - Fördercheck 2026 - "Human Clay" (warm, grounded, civic-but-human)
 import { wohngeldData } from '../data/wohngeld-data.js';
 import { defaultFaqs } from '../data/faqs.js';
 import { SmartCalculator } from '../components/smart-calculator.jsx';
@@ -15,29 +15,31 @@ import '../styles/global.css';
 
 export const prerender = true;
 
-const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Fördercheck in nur 2 Minuten anonym heraus, welche staatlichen Zuschüsse dir zustehen, und fülle deine Anträge sofort digital aus.";
+const description = "Verschenke kein Geld! Finde mit Fördercheck in nur 2 Minuten anonym heraus, welche staatlichen Zuschüsse dir zustehen, und fülle deine Anträge sofort digital aus.";
 ---
 
-<Layout 
-    title="Amtly — Der universelle Förder-Check für staatliche Zuschüsse"
+<Layout
+    title="Fördercheck — Der universelle Check für staatliche Zuschüsse"
     description={description}
     hideNav={false}
     class="bg-surface-base"
     faq={defaultFaqs}
 >
 
-    <!-- SEO Meta & Schema -->
-    <fragment slot="head">
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Wohngeld & Bürgergeld Rechner 2026 | Kostenlos Anspruch prüfen" />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content="/apple-touch-icon.png" />
-        <meta property="og:url" content="https://sozialer-navigator.de/" />
+    <!--
+    HUMAN CLAY — direction contract
+    THESIS: this is a serious, human tool about money the state owes you — not a SaaS dashboard pitch. Refuses glassmorphism, glow blobs, and startup-teal.
+    OWN-WORLD: warm kraft paper (#EDE6D9) + ink (#2B1D16) + clay (#9C4A32) + ochre (#C98A2E, graphics only) + olive (#4B5A45). Bitter (sturdy slab serif) for headlines, Public Sans (USWDS's own civic typeface) for body — flat opaque cards, no blur, no glass, small structured radii.
+    STORY: a first-time applicant, wary of Amtsdeutsch, sees a plain-language question, a real number, and a downloadable form — and trusts it enough to act.
+    FIRST VIEWPORT: headline left / ledger-style input-engine-result card stack right, flat warm paper ground, no glow, primary action is the household-size selector.
+    FORM: Human Clay, chosen directly with the user after three menu-driven directions failed to land; no concept-seed roll (see chat rationale — catalog challengers unsuited to a trust-critical civic/financial tool).
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md.
+    -->
 
-        <SchemaOrg type="Organization" />
-        <SchemaOrg type="Website" />
+    <!-- Page-specific structured data. Organization/Website schema already comes from Layout, don't duplicate it here. -->
+    <fragment slot="head">
         <SchemaOrg type="SoftwareApplication" />
-        
+
         <script>
             import { gsap } from 'gsap';
             import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -49,35 +51,29 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
             window.gsap = gsap;
             window.ScrollTrigger = ScrollTrigger;
         </script>
-        
+
         <!-- Lucide: deferred to end of body via slot:body-end to avoid render-blocking -->
-        
+
         <style>
             /* View Transitions */
             .view-section { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
             .view-section.active { display: block; opacity: 1; }
 
-            /* Dashboard Grid Flow Animations */
+            /* Ledger-card connecting line draw */
             @keyframes dash {
                 to { stroke-dashoffset: -40; }
             }
-            @keyframes dash-reverse {
-                to { stroke-dashoffset: 40; }
-            }
             .animate-dash {
-                animation: dash 1.5s linear infinite;
-            }
-            .animate-dash-reverse {
-                animation: dash-reverse 1.5s linear infinite;
+                animation: dash 2.2s linear infinite;
             }
 
             /* Custom float for bottom card with centering */
             @keyframes floatMedium {
                 0%, 100% { transform: translate(-50%, 0px) scale(1); }
-                50% { transform: translate(-50%, -8px) scale(1.01); }
+                50% { transform: translate(-50%, -6px) scale(1.005); }
             }
             .animate-float-medium {
-                animation: floatMedium 5s ease-in-out infinite;
+                animation: floatMedium 6s ease-in-out infinite;
             }
         </style>
     </fragment>
@@ -85,347 +81,157 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
     <main class="min-h-screen relative pt-0 pb-32">
 
         <!-- VIEW 1: HOME -->
-        <section id="view-home" class="view-section active w-full relative z-10 bg-white">
-             
-        <!-- HERO SECTION (Plerouse Style - Light Mode) -->
-        <div class="relative w-full min-h-[90vh] flex items-center overflow-hidden bg-white border-b border-slate-100">
-            <!-- Subtle light dot grid pattern -->
-            <div class="absolute inset-0 opacity-40 pointer-events-none" style="background-image: radial-gradient(rgba(15, 23, 42, 0.07) 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
-            
-            <!-- Glowing background elements -->
-            <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#0EA5E9]/8 rounded-full blur-[140px] pointer-events-none"></div>
-            <div class="absolute bottom-12 left-1/4 w-[400px] h-[400px] bg-[#0D9488]/8 rounded-full blur-[120px] pointer-events-none"></div>
-            
-            <!-- Content Container -->
-            <div class="relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 md:gap-16 items-center pt-28 pb-20"> 
-                
-                <!-- Text Content Left -->
-                <div class="lg:col-span-6 relative z-10">
-                    <div class="text-left animate-slide-up">
+        <section id="view-home" class="view-section active w-full relative z-10 bg-[#EDE6D9]">
 
-                        <!-- Badge + Social Proof Row -->
-                        <div class="flex flex-wrap items-center gap-3 mb-5">
-                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0EA5E9]/5 border border-[#0EA5E9]/15 backdrop-blur-sm">
-                                <span class="flex h-2 w-2 rounded-full bg-[#0EA5E9] animate-pulse"></span>
-                                <span class="text-[#0EA5E9] text-xs font-black tracking-widest uppercase">Förder-Check 2026</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                                <i data-lucide="users" class="w-3.5 h-3.5 text-[#0D9488] flex-shrink-0"></i>
-                                <span><span id="social-counter" class="font-black text-slate-800">18.423</span> Haushalte haben bereits geprüft</span>
-                            </div>
-                        </div>
+        <!-- HERO SECTION -->
+        <div class="relative w-full min-h-[90vh] flex items-center overflow-hidden bg-[#EDE6D9] border-b border-[#DED2BC]">
 
-                        <!-- Loss-Framing Headline -->
-                        <h1 class="hero-title font-sans font-black tracking-tight mb-5 text-slate-900 text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.05]">
-                            Verschenkst du jeden Monat <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5E9] to-[#0D9488]">Geld vom Staat?</span>
-                        </h1>
+            <!-- Content Container: "Der Brief" meets "Der ehrliche Bescheid" — plain-language
+                 address on the left, a small ledger-card narrative on the right that shows the
+                 product working (Frage -> Berechnung -> Ergebnis) instead of describing it. -->
+            <div class="relative z-10 w-full max-w-7xl mx-auto px-6 pt-28 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
-                        <!-- Subline -->
-                        <p class="hero-description text-base md:text-lg text-slate-600 leading-relaxed mb-6 max-w-lg font-light">
-                            Die meisten Haushalte wissen nicht, was ihnen zusteht. Prüfe in 2&nbsp;Minuten kostenlos deinen Anspruch auf Wohngeld, Bürgergeld, Kinderzuschlag&nbsp;& mehr.
-                        </p>
+                <div class="lg:col-span-7 text-left animate-slide-up">
 
-                        <!-- Stat Pills -->
-                        <div class="hero-stats flex flex-wrap gap-2.5 mb-8">
-                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-50 border border-slate-200 text-xs">
-                                <span class="text-slate-400">Ø</span>
-                                <span class="font-black text-slate-900">487&nbsp;€/Monat</span>
-                                <span class="text-slate-400">Förderung</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-50 border border-slate-200 text-xs">
-                                <i data-lucide="clock" class="w-3 h-3 text-slate-400"></i>
-                                <span class="font-black text-slate-900">2&nbsp;Minuten</span>
-                                <span class="text-slate-400">Check</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#0D9488]/5 border border-[#0D9488]/15 text-xs">
-                                <span class="font-black text-[#0D9488]">100%</span>
-                                <span class="text-[#0D9488]/70">Kostenlos</span>
-                            </div>
-                        </div>
+                    <p class="hero-title font-serif text-xl md:text-2xl text-[#6B5B4B] mb-5">Liebe Leserin, lieber Leser,</p>
 
-                        <!-- Micro-Commitment Selector -->
-                        <div class="hero-buttons">
-                            <p class="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">Wie viele Personen leben in deinem Haushalt?</p>
-                            <div class="grid grid-cols-4 gap-2 mb-4 max-w-sm">
-                                <button data-persons="1" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#0EA5E9] hover:scale-[1.05] shadow-sm" aria-label="1 Person">
-                                    1
-                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#0EA5E9]/60 normal-case tracking-normal">Person</span>
-                                </button>
-                                <button data-persons="2" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#0EA5E9] hover:scale-[1.05] shadow-sm" aria-label="2 Personen">
-                                    2
-                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#0EA5E9]/60 normal-case tracking-normal">Personen</span>
-                                </button>
-                                <button data-persons="3" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-slate-200 bg-white hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/5 transition-all duration-200 font-black text-slate-700 text-lg hover:text-[#0EA5E9] hover:scale-[1.05] shadow-sm" aria-label="3-4 Personen">
-                                    3–4
-                                    <span class="text-[9px] font-medium text-slate-400 group-hover:text-[#0EA5E9]/60 normal-case tracking-normal">Personen</span>
-                                </button>
-                                <button data-persons="4" class="person-selector-btn group flex flex-col items-center gap-1 py-3.5 rounded-xl border-2 border-[#0D9488] bg-[#0D9488]/5 transition-all duration-200 font-black text-[#0D9488] text-lg hover:scale-[1.05] shadow-sm relative" aria-label="5 oder mehr Personen">
-                                    5+
-                                    <span class="text-[9px] font-medium text-[#0D9488]/60 normal-case tracking-normal">Personen</span>
-                                    <span class="absolute -top-2 -right-2 text-[7px] font-black bg-[#0D9488] text-white px-1.5 py-0.5 rounded-full uppercase tracking-wide">Top</span>
-                                </button>
-                            </div>
+                    <h1 class="hero-title font-serif font-bold tracking-tight mb-7 text-[#2B1D16] text-4xl md:text-5xl lg:text-[3.4rem] leading-[1.2]">
+                        vermutlich steht dir <span class="text-brand-blue">mehr vom Staat zu</span>, als du denkst.
+                    </h1>
 
-                            <!-- Trust micro-copy -->
-                            <p class="text-[11px] text-slate-400 flex items-center gap-1.5">
-                                <i data-lucide="lock" class="w-3 h-3 flex-shrink-0"></i>
-                                Keine Anmeldung &nbsp;·&nbsp; DSGVO-konform &nbsp;·&nbsp; Daten verlassen nie deinen Browser
-                            </p>
-                        </div>
+                    <p class="hero-description text-lg md:text-xl text-[#6B5B4B] leading-relaxed mb-10 max-w-2xl">
+                        Die meisten Haushalte prüfen ihren Anspruch nie — nicht weil er nicht besteht, sondern weil niemand es ihnen einfach erklärt hat.
+                    </p>
+
+                    <!-- The value-add, spelled out plainly — no badges, just what you actually get -->
+                    <div class="hero-stats mb-10 max-w-xl">
+                        <p class="text-sm font-bold uppercase tracking-wide text-[#8A7A6A] mb-4">Was du in 2 Minuten bekommst</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 text-base md:text-lg text-[#2B1D16] leading-snug">
+                                <span class="text-brand-emerald font-serif mt-0.5">—</span>
+                                <span>Eine ehrliche Einschätzung, ob dir Wohngeld, Bürgergeld oder Kinderzuschlag zusteht</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-base md:text-lg text-[#2B1D16] leading-snug">
+                                <span class="text-brand-emerald font-serif mt-0.5">—</span>
+                                <span>Den genauen Betrag — centgenau berechnet, nicht geschätzt</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-base md:text-lg text-[#2B1D16] leading-snug">
+                                <span class="text-brand-emerald font-serif mt-0.5">—</span>
+                                <span>Einen fertig ausgefüllten Antrag zum Download, den du direkt einreichen kannst</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <a href="#calculator" class="hero-cta-link inline-flex items-center gap-2 font-serif text-lg md:text-xl font-bold text-brand-blue border-b-2 border-brand-blue pb-1 hover:gap-3 transition-all duration-200">
+                            Jetzt kostenlos prüfen
+                            <span aria-hidden="true">→</span>
+                        </a>
+                        <p class="text-sm text-[#8A7A6A] mt-5">Kostenlos · Anonym · Keine Anmeldung nötig</p>
                     </div>
                 </div>
 
-                <!-- Right Side: Interactive Calculation Matrix (Plerouse Dashboard Style) -->
-                <div class="lg:col-span-6 relative flex justify-center items-center w-full min-h-[480px]">
-                    <!-- Background glows behind dashboard -->
-                    <div class="absolute w-[400px] h-[400px] bg-gradient-to-tr from-[#0EA5E9]/10 to-[#0D9488]/10 rounded-full blur-3xl pointer-events-none"></div>
-
-                    <!-- Glowing SVG Flow Lines (Data Streams) -->
-                    <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="pink-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#0EA5E9" />
-                                <stop offset="100%" stop-color="#0D9488" />
-                            </linearGradient>
-                            <linearGradient id="lime-grad" x1="100%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#0D9488" />
-                                <stop offset="100%" stop-color="#0EA5E9" />
-                            </linearGradient>
-                        </defs>
-                        <!-- Left path from Profil-Card to Result-Hub -->
-                        <path d="M 110 140 C 110 240, 200 240, 230 330" stroke="url(#pink-grad)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 8" class="animate-dash opacity-35" />
-                        <!-- Right path from Engine-Card to Result-Hub -->
-                        <path d="M 370 170 C 370 260, 280 260, 250 330" stroke="url(#lime-grad)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 8" class="animate-dash-reverse opacity-35" />
+                <!-- Ledger-card narrative: shows the product working, not a dashboard mockup.
+                     Three flat Kartenpapier cards connected by a hand-drawn hairline, ending in
+                     the result card (2px Ton border, per the signature-component spec). -->
+                <div class="hero-ledger-stack lg:col-span-5 relative hidden lg:block" aria-hidden="true">
+                    <svg class="absolute left-9 top-0 h-full w-px overflow-visible" viewBox="0 0 2 400" preserveAspectRatio="none">
+                        <line x1="1" y1="0" x2="1" y2="400" stroke="#9C4A32" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round" class="animate-dash" />
                     </svg>
 
-                    <!-- Card 1: Input Profile (Top Left) -->
-                    <div class="absolute left-2 top-8 w-[230px] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl p-4.5 shadow-xl z-10 hover:scale-[1.03] transition-all duration-300 animate-float-soft">
-                        <div class="flex items-center justify-between mb-3.5">
-                            <span class="bg-[#0EA5E9]/15 text-[#0EA5E9] border border-[#0EA5E9]/25 text-[8px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">Profil</span>
-                            <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
-                        </div>
-                        <h4 class="text-slate-900 text-xs font-black mb-1">3-Personen-Haushalt</h4>
-                        <p class="text-slate-500 text-[10px] font-medium leading-tight mb-3">Mutter (34) & 2 Kinder (6, 9)</p>
-                        
-                        <div class="w-full h-[1px] bg-slate-100 my-3"></div>
-                        
-                        <div class="space-y-2.5 text-[9px] text-slate-500 font-bold">
-                            <div class="flex justify-between items-center mb-1">
-                                <span>Kaltmiete: 620 €</span>
-                                <span class="text-[#0EA5E9]">Mietstufe IV</span>
-                            </div>
-                            <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                                <div class="bg-[#0EA5E9] h-full w-3/4 rounded-full"></div>
-                            </div>
-                            <div class="flex justify-between items-center mt-2">
-                                <span>Netto-Einkommen</span>
-                                <span class="text-slate-900">2.100 € / mtl.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 2: Engine calculations (Top Right) -->
-                    <div class="absolute right-2 top-20 w-[220px] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl p-4.5 shadow-xl z-10 hover:scale-[1.03] transition-all duration-300 animate-float-soft-reverse">
-                        <div class="flex items-center justify-between mb-3.5">
-                            <span class="bg-[#0D9488]/15 text-[#0D9488] border border-[#0D9488]/25 text-[8px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">Amtly Engine v4</span>
-                            <div class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0D9488] opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0D9488]"></span>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-2 font-mono text-[9px] text-slate-600">
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-[#0D9488] font-bold">✓</span>
-                                <span>Berechne Freibeträge SGB II</span>
-                            </div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-[#0D9488] font-bold">✓</span>
-                                <span>Lookup Wohngeldtabelle 2026</span>
-                            </div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-[#0D9488] font-bold">✓</span>
-                                <span>Heizkostenpauschale active</span>
-                            </div>
-                            <span class="text-[8px] font-bold text-[#0D9488]/80 block mt-2 animate-pulse">> engine.py: check_eligibility() ...</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Eligibility Output Hub (Center Bottom) -->
-                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[340px] bg-white border-2 border-[#0D9488] rounded-[28px] p-5.5 shadow-[0_25px_60px_-15px_rgba(13,148,136,0.12)] z-20 hover:scale-[1.02] hover:shadow-[0_30px_70px_-10px_rgba(13,148,136,0.18)] transition-all duration-500 animate-float-medium">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-slate-500 text-[8px] font-black uppercase tracking-widest">Monatlicher Zuschuss</span>
-                            <span class="bg-[#0D9488] text-white text-[7px] font-black uppercase px-2 py-0.5 rounded-full">Ergebnis</span>
-                        </div>
-                        
-                        <div class="text-[2.75rem] font-black text-[#0D9488] tracking-tighter leading-none mb-1 select-none">
-                            672,00 €
-                        </div>
-                        <p class="text-slate-800 text-[10px] font-bold leading-normal mb-4">Dein berechneter Anspruch pro Monat</p>
-                        
-                        <!-- Mini Breakdown grid -->
-                        <div class="grid grid-cols-2 gap-2 mb-4">
-                            <div class="bg-slate-50 border border-slate-100 rounded-xl p-2.5 text-left">
-                                <span class="block text-slate-500 text-[7px] uppercase tracking-wider font-bold mb-0.5">Wohngeld</span>
-                                <span class="text-slate-900 text-xs font-black">380,00 €</span>
-                            </div>
-                            <div class="bg-slate-50 border border-slate-100 rounded-xl p-2.5 text-left">
-                                <span class="block text-slate-500 text-[7px] uppercase tracking-wider font-bold mb-0.5">Kinderzuschlag</span>
-                                <span class="text-[#0EA5E9] text-xs font-black">292,00 €</span>
-                            </div>
+                    <div class="relative flex flex-col gap-8 pl-[4.5rem]">
+                        <div class="hero-ledger-card relative bg-[#F7F3EA] border border-[#DED2BC] rounded-card p-6 shadow-[0_8px_24px_-8px_rgba(43,29,22,0.15)] animate-float-soft">
+                            <span class="absolute -left-[4.5rem] top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#F7F3EA] border-2 border-[#DED2BC] flex items-center justify-center text-xs font-bold text-[#8A7A6A]">1</span>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-[#8A7A6A] mb-2">Deine Angabe</p>
+                            <p class="font-sans font-bold text-[#2B1D16] text-base">Kaltmiete: 650&nbsp;€</p>
                         </div>
 
-                        <!-- Generator Action Status -->
-                        <div class="border-t border-slate-100 pt-3 flex items-center justify-between">
-                            <div class="text-slate-500 text-[8px] flex items-center gap-1.5">
-                                <span class="flex h-1.5 w-1.5 rounded-full bg-[#0D9488] animate-pulse"></span>
-                                <span>Antrag_fertig.pdf generiert</span>
-                            </div>
-                            <span class="text-[#0EA5E9] hover:underline text-[9px] font-black flex items-center gap-0.5 cursor-pointer">
-                                PDF Download
-                                <i data-lucide="download" class="w-3 h-3 stroke-[2.5]"></i>
-                            </span>
+                        <div class="hero-ledger-card relative bg-[#F7F3EA] border border-[#DED2BC] rounded-card p-6 shadow-[0_8px_24px_-8px_rgba(43,29,22,0.15)] animate-float-soft-reverse">
+                            <span class="absolute -left-[4.5rem] top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#F7F3EA] border-2 border-[#DED2BC] flex items-center justify-center text-xs font-bold text-[#8A7A6A]">2</span>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-[#8A7A6A] mb-2">Wird geprüft</p>
+                            <p class="font-sans font-bold text-[#2B1D16] text-base">Wohngeld · Mietstufe 4</p>
+                        </div>
+
+                        <div class="hero-ledger-card hero-ledger-result relative bg-[#F7F3EA] border-2 border-brand-blue rounded-card p-7 shadow-[0_20px_48px_-16px_rgba(43,29,22,0.22)]">
+                            <span class="absolute -left-[4.5rem] top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-brand-blue text-[#F7F3EA] flex items-center justify-center text-xs font-bold">3</span>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-indigo mb-2">Dein Anspruch</p>
+                            <p class="font-serif font-bold text-brand-blue text-4xl tracking-tight">737&nbsp;€</p>
+                            <p class="text-sm text-[#6B5B4B] mt-1">pro Monat</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Hero Interaction Scripts -->
-        <script>
-            // --- Social Proof Counter Animation ---
-            (function() {
-                const el = document.getElementById('social-counter');
-                if (!el) return;
-                const target = 18423;
-                const start = 17800;
-                const duration = 1800;
-                const startTime = performance.now();
-                function step(now) {
-                    const elapsed = now - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    // Ease-out cubic
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.round(start + (target - start) * eased);
-                    el.textContent = current.toLocaleString('de-DE');
-                    if (progress < 1) requestAnimationFrame(step);
-                }
-                // Start after a short delay so it's visible
-                setTimeout(() => requestAnimationFrame(step), 400);
-            })();
+        <!-- Spacing container -->
+        <div class="h-16 w-full bg-[#EDE6D9] relative z-10 border-none"></div>
 
-            // --- Micro-Commitment Selector ---
-            document.querySelectorAll('.person-selector-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const persons = this.dataset.persons;
-
-                    // Visual feedback: highlight selected
-                    document.querySelectorAll('.person-selector-btn').forEach(b => {
-                        b.classList.remove('border-[#0EA5E9]', 'bg-[#0EA5E9]/10', 'text-[#0EA5E9]',
-                                           'border-[#0D9488]', 'bg-[#0D9488]/5', 'text-[#0D9488]', 'scale-[1.08]');
-                        b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
-                    });
-                    this.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
-                    this.classList.add('border-[#0EA5E9]', 'bg-[#0EA5E9]/10', 'text-[#0EA5E9]', 'scale-[1.08]');
-
-                    // Fire custom event for SmartCalculator
-                    document.dispatchEvent(new CustomEvent('amtly:preselect', { detail: { persons } }));
-
-                    // Scroll to calculator
-                    const calc = document.getElementById('calculator');
-                    if (calc) calc.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-        </script>
-
-        <!-- Spacing container instead of dark-to-light gradient -->
-        <div class="h-16 w-full bg-white relative z-10 border-none"></div>
- 
 
          <!-- CALCULATOR SECTION -->
-        <section id="calculator" class="w-full bg-white pb-24 pt-12 border-b border-slate-100 relative overflow-hidden">
-            <!-- Background grids/glows -->
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-50"></div>
-            
+        <section id="calculator" class="w-full bg-[#EDE6D9] pb-24 pt-12 border-b border-[#DED2BC] relative">
             <div class="relative z-10 max-w-3xl mx-auto px-6">
                 <div class="text-center mb-12">
-                    <span class="text-brand-blue text-sm font-bold uppercase tracking-wider mb-3 block">Anspruchs-Rechner</span>
-                    <h2 class="text-3xl md:text-4xl font-sans font-bold text-slate-900 mb-4">Berechne deinen Anspruch in 2 Minuten</h2>
-                    <p class="text-slate-600 text-base max-w-lg mx-auto font-light leading-relaxed">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-[#2B1D16] mb-4">Berechne deinen Anspruch in 2 Minuten</h2>
+                    <p class="text-[#6B5B4B] text-base max-w-lg mx-auto leading-relaxed">
                         Anonym und DSGVO-konform. Gib deine Daten ein, um sofort die für dich finanziell beste Sozialleistung zu ermitteln.
                     </p>
                 </div>
-                
+
                 <!-- The Calculator Container -->
-                <div class="bg-white p-8 md:p-12 rounded-[32px] border border-slate-200/60 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] text-left relative">
-                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-brand-blue/5 rounded-full blur-2xl"></div>
+                <div class="bg-[#F7F3EA] p-8 md:p-12 rounded-xl border border-[#DED2BC] shadow-[0_16px_40px_-16px_rgba(43,29,22,0.12)] text-left relative">
                     <SmartCalculator client:load />
                 </div>
             </div>
         </section>
 
         <!-- PROCESS SECTION -->
-        <div class="w-full bg-slate-50/50 pb-40 pt-24 relative overflow-hidden border-t border-slate-100">
-            <!-- Decorative Elements -->
-             <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0EA5E9]/5 rounded-full blur-[140px] pointer-events-none"></div>
-             <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#0D9488]/5 rounded-full blur-[120px] pointer-events-none"></div>
-
+        <div class="w-full bg-[#E1D8C6] pb-40 pt-24 relative border-t border-[#DED2BC]">
              <div class="max-w-7xl mx-auto px-6 mb-20 relative z-10">
                 <div class="text-center mb-16">
-                    <span class="text-[#0EA5E9] text-xs font-black uppercase tracking-widest mb-4 block">Der Ablauf</span>
-                    <h2 class="text-4xl md:text-5xl font-sans font-black text-slate-900 mb-6">
-                        Vom Anspruch zur <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5E9] to-[#0D9488]">Auszahlung.</span>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-[#2B1D16] mb-6">
+                        Vom Anspruch zur <span class="text-brand-indigo">Auszahlung.</span>
                     </h2>
-                    <p class="text-slate-600 text-lg font-light max-w-2xl mx-auto leading-relaxed">
+                    <p class="text-[#6B5B4B] text-lg max-w-2xl mx-auto leading-relaxed">
                         Wir begleiten dich nicht nur beim Rechnen, sondern bis das Geld auf deinem Konto ist.
                     </p>
                 </div>
 
-                <div class="process-grid grid md:grid-cols-4 gap-6">
+                <div class="process-grid relative grid md:grid-cols-4 gap-y-10 gap-x-6">
+                    <!-- Connecting rail (desktop) -->
+                    <div class="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-[#DED2BC]" aria-hidden="true"></div>
+
                     <!-- Step 1 -->
-                    <div class="process-card bg-white border border-slate-200/80 p-8 rounded-3xl relative group hover:shadow-xl hover:border-[#0D9488]/30 transition-all duration-300">
-                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-[#0D9488] text-white font-black flex items-center justify-center text-sm rounded-2xl shadow-lg shadow-[#0D9488]/20">1</div>
-                         <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-800 mb-6 border border-slate-100">
-                             <i data-lucide="calculator" class="w-6 h-6"></i>
-                         </div>
-                         <h3 class="text-xl font-sans font-black text-slate-900 mb-3">Check starten</h3>
-                         <p class="text-sm text-slate-600 font-light leading-relaxed">
+                    <div class="process-card relative flex flex-col items-start">
+                         <div class="relative z-10 w-12 h-12 rounded-full bg-[#F7F3EA] border-2 border-brand-blue text-brand-indigo font-bold flex items-center justify-center mb-5">1</div>
+                         <h3 class="text-xl font-serif font-bold text-[#2B1D16] mb-3">Check starten</h3>
+                         <p class="text-sm text-[#6B5B4B] leading-relaxed">
                              Beantworte in 2 Minuten einfache Fragen zu Einkommen, Wohnsituation und Familie. Anonym und ohne Anmeldung.
                          </p>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="process-card bg-white border border-slate-200/80 p-8 rounded-3xl relative group hover:shadow-xl hover:border-slate-300 transition-all duration-300">
-                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-white border border-slate-200 text-slate-700 font-black flex items-center justify-center text-sm rounded-2xl shadow-md">2</div>
-                         <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-800 mb-6 border border-slate-100">
-                             <i data-lucide="layout-list" class="w-6 h-6"></i>
-                         </div>
-                         <h3 class="text-xl font-sans font-black text-slate-900 mb-3">Ergebnisse sehen</h3>
-                         <p class="text-sm text-slate-600 font-light leading-relaxed">
+                    <div class="process-card relative flex flex-col items-start">
+                         <div class="relative z-10 w-12 h-12 rounded-full bg-[#F7F3EA] border-2 border-[#DED2BC] text-[#8A7A6A] font-bold flex items-center justify-center mb-5">2</div>
+                         <h3 class="text-xl font-serif font-bold text-[#2B1D16] mb-3">Ergebnisse sehen</h3>
+                         <p class="text-sm text-[#6B5B4B] leading-relaxed">
                              Du siehst sofort alle Förderungen, die dir zustehen – Wohngeld, Bürgergeld, Kinderzuschlag & mehr – mit genauen Beträgen.
                          </p>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="process-card bg-white border border-slate-200/80 p-8 rounded-3xl relative group hover:shadow-xl hover:border-slate-300 transition-all duration-300">
-                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-white border border-slate-200 text-slate-700 font-black flex items-center justify-center text-sm rounded-2xl shadow-md">3</div>
-                         <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-800 mb-6 border border-slate-100">
-                             <i data-lucide="file-down" class="w-6 h-6"></i>
-                         </div>
-                         <h3 class="text-xl font-sans font-black text-slate-900 mb-3">PDF herunterladen</h3>
-                         <p class="text-sm text-slate-600 font-light leading-relaxed">
+                    <div class="process-card relative flex flex-col items-start">
+                         <div class="relative z-10 w-12 h-12 rounded-full bg-[#F7F3EA] border-2 border-[#DED2BC] text-[#8A7A6A] font-bold flex items-center justify-center mb-5">3</div>
+                         <h3 class="text-xl font-serif font-bold text-[#2B1D16] mb-3">PDF herunterladen</h3>
+                         <p class="text-sm text-[#6B5B4B] leading-relaxed">
                              Lade deinen fertig befüllten Original-Antrag herunter – direkt drucken und beim Amt einreichen.
                          </p>
                     </div>
 
-                    <!-- Step 4 -->
-                    <div class="process-card bg-[#0EA5E9]/5 border border-[#0EA5E9]/15 p-8 rounded-3xl relative group hover:bg-[#0EA5E9]/10 hover:shadow-xl transition-all duration-300">
-                         <div class="absolute -top-4 -right-4 w-10 h-10 bg-[#0EA5E9] text-white font-black flex items-center justify-center text-sm rounded-2xl shadow-lg shadow-[#0EA5E9]/20">4</div>
-                         <div class="w-14 h-14 bg-[#0EA5E9]/10 rounded-2xl flex items-center justify-center text-[#0EA5E9] mb-6 border border-[#0EA5E9]/20">
-                             <i data-lucide="banknote" class="w-6 h-6"></i>
-                         </div>
-                         <h3 class="text-xl font-sans font-black text-slate-900 mb-3">Auszahlung</h3>
-                         <p class="text-sm text-slate-600 font-light leading-relaxed">
+                    <!-- Step 4: the payoff, visually distinct from the three setup steps -->
+                    <div class="process-card relative flex flex-col items-start">
+                         <div class="relative z-10 w-12 h-12 rounded-full bg-[#4B5A45] text-[#F7F3EA] font-bold flex items-center justify-center mb-5">4</div>
+                         <h3 class="text-xl font-serif font-bold text-[#2B1D16] mb-3">Auszahlung</h3>
+                         <p class="text-sm text-[#6B5B4B] leading-relaxed">
                              Das Amt bearbeitet deinen Antrag und das Geld landet direkt auf deinem Konto. Im Schnitt über 300€ Förderung pro Monat.
                          </p>
                     </div>
@@ -433,99 +239,99 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
              </div>
         </div>
 
-        <!-- Spacing container instead of dark-to-light gradient -->
-        <div class="h-16 w-full bg-white relative z-10 border-none"></div>
- 
-        <!-- SECTION: WARUM AMTLY (Modern Style) -->
-        <div class="w-full bg-white py-32 border-t border-slate-100">
+        <!-- SECTION: WARUM FÖRDERCHECK -->
+        <div class="w-full bg-[#EDE6D9] py-32 border-t border-[#DED2BC]">
             <div class="max-w-7xl mx-auto px-6">
-                
+
                 <!-- Header -->
                 <div class="text-center mb-24 max-w-3xl mx-auto">
-                     <span class="text-brand-blue text-sm font-bold uppercase tracking-wider mb-4 block">Deine Vorteile</span>
-                     <h2 class="text-4xl md:text-5xl font-sans font-bold text-slate-900 mb-8">Der einfachste Weg zu deinem Recht.</h2>
-                     <div class="w-24 h-1 bg-brand-blue/20 rounded-full mx-auto"></div>
+                     <h2 class="text-4xl md:text-5xl font-serif font-bold text-[#2B1D16] mb-8">Der einfachste Weg zu deinem Recht.</h2>
+                     <div class="w-16 h-0.5 bg-brand-blue/40 mx-auto"></div>
                 </div>
 
-                <div class="advantages-grid grid md:grid-cols-3 gap-8">
-                     
-                     <!-- Card 1 -->
-                     <div class="advantage-card group p-8 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-500 border border-transparent hover:border-teal-500/20">
-                          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-teal-600 mb-8 shadow-sm group-hover:scale-110 group-hover:bg-teal-600 group-hover:text-white transition-all duration-500 border border-slate-100">
-                              <i data-lucide="smartphone" class="w-6 h-6"></i>
+                <div class="advantages-grid grid md:grid-cols-2 gap-8 items-stretch">
+
+                     <!-- Featured: the actual core value prop -->
+                     <div class="advantage-card relative overflow-hidden rounded-xl bg-[#2B1D16] p-10 md:p-12 flex flex-col justify-center">
+                          <div class="relative z-10">
+                              <div class="w-14 h-14 bg-white/5 rounded-lg flex items-center justify-center text-[#C98A2E] mb-8 border border-white/10">
+                                  <i data-lucide="trending-up" class="w-6 h-6"></i>
+                              </div>
+                              <h3 class="text-3xl font-serif font-bold text-[#F7F3EA] mb-4">Maximiere deinen Anspruch</h3>
+                              <p class="text-[#C9BBA8] leading-relaxed">
+                                  Unser smarter Algorithmus berechnet deinen Anspruch centgenau und holt das Maximum aus allen aktuellen gesetzlichen Freibeträgen für dich raus.
+                              </p>
                           </div>
-                          <h3 class="text-2xl font-sans font-bold text-slate-900 mb-4">100% Digital</h3>
-                          <p class="text-slate-600 leading-relaxed font-light mb-6">
-                              Kein Drucker? Kein Problem. Alles passiert direkt auf deinem Smartphone. Wir machen lästigen Papierkram komplett digital.
-                          </p>
                      </div>
 
-                     <!-- Card 2 -->
-                     <div class="advantage-card group p-8 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-500 border border-transparent hover:border-sky-500/20">
-                          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-sky-600 mb-8 shadow-sm group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-500 border border-slate-100">
-                              <i data-lucide="trending-up" class="w-6 h-6"></i>
+                     <!-- Supporting pair -->
+                     <div class="flex flex-col justify-center gap-10">
+                          <div class="flex items-start gap-5">
+                              <div class="w-12 h-12 flex-shrink-0 bg-[#F7F3EA] rounded-lg flex items-center justify-center text-brand-blue border border-[#DED2BC]">
+                                  <i data-lucide="smartphone" class="w-5 h-5"></i>
+                              </div>
+                              <div>
+                                  <h3 class="text-xl font-serif font-bold text-[#2B1D16] mb-2">100% Digital</h3>
+                                  <p class="text-[#6B5B4B] leading-relaxed">
+                                      Kein Drucker? Kein Problem. Alles passiert direkt auf deinem Smartphone. Wir machen lästigen Papierkram komplett digital.
+                                  </p>
+                              </div>
                           </div>
-                          <h3 class="text-2xl font-sans font-bold text-slate-900 mb-4">Maximiere deinen Anspruch</h3>
-                          <p class="text-slate-600 leading-relaxed font-light mb-6">
-                              Unser smarter Algorithmus berechnet deinen Anspruch centgenau und holt das Maximum aus allen aktuellen gesetzlichen Freibeträgen für dich raus.
-                          </p>
-                     </div>
 
-                     <!-- Card 3 -->
-                     <div class="advantage-card group p-8 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-slate-500/10 transition-all duration-500 border border-transparent hover:border-slate-500/20">
-                          <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-700 mb-8 shadow-sm group-hover:scale-110 group-hover:bg-slate-700 group-hover:text-white transition-all duration-500 border border-slate-100">
-                              <i data-lucide="shield-check" class="w-6 h-6"></i>
+                          <div class="border-t border-[#DED2BC]"></div>
+
+                          <div class="flex items-start gap-5">
+                              <div class="w-12 h-12 flex-shrink-0 bg-[#F7F3EA] rounded-lg flex items-center justify-center text-[#6B5B4B] border border-[#DED2BC]">
+                                  <i data-lucide="shield-check" class="w-5 h-5"></i>
+                              </div>
+                              <div>
+                                  <h3 class="text-xl font-serif font-bold text-[#2B1D16] mb-2">Verschlüsselt & DSGVO-konform</h3>
+                                  <p class="text-[#6B5B4B] leading-relaxed">
+                                      Deine Privatsphäre ist uns wichtig. Deine Angaben werden verschlüsselt übertragen, ausschließlich zur Berechnung deines Anspruchs verwendet und nie an Dritte verkauft.
+                                  </p>
+                              </div>
                           </div>
-                          <h3 class="text-2xl font-sans font-bold text-slate-900 mb-4">Banken-Level Sicherheit</h3>
-                          <p class="text-slate-600 leading-relaxed font-light mb-6">
-                              Deine Privatsphäre ist uns heilig. Deine Daten bleiben auf deinem Gerät und werden nach der PDF-Generierung sofort und unwiderruflich gelöscht.
-                          </p>
                      </div>
 
                 </div>
             </div>
         </div>
 
-        <!-- SECTION: WER SIND WIR (Modern App Style) -->
-        <div class="w-full bg-slate-50/50 py-32 border-y border-slate-100">
+        <!-- SECTION: WER SIND WIR -->
+        <div class="w-full bg-[#E1D8C6] py-32 border-y border-[#DED2BC]">
             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
-                
+
                 <!-- Text Content -->
                 <div>
-                    <div class="inline-flex items-center gap-3 mb-6">
-                        <div class="h-8 w-1 bg-brand-blue rounded-full"></div>
-                        <span class="text-brand-blue text-sm font-bold uppercase tracking-wider">Unsere Mission</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-sans font-bold text-slate-900 mb-8 leading-tight">
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-[#2B1D16] mb-8 leading-tight">
                         Soziale Hilfen, <br/> endlich einfach.
                     </h2>
-                    <div class="space-y-6 text-lg text-slate-600 leading-relaxed font-light">
+                    <div class="space-y-6 text-lg text-[#6B5B4B] leading-relaxed">
                         <p>
-                            Millionen an staatlichen Hilfen bleiben jedes Jahr ungenutzt, weil Anträge zu kompliziert oder Rechte schlicht unbekannt sind. Amtly ändert das.
+                            Millionen an staatlichen Hilfen bleiben jedes Jahr ungenutzt, weil Anträge zu kompliziert oder Rechte schlicht unbekannt sind. Fördercheck ändert das.
                         </p>
                         <p>
                             Wir übersetzen kompliziertes Amtsdeutsch in einfache Prozesse. Unser Ziel: dir schnell, sicher und unbürokratisch zu zeigen, welche Ansprüche du hast – damit du erhältst, was dir zusteht.
                         </p>
                     </div>
-                    
-                    <div class="mt-12 grid grid-cols-2 gap-8 py-8 border-t border-slate-200">
+
+                    <div class="mt-12 grid grid-cols-2 gap-8 py-8 border-t border-[#DED2BC]">
                          <div>
-                             <div class="text-4xl font-sans font-black text-brand-blue mb-2">100%</div>
-                             <div class="text-xs uppercase tracking-widest text-slate-500 font-bold">Unabhängig</div>
+                             <div class="text-4xl font-serif font-bold text-brand-blue mb-2">100%</div>
+                             <div class="text-xs uppercase tracking-widest text-[#6B5B4B] font-bold">Unabhängig</div>
                          </div>
                          <div>
-                             <div class="text-4xl font-sans font-black text-brand-emerald mb-2">DSGVO</div>
-                             <div class="text-xs uppercase tracking-widest text-slate-500 font-bold">Konform</div>
+                             <div class="text-4xl font-serif font-bold text-brand-emerald mb-2">DSGVO</div>
+                             <div class="text-xs uppercase tracking-widest text-[#6B5B4B] font-bold">Konform</div>
                          </div>
                     </div>
                 </div>
 
                 <!-- Visual Area: Clean Typography -->
                 <div class="mission-visual relative">
-                     <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue opacity-10 rounded-full blur-3xl"></div>
-                     <div class="relative bg-white p-12 shadow-2xl shadow-slate-200/50 rounded-3xl border border-slate-100">
-                          <i data-lucide="quote" class="w-10 h-10 text-brand-blue mb-6 opacity-30"></i>
-                          <p class="text-2xl font-sans font-bold text-slate-800 leading-relaxed mb-8">
+                     <div class="relative bg-[#F7F3EA] p-12 shadow-[0_16px_40px_-16px_rgba(43,29,22,0.15)] rounded-xl border border-[#DED2BC]">
+                          <i data-lucide="quote" class="w-10 h-10 text-brand-blue mb-6 opacity-40"></i>
+                          <p class="text-2xl font-serif font-bold text-[#2B1D16] leading-relaxed mb-8">
                              "Staatliche Hilfen sind dein Recht, kein Privileg. Wir machen den Weg dorthin so einfach wie nie zuvor."
                           </p>
                      </div>
@@ -533,9 +339,6 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
 
             </div>
         </div>
-
-
-
 
             <!-- FAQ SECTION -->
             <div id="view-faq">
@@ -550,31 +353,15 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
     </main>
 
     <!-- NOTIFICATION -->
-    <div id="notification-toast" class="bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 fixed bottom-6 left-1/2 -translate-x-1/2 z-[300] hidden transform translate-y-4 opacity-0 transition-all border border-slate-800">
-        <i data-lucide="check-circle" class="text-teal-400"></i>
+    <div id="notification-toast" class="bg-[#2B1D16] text-[#F7F3EA] px-6 py-4 rounded-lg shadow-xl flex items-center gap-4 fixed bottom-6 left-1/2 -translate-x-1/2 z-[300] hidden transform translate-y-4 opacity-0 transition-all border border-black/10">
+        <i data-lucide="check-circle" class="text-[#C98A2E]"></i>
         <span id="toast-message" class="text-sm font-semibold tracking-wide">Status aktualisiert.</span>
-    </div>
-
-    <!-- COOKIE BANNER (Premium Light Fintech Style) -->
-    <div id="cookie-banner" class="fixed bottom-6 left-6 right-6 md:left-auto md:max-w-md bg-white/95 backdrop-blur-md border border-slate-200 p-6 rounded-3xl z-50 hidden flex-col gap-4 shadow-2xl transform translate-y-[150%] transition-transform duration-500">
-        <div class="text-sm text-slate-600 font-light leading-relaxed">
-            <h4 class="text-slate-900 font-sans font-bold text-base mb-1">Privatsphäre & Sicherheit</h4>
-            <p>Wir respektieren deine Privatsphäre. Wir nutzen Cookies ausschließlich für die technische Funktionalität. Es werden keine persönlichen Daten ohne deine explizite Handlung gespeichert.</p>
-        </div>
-        <div class="flex gap-3 w-full">
-            <button onclick="acceptCookies()" class="flex-1 bg-blue-600 text-white py-3 text-xs font-bold rounded-xl hover:bg-blue-700 transition-colors cursor-pointer text-center">
-                Zustimmen
-            </button>
-            <button onclick="declineCookies()" class="flex-1 border border-slate-200 text-slate-500 py-3 text-xs font-bold rounded-xl hover:bg-slate-50 transition-colors cursor-pointer text-center">
-                Ablehnen
-            </button>
-        </div>
     </div>
 
     <script is:inline define:vars={{ cityData: wohngeldData }}>
         window.cityData = cityData;
     </script>
-    
+
     <script>
     import { gsap } from 'gsap';
     import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -582,30 +369,9 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
     gsap.registerPlugin(ScrollTrigger);
 
     // View Switching Logic is now handled centrally in ResultsSection.astro to ensure consistency
-    
-    // Cookie Logic
-    window.acceptCookies = () => {
-        localStorage.setItem('cookieConsent', 'granted');
-        const banner = document.getElementById('cookie-banner');
-        if(banner) banner.classList.add('hidden');
-    };
-
-    window.declineCookies = () => {
-        localStorage.setItem('cookieConsent', 'denied');
-        const banner = document.getElementById('cookie-banner');
-        if(banner) banner.classList.add('hidden');
-    };
+    // Cookie/privacy consent is handled sitewide by components/ui/privacy-banner.astro (in Layout)
 
     document.addEventListener('DOMContentLoaded', () => {
-        const consent = localStorage.getItem('cookieConsent');
-        if (consent === null) {
-            const banner = document.getElementById('cookie-banner');
-            if(banner) {
-                banner.classList.remove('hidden');
-                requestAnimationFrame(() => banner.classList.remove('translate-y-full'));
-            }
-        }
-
         // Open lead modal if requested via URL query params
         const params = new URLSearchParams(window.location.search);
         if (params.get('action') === 'bescheid-check' || params.get('action') === 'legal_help') {
@@ -617,57 +383,30 @@ const description = "Verschenke kein Geld! Finde mit dem Amtly Universal-Förder
         }
     });
 
-    // Scroll Triggered Stagger Animations
+    // Scroll Triggered Reveal — one authored entrance moment, not repeated identically per section
     document.addEventListener('astro:page-load', () => {
-        // Hero Content entrance
-        gsap.from('#view-home .hero-title', { opacity: 0, y: 24, duration: 0.8, ease: 'power3.out' });
-        gsap.from('#view-home .hero-description', { opacity: 0, y: 16, duration: 0.8, delay: 0.2, ease: 'power3.out' });
-        gsap.from('#view-home .hero-features', { opacity: 0, y: 16, duration: 0.8, delay: 0.4, ease: 'power3.out' });
-        gsap.from('#view-home .hero-buttons', { opacity: 0, y: 16, duration: 0.8, delay: 0.6, ease: 'power3.out' });
+        // Hero: the signature entrance
+        const heroTl = gsap.timeline();
+        heroTl
+            .from('#view-home .hero-title', { opacity: 0, y: 20, duration: 0.7, ease: 'power2.out' })
+            .from('#view-home .hero-description', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, '-=0.45')
+            .from('#view-home .hero-stats', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+            .from('#view-home .hero-buttons', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+            .from('#view-home .hero-ledger-card', { opacity: 0, y: 16, stagger: 0.15, duration: 0.6, ease: 'power2.out' }, '-=0.5');
 
-        // Advantages Grid
-        gsap.from('.advantage-card', {
-            scrollTrigger: {
-                trigger: '.advantages-grid',
-                start: 'top 85%',
-                toggleActions: 'play none none none'
-            },
-            opacity: 0,
-            y: 32,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: 'power3.out'
-        });
-
-        // Process Grid
-        gsap.from('.process-card', {
-            scrollTrigger: {
-                trigger: '.process-grid',
-                start: 'top 85%',
-                toggleActions: 'play none none none'
-            },
-            opacity: 0,
-            y: 32,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: 'power3.out'
-        });
-
-        // Mission visual card
-        gsap.from('.mission-visual', {
-            scrollTrigger: {
-                trigger: '.mission-visual',
-                start: 'top 85%',
-                toggleActions: 'play none none none'
-            },
-            opacity: 0,
-            scale: 0.97,
-            duration: 0.8,
-            ease: 'power3.out'
+        // Everything below the fold: a single, quiet fade — no bespoke stagger per section
+        gsap.utils.toArray('.process-card, .advantage-card, .mission-visual').forEach((el) => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+                opacity: 0,
+                y: 16,
+                duration: 0.6,
+                ease: 'power1.out'
+            });
         });
     });
     </script>
-    <script is:inline src="/scripts/lucide.min.js"></script>
+    <script is:inline defer src="/scripts/lucide.min.js"></script>
     <script is:inline>
         // Lucide icons init — runs after DOM is fully parsed (script is at body-end)
         if (window.lucide) window.lucide.createIcons();

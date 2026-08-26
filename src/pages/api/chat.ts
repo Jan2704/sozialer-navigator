@@ -8,6 +8,7 @@
  */
 
 import type { APIRoute } from 'astro';
+import { getClientIp, isRateLimited } from '../../lib/rate-limit';
 
 const SYSTEM_PROMPT = `Du bist ein freundlicher, kompetenter KI-Assistent des "Sozialen Navigators" – 
 einer deutschen Plattform für Sozialleistungen (Wohngeld, Bürgergeld, Kinderzuschlag etc.).
@@ -22,6 +23,15 @@ Regeln:
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    // Chat proxies to paid LLM APIs — throttle to prevent cost-drain abuse.
+    const ip = getClientIp(request);
+    if (isRateLimited(`chat:${ip}`, 15, 60_000)) {
+      return new Response(JSON.stringify({ error: 'Zu viele Anfragen. Bitte warte einen Moment.' }), {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const body = await request.json();
     const { messages, context } = body as {
       messages: Array<{ role: 'user' | 'assistant'; content: string }>;

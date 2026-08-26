@@ -1,9 +1,13 @@
 ---
+export const prerender = false;
+
 import Layout from '../layouts/layout.astro';
 import { ProCard } from '../components/premium/pro-card';
 import { ProButton } from '../components/premium/pro-button';
 import { ProInput } from '../components/premium/pro-input';
 import { Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
 const title = "Premium Trust UI System";
 // Force client load for React components to enable interactions/animations

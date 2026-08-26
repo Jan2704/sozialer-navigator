@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { evaluateAllBenefits } from "../logic/benefit-engine.js";
 import { wohngeldData } from "../data/wohngeld-data.js";
 import { cn } from "../lib/utils";
+import ErrorBoundary from "./error-boundary.jsx";
 import {
   Search,
   X,
@@ -25,7 +26,15 @@ function InfoTooltip({ text }) {
   );
 }
 
-export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, className, defaultCity, theme = 'light' }) {
+export function SmartCalculator(props) {
+  return (
+    <ErrorBoundary>
+      <SmartCalculatorInner {...props} />
+    </ErrorBoundary>
+  );
+}
+
+function SmartCalculatorInner({ benefitSlug = "wohngeld", regelsatz = 563, className, defaultCity, theme = 'light' }) {
   const isDark = theme === 'dark';
 
   // Wizard Step State (1, 2, 3, or 4)
@@ -144,8 +153,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         if (calc) calc.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 150);
     };
-    document.addEventListener('amtly:preselect', handler);
-    return () => document.removeEventListener('amtly:preselect', handler);
+    document.addEventListener('foerdercheck:preselect', handler);
+    return () => document.removeEventListener('foerdercheck:preselect', handler);
   }, []);
 
   // Filter cities on input - PLZ ONLY
@@ -373,6 +382,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
     });
 
     const payload = {
+      zip_code: selectedCity ? selectedCity.plz : "10115",
+      city_tier: selectedCity ? selectedCity.mietstufe : null,
       rent_cold: rentCold,
       rent_utility: rentUtility,
       rent_heating: rentHeating,
@@ -380,13 +391,16 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       members: members
     };
 
-    // Timers for cold start message and API Timeout
+    // Timers for cold start message and API Timeout.
+    // The timeout must comfortably exceed the documented cold-start window below —
+    // otherwise every cold start gets aborted mid-flight and silently falls back
+    // to the (less precise) offline engine instead of ever reaching the live one.
     const loadingTimer = setTimeout(() => {
-      setLoadingMessage("Die Live-Berechnung läuft... Hinweis: Beim ersten Aufruf kann der Serverstart (Render.com Cold Start) bis zu 30 Sekunden dauern.");
+      setLoadingMessage("Fast geschafft — der Server wacht gerade auf (das passiert nur beim allerersten Aufruf des Tages). Normalerweise dauert das noch ein paar Sekunden.");
     }, 3000);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 40000);
 
     try {
       const isLocal = window.location.hostname.includes('localhost') || window.location.hostname === '127.0.0.1';
@@ -434,17 +448,30 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         primaryEligible = false;
       }
 
+      // Maps the backend's `type` strings to the same lowercase ids the rest
+      // of the app (WHERE_TEXT, CTA routing, cash-vs-savings classification)
+      // keys off. Backend also returns KINDERGELD/KINDERZUSCHLAG/ELTERNGELD —
+      // those previously fell through to id "unknown" and silently lost their
+      // correct application link, authority text, and cash classification.
+      const BACKEND_TYPE_TO_ID = {
+        SGB2: "buergergeld",
+        WOHNGELD: "wohngeld",
+        ALERT: "sperrzeit_alert",
+        KINDERGELD: "kindergeld",
+        KINDERZUSCHLAG: "kinderzuschlag",
+        ELTERNGELD: "elterngeld"
+      };
+
       const mappedResults = (data.results || []).map(r => {
-        let id = "unknown";
-        if (r.type === "SGB2") id = "buergergeld";
-        if (r.type === "WOHNGELD") id = "wohngeld";
-        if (r.type === "ALERT") id = "sperrzeit_alert";
+        const id = BACKEND_TYPE_TO_ID[r.type] || r.type?.toLowerCase() || "unknown";
 
         return {
           id: id,
+          name: r.title,
           title: r.title,
           amount: r.amount,
           eligible: r.amount > 0 || r.type === "ALERT" ? "probable" : "none",
+          reasoning: r.text,
           description: r.text,
           details: r
         };
@@ -453,16 +480,47 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       if (isOwner && wgRes) {
         mappedResults.push({
           id: "lastenzuschuss",
+          name: "Lastenzuschuss (Wohngeld)",
           title: "Lastenzuschuss (Wohngeld)",
           amount: wgRes.amount,
           eligible: wgRes.amount > 0 ? "probable" : "none",
+          reasoning: wgRes.text,
           description: wgRes.text,
           details: wgRes
         });
       }
 
+      // The live backend only computes 5 benefit types (Bürgergeld, Wohngeld,
+      // Kindergeld, Kinderzuschlag, Elterngeld). The offline engine has ~25
+      // more modules (BAföG, Unterhaltsvorschuss, Grundsicherung, GEZ-
+      // Befreiung, Pflegegeld, ...) that were previously only ever reached
+      // when the live backend failed entirely — meaning most real users,
+      // on the normal happy path, never saw them. Run it here too and merge
+      // in everything the backend doesn't already cover, so "der universelle
+      // Check für staatliche Zuschüsse" actually checks all of them.
+      const BACKEND_COVERED_IDS = new Set(["buergergeld", "wohngeld", "lastenzuschuss", "kindergeld", "kinderzuschlag", "elterngeld"]);
+      let mergedResults = mappedResults;
+      try {
+        const extraResults = evaluateAllBenefits(profileInput)
+          .filter(r => !BACKEND_COVERED_IDS.has(r.id))
+          .map(r => ({
+            id: r.id,
+            name: r.name,
+            title: r.name,
+            category: r.category,
+            amount: r.amount,
+            eligible: r.eligible,
+            reasoning: r.reasoning,
+            description: r.reasoning,
+            details: r
+          }));
+        mergedResults = [...mappedResults, ...extraResults];
+      } catch (mergeErr) {
+        console.warn("Could not merge offline-engine benefit checks into live result:", mergeErr);
+      }
+
       const resultDetail = {
-        results: mappedResults,
+        results: mergedResults,
         opportunities: data.opportunities || [],
         input: profileInput,
         eligible: primaryEligible,
@@ -545,12 +603,12 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
   // Styles definition
   const iconClass = "text-slate-400";
-  const inputDarkClass = "bg-slate-900 border-slate-800 text-white placeholder:text-slate-500 focus:ring-teal-500/50 focus:border-teal-500/50";
+  const inputDarkClass = "bg-slate-900 border-slate-800 text-white placeholder:text-slate-500 focus:ring-brand-blue/50 focus:border-brand-blue/50";
   const labelDarkClass = "text-slate-300";
 
-  const inputClass = "w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 transition-all outline-none focus:bg-white focus:border-teal-600 focus:ring-4 focus:ring-teal-600/10 hover:border-slate-300 font-medium";
+  const inputClass = "w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 transition-all outline-none focus:bg-white focus:border-brand-indigo focus:ring-4 focus:ring-brand-indigo/10 hover:border-slate-300 font-medium";
   const labelClass = "block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 ml-1";
-  const buttonClass = "w-full bg-teal-600 hover:bg-teal-700 text-white font-sans font-bold py-5 rounded-xl shadow-lg shadow-teal-600/20 hover:-translate-y-0.5 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-base tracking-wide border-none cursor-pointer";
+  const buttonClass = "w-full bg-brand-indigo hover:bg-brand-indigo text-white font-sans font-bold py-5 rounded-xl shadow-lg shadow-brand-indigo/20 hover:-translate-y-0.5 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-base tracking-wide border-none cursor-pointer";
   const secondaryBtnClass = "px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all flex items-center justify-center gap-2 border-none cursor-pointer";
 
   return (
@@ -565,9 +623,9 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors border-2",
                   step === s
-                    ? "bg-teal-600 border-teal-600 text-white shadow-lg shadow-teal-600/20"
+                    ? "bg-brand-indigo border-brand-indigo text-white shadow-lg shadow-brand-indigo/20"
                     : step > s
-                    ? "bg-teal-600 border-teal-600 text-white"
+                    ? "bg-brand-indigo border-brand-indigo text-white"
                     : isDark
                     ? "bg-slate-900 border-slate-800 text-slate-500"
                     : "bg-slate-50 border-slate-200 text-slate-400"
@@ -594,7 +652,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 className={cn(
                   "flex-1 h-0.5 mx-2 md:mx-4 transition-colors",
                   step > s
-                    ? "bg-teal-600"
+                    ? "bg-brand-indigo"
                     : isDark
                     ? "bg-slate-800"
                     : "bg-slate-100"
@@ -608,7 +666,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
       {/* Dünner horizontaler Fortschrittsbalken */}
       <div className={cn("w-full h-1 bg-slate-100 rounded-full mb-8 overflow-hidden", isDark && "bg-slate-800")}>
         <div 
-          className="h-full bg-teal-600 transition-all duration-300 ease-out" 
+          className="h-full bg-brand-indigo transition-all duration-300 ease-out" 
           style={{ width: `${step * 25}%` }}
         />
       </div>
@@ -621,8 +679,9 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Age */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Alter (Jahre)</label>
+                <label htmlFor="age-input" className={cn(labelClass, isDark && labelDarkClass)}>Alter (Jahre)</label>
                 <input
+                  id="age-input"
                   type="number"
                   placeholder="z.B. 32"
                   className={cn(inputClass, isDark && inputDarkClass)}
@@ -634,9 +693,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
               {/* Status */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Beschäftigungsstatus</label>
+                <label htmlFor="status-select" className={cn(labelClass, isDark && labelDarkClass)}>Beschäftigungsstatus</label>
                 <div className="relative">
                   <select
+                    id="status-select"
                     className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
@@ -656,13 +716,112 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
               </div>
             </div>
 
+            {/* Disability / GdB — feeds Schwerbehinderten-Nachteilsausgleiche and
+                Grundsicherung bei Erwerbsminderung. Without this control those
+                modules either never trigger or (GdB defaulting to 50) trigger
+                for every single user regardless of their actual situation. */}
+            <div className={cn("flex items-center gap-3 p-4 rounded-2xl border transition-colors", isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
+              <input
+                type="checkbox"
+                id="hasDisability"
+                className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
+                checked={hasDisability}
+                onChange={(e) => setHasDisability(e.target.checked)}
+              />
+              <label htmlFor="hasDisability" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+                Haben Sie einen anerkannten Grad der Behinderung (GdB)? <InfoTooltip text="für Steuerfreibetrag, Nachteilsausgleiche und ggf. Grundsicherung" />
+              </label>
+            </div>
+
+            {hasDisability && (
+              <div className="space-y-2 text-left animate-in slide-in-from-top-2 duration-300">
+                <label htmlFor="gdb-select" className={cn(labelClass, isDark && labelDarkClass)}>Grad der Behinderung (GdB)</label>
+                <div className="relative">
+                  <select
+                    id="gdb-select"
+                    className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
+                    value={disabilityGdb}
+                    onChange={(e) => setDisabilityGdb(e.target.value)}
+                  >
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                    <option value="100">100</option>
+                  </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                </div>
+              </div>
+            )}
+
+            {/* Care dependent — feeds Pflegegeld, Pflegesachleistung,
+                Entlastungsbetrag and Landespflegegeld. These states existed
+                and were sent to the engine, but with no form control ever
+                setting them, hasCareDependent was permanently false — so
+                none of those benefits could ever be found for anyone,
+                including people actually caring for a dependent. */}
+            <div className={cn("flex items-center gap-3 p-4 rounded-2xl border transition-colors", isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
+              <input
+                type="checkbox"
+                id="hasCareDependent"
+                className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
+                checked={hasCareDependent}
+                onChange={(e) => setHasCareDependent(e.target.checked)}
+              />
+              <label htmlFor="hasCareDependent" className={cn("text-sm font-semibold cursor-pointer select-none", isDark ? "text-slate-300" : "text-slate-700")}>
+                Pflegen Sie einen Angehörigen oder leben mit einer pflegebedürftigen Person im Haushalt? <InfoTooltip text="für Pflegegeld, Pflegesachleistung und Entlastungsbetrag" />
+              </label>
+            </div>
+
+            {hasCareDependent && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in slide-in-from-top-2 duration-300">
+                <div className="space-y-2 text-left">
+                  <label htmlFor="care-grad-select" className={cn(labelClass, isDark && labelDarkClass)}>Pflegegrad</label>
+                  <div className="relative">
+                    <select
+                      id="care-grad-select"
+                      className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
+                      value={careDependentGrad}
+                      onChange={(e) => setCareDependentGrad(e.target.value)}
+                    >
+                      <option value="PG 1">Pflegegrad 1</option>
+                      <option value="PG 2">Pflegegrad 2</option>
+                      <option value="PG 3">Pflegegrad 3</option>
+                      <option value="PG 4">Pflegegrad 4</option>
+                      <option value="PG 5">Pflegegrad 5</option>
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
+                <div className="space-y-2 text-left">
+                  <label htmlFor="care-organization-select" className={cn(labelClass, isDark && labelDarkClass)}>Art der Pflege</label>
+                  <div className="relative">
+                    <select
+                      id="care-organization-select"
+                      className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
+                      value={careOrganization}
+                      onChange={(e) => setCareOrganization(e.target.value)}
+                    >
+                      <option value="private">Durch Angehörige / privat organisiert</option>
+                      <option value="service">Durch einen Pflegedienst</option>
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Conditional Sub-questions based on Status */}
             {status === "employee" && (
               <div className={cn("flex items-center gap-3 p-4 rounded-2xl border transition-colors", isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50/50 border-slate-100")}>
                 <input
                   type="checkbox"
                   id="kurzarbeit"
-                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                   checked={isKurzarbeit}
                   onChange={(e) => setIsKurzarbeit(e.target.checked)}
                 />
@@ -674,9 +833,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
             {["employee", "unemployed_sgb2", "unemployed_sgb3", "seeking_work"].includes(status) && (
               <div className="space-y-2 text-left animate-in slide-in-from-top-2 duration-300">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Beendigung des Arbeitsverhältnisses</label>
+                <label htmlFor="termination-select" className={cn(labelClass, isDark && labelDarkClass)}>Beendigung des Arbeitsverhältnisses</label>
                 <div className="relative">
                   <select
+                    id="termination-select"
                     className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                     value={terminationReason}
                     onChange={(e) => setTerminationReason(e.target.value)}
@@ -691,14 +851,15 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             )}
 
             {(status === "student" || status === "trainee") && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Studien- & Ausbildungsdetails</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Studien- & Ausbildungsdetails</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Schul- / Hochschulart</label>
+                    <label htmlFor="school-type-select" className={cn(labelClass, isDark && labelDarkClass)}>Schul- / Hochschulart</label>
                     <div className="relative">
                       <select
+                        id="school-type-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={schoolType}
                         onChange={(e) => setSchoolType(e.target.value)}
@@ -712,9 +873,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Elterneinkommen (Schätzung)</label>
+                    <label htmlFor="parent-income-select" className={cn(labelClass, isDark && labelDarkClass)}>Elterneinkommen (Schätzung)</label>
                     <div className="relative">
                       <select
+                        id="parent-income-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={parentIncomeBracket}
                         onChange={(e) => setParentIncomeBracket(e.target.value)}
@@ -733,7 +895,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     <input
                       type="checkbox"
                       id="lives-parents"
-                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                       checked={livesWithParents}
                       onChange={(e) => setLivesWithParents(e.target.checked)}
                     />
@@ -746,7 +908,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     <input
                       type="checkbox"
                       id="bafoeg-self-insured"
-                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                      className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                       checked={bafoegSelfInsured}
                       onChange={(e) => setBafoegSelfInsured(e.target.checked)}
                     />
@@ -759,12 +921,13 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             )}
 
             {status === "pensioner" && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Renten- & Beitragsdetails</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Renten- & Beitragsdetails</h4>
                 <div>
-                  <label className={cn(labelClass, isDark && labelDarkClass)}>Grundrentenzeiten (Versicherungsjahre)</label>
+                  <label htmlFor="grundrente-select" className={cn(labelClass, isDark && labelDarkClass)}>Grundrentenzeiten (Versicherungsjahre)</label>
                   <div className="relative">
                     <select
+                      id="grundrente-select"
                       className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                       value={grundrenteYears}
                       onChange={(e) => setGrundrenteYears(e.target.value)}
@@ -814,6 +977,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                   <button
                     type="button"
                     onClick={clearCity}
+                    aria-label="Postleitzahl löschen"
                     className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-red-500 transition-colors"
                   >
                     <X className="w-4 h-4" />
@@ -827,25 +991,25 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     <div
                       key={`${city.plz}-${city.stadt}`}
                       onClick={() => handleCitySelect(city)}
-                      className={cn("px-5 py-3 cursor-pointer text-sm font-medium flex justify-between items-center border-b last:border-none transition-colors", isDark ? "hover:bg-slate-800 text-slate-300 border-slate-800" : "hover:bg-teal-50 text-slate-700 border-slate-50")}
+                      className={cn("px-5 py-3 cursor-pointer text-sm font-medium flex justify-between items-center border-b last:border-none transition-colors", isDark ? "hover:bg-slate-800 text-slate-300 border-slate-800" : "hover:bg-brand-blue/10 text-slate-700 border-slate-50")}
                     >
                       <div className="flex items-center gap-3">
-                        <span className={cn("font-bold text-lg", isDark ? "text-white" : "text-teal-600")}>{city.plz}</span>
+                        <span className={cn("font-bold text-lg", isDark ? "text-white" : "text-brand-indigo")}>{city.plz}</span>
                         <span className={isDark ? "text-slate-400 font-medium" : "text-slate-700 font-medium"}>{city.stadt}</span>
                       </div>
-                      <span className={cn("text-[10px] px-2 py-1 rounded-md uppercase tracking-wider font-bold", isDark ? "bg-slate-800 text-teal-600" : "bg-teal-600/10 text-teal-600")}>Mietstufe {city.mietstufe}</span>
+                      <span className={cn("text-[10px] px-2 py-1 rounded-md uppercase tracking-wider font-bold", isDark ? "bg-slate-800 text-brand-indigo" : "bg-brand-indigo/10 text-brand-indigo")}>Mietstufe {city.mietstufe}</span>
                     </div>
                   ))}
                 </div>
               )}
 
               {selectedCity && (
-                <div className={cn("rounded-2xl p-5 mt-4 flex items-center justify-between border-2 animate-in slide-in-from-top-2 duration-300", isDark ? "bg-teal-600/10 border-teal-600/20" : "bg-teal-50/50 border-teal-600/10")}>
+                <div className={cn("rounded-2xl p-5 mt-4 flex items-center justify-between border-2 animate-in slide-in-from-top-2 duration-300", isDark ? "bg-brand-indigo/10 border-brand-indigo/20" : "bg-brand-blue/50 border-brand-indigo/10")}>
                   <div>
-                    <p className="text-[10px] font-bold text-teal-600 uppercase tracking-wider mb-1">Gewählter Wohnort</p>
+                    <p className="text-[10px] font-bold text-brand-indigo uppercase tracking-wider mb-1">Gewählter Wohnort</p>
                     <h4 className={cn("font-bold text-lg", isDark ? "text-white" : "text-slate-900")}>{selectedCity.plz} {selectedCity.stadt}</h4>
                   </div>
-                  <div className={cn("px-4 py-2 rounded-xl shadow-sm text-xs font-bold text-teal-600 border transition-colors", isDark ? "bg-slate-900 border-teal-600/20" : "bg-white border-teal-600/10 hover:border-teal-600/30")}>
+                  <div className={cn("px-4 py-2 rounded-xl shadow-sm text-xs font-bold text-brand-indigo border transition-colors", isDark ? "bg-slate-900 border-brand-indigo/20" : "bg-white border-brand-indigo/10 hover:border-brand-indigo/30")}>
                     Mietstufe {selectedCity.mietstufe}
                   </div>
                 </div>
@@ -860,9 +1024,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Household size */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Personen im Haushalt</label>
+                <label htmlFor="persons-select" className={cn(labelClass, isDark && labelDarkClass)}>Personen im Haushalt</label>
                 <div className="relative">
                   <select
+                    id="persons-select"
                     className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                     value={persons}
                     onChange={(e) => setPersons(e.target.value)}
@@ -878,9 +1043,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
               {/* Housing Type */}
               <div className="space-y-2 text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Wohnverhältnis</label>
+                <label htmlFor="housing-type-select" className={cn(labelClass, isDark && labelDarkClass)}>Wohnverhältnis</label>
                 <div className="relative">
                   <select
+                    id="housing-type-select"
                     className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                     value={housingType}
                     onChange={(e) => setHousingType(e.target.value)}
@@ -897,9 +1063,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             {housingType === "Miete" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left animate-in slide-in-from-top-2 duration-300">
                 <div>
-                  <label className={cn(labelClass, isDark && labelDarkClass)}>Bruttokaltmiete</label>
+                  <label htmlFor="rent-input" className={cn(labelClass, isDark && labelDarkClass)}>Bruttokaltmiete</label>
                   <div className="relative">
                     <input
+                      id="rent-input"
                       type="number"
                       placeholder="z.B. 650"
                       className={cn(inputClass, isDark && inputDarkClass)}
@@ -911,9 +1078,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                   </div>
                 </div>
                 <div>
-                  <label className={cn(labelClass, isDark && labelDarkClass)}>Heizkosten</label>
+                  <label htmlFor="heating-input" className={cn(labelClass, isDark && labelDarkClass)}>Heizkosten</label>
                   <div className="relative">
                     <input
+                      id="heating-input"
                       type="number"
                       placeholder="z.B. 110"
                       className={cn(inputClass, isDark && inputDarkClass)}
@@ -929,14 +1097,15 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
             {/* Eigentum Inputs */}
             {housingType === "Eigentum" && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Eigenheim-Kosten (Optional)</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Eigenheim-Kosten (Optional)</h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Monatliche Zinsen</label>
+                    <label htmlFor="interest-input" className={cn(labelClass, isDark && labelDarkClass)}>Monatliche Zinsen</label>
                     <div className="relative">
                       <input
+                        id="interest-input"
                         type="number"
                         placeholder="z.B. 250"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -948,9 +1117,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Nebenkosten (ohne Heizung)</label>
+                    <label htmlFor="operating-costs-input" className={cn(labelClass, isDark && labelDarkClass)}>Nebenkosten (ohne Heizung)</label>
                     <div className="relative">
                       <input
+                        id="operating-costs-input"
                         type="number"
                         placeholder="z.B. 150"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -965,9 +1135,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Grundsteuer (Monatlich)</label>
+                    <label htmlFor="property-tax-input" className={cn(labelClass, isDark && labelDarkClass)}>Grundsteuer (Monatlich)</label>
                     <div className="relative">
                       <input
+                        id="property-tax-input"
                         type="number"
                         placeholder="z.B. 25"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -979,9 +1150,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Wohnfläche (qm)</label>
+                    <label htmlFor="housing-area-input" className={cn(labelClass, isDark && labelDarkClass)}>Wohnfläche (qm)</label>
                     <div className="relative">
                       <input
+                        id="housing-area-input"
                         type="number"
                         placeholder="z.B. 85"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -1004,9 +1176,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         {step === 3 && (
           <div className="space-y-6 animate-in fade-in duration-300">
             <div className="space-y-2 text-left">
-              <label className={cn(labelClass, isDark && labelDarkClass)}>Anzahl Kinder im Haushalt</label>
+              <label htmlFor="kids-count-select" className={cn(labelClass, isDark && labelDarkClass)}>Anzahl Kinder im Haushalt</label>
               <div className="relative">
                 <select
+                  id="kids-count-select"
                   className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                   value={kids}
                   onChange={(e) => handleKidsCountChange(e.target.value)}
@@ -1021,8 +1194,8 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             </div>
 
             {parseInt(kids) > 0 && (
-              <div className="p-5 border border-teal-600/20 bg-teal-50/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
-                <h4 className="text-sm font-bold text-teal-600 uppercase tracking-wider">Kinder-Details</h4>
+              <div className="p-5 border border-brand-indigo/20 bg-brand-blue/10 rounded-2xl space-y-4 text-left animate-in slide-in-from-top-2 duration-300">
+                <h4 className="text-sm font-bold text-brand-indigo uppercase tracking-wider">Kinder-Details</h4>
                 
                 <div className="space-y-4">
                   {kidsAgesList.map((ageVal, idx) => {
@@ -1030,9 +1203,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     return (
                       <div key={idx} className="flex flex-col sm:flex-row gap-4 items-end p-4 rounded-xl bg-slate-500/5 border border-slate-200/10">
                         <div className="flex-1 space-y-2 text-left">
-                          <label className={cn(labelClass, isDark && labelDarkClass)}>Alter von Kind {idx + 1}</label>
+                          <label htmlFor={`kid-age-select-${idx}`} className={cn(labelClass, isDark && labelDarkClass)}>Alter von Kind {idx + 1}</label>
                           <div className="relative">
                             <select
+                              id={`kid-age-select-${idx}`}
                               className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                               value={ageVal}
                               onChange={(e) => {
@@ -1062,9 +1236,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
                         {isU3 && (
                           <div className="flex-1 space-y-2 text-left animate-in fade-in duration-300">
-                            <label className={cn(labelClass, isDark && labelDarkClass)}>Geburtsjahr (Bayern)</label>
+                            <label htmlFor={`kid-birthyear-select-${idx}`} className={cn(labelClass, isDark && labelDarkClass)}>Geburtsjahr (Bayern)</label>
                             <div className="relative">
                               <select
+                                id={`kid-birthyear-select-${idx}`}
                                 className={cn(inputClass, "appearance-none cursor-pointer font-medium", isDark && inputDarkClass)}
                                 value={kidsBirthYears[idx] || ""}
                                 onChange={(e) => {
@@ -1094,9 +1269,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Einkommen der Kinder (z.B. Unterhalt, Waisenrente)</label>
+                <label htmlFor="child-income-input" className={cn(labelClass, isDark && labelDarkClass)}>Einkommen der Kinder (z.B. Unterhalt, Waisenrente)</label>
                 <div className="relative">
                   <input
+                    id="child-income-input"
                     type="number"
                     placeholder="z.B. 250"
                     className={cn(inputClass, isDark && inputDarkClass)}
@@ -1113,7 +1289,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                       <input
                         type="checkbox"
                         id="single-parent"
-                        className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                        className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                         checked={isSingleParent}
                         onChange={(e) => setIsSingleParent(e.target.checked)}
                       />
@@ -1126,9 +1302,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
                 {isSingleParent && (
                   <div className="pt-4 border-t border-slate-100/10 animate-in slide-in-from-top-2 duration-300">
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Unterhalts-Status des anderen Elternteils</label>
+                    <label htmlFor="child-support-select" className={cn(labelClass, isDark && labelDarkClass)}>Unterhalts-Status des anderen Elternteils</label>
                     <div className="relative">
                       <select
+                        id="child-support-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={childSupportReceived}
                         onChange={(e) => setChildSupportReceived(e.target.value)}
@@ -1150,7 +1327,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                 <input
                   type="checkbox"
                   id="pregnant-newborn"
-                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-teal-600 focus:ring-teal-500 cursor-pointer"
+                  className="w-5 h-5 rounded-lg border-2 border-slate-200 text-brand-indigo focus:ring-brand-blue cursor-pointer"
                   checked={isPregnantOrNewborn}
                   onChange={(e) => setIsPregnantOrNewborn(e.target.checked)}
                 />
@@ -1162,9 +1339,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
               {isPregnantOrNewborn && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100/10 animate-in slide-in-from-top-2 duration-300">
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Nettoeinkommen vor Geburt</label>
+                    <label htmlFor="net-income-before-birth-input" className={cn(labelClass, isDark && labelDarkClass)}>Nettoeinkommen vor Geburt</label>
                     <div className="relative">
                       <input
+                        id="net-income-before-birth-input"
                         type="number"
                         placeholder="z.B. 1900"
                         className={cn(inputClass, isDark && inputDarkClass)}
@@ -1176,9 +1354,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
                     </div>
                   </div>
                   <div>
-                    <label className={cn(labelClass, isDark && labelDarkClass)}>Gewünschte Variante</label>
+                    <label htmlFor="elterngeld-option-select" className={cn(labelClass, isDark && labelDarkClass)}>Gewünschte Variante</label>
                     <div className="relative">
                       <select
+                        id="elterngeld-option-select"
                         className={cn(inputClass, "appearance-none cursor-pointer", isDark && inputDarkClass)}
                         value={elterngeldOption}
                         onChange={(e) => setElterngeldOption(e.target.value)}
@@ -1201,9 +1380,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Brutto Income */}
               <div className="text-left">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Brutto-Einkommen (Haushalt)</label>
+                <label htmlFor="income-brutto-input" className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Brutto-Einkommen (Haushalt)</label>
                 <div className="relative">
                   <input
+                    id="income-brutto-input"
                     type="number"
                     value={income}
                     onChange={(e) => setIncome(e.target.value)}
@@ -1217,9 +1397,10 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
 
               {/* Net Income */}
               <div className="text-left animate-in fade-in duration-300">
-                <label className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Netto-Einkommen (Haushalt)</label>
+                <label htmlFor="income-netto-input" className={cn(labelClass, isDark && labelDarkClass)}>Monatliches Netto-Einkommen (Haushalt)</label>
                 <div className="relative">
                   <input
+                    id="income-netto-input"
                     type="number"
                     value={netIncome}
                     onChange={(e) => setNetIncome(e.target.value)}
@@ -1261,7 +1442,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
             <button
               type="submit"
               disabled={!isStepValid(4) || isLoading}
-              className={cn(buttonClass, "flex-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-teal-500/20")}
+              className={cn(buttonClass, "flex-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-brand-blue/20")}
             >
               {isLoading ? "Wird berechnet..." : "Ansprüche prüfen & Ergebnisse anzeigen"}
             </button>
@@ -1271,7 +1452,7 @@ export function SmartCalculator({ benefitSlug = "wohngeld", regelsatz = 563, cla
         {step === 4 && (
           <div className="space-y-2 mt-2">
             <p className="text-center text-[11px] text-slate-400">
-              Dauert nur 1 Sekunde – alle Berechnungen laufen lokal in deinem Browser.
+              Dauert normalerweise nur 1–2 Sekunden. Deine Daten werden verschlüsselt übertragen und nie an Dritte verkauft.
             </p>
             {loadingMessage && (
               <p className="text-center text-xs text-amber-600 dark:text-amber-400 font-semibold animate-pulse max-w-md mx-auto leading-relaxed">

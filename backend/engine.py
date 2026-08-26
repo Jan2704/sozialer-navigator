@@ -135,46 +135,87 @@ class SocialRuleEngine:
             "application_link": self.sgb2_rules["application_link"]
         }
 
+    def _get_rent_limit(self, persons: int, mietstufe: int) -> float:
+        ms_idx = min(max(1, mietstufe), 7) - 1
+        limits = self.wohngeld_rules["rent_limits"]
+        if persons <= 5:
+            p = min(max(1, persons), 5)
+            return limits[str(p)][ms_idx]
+        base = limits["5"][ms_idx]
+        extra = persons - 5
+        extra_limit = self.wohngeld_rules["extra_person_limit"][ms_idx]
+        return base + extra * extra_limit
+
+    def _get_heating_pauschale(self, persons: int) -> float:
+        table = self.wohngeld_rules["heating_pauschale"]
+        p = max(1, persons)
+        if p <= 5:
+            return table[str(p)]
+        return table["5"] + (p - 5) * table["extra_person"]
+
     def calculate_wohngeld(self, request: HouseholdRequest) -> dict:
-        total_netto = sum([sum([i.amount_net for i in m.incomes]) for m in request.members])
-        warm_miete = request.rent_cold + request.rent_utility
-        
-        # Minimum income threshold: roughly 80% rent plus SGB II equivalent standard rates
-        mindest_bedarf = sum([400.0 for m in request.members]) + (warm_miete * 0.8)
-        
-        if total_netto < mindest_bedarf:
-            return {
-                "status": "possible",
-                "amount": 0.00,
-                "reason": "Möglicher Anspruch. Da dein Einkommen sehr gering ist, deckt Wohngeld alleine das Existenzminimum wahrscheinlich nicht. Bürgergeld wird empfohlen.",
-                "application_link": self.wohngeld_rules["application_link"]
-            }
-            
+        """
+        Full WoGG (Wohngeldgesetz) formula: Wohngeld = 1.15 * (M - (a + b*M + c*Y) * Y)
+        M = recognized rent (Mietstufe-capped cold rent + flat heating pauschale)
+        Y = income after allowances and a status-dependent flat-rate deduction
+        """
         hh_size = len(request.members)
-        income_cap = 1600.00 + (hh_size - 1) * 700.00
-        
-        if total_netto <= income_cap:
-            estimated_amount = min(750.00, warm_miete * 0.45)
-            
-            # Simple progressive reduction as income gets closer to cap
-            if total_netto > mindest_bedarf * 1.3:
-                reduction_factor = 1.0 - ((total_netto - (mindest_bedarf * 1.3)) / (income_cap - (mindest_bedarf * 1.3)))
-                reduction_factor = max(0.1, min(1.0, reduction_factor))
-                estimated_amount *= reduction_factor
-                
-            estimated_amount = max(10.0, round(estimated_amount, 2))
-            
+        num_kids = sum(1 for m in request.members if m.role == "child")
+        has_single_parent = any(getattr(m, "is_single_parent", False) for m in request.members)
+        has_disabled = any(getattr(m, "is_disabled", False) for m in request.members)
+
+        mietstufe = request.city_tier if request.city_tier else self.wohngeld_rules.get("default_mietstufe", 3)
+
+        # --- Recognized rent M ---
+        rent_limit_total = self._get_rent_limit(hh_size, mietstufe)
+        heating_addon = self._get_heating_pauschale(hh_size)
+        rent_limit_kalt = rent_limit_total - heating_addon
+        rent_kalt = min(request.rent_cold, rent_limit_kalt)
+        M = round(rent_kalt + heating_addon, 2)
+
+        # --- Income Y ---
+        total_netto = sum(sum(i.amount_net for i in m.incomes) for m in request.members)
+
+        allowance = 0.0
+        if has_single_parent and num_kids > 0:
+            allowance += 110.0  # Alleinerziehendenentlastungsbetrag
+        allowance += num_kids * 100.0  # Kinderabzugsbetrag
+        if has_disabled:
+            allowance += 150.0  # Schwerbehinderung (§ 17 WoGG), simplified
+
+        main_income_types = [
+            inc.source_type
+            for m in request.members if m.role == "main"
+            for inc in m.incomes
+        ]
+        is_pensioner = "pension" in main_income_types
+        is_self_employed = "self_employed" in main_income_types
+        is_employee = any(t in main_income_types for t in ["employment", "minijob"])
+
+        werbungskosten = 102.50 if is_employee else 0.0
+        pauschale = 0.9 if is_pensioner else (0.8 if is_self_employed else 0.7)
+
+        intermediate_y = max(0.0, total_netto - allowance - werbungskosten)
+        Y = intermediate_y * pauschale
+
+        # --- WoGG Formula ---
+        coeffs = self.wohngeld_rules["coefficients"].get(str(min(hh_size, 12)), self.wohngeld_rules["coefficients"]["6"])
+        z1 = coeffs["a"] + (coeffs["b"] * M) + (coeffs["c"] * Y)
+        wg = 1.15 * (M - (z1 * Y))
+        wg = max(0.0, round(wg, 2))
+
+        if wg < 10.0:
             return {
-                "status": "eligible",
-                "amount": estimated_amount,
-                "reason": f"Gute Chancen auf Wohngeld (geschätzt ca. {estimated_amount:.2f} €) zur Unterstützung deiner Wohnkosten.",
+                "status": "ineligible",
+                "amount": 0.00,
+                "reason": "Nach der WoGG-Formel (Mietstufe {}) ergibt sich rechnerisch kein oder nur ein sehr geringer Anspruch auf Wohngeld.".format(mietstufe),
                 "application_link": self.wohngeld_rules["application_link"]
             }
-            
+
         return {
-            "status": "ineligible",
-            "amount": 0.00,
-            "reason": "Einkommen übersteigt die geschätzte Höchstgrenze für Wohngeld.",
+            "status": "eligible",
+            "amount": wg,
+            "reason": f"Anspruch auf ca. {wg:.2f} € Wohngeld (berechnet nach WoGG-Formel, Mietstufe {mietstufe}, anerkannte Miete {M:.2f} €).",
             "application_link": self.wohngeld_rules["application_link"]
         }
 

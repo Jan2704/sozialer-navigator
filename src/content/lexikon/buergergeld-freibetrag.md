@@ -2,7 +2,15 @@
 title: "Bürgergeld Freibetrag"
 description: "Wie viel von meinem Einkommen darf ich behalten? Die Freibeträge einfach erklärt."
 relatedTerms: ["Einkommen", "Bürgergeld", "Werbungskosten"]
+lastUpdated: 2026-08-02
+faqs:
+  - question: "Wie hoch ist der Grundfreibetrag beim Bürgergeld?"
+    answer: "Die ersten 100 Euro Ihres Bruttoeinkommens sind der Grundfreibetrag und werden überhaupt nicht auf Ihre Leistungen angerechnet. Darin sind bereits pauschal Werbungskosten, Fahrtkosten und Versicherungen enthalten."
+  - question: "Wie hoch sind die weiteren Freibeträge über 100 Euro hinaus?"
+    answer: "Zwischen 100 € und 520 € dürfen Sie 20 % behalten, zwischen 520 € und 1.000 € sind es 30 %, und zwischen 1.000 € und 1.200 € (bzw. 1.500 € mit minderjährigen Kindern im Haushalt) 10 %."
 ---
+
+> **Hinweis:** Seit 1. Juli 2026 heißt die Leistung offiziell **Grundsicherungsgeld**. Die hier beschriebenen Einkommens-Freibeträge ändern sich dadurch nicht.
 
 Wenn Sie arbeiten und gleichzeitig Bürgergeld beziehen (Aufstocker), wird Ihr Einkommen nicht zu 100% auf das Bürgergeld angerechnet. Ein Teil davon bleibt Ihnen als **Freibetrag** erhalten. Das bedeutet: Wer arbeitet, hat am Ende des Monats immer mehr Geld zur Verfügung als jemand, der nicht arbeitet.
 
@@ -35,3 +43,5 @@ Angenommen, Sie verdienen **1.400 Euro Brutto**.
 
 **Gesamter Freibetrag:** 100 + 84 + 144 + 40 = **368 Euro**.
 Das bedeutet, 368 Euro Ihres Einkommens werden nicht angerechnet.
+
+Rechtsgrundlage: [§ 11b SGB II](https://www.gesetze-im-internet.de/sgb_2/__11b.html) (Absetzbeträge).

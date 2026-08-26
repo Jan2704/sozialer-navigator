@@ -1,7 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import Stripe from 'stripe';
-import { sendEmail } from "../../../lib/email";
+import { sendEmail, escapeHtml } from "../../../lib/email";
 import { generateApplicationPdf } from "../../../lib/pdf-generator";
 import { createClient } from '@supabase/supabase-js';
 
@@ -79,6 +79,16 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
         console.log('Ignoring non-application webhook');
         return;
     }
+
+    // Escaped copies for HTML interpolation — raw values still used for the PDF/filenames/DB rows.
+    const safeFirstName = escapeHtml(firstName);
+    const safeLastName = escapeHtml(lastName);
+    const safeAuthority = escapeHtml(authority);
+    const safeAuthorityEmail = escapeHtml(authorityEmail);
+    const safeStreet = escapeHtml(street);
+    const safeZipCity = escapeHtml(zipCity);
+    const safeBenefitLabel = escapeHtml(benefitLabel);
+    const safeCustomerEmail = escapeHtml(customerEmail);
 
     console.log(`Payment successful for ${firstName} ${lastName}. Formloser Antrag for ${authority}.`);
 
@@ -166,9 +176,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
         to: customerEmail!,
         subject: 'Zahlung bestätigt: Ihr Antrag beim Sozialen Navigator',
         html: `
-            <h1>Vielen Dank, ${firstName}!</h1>
+            <h1>Vielen Dank, ${safeFirstName}!</h1>
             <p>Wir haben Ihre Zahlung erhalten und den Prozess in Gang gesetzt.</p>
-            <p>Ihr Antrag für <strong>${authority}</strong> lautet auf: ${benefitLabel}.</p>
+            <p>Ihr Antrag für <strong>${safeAuthority}</strong> lautet auf: ${safeBenefitLabel}.</p>
             <br>
             ${pdfBuffer
                 ? '<p>Anbei finden Sie eine Kopie des generierten Antrags, den wir in Ihrem Namen an die Behörde senden.</p>'
@@ -177,9 +187,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
             <br>
             <p><strong>Ihre übermittelten Daten:</strong></p>
             <ul>
-                <li>Behörde: ${authority}</li>
-                <li>E-Mail der Behörde: ${authorityEmail} (Versandziel)</li>
-                <li>Ihre Adresse: ${street}, ${zipCity}</li>
+                <li>Behörde: ${safeAuthority}</li>
+                <li>E-Mail der Behörde: ${safeAuthorityEmail} (Versandziel)</li>
+                <li>Ihre Adresse: ${safeStreet}, ${safeZipCity}</li>
             </ul>
             <p>Mit freundlichen Grüßen,</p>
             <p>Das Team vom Sozialen Navigator</p>
@@ -217,7 +227,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
                      <p>Bitte bestätigen Sie mir den Eingang dieses Antrags und den Zeitpunkt des Eingangs.</p>
                      <br>
                      <p>Mit freundlichen Grüßen,</p>
-                     <p>${firstName} ${lastName}</p>
+                     <p>${safeFirstName} ${safeLastName}</p>
                      <br>
                      <hr>
                      <p style="font-size: 10px; color: #666;">
@@ -251,12 +261,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
         html: `
             <h2>${adminActionRequired ? '⚠️ ACTION REQUIRED: Konnte nicht an Amt gesendet werden!' : '✅ Erfolgreicher automatischer Versand'}</h2>
             <ul>
-                <li><strong>Kunde:</strong> ${firstName} ${lastName}</li>
-                <li><strong>Email:</strong> ${customerEmail}</li>
-                <li><strong>Leistung:</strong> ${benefitLabel}</li>
-                <li><strong>Amt:</strong> ${authority}</li>
-                <li><strong>Amt Email:</strong> <a href="mailto:${authorityEmail}">${authorityEmail}</a></li>
-                <li><strong>Kunden-Adresse:</strong> ${street}, ${zipCity}</li>
+                <li><strong>Kunde:</strong> ${safeFirstName} ${safeLastName}</li>
+                <li><strong>Email:</strong> ${safeCustomerEmail}</li>
+                <li><strong>Leistung:</strong> ${safeBenefitLabel}</li>
+                <li><strong>Amt:</strong> ${safeAuthority}</li>
+                <li><strong>Amt Email:</strong> <a href="mailto:${safeAuthorityEmail}">${safeAuthorityEmail}</a></li>
+                <li><strong>Kunden-Adresse:</strong> ${safeStreet}, ${safeZipCity}</li>
                 <li><strong>Stripe Session:</strong> ${session.id}</li>
             </ul>
             ${pdfGenerationError ? `<p style="color:red;"><strong>PDF Generator Fehler:</strong> ${pdfGenerationError}</p>` : ''}

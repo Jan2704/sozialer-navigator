@@ -9,68 +9,57 @@ import Layout from '../layouts/layout.astro';
     <meta property="og:title" content="Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen" />
     <meta property="og:description" content="Prüfen Sie Ihren Anspruch auf das Bildungspaket (Bildung und Teilhabe). Sichern Sie sich Zuschüsse für Schulessen, Ausflüge und mehr für Ihre Kinder." />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://sozialer-navigator.de/bildung-und-teilhabe" />
+    <meta property="og:url" content={new URL('/bildung-und-teilhabe', Astro.site)} />
     <meta property="og:image" content="https://images.unsplash.com/photo-1509023464722-18d996393ca8?auto=format&fit=crop&w=1200&q=80" />
-    
-    <SchemaOrg 
-        type="TechnicalArticle" 
+
+    <SchemaOrg
+        type="TechnicalArticle"
         data={{
             title: "Zusatzgeld für Kinder (BuT) | Bildungspaket prüfen",
             description: "Prüfen Sie Ihren Anspruch auf das Bildungspaket (Bildung und Teilhabe). Sichern Sie sich Zuschüsse für Schulessen, Ausflüge und mehr für Ihre Kinder.",
-            url: "https://sozialer-navigator.de/bildung-und-teilhabe",
+            url: new URL('/bildung-und-teilhabe', Astro.site).href,
             image: "https://images.unsplash.com/photo-1509023464722-18d996393ca8?auto=format&fit=crop&w=1200&q=80",
             datePublished: "2025-10-01",
             dateModified: new Date().toISOString().split('T')[0]
-        }} 
+        }}
     />
   </fragment>
-  <main class="relative min-h-screen pt-32 pb-24 px-4 sm:px-6 overflow-hidden bg-slate-50">
-      <!-- Background Elements -->
-      <div class="absolute inset-0 bg-gradient-to-br from-green-50/50 to-transparent pointer-events-none"></div>
-      <div class="fixed inset-0 z-0 select-none pointer-events-none">
-          <div class="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/90 to-transparent"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent"></div>
-      </div>
+  <main class="relative min-h-screen pt-32 pb-24 px-4 sm:px-6 bg-surface-base">
 
-    <div class="max-w-4xl mx-auto relative z-10">
+    <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12">
-           <div class="inline-block bg-white border border-green-200 shadow-sm text-green-700 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">Familien-Hilfe</div>
-           <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">Geld für Schulessen & <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Ausflüge.</span></h1>
-            <p class="text-xl text-slate-600 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
-              Wer Wohngeld bekommt, hat einen gesetzlichen Anspruch auf das <strong class="text-slate-900 bg-green-50 px-1 rounded">Bildungspaket (BuT)</strong>. 
+           <div class="inline-block bg-surface-card border border-border-subtle text-brand-emerald px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">Familien-Hilfe</div>
+           <h1 class="font-serif text-4xl md:text-6xl font-bold text-brand-navy mb-6 tracking-tight leading-tight">Geld für Schulessen &amp; <span class="text-brand-blue">Ausflüge.</span></h1>
+            <p class="text-xl text-text-secondary mb-12 max-w-2xl mx-auto leading-relaxed">
+              Wer Wohngeld bekommt, hat einen gesetzlichen Anspruch auf das <strong class="text-brand-navy">Bildungspaket (BuT)</strong>.
               Wir helfen dir bei der Beantragung für deine Kinder.
             </p>
       </div>
 
-    <div id="but-form-wrapper" class="bg-white border border-green-100 p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-green-900/5 relative overflow-hidden group">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-green-50/50 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-      <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-50/50 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
-      
-      <div class="relative z-10">
-          <h3 class="text-2xl font-bold mb-8 text-slate-900 text-center">BuT-Hilfe kostenlos anfordern</h3>
-          
-          <form id="but-lead-form" class="space-y-4 max-w-lg mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" id="b-v-name" placeholder="Vorname" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 font-semibold text-slate-900 outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all placeholder:text-slate-400" />
-              <input type="text" id="b-n-name" placeholder="Nachname" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 font-semibold text-slate-900 outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all placeholder:text-slate-400" />
-            </div>
-            <input type="email" id="b-e-mail" placeholder="E-Mail Adresse" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 font-semibold text-slate-900 outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all placeholder:text-slate-400" />
-            <button type="submit" id="b-submit-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-xl font-bold text-lg shadow-lg shadow-green-600/20 transition-all hover:-translate-y-0.5 active:scale-[0.98]">
-              Hilfe anfordern →
-            </button>
-            <p class="text-xs text-center text-slate-400 mt-4">Deine Daten werden sicher übertragen und nur für die Bearbeitung deiner Anfrage genutzt.</p>
-          </form>
-    
-          <div id="b-success-message" class="hidden text-center py-8">
-            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
-              <i data-lucide="check" class="w-10 h-10"></i>
-            </div>
-            <h3 class="text-3xl font-bold mb-3 text-slate-900">Fast geschafft!</h3>
-            <p class="text-slate-600 font-medium mb-8">Wir prüfen deine Daten und melden uns in Kürze.</p>
-            <a href="/" class="inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-700 transition-colors bg-green-50 px-6 py-3 rounded-xl border border-green-100">
-              Zurück zur Startseite
-            </a>
-          </div>
+    <div id="but-form-wrapper" class="bg-surface-card border border-border-subtle p-8 md:p-12 rounded-card">
+      <h3 class="font-serif text-2xl font-bold mb-8 text-brand-navy text-center">BuT-Hilfe kostenlos anfordern</h3>
+
+      <form id="but-lead-form" class="space-y-4 max-w-lg mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" id="b-v-name" placeholder="Vorname" required class="w-full bg-surface-base border border-border-subtle rounded-btn px-5 py-4 font-semibold text-brand-navy outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-text-tertiary" />
+          <input type="text" id="b-n-name" placeholder="Nachname" required class="w-full bg-surface-base border border-border-subtle rounded-btn px-5 py-4 font-semibold text-brand-navy outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-text-tertiary" />
+        </div>
+        <input type="email" id="b-e-mail" placeholder="E-Mail Adresse" required class="w-full bg-surface-base border border-border-subtle rounded-btn px-5 py-4 font-semibold text-brand-navy outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-text-tertiary" />
+        <button type="submit" id="b-submit-btn" class="w-full bg-brand-blue hover:bg-brand-indigo text-white py-5 rounded-btn font-bold text-lg transition-all">
+          Hilfe anfordern →
+        </button>
+        <p class="text-xs text-center text-text-secondary mt-4">Deine Daten werden sicher übertragen und nur für die Bearbeitung deiner Anfrage genutzt.</p>
+      </form>
+
+      <div id="b-success-message" class="hidden text-center py-8">
+        <div class="w-16 h-16 bg-brand-emerald text-white rounded-full flex items-center justify-center mx-auto mb-6">
+          <i data-lucide="check" class="w-8 h-8"></i>
+        </div>
+        <h3 class="font-serif text-3xl font-bold mb-3 text-brand-navy">Fast geschafft!</h3>
+        <p class="text-text-secondary mb-8">Wir prüfen deine Daten und melden uns in Kürze.</p>
+        <a href="/" class="inline-flex items-center gap-2 text-brand-blue font-bold hover:text-brand-indigo transition-colors bg-surface-base px-6 py-3 rounded-btn border border-border-subtle">
+          Zurück zur Startseite
+        </a>
       </div>
     </div>
     </div>
@@ -78,31 +67,30 @@ import Layout from '../layouts/layout.astro';
 </Layout>
 
 <script>
-  import { createClient } from '@supabase/supabase-js'
-  const supabase = createClient(import.meta.env.PUBLIC_SUPABASE_URL, import.meta.env.PUBLIC_SUPABASE_ANON_KEY)
+  import { supabase } from '../lib/supabase';
 
   if (typeof document !== 'undefined') {
     const form = document.getElementById('but-lead-form');
-    const btn = document.getElementById('b-submit-btn');
+    const btn = document.getElementById('b-submit-btn') as HTMLButtonElement | null;
 
     if (form && btn) {
       form.addEventListener('submit', async (e) => {
-        // ... existing logic ...
         e.preventDefault();
         btn.innerText = 'Wird gesendet...';
         btn.disabled = true;
 
-        const { error } = await supabase.from('leads').insert([{ 
-          vorname: document.getElementById('b-v-name').value, 
-          nachname: document.getElementById('b-n-name').value,
-          email: document.getElementById('b-e-mail').value,
+        const { error } = await supabase.from('leads').insert([{
+          vorname: (document.getElementById('b-v-name') as HTMLInputElement).value,
+          nachname: (document.getElementById('b-n-name') as HTMLInputElement).value,
+          email: (document.getElementById('b-e-mail') as HTMLInputElement).value,
           typ: 'but',
           status: 'neu'
         }]);
 
         if (!error) {
           form.style.display = 'none';
-          document.getElementById('b-success-message').style.display = 'block';
+          const successEl = document.getElementById('b-success-message');
+          if (successEl) successEl.style.display = 'block';
         } else {
           alert('Fehler beim Senden.');
           btn.innerText = 'Hilfe anfordern';

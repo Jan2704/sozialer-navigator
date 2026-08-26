@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 export const prerender = true;
 import Layout from '../../layouts/layout.astro';
-import SchemaOrg from '../../components/seo/seo-schema.astro';
 
 export async function getStaticPaths() {
   const guideEntries = await getCollection('ratgeber');
@@ -14,23 +13,19 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
-const title = `${entry.data.title} | Sozialer Navigator Ratgeber`;
+const title = `${entry.data.title} | Fördercheck Ratgeber`;
+
+// Curated external-resource cards (externalUrl set) are not original Amtly
+// content — they must never carry Article/author schema attributing the
+// external organization as this site's author (see SEO audit, schema.md #1).
+const isExternalSource = Boolean(entry.data.externalUrl);
 ---
 
-<Layout title={title} description={entry.data.description} type="article">
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": entry.data.title,
-    "description": entry.data.description,
-    "author": {
-      "@type": "Person",
-      "name": entry.data.author
-    },
-    "datePublished": entry.data.pubDate.toISOString().split('T')[0],
-    "image": entry.data.image ? `https://sozialer-navigator.de${entry.data.image}` : undefined
-  })} slot="head" />
-
+<Layout title={title} description={entry.data.description} type={isExternalSource ? "website" : "article"} publishDate={entry.data.pubDate} author={entry.data.author} image={entry.data.image} noindex={isExternalSource} breadcrumbs={[
+    { name: "Startseite", url: "/" },
+    { name: "Ratgeber", url: "/ratgeber/" },
+    { name: entry.data.title, url: `/ratgeber/${entry.slug}/` }
+  ]}>
   <main class="min-h-screen bg-white text-slate-900 pt-32 pb-24 px-6 relative">
       
       <!-- Progress Bar (Reading) -->
@@ -53,7 +48,7 @@ const title = `${entry.data.title} | Sozialer Navigator Ratgeber`;
                    <span>{entry.data.pubDate.toLocaleDateString('de-DE')}</span>
                </div>
 
-               <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif text-[#0a1628] leading-[1.1] mb-8">
+               <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif text-[#0a1628] leading-[1.1] mb-8 break-words hyphens-auto">
                    {entry.data.title}
                </h1>
 
@@ -62,6 +57,22 @@ const title = `${entry.data.title} | Sozialer Navigator Ratgeber`;
                </p>
           </div>
 
+          {isExternalSource ? (
+            <!-- Curated external-resource card: this is not Amtly's own content,
+                 so it must clearly point out to the actual source rather than
+                 imply Amtly authored it. -->
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-8">
+                <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Externe Quelle</div>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    Dieser Beitrag ist kein von der Fördercheck-Redaktion verfasster Artikel, sondern ein kuratierter Verweis auf eine externe, unabhängige Informationsquelle: <strong class="text-[#0a1628]">{entry.data.source}</strong>.
+                </p>
+                <a href={entry.data.externalUrl} target="_blank" rel="noopener noreferrer nofollow" class="inline-flex items-center gap-2 font-bold text-[#0a1628] hover:text-[#c5a67c] transition-colors">
+                    Zur Original-Quelle bei {entry.data.source}
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+          ) : (
+          <>
           <!-- Content -->
           <div class="prose prose-slate prose-lg max-w-none prose-headings:font-serif prose-headings:text-[#0a1628] prose-a:text-[#0a1628] hover:prose-a:text-[#c5a67c] prose-strong:text-[#0a1628] prose-img:rounded-2xl prose-img:shadow-xl">
               <Content />
@@ -74,9 +85,12 @@ const title = `${entry.data.title} | Sozialer Navigator Ratgeber`;
               </div>
               <div>
                   <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Verfasst von</div>
-                  <div class="font-serif text-lg text-[#0a1628] font-bold">{entry.data.author}</div>
+                  <div class="font-serif text-lg text-[#0a1628] font-bold">Fördercheck Redaktion</div>
+                  <div class="text-xs text-slate-400 mt-1">Zuletzt geprüft am {entry.data.pubDate.toLocaleDateString('de-DE', { year: 'numeric', month: 'long' })}</div>
               </div>
           </div>
+          </>
+          )}
 
       </article>
 

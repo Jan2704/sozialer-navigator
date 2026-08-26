@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MessageCircle, X, Send, Minus, ChevronRight, Sparkles, Calculator, AlertTriangle, TrendingUp, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ErrorBoundary from './error-boundary.jsx';
 
 // =========================================================
 // BRAIN v3.0 — Konstanten & Datentabellen
@@ -11,7 +12,7 @@ const CITY_MIETSTUFE = {
   'münchen': 7, 'munich': 7,
   'berlin': 6, 'hamburg': 6, 'frankfurt': 6, 'stuttgart': 6,
   'köln': 5, 'cologne': 5, 'düsseldorf': 5, 'wiesbaden': 5,
-  'heidelberg': 5, 'freiburg': 5, 'münchen': 7,
+  'heidelberg': 5, 'freiburg': 5,
   'dortmund': 4, 'essen': 4, 'bremen': 4, 'hannover': 4,
   'nürnberg': 4, 'bonn': 4, 'mannheim': 4, 'karlsruhe': 4,
   'augsburg': 4, 'mainz': 4, 'münster': 4, 'aachen': 4,
@@ -625,6 +626,14 @@ function renderText(text) {
 // =========================================================
 
 const ChatWidget = () => {
+  return (
+    <ErrorBoundary fallback={null}>
+      <ChatWidgetInner />
+    </ErrorBoundary>
+  );
+};
+
+const ChatWidgetInner = () => {
   const [isOpen,      setIsOpen]      = useState(false);
   const [hasStarted,  setHasStarted]  = useState(false);
   const [inputValue,  setInputValue]  = useState('');
@@ -644,7 +653,7 @@ const ChatWidget = () => {
     {
       id: 1,
       sender:  'bot',
-      text:    'Hallo! Ich bin der **KI-Assistent** vom Sozialen Navigator.\n\nIch verstehe natürliche Sprache, merke mir Infos aus unserem Gespräch und kann direkt berechnen, ob du Anspruch hast. Was beschäftigt dich?',
+      text:    'Hallo! Ich bin der **KI-Assistent** von Fördercheck.\n\nIch verstehe natürliche Sprache, merke mir Infos aus unserem Gespräch und kann direkt berechnen, ob du Anspruch hast. Was beschäftigt dich?',
       actions: [],
       type:    'info',
       timestamp: new Date(),
@@ -653,6 +662,17 @@ const ChatWidget = () => {
 
   const messagesEndRef = useRef(null);
   const inputRef       = useRef(null);
+
+  // Auf Mobile deckt der Bubble sonst die "5+ Personen"-Auswahlkarte des
+  // Rechners direkt beim ersten Laden ab (SEO-Audit, visual.md #1) — daher
+  // erst sichtbar, sobald über den Hero-Bereich hinausgescrollt wurde.
+  const [pastHero, setPastHero] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const toggleChat = () => setIsOpen(v => !v);
 
@@ -757,7 +777,7 @@ const ChatWidget = () => {
 
   // ── Render ───────────────────────────────────────────────
   return (
-    <div className="fixed bottom-6 right-6 md:right-24 z-[100] flex flex-col items-end print:hidden">
+    <div className={`fixed bottom-6 right-6 md:right-24 z-[100] flex flex-col items-end print:hidden transition-opacity duration-300 ${(pastHero || isOpen) ? 'opacity-100' : 'opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto'}`}>
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -780,7 +800,7 @@ const ChatWidget = () => {
                 </div>
                 <div>
                   <p className="text-white font-semibold text-sm leading-none">KI-Assistent</p>
-                  <p className="text-brand-gold/70 text-[11px] mt-0.5">Sozialer Navigator · Online</p>
+                  <p className="text-brand-gold/70 text-[11px] mt-0.5">Fördercheck · Online</p>
                 </div>
               </div>
               <button
@@ -927,6 +947,7 @@ const ChatWidget = () => {
                     />
                     <button
                       type="submit"
+                      aria-label="Nachricht senden"
                       disabled={!inputValue.trim() || isTyping}
                       className="p-2.5 bg-brand-navy text-brand-gold rounded-xl hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm"
                     >
@@ -936,7 +957,7 @@ const ChatWidget = () => {
                 </div>
               )}
               <p className="text-center text-[8px] text-slate-300 uppercase tracking-widest pb-2">
-                Sozialer Navigator KI · 2026
+                Fördercheck KI · 2026
               </p>
             </div>
           </motion.div>

@@ -1,33 +1,26 @@
-```
 ---
 import Layout from '../layouts/layout.astro';
 ---
 
-<Layout title="Download gestartet | Sozialer Navigator" description="Ihr Download wurde gestartet. Vielen Dank für Ihr Vertrauen in den Sozialen Navigator.">
-    <main class="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center p-6 relative overflow-hidden">
-        
-         <!-- Background Elements -->
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
-        <div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-50/50 rounded-full blur-3xl pointer-events-none"></div>
+<Layout title="Download gestartet | Fördercheck" description="Ihr Download wurde gestartet. Vielen Dank für Ihr Vertrauen in Fördercheck.">
+    <main class="min-h-screen bg-surface-base text-brand-navy flex items-center justify-center p-6">
+        <div class="max-w-2xl w-full text-center space-y-12">
 
-        <div class="max-w-2xl w-full relative z-10 text-center space-y-12">
-            
             <div class="space-y-6">
-                <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-emerald-50 text-emerald-600 mb-6 shadow-xl shadow-emerald-100 animate-bounce">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-brand-emerald text-white mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                 </div>
-                <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">Dein Download wurde gestartet!</h1>
-                <p class="text-xl text-slate-600 font-medium max-w-lg mx-auto leading-relaxed">
-                    Dein Wohngeld-Notfallplan wird gerade heruntergeladen. Schau bitte in deinem <strong>Download-Ordner</strong> nach.
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight leading-tight">Dein Download wurde gestartet!</h1>
+                <p class="text-xl text-text-secondary max-w-lg mx-auto leading-relaxed">
+                    Dein Wohngeld-Notfallplan wird gerade heruntergeladen. Schau bitte in deinem <strong class="text-brand-navy">Download-Ordner</strong> nach.
                 </p>
             </div>
 
-            <section class="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-10 text-left shadow-2xl shadow-blue-900/5 relative overflow-hidden group hover:-translate-y-1 transition-all duration-500">
-                <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
-                <h2 class="text-2xl font-bold text-slate-900 mb-4">Eine Sperrzeit. Keine Hilfe. Was funktioniert hat.</h2>
-                <div class="space-y-4 text-slate-600 leading-relaxed font-medium">
+            <section class="bg-surface-card border-2 border-brand-blue/60 rounded-card p-8 md:p-10 text-left">
+                <h2 class="font-serif text-2xl font-bold text-brand-navy mb-4">Eine Sperrzeit. Keine Hilfe. Was funktioniert hat.</h2>
+                <div class="space-y-4 text-text-secondary leading-relaxed">
                     <p>
-                        Im August 2025 stand ich vor einer existenziellen Herausforderung: Aufgrund einer Sperrzeit erhielt ich einen kompletten Monat lang keinerlei finanzielle Unterstützung. 
+                        Im August 2025 stand ich vor einer existenziellen Herausforderung: Aufgrund einer Sperrzeit erhielt ich einen kompletten Monat lang keinerlei finanzielle Unterstützung.
                     </p>
                     <p>
                         Ich war gezwungen, diese Zeit ohne jegliche Bezüge zu überbrücken und mich völlig eigenständig zu versorgen. In dieser Zeit habe ich gelernt, dass man mit den richtigen Hebeln seine Existenz sichern kann. Diesen Navigator habe ich gebaut, damit du in einer ähnlichen Notlage nicht allein dastehst.
@@ -35,23 +28,23 @@ import Layout from '../layouts/layout.astro';
                 </div>
             </section>
 
-            <section class="bg-amber-50 border border-amber-100 rounded-[2rem] p-8 text-center max-w-lg mx-auto">
-                <h3 class="text-amber-900 font-bold text-lg mb-3">Hat dir dieser Guide geholfen?</h3>
-                <p class="text-sm text-amber-700/80 mb-6 font-medium">
+            <section class="bg-surface-card border border-border-subtle rounded-card p-8 text-center max-w-lg mx-auto">
+                <h3 class="font-serif text-brand-navy font-bold text-lg mb-3">Hat dir dieser Guide geholfen?</h3>
+                <p class="text-sm text-text-secondary mb-6">
                     Ich biete alle Tools und Dokumente kostenlos an. Wenn du meine Arbeit unterstützen möchtest, freue ich mich riesig über einen "virtuellen Kaffee".
                 </p>
 
-                <a href="https://buymeacoffee.com/sozialernavigator" target="_blank" class="inline-block transform hover:-translate-y-1 transition-transform shadow-lg shadow-amber-900/10 rounded-xl overflow-hidden">
-                    <img 
-                        src="https://img.buymeacoffee.com/button-api/?text=Gib mir einen Kaffee aus&emoji=☕&slug=sozialernavigator&button_colour=FFDD00&font_colour=000000&font_family=Inter&outline_colour=000000&coffee_colour=ffffff" 
+                <a href="https://buymeacoffee.com/sozialernavigator" target="_blank" rel="noopener noreferrer" class="inline-block">
+                    <img
+                        src="https://img.buymeacoffee.com/button-api/?text=Gib mir einen Kaffee aus&emoji=☕&slug=sozialernavigator&button_colour=FFDD00&font_colour=000000&font_family=Inter&outline_colour=000000&coffee_colour=ffffff"
                         alt="Buy Me a Coffee"
-                        class="h-12 w-auto"
+                        class="h-12 w-auto mx-auto"
                     />
                 </a>
             </section>
 
             <div>
-                 <a href="/" class="no-underline text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm hover:shadow-md">
+                 <a href="/" class="no-underline text-xs font-bold uppercase tracking-widest text-text-secondary hover:text-brand-blue transition-colors inline-flex items-center gap-2 bg-surface-card px-4 py-2 rounded-full border border-border-subtle">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                     Zurück zur Startseite
                 </a>
@@ -63,7 +56,7 @@ import Layout from '../layouts/layout.astro';
     <script is:inline>
         window.onload = function() {
             const link = document.createElement('a');
-            link.href = '/downloads/wohngeld-notfallplan.pdf'; 
+            link.href = '/downloads/wohngeld-notfallplan.pdf';
             link.download = 'wohngeld-notfallplan.pdf';
             document.body.appendChild(link);
             setTimeout(() => {

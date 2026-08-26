@@ -1,0 +1,41 @@
+# Fördercheck (sozialer-navigator.de)
+
+> Kostenloser Online-Rechner, der in wenigen Minuten prüft, ob und in welcher Höhe Anspruch auf deutsche Sozialleistungen besteht (Bürgergeld/Grundsicherungsgeld, Wohngeld, Kinderzuschlag) und passende Anträge automatisch vorausfüllt. Unabhängig, keine Behörde, kostenlos und anonym nutzbar.
+
+## Rechner
+
+- [Universal-Förderscheck](https://www.sozialer-navigator.de/): Startet den 2-Minuten-Check für Wohngeld, Bürgergeld/Grundsicherungsgeld und Kinderzuschlag.
+- [Kindergeld & Kinderzuschlag](https://www.sozialer-navigator.de/kindergeld/): Rechner für Kindergeld und Kinderzuschlag.
+- [Grundsicherung im Alter](https://www.sozialer-navigator.de/grundsicherung-im-alter/): Rechner für Grundsicherung im Alter und bei Erwerbsminderung.
+
+## Lexikon (Begriffserklärungen)
+
+- [Bürgergeld](https://www.sozialer-navigator.de/lexikon/buergergeld/): Grundsicherung für Arbeitssuchende, seit Juli 2026 offiziell Grundsicherungsgeld.
+- [Bürgergeld Voraussetzungen](https://www.sozialer-navigator.de/lexikon/buergergeld-voraussetzungen/): Wer hat Anspruch auf Bürgergeld.
+- [Bürgergeld Freibetrag](https://www.sozialer-navigator.de/lexikon/buergergeld-freibetrag/): Wie viel vom Einkommen anrechnungsfrei bleibt.
+- [Regelsatz](https://www.sozialer-navigator.de/lexikon/regelsatz/): Aktuelle Regelsatzhöhen 2026 nach Haushaltstyp.
+- [Karenzzeit](https://www.sozialer-navigator.de/lexikon/karenzzeit/): Was die Karenzzeit war und warum sie seit Juli 2026 für neue Anträge entfällt.
+- [Vermögen & Schonvermögen](https://www.sozialer-navigator.de/lexikon/vermoegen/): Altersgestaffelte Vermögensfreibeträge seit Juli 2026.
+- [Einkommen](https://www.sozialer-navigator.de/lexikon/einkommen/): Was als Einkommen zählt und was nicht.
+- [Werbungskosten](https://www.sozialer-navigator.de/lexikon/werbungskosten/): Abzugsfähige Ausgaben im Wohngeldrecht.
+- [Wohngeld](https://www.sozialer-navigator.de/lexikon/wohngeld/): Staatlicher Mietzuschuss für Haushalte mit geringem Einkommen.
+- [Wohngeld Plus](https://www.sozialer-navigator.de/lexikon/wohngeld-plus/): Die Wohngeld-Reform mit Heizkosten- und Klimakomponente.
+- [Wohngeld Antrag](https://www.sozialer-navigator.de/lexikon/wohngeld-antrag/): Schritt-für-Schritt-Anleitung zum Wohngeldantrag.
+- [Wohngeld Einkommensgrenze](https://www.sozialer-navigator.de/lexikon/einkommensgrenze/): Dynamische Einkommensgrenzen beim Wohngeld.
+- [Mietstufe](https://www.sozialer-navigator.de/lexikon/mietstufe/): Regionale Mietstufen 1-7 beim Wohngeld.
+- [Mietobergrenze](https://www.sozialer-navigator.de/lexikon/mietobergrenze/): Höchstbeträge für Miete bei Bürgergeld und Wohngeld.
+- [Kosten der Unterkunft](https://www.sozialer-navigator.de/lexikon/kosten-der-unterkunft/): Miete und Heizung beim Bürgergeld.
+- [Heizkosten](https://www.sozialer-navigator.de/lexikon/heizkosten/): Übernahme von Heizkosten durch das Jobcenter.
+- [Kalte Betriebskosten](https://www.sozialer-navigator.de/lexikon/kalte-betriebskosten/): Nebenkosten ohne Heizung.
+- [Miete](https://www.sozialer-navigator.de/lexikon/miete/): Kaltmiete, Bruttokaltmiete und Bruttowarmmiete erklärt.
+
+## Ratgeber
+
+- [Bürgergeld Erstantrag Dauer](https://www.sozialer-navigator.de/ratgeber/buergergeld-erstantrag-dauer/): Wie lange die Bearbeitung des ersten Bürgergeld-Antrags dauert.
+- [Bürgergeld und Minijob](https://www.sozialer-navigator.de/ratgeber/buergergeld-und-minijob/): Freibeträge und Anrechnung bei Minijob-Einkommen.
+- [Urlaub trotz Bürgergeld](https://www.sozialer-navigator.de/ratgeber/urlaub-ortsabwesenheit-buergergeld/): Regeln zur Ortsabwesenheit im Bürgergeld-Bezug.
+
+## Optional
+
+- [Über uns](https://www.sozialer-navigator.de/ueber-uns/): Wer hinter Fördercheck steht.
+- [Datenschutz](https://www.sozialer-navigator.de/datenschutz/): Datenschutzerklärung.

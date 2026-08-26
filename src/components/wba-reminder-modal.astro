@@ -2,11 +2,11 @@
 // src/components/WbaReminderModal.astro
 ---
 
-<div id="wba-modal-backdrop" class="fixed inset-0 bg-brand-navy/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+<div id="wba-modal-backdrop" class="fixed inset-0 bg-brand-navy/80  z-[100] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
     <div id="wba-modal-content" class="bg-surface-base w-full max-w-lg shadow-2xl relative border-t-4 border-brand-gold transform scale-95 transition-transform duration-300 rounded-sm">
         
         <!-- Close Button -->
-        <button id="close-wba-modal" class="absolute top-4 right-4 text-slate-400 hover:text-brand-navy transition-colors">
+        <button id="close-wba-modal" aria-label="Schließen" class="absolute top-4 right-4 text-slate-400 hover:text-brand-navy transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
 
